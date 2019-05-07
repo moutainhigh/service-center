@@ -7,7 +7,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
@@ -16,8 +15,8 @@ public class Application {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+//	public static void main(String[] args) {
+//		SpringApplication.run(Application.class, args);
+//	}
 
 }

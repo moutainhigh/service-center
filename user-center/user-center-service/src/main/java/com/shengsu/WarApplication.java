@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
+@ImportResource({"classpath:application-context.xml"})
 public class WarApplication extends SpringBootServletInitializer{
 
 	@Override
