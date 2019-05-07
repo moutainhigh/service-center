@@ -22,7 +22,7 @@ public class WarApplication extends SpringBootServletInitializer{
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 	            return application.sources(WarApplication.class);
-	        }
+	}
 	/**
 	 * @param args
 	 */
