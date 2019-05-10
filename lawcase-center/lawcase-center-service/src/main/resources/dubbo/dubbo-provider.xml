@@ -16,7 +16,7 @@
     <dubbo:protocol name="dubbo" port="${dubbo.port}" />
     
     <!--使用 dubbo 协议实现定义好的接口-->
-    <dubbo:service interface="com.shengsu.lawcase.service.LawcaseService" ref="lawcaseService" protocol="dubbo" timeout="3000"/>
+    <dubbo:service interface="com.com.shengsu.lawcase.service.LawcaseService" ref="lawcaseService" protocol="dubbo" timeout="3000"/>
     <!--具体实现该接口的 bean-->
-	<bean id="lawcaseService" class="com.shengsu.lawcase.service.impl.LawcaseServiceImpl"/>
+	<bean id="lawcaseService" class="com.com.shengsu.lawcase.service.impl.LawcaseServiceImpl"/>
 </beans>

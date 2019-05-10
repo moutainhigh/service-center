@@ -2,7 +2,7 @@
 <!DOCTYPE mapper 
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.shengsu.lawcase.mapper.LawcaseMapper">
+<mapper namespace="com.com.shengsu.lawcase.mapper.LawcaseMapper">
 	<resultMap id="lawcaseResultMap" type="lawcase" >
     </resultMap>
 </mapper>
