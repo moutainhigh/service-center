@@ -13,7 +13,7 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
     LawcaseMapper lawcaseMapper;
 
     @Autowired
-    public void setlawcaseMapper(LawcaseMapper lawcaseMapper){
+    public void setLawcaseMapper(LawcaseMapper lawcaseMapper){
         this.lawcaseMapper = lawcaseMapper;
         this.baseMapper = lawcaseMapper;
     }
