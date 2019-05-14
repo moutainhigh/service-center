@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * created:2019/4/22
@@ -50,51 +52,51 @@ public class BaseEntity implements Serializable {
 	private Date modifyTime;
 	private Integer pageSize;
 	private Integer page;
-
+	@JsonIgnore
 	public Integer getRows() {
 		return rows;
 	}
-
+	@JsonProperty
 	public void setRows(Integer rows) {
 		this.rows = rows;
 	}
-
+	@JsonIgnore
 	public Integer getStart() {
 		return start;
 	}
-
+	@JsonProperty
 	public void setStart(Integer start) {
 		this.start = start;
 	}
-
+	@JsonIgnore
 	public Integer getEnd() {
 		return end;
 	}
-
+	@JsonProperty
 	public void setEnd(Integer end) {
 		this.end = end;
 	}
-
+	@JsonIgnore
 	public Integer getTotal() {
 		return total;
 	}
-
+	@JsonProperty
 	public void setTotal(Integer total) {
 		this.total = total;
 	}
-
+	@JsonIgnore
 	public String getSearch() {
 		return search;
 	}
-
+	@JsonProperty
 	public void setSearch(String search) {
 		this.search = search;
 	}
-
+	@JsonIgnore
 	public Map<Object, Object> getParamMap() {
 		return paramMap;
 	}
-
+	@JsonProperty
 	public void setParamMap(Map<Object, Object> paramMap) {
 		this.paramMap = paramMap;
 	}
@@ -114,19 +116,19 @@ public class BaseEntity implements Serializable {
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
 	}
-
+	@JsonIgnore
 	public Integer getPageSize() {
 		return pageSize;
 	}
-
+	@JsonProperty
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
-
+	@JsonIgnore
 	public Integer getPage() {
 		return page;
 	}
-
+	@JsonProperty
 	public void setPage(Integer page) {
 		this.page = page;
 	}
