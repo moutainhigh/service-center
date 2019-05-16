@@ -142,18 +142,22 @@ public class BaseEntity implements Serializable {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
+	@JsonIgnore
 	public String getStartTime() {
 		return startTime;
 	}
 
+	@JsonProperty
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
+	@JsonIgnore
 	public String getEndTime() {
 		return endTime;
 	}
 
+	@JsonProperty
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
