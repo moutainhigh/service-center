@@ -54,6 +54,8 @@ public class BaseEntity implements Serializable {
 	private Date modifyTime;
 	private Integer pageSize;
 	private Integer page;
+	private String startTime;//创建开始时间
+	private String endTime;//创建结束时间
 	@JsonIgnore
 	public Integer getRows() {
 		return rows;
@@ -138,5 +140,21 @@ public class BaseEntity implements Serializable {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 }
