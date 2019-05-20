@@ -24,3 +24,7 @@ mybatis:
   typeAliasesPackage: com.shengsu.*.entity
 logging:
   file: logs/lawcase-center-service.log
+management:
+  health:
+    redis:
+      enabled: false
