@@ -6,6 +6,8 @@ import com.shengsu.lawcase.mapper.LawcaseMapper;
 import com.shengsu.lawcase.service.LawcaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * Created by zxh on 2019/5/8.
  */
@@ -16,5 +18,10 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
     public void setLawcaseMapper(LawcaseMapper lawcaseMapper){
         this.lawcaseMapper = lawcaseMapper;
         this.baseMapper = lawcaseMapper;
+    }
+
+    @Override
+    public List<Lawcase> getListLawcase() {
+        return lawcaseMapper.getListLawcase();
     }
 }

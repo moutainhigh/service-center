@@ -15,7 +15,14 @@
             case_id = #{caseId}
     </select>
 
-    <update id="update" parameterType="lawcase">
-    </update>
-
+    <select id="getListLawcase"  resultMap="lawcase_result_map">
+        select
+          *
+        from
+          lawcase
+        where
+          del_flag = 0 and
+          filed = 0 and
+          approve_status = 2
+    </select>
 </mapper>
