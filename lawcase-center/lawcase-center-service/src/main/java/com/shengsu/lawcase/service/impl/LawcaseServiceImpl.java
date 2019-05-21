@@ -3,9 +3,11 @@ package com.shengsu.lawcase.service.impl;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.lawcase.entity.Lawcase;
 import com.shengsu.lawcase.entity.LawcasePerson;
+import com.shengsu.lawcase.entity.LawcaseUser;
 import com.shengsu.lawcase.mapper.LawcaseMapper;
 import com.shengsu.lawcase.service.LawcasePersonService;
 import com.shengsu.lawcase.service.LawcaseService;
+import com.shengsu.lawcase.service.LawcaseUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
     @Autowired
     private LawcasePersonService lawcasePersonService;
     @Autowired
+    private LawcaseUserService lawcaseUserService;
+    @Autowired
     public void setLawcaseMapper(LawcaseMapper lawcaseMapper){
         this.lawcaseMapper = lawcaseMapper;
         this.baseMapper = lawcaseMapper;
@@ -34,9 +38,33 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
     @Override
     public List<Lawcase> getManyByCaseIds(List<String> caseIds) {
         List<Lawcase> lawcases = getMany(caseIds);
+        //组装案件人员
         assembleLawcasePerson(lawcases);
+        //组装负责人
+        assembleResponsiblePerson(lawcases);
         return lawcases;
     }
+
+    /**
+     *  组装案件负责人
+     * @param lawcases
+     */
+    private void assembleResponsiblePerson(List<Lawcase> lawcases){
+        if(lawcases==null || lawcases.size()==0)
+            return;
+        List<String> userIds = new ArrayList<String>();
+        for(Lawcase lawcase:lawcases){
+            userIds.add(lawcase.getResponsibleUserId());
+        }
+        List<LawcaseUser> lawcaseUsers = lawcaseUserService.getMany(userIds);
+        for(Lawcase lawcase:lawcases){
+            for(LawcaseUser lawcaseUser:lawcaseUsers){
+                if(lawcase.getResponsibleUserId().equals(lawcaseUser.getUserId()))
+                    lawcase.setResponsiblePerson(lawcaseUser);
+            }
+        }
+    }
+
     /**
      *  组装案件人员（多个）
      * @param lawcases

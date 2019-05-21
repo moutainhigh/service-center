@@ -1,10 +1,7 @@
 package com.shengsu.lawcase.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shengsu.base.entity.BaseEntity;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,7 +28,7 @@ public class Lawcase extends BaseEntity{
 	private String hearingProcedure;
 	private List<LawcasePerson> litigants = new ArrayList<LawcasePerson>();//当事人
 	private String responsibleUserId;// 案件负责人用户Id
-//	private User responsiblePerson;//负责人
+	private LawcaseUser responsiblePerson;//负责人
 	private String creatorUserId;//案件创建者用户Id
 	private String hearingOrgan;//审理机构
 	private String hearingOrganCode;//审理机构案号
@@ -157,6 +154,14 @@ public class Lawcase extends BaseEntity{
 		this.hearingProcedure = hearingProcedure;
 	}
 
+	public List<LawcasePerson> getLitigants() {
+		return litigants;
+	}
+
+	public void setLitigants(List<LawcasePerson> litigants) {
+		this.litigants = litigants;
+	}
+
 	public String getResponsibleUserId() {
 		return responsibleUserId;
 	}
@@ -165,13 +170,13 @@ public class Lawcase extends BaseEntity{
 		this.responsibleUserId = responsibleUserId;
 	}
 
-//	public User getResponsiblePerson() {
-//		return responsiblePerson;
-//	}
-//
-//	public void setResponsiblePerson(User responsiblePerson) {
-//		this.responsiblePerson = responsiblePerson;
-//	}
+	public LawcaseUser getResponsiblePerson() {
+		return responsiblePerson;
+	}
+
+	public void setResponsiblePerson(LawcaseUser responsiblePerson) {
+		this.responsiblePerson = responsiblePerson;
+	}
 
 	public String getCreatorUserId() {
 		return creatorUserId;
@@ -203,13 +208,5 @@ public class Lawcase extends BaseEntity{
 
 	public void setOfficeCode(String officeCode) {
 		this.officeCode = officeCode;
-	}
-
-	public List<LawcasePerson> getLitigants() {
-		return litigants;
-	}
-
-	public void setLitigants(List<LawcasePerson> litigants) {
-		this.litigants = litigants;
 	}
 }
