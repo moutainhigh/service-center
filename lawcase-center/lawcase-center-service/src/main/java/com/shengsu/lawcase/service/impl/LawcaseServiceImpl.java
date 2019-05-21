@@ -21,7 +21,7 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
     }
 
     @Override
-    public List<Lawcase> getListLawcase() {
-        return lawcaseMapper.getListLawcase();
+    public List<Lawcase> getInvestLawcaseList() {
+        return lawcaseMapper.getInvestLawcaseList();
     }
 }

@@ -9,5 +9,5 @@ import java.util.List;
  * Created by zxh on 2019/5/8.
  */
 public interface LawcaseService extends BaseService<Lawcase,String>{
-    List<Lawcase> getListLawcase();
+    List<Lawcase> getInvestLawcaseList();
 }

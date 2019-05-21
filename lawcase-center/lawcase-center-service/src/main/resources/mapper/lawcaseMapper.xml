@@ -15,7 +15,7 @@
             case_id = #{caseId}
     </select>
 
-    <select id="getListLawcase"  resultMap="lawcase_result_map">
+    <select id="getInvestLawcaseList"  resultMap="lawcase_result_map">
         select
           *
         from
