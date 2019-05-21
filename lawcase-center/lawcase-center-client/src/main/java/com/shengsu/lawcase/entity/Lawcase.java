@@ -3,7 +3,9 @@ package com.shengsu.lawcase.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shengsu.base.entity.BaseEntity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 案件
@@ -27,7 +29,7 @@ public class Lawcase extends BaseEntity{
 	private String addressProvince;
 	private String payAgreement;
 	private String hearingProcedure;
-//	private List<LawcasePerson> litigants = new ArrayList<LawcasePerson>();//当事人
+	private List<LawcasePerson> litigants = new ArrayList<LawcasePerson>();//当事人
 	private String responsibleUserId;// 案件负责人用户Id
 //	private User responsiblePerson;//负责人
 	private String creatorUserId;//案件创建者用户Id
@@ -179,15 +181,6 @@ public class Lawcase extends BaseEntity{
 		this.creatorUserId = creatorUserId;
 	}
 
-//	public User getCreator() {
-//		return creator;
-//	}
-//
-//	public void setCreator(User creator) {
-//		this.creator = creator;
-//	}
-
-
 	public String getHearingOrgan() {
 		return hearingOrgan;
 	}
@@ -212,4 +205,11 @@ public class Lawcase extends BaseEntity{
 		this.officeCode = officeCode;
 	}
 
+	public List<LawcasePerson> getLitigants() {
+		return litigants;
+	}
+
+	public void setLitigants(List<LawcasePerson> litigants) {
+		this.litigants = litigants;
+	}
 }
