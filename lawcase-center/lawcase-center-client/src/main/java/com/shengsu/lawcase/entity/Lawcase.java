@@ -28,26 +28,12 @@ public class Lawcase extends BaseEntity{
 	private String payAgreement;
 	private String hearingProcedure;
 //	private List<LawcasePerson> litigants = new ArrayList<LawcasePerson>();//当事人
-//	private List<LawcasePerson> hearers=new ArrayList<LawcasePerson>();//审理人员
-//	private List<LawcasePerson> assistPersons=new ArrayList<LawcasePerson>();//辅助人员
 	private String responsibleUserId;// 案件负责人用户Id
 //	private User responsiblePerson;//负责人
 	private String creatorUserId;//案件创建者用户Id
-//	private User creator;//案件创建人
-//	private List<User> approvers = new ArrayList<User>();//审批人
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-	private Date stickTime;//置顶时间
-	private String groupCount;//案件组数目 
-	private String totalHours;//总计工时
-	private String startTime;//开始时间
-	private String endTime;//结束时间
-	private String stickState;//置顶状态;
 	private String hearingOrgan;//审理机构
 	private String hearingOrganCode;//审理机构案号
 	private String officeCode;//所内案号
-//	private List<LawcaseGroup> lawcaseGroups = new ArrayList<LawcaseGroup>();//案件组人员
-	private String memo;
-//	private List<LawcasePhase> lawcasePhases = new ArrayList<LawcasePhase>();//案件阶段
 
 	public String getCaseId() {
 		return caseId;
@@ -201,53 +187,6 @@ public class Lawcase extends BaseEntity{
 //		this.creator = creator;
 //	}
 
-	public Date getStickTime() {
-		return stickTime;
-	}
-
-	public void setStickTime(Date stickTime) {
-		this.stickTime = stickTime;
-	}
-
-	public String getGroupCount() {
-		return groupCount;
-	}
-
-	public void setGroupCount(String groupCount) {
-		this.groupCount = groupCount;
-	}
-
-	public String getTotalHours() {
-		return totalHours;
-	}
-
-	public void setTotalHours(String totalHours) {
-		this.totalHours = totalHours;
-	}
-
-	public String getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-
-	public String getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
-
-	public String getStickState() {
-		return stickState;
-	}
-
-	public void setStickState(String stickState) {
-		this.stickState = stickState;
-	}
 
 	public String getHearingOrgan() {
 		return hearingOrgan;
@@ -273,11 +212,4 @@ public class Lawcase extends BaseEntity{
 		this.officeCode = officeCode;
 	}
 
-	public String getMemo() {
-		return memo;
-	}
-
-	public void setMemo(String memo) {
-		this.memo = memo;
-	}
 }
