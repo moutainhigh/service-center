@@ -2,7 +2,6 @@ package com.shengsu.base.service.impl;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.BaseService;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,30 +10,13 @@ import java.io.Serializable;
 import java.util.List;
 
 @Transactional
-@Service("baseService")
-public class BaseServiceImpl<M extends Serializable, PK extends Serializable> implements
+public abstract class BaseServiceImpl<M extends Serializable, PK extends Serializable> implements
         BaseService<M, PK>
 {
     /**
-     * 通用数据访问对象
-     */
-    protected BaseMapper<M, PK> baseMapper;
-
-    /**
      * @return baseMapper
      */
-    public BaseMapper<M, PK> getBaseMapper()
-    {
-        return baseMapper;
-    }
-
-    /**
-     * @param baseMapper 要设置的 baseMapper
-     */
-    public void setBaseMapper(BaseMapper<M, PK> baseMapper)
-    {
-        this.baseMapper = baseMapper;
-    }
+    public abstract BaseMapper<M, PK> getBaseMapper();
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public int save(M model)

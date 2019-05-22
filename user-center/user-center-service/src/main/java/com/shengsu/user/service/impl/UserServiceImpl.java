@@ -1,5 +1,6 @@
 package com.shengsu.user.service.impl;
 
+import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.user.entity.User;
 import com.shengsu.user.mapper.UserMapper;
@@ -10,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("userService")
 public class UserServiceImpl extends BaseServiceImpl<User,String>  implements UserService  {
-	UserMapper userMapper;
-	
 	@Autowired
-	public void setUserMapper(UserMapper userMapper){
-		this.userMapper = userMapper;
-		this.baseMapper = userMapper;
+	UserMapper userMapper;
+
+	@Override
+	public BaseMapper<User, String> getBaseMapper() {
+		return userMapper;
 	}
 
 	@Override
