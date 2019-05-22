@@ -12,5 +12,5 @@ import java.util.List;
 
 @Mapper
 public interface LawcaseMapper extends BaseMapper<Lawcase,String> {
-    List<Lawcase> getInvestLawcaseList();
+    List<Lawcase> getInvestLawcaseList(Lawcase lawcase);
 }

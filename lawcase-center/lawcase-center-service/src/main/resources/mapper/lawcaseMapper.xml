@@ -15,7 +15,7 @@
             case_id = #{caseId}
     </select>
 
-    <select id="getInvestLawcaseList"  resultMap="lawcase_result_map">
+    <select id="getInvestLawcaseList" parameterType="lawcase" resultMap="lawcase_result_map">
         select
           *
         from
@@ -24,6 +24,10 @@
           del_flag = 0 and
           filed = 0 and
           approve_status = 2
+        <if test="search != null and  search != ''">
+            <bind name="pattern" value="search" />
+            and concat(ifnull(case_code,''),ifnull(case_name,'')) like concat('%',#{pattern},'%') escape'/'
+        </if>
     </select>
     <select id="getMany" parameterType="java.util.List" resultMap="lawcase_result_map">
         select
