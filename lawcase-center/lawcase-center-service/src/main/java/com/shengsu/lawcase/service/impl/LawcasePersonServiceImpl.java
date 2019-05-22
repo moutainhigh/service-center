@@ -1,5 +1,6 @@
 package com.shengsu.lawcase.service.impl;
 
+import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.lawcase.entity.LawcasePerson;
 import com.shengsu.lawcase.mapper.LawcasePersonMapper;
@@ -14,12 +15,11 @@ import java.util.List;
  */
 @Service("lawcasePersonService")
 public class LawcasePersonServiceImpl extends BaseServiceImpl<LawcasePerson,String> implements LawcasePersonService {
-    LawcasePersonMapper lawcasePersonMapper;
-
     @Autowired
-    public void setLawcaseMapper(LawcasePersonMapper lawcasePersonMapper){
-        this.lawcasePersonMapper = lawcasePersonMapper;
-        this.baseMapper = lawcasePersonMapper;
+    LawcasePersonMapper lawcasePersonMapper;
+    @Override
+    public BaseMapper<LawcasePerson, String> getBaseMapper() {
+        return lawcasePersonMapper;
     }
 
     @Override

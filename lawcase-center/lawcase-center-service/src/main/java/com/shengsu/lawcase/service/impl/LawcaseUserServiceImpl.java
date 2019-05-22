@@ -1,5 +1,6 @@
 package com.shengsu.lawcase.service.impl;
 
+import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.lawcase.entity.LawcaseUser;
 import com.shengsu.lawcase.mapper.LawcaseUserMapper;
@@ -13,11 +14,10 @@ import org.springframework.stereotype.Service;
  */
 @Service("lawcaseUserService")
 public class LawcaseUserServiceImpl extends BaseServiceImpl<LawcaseUser,String> implements LawcaseUserService {
-    LawcaseUserMapper lawcaseUserMapper;
-
     @Autowired
-    public void setLawcaseMapper(LawcaseUserMapper lawcaseUserMapper){
-        this.lawcaseUserMapper = lawcaseUserMapper;
-        this.baseMapper = lawcaseUserMapper;
+    LawcaseUserMapper lawcaseUserMapper;
+    @Override
+    public BaseMapper<LawcaseUser, String> getBaseMapper() {
+        return lawcaseUserMapper;
     }
 }

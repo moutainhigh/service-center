@@ -1,5 +1,6 @@
 package com.shengsu.lawcase.service.impl;
 
+import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.lawcase.entity.Lawcase;
 import com.shengsu.lawcase.entity.LawcasePerson;
@@ -19,16 +20,18 @@ import static com.shengsu.app.constant.BizConst.PERSON_TYPE_LITIGANT;
  * Created by zxh on 2019/5/8.
  */
 public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implements LawcaseService{
+    @Autowired
     LawcaseMapper lawcaseMapper;
+
+    @Override
+    public BaseMapper<Lawcase, String> getBaseMapper() {
+        return lawcaseMapper;
+    }
+
     @Autowired
     private LawcasePersonService lawcasePersonService;
     @Autowired
     private LawcaseUserService lawcaseUserService;
-    @Autowired
-    public void setLawcaseMapper(LawcaseMapper lawcaseMapper){
-        this.lawcaseMapper = lawcaseMapper;
-        this.baseMapper = lawcaseMapper;
-    }
 
     @Override
     public List<Lawcase> getInvestLawcaseList(Lawcase lawcase) {
