@@ -16,7 +16,7 @@ zookeeper:
   #address: 127.0.0.1:2181
 dubbo:
   group: log-center
-  port: 20881
+  port: 20883
   version: 1.0
 mybatis:
   config-location: classpath:mybatis-config.xml
