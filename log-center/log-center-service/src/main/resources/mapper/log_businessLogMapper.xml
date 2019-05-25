@@ -2,7 +2,35 @@
 <!DOCTYPE mapper 
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.shengsu.lawcase.mapper.BusinessLogMapper">
+<mapper namespace="com.shengsu.log.mapper.BusinessLogMapper">
 	<resultMap id="businessLog_result_map" type="logBusiness" >
     </resultMap>
+
+    <!-- 新增操作日志 -->
+    <insert id="save" parameterType="logBusiness">
+        insert into system_log_business
+        (
+        id,
+        operate_type,
+        operator_id,
+        operator,
+        module,
+        request_arg,
+        response_msg,
+        system_tag,
+        operate_time
+        )
+        values
+        (
+        #{id,jdbcType=VARCHAR},
+        #{operateType,jdbcType=VARCHAR},
+        #{operatorId,jdbcType=VARCHAR},
+        #{operator,jdbcType=INTEGER},
+        #{module,jdbcType=VARCHAR},
+        #{requestArg,jdbcType=VARCHAR},
+        #{responseMsg,jdbcType=VARCHAR},
+        #{systemTag,jdbcType=VARCHAR},
+        current_timestamp()
+        )
+    </insert>
 </mapper>

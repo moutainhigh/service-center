@@ -53,6 +53,11 @@ public class LogBusiness extends BaseEntity
      */
     private String responseMsg;
 
+	/**
+	 * 系统标签
+	 */
+	private String systemTag;
+
 	public String getOperateType() {
 		return operateType;
 	}
@@ -115,5 +120,13 @@ public class LogBusiness extends BaseEntity
 
 	public void setResponseMsg(String responseMsg) {
 		this.responseMsg = responseMsg;
+	}
+
+	public String getSystemTag() {
+		return systemTag;
+	}
+
+	public void setSystemTag(String systemTag) {
+		this.systemTag = systemTag;
 	}
 }
