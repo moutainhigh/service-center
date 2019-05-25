@@ -19,5 +19,6 @@
         <module>log-center</module>
         <module>lawcase-center</module>
         <module>invest-center</module>
+        <module>help-center</module>
     </modules>
 </project>
