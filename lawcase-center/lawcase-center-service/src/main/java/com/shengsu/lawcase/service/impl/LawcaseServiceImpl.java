@@ -2,6 +2,7 @@ package com.shengsu.lawcase.service.impl;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.contant.BizConst;
 import com.shengsu.lawcase.entity.Lawcase;
 import com.shengsu.lawcase.entity.LawcasePerson;
 import com.shengsu.lawcase.entity.LawcaseUser;
@@ -14,12 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.shengsu.app.constant.BizConst.PERSON_TYPE_LITIGANT;
-
 /**
  * Created by zxh on 2019/5/8.
  */
-public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implements LawcaseService{
+public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implements LawcaseService,BizConst{
     @Autowired
     LawcaseMapper lawcaseMapper;
 

@@ -1,4 +1,4 @@
-package com.shengsu.app.constant;
+package com.shengsu.contant;
 
 
 /**
@@ -15,6 +15,4 @@ public interface BizConst {
 	public static String PERSON_TYPE_HEARER = "2";
 	//案件人员类型-辅助人
 	public static String PERSON_TYPE_ASSIST = "3";
-
-
 }
