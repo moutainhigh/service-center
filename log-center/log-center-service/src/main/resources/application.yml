@@ -21,7 +21,6 @@ dubbo:
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
-  typeAliasesPackage: com.shengsu.*.entity
 logging:
   file: logs/log-center-service.log
 management:
