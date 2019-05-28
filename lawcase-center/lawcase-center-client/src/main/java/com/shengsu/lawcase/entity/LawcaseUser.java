@@ -14,6 +14,7 @@ public class LawcaseUser extends BaseEntity {
     private String userId;
     private String userName;
     private String realName;
+    private String iconOssResourceId;
 
     public String getUserId() {
         return userId;
@@ -37,5 +38,13 @@ public class LawcaseUser extends BaseEntity {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public String getIconOssResourceId() {
+        return iconOssResourceId;
+    }
+
+    public void setIconOssResourceId(String iconOssResourceId) {
+        this.iconOssResourceId = iconOssResourceId;
     }
 }
