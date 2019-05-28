@@ -18,4 +18,12 @@
             #{userId}
         </foreach>
     </select>
+    <select id="get" parameterType="string" resultMap="lawcaseUser_result_map">
+        select
+        *
+        from
+        user
+        where
+        user_id=#{userId}
+    </select>
 </mapper>

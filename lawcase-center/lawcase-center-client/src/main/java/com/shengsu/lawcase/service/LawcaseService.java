@@ -11,4 +11,5 @@ import java.util.List;
 public interface LawcaseService extends BaseService<Lawcase,String>{
     List<Lawcase> getInvestLawcaseList(Lawcase lawcase);
     List<Lawcase> getManyByCaseIds(List<String> caseIds);
+    List<Lawcase> getPhaseTaskByCaseIds(List<String> caseIds);
 }

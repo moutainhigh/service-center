@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsu.lawcase.mapper.LawcasePhaseTaskMapper">
+	<resultMap id="lawcasePhaseTask_result_map" type="lawcasePhaseTask" >
+    </resultMap>
+    <select id="getManyByCaseIds" parameterType="java.util.List" resultMap="lawcasePhaseTask_result_map">
+        select
+        *
+        from
+        lawcase_phase_task
+        where
+        del_flag = 0 and
+        case_id in
+        <foreach collection="list" item="caseId" open="(" separator="," close=")">
+            #{caseId}
+        </foreach>
+        order by start_time
+    </select>
+</mapper>

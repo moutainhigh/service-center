@@ -22,6 +22,7 @@
           lawcase
         where
           del_flag = 0 and
+          is_bid_case = 1 and
           filed = 0 and
           approve_status = 2
         <if test="search != null and  search != ''">

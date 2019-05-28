@@ -27,12 +27,15 @@ public class Lawcase extends BaseEntity{
 	private String payAgreement;
 	private String hearingProcedure;
 	private List<LawcasePerson> litigants = new ArrayList<LawcasePerson>();//当事人
+	private List<LawcasePerson> hearers=new ArrayList<LawcasePerson>();//审理人员
+	private List<LawcasePerson> assistPersons=new ArrayList<LawcasePerson>();//辅助人员
 	private String responsibleUserId;// 案件负责人用户Id
 	private LawcaseUser responsiblePerson;//负责人
 	private String creatorUserId;//案件创建者用户Id
 	private String hearingOrgan;//审理机构
 	private String hearingOrganCode;//审理机构案号
 	private String officeCode;//所内案号
+	private List<LawcasePhase> lawcasePhases = new ArrayList<LawcasePhase>();//案件阶段
 
 	public String getCaseId() {
 		return caseId;
@@ -162,6 +165,22 @@ public class Lawcase extends BaseEntity{
 		this.litigants = litigants;
 	}
 
+	public List<LawcasePerson> getHearers() {
+		return hearers;
+	}
+
+	public void setHearers(List<LawcasePerson> hearers) {
+		this.hearers = hearers;
+	}
+
+	public List<LawcasePerson> getAssistPersons() {
+		return assistPersons;
+	}
+
+	public void setAssistPersons(List<LawcasePerson> assistPersons) {
+		this.assistPersons = assistPersons;
+	}
+
 	public String getResponsibleUserId() {
 		return responsibleUserId;
 	}
@@ -208,5 +227,13 @@ public class Lawcase extends BaseEntity{
 
 	public void setOfficeCode(String officeCode) {
 		this.officeCode = officeCode;
+	}
+
+	public List<LawcasePhase> getLawcasePhases() {
+		return lawcasePhases;
+	}
+
+	public void setLawcasePhases(List<LawcasePhase> lawcasePhases) {
+		this.lawcasePhases = lawcasePhases;
 	}
 }
