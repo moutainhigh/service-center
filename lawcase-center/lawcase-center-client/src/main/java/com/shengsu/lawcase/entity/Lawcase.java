@@ -36,6 +36,9 @@ public class Lawcase extends BaseEntity{
 	private String hearingOrganCode;//审理机构案号
 	private String officeCode;//所内案号
 	private List<LawcasePhase> lawcasePhases = new ArrayList<LawcasePhase>();//案件阶段
+	private String memo;//备注
+	private String rank;//案件等级
+
 
 	public String getCaseId() {
 		return caseId;
@@ -235,5 +238,21 @@ public class Lawcase extends BaseEntity{
 
 	public void setLawcasePhases(List<LawcasePhase> lawcasePhases) {
 		this.lawcasePhases = lawcasePhases;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	public String getRank() {
+		return rank;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
 	}
 }
