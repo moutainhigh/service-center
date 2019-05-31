@@ -21,6 +21,7 @@ public class LawcasePhaseTask extends BaseEntity {
     private List<LawcaseTaskPerson> executors = new ArrayList<LawcaseTaskPerson>();//执行人
     private List<LawcaseUser> executorUser = new ArrayList<LawcaseUser>();
     private String taskHours;
+	private String state;//任务状态
 	public String getTaskId() {
 		return taskId;
 	}
@@ -99,5 +100,13 @@ public class LawcasePhaseTask extends BaseEntity {
 
 	public void setTaskHours(String taskHours) {
 		this.taskHours = taskHours;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 }
