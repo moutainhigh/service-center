@@ -36,7 +36,6 @@
         from
         lawcase
         where
-        del_flag = 0 and
         case_id in
         <foreach collection="list" item="caseId" open="(" separator="," close=")">
             #{caseId}
