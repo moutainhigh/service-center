@@ -1,7 +1,10 @@
 package com.shengsu.lawcase.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shengsu.base.entity.BaseEntity;
 
 /**
@@ -22,6 +25,11 @@ public class LawcasePhaseTask extends BaseEntity {
     private List<LawcaseUser> executorUser = new ArrayList<LawcaseUser>();
     private String taskHours;
 	private String state;//任务状态
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+	private Date startTimeDate;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+	private Date endTimeDate;
+
 	public String getTaskId() {
 		return taskId;
 	}
@@ -108,5 +116,21 @@ public class LawcasePhaseTask extends BaseEntity {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public Date getStartTimeDate() {
+		return startTimeDate;
+	}
+
+	public void setStartTimeDate(Date startTimeDate) {
+		this.startTimeDate = startTimeDate;
+	}
+
+	public Date getEndTimeDate() {
+		return endTimeDate;
+	}
+
+	public void setEndTimeDate(Date endTimeDate) {
+		this.endTimeDate = endTimeDate;
 	}
 }

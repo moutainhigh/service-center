@@ -7,7 +7,7 @@
     </resultMap>
     <select id="getManyByCaseIds" parameterType="java.util.List" resultMap="lawcasePhaseTask_result_map">
         select
-        *
+        *,start_time AS start_time_date,end_time AS end_time_date
         from
         lawcase_phase_task
         where
