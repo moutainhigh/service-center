@@ -39,6 +39,7 @@ public class Lawcase extends BaseEntity{
 	private String memo;//备注
 	private String rank;//案件等级
 	private String delFlag;//删除标识
+	private List<LawcasePhaseTask> lawcasePhaseTasks = new ArrayList<LawcasePhaseTask>();//任务
 
 	public String getCaseId() {
 		return caseId;
@@ -262,5 +263,13 @@ public class Lawcase extends BaseEntity{
 
 	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
+	}
+
+	public List<LawcasePhaseTask> getLawcasePhaseTasks() {
+		return lawcasePhaseTasks;
+	}
+
+	public void setLawcasePhaseTasks(List<LawcasePhaseTask> lawcasePhaseTasks) {
+		this.lawcasePhaseTasks = lawcasePhaseTasks;
 	}
 }

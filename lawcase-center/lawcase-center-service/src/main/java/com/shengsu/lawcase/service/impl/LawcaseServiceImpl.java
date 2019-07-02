@@ -56,9 +56,30 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
     public List<Lawcase> getPhaseTaskByCaseIds(List<String> caseIds) {
         List<Lawcase> lawcases = getMany(caseIds);
         //组装案件阶段和案件任务
-        assemblePhaseAndTask(lawcases);
+        //assemblePhaseAndTask(lawcases);
+        //组装任务
+        assembleTask(lawcases);
         return lawcases;
     }
+
+    private void assembleTask(List<Lawcase> lawcases) {
+        if(lawcases==null || lawcases.size()==0)
+            return;
+        List<String> caseIds = new ArrayList<String>();
+        for(Lawcase lawcase:lawcases){
+            caseIds.add(lawcase.getCaseId());
+        }
+        List<LawcasePhaseTask> lawcasePhaseTasks = lawcasePhaseTaskService.getManyByCaseIds(caseIds);
+        for (Lawcase  lawcase :lawcases){
+            for (LawcasePhaseTask lawcasePhaseTask:lawcasePhaseTasks){
+                if (lawcase.getCaseId().equals(lawcasePhaseTask.getCaseId())){
+                    lawcase.getLawcasePhaseTasks().add(lawcasePhaseTask);
+                }
+            }
+        }
+
+    }
+
     /**
      * 组装阶段和任务
      * @param lawcases
