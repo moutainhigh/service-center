@@ -29,6 +29,8 @@ public class LawcasePhaseTask extends BaseEntity {
 	private Date startTimeDate;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	private Date endTimeDate;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+	private Date completeTime;
 
 	public String getTaskId() {
 		return taskId;
@@ -132,5 +134,13 @@ public class LawcasePhaseTask extends BaseEntity {
 
 	public void setEndTimeDate(Date endTimeDate) {
 		this.endTimeDate = endTimeDate;
+	}
+
+	public Date getCompleteTime() {
+		return completeTime;
+	}
+
+	public void setCompleteTime(Date completeTime) {
+		this.completeTime = completeTime;
 	}
 }
