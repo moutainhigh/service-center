@@ -69,10 +69,17 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
         for(Lawcase lawcase:lawcases){
             caseIds.add(lawcase.getCaseId());
         }
+        //获取执行人
+        List<LawcaseTaskPerson> lawcaseTaskPersons = lawcaseTaskPersonService.getManyByCaseIds(caseIds);
+        //获取任务
         List<LawcasePhaseTask> lawcasePhaseTasks = lawcasePhaseTaskService.getManyByCaseIds(caseIds);
+        //组装执行人员到任务下
+        List<LawcasePhaseTask> lawcasePhaseTaskList = assembleExecutor(lawcasePhaseTasks,lawcaseTaskPersons);
         for (Lawcase  lawcase :lawcases){
-            for (LawcasePhaseTask lawcasePhaseTask:lawcasePhaseTasks){
+            for (LawcasePhaseTask lawcasePhaseTask:lawcasePhaseTaskList){
                 if (lawcase.getCaseId().equals(lawcasePhaseTask.getCaseId())){
+                    String totalHours = assembleTotalHours(lawcasePhaseTask.getTaskTime());
+                    lawcasePhaseTask.setTaskHours(totalHours);
                     lawcase.getLawcasePhaseTasks().add(lawcasePhaseTask);
                 }
             }
