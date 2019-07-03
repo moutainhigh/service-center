@@ -19,4 +19,8 @@ public interface BizConst {
 	public static String TASK_PERSON_TYPE_ORIGINATOR = "1";
 	//任务人员类型-执行人
 	public static String TASK_PERSON_TYPE_EXECUTOR = "2";
+	//客户不可见(阶段)
+	public static Short IS_NOT_CUSTONMER_VISIBLE = 0;
+	//客户可见(阶段)
+	public static Short IS_CUSTONMER_VISIBLE = 1;
 }

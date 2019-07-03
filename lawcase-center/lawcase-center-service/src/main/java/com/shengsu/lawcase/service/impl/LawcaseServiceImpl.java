@@ -75,8 +75,12 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
         List<LawcasePhaseTask> lawcasePhaseTasks = lawcasePhaseTaskService.getManyByCaseIds(caseIds);
         //组装执行人员到任务下
         List<LawcasePhaseTask> lawcasePhaseTaskList = assembleExecutor(lawcasePhaseTasks,lawcaseTaskPersons);
+        //获取阶段
+        List<LawcasePhase> lawcasePhases = lawcasePhaseService.getManyByCaseIds(caseIds);
+        //筛选掉案件准备阶段下的任务
+        List<LawcasePhaseTask> phaseTasks= assembleTasks(lawcasePhases,lawcasePhaseTaskList);
         for (Lawcase  lawcase :lawcases){
-            for (LawcasePhaseTask lawcasePhaseTask:lawcasePhaseTaskList){
+            for (LawcasePhaseTask lawcasePhaseTask:phaseTasks){
                 if (lawcase.getCaseId().equals(lawcasePhaseTask.getCaseId())){
                     String totalHours = assembleTotalHours(lawcasePhaseTask.getTaskTime());
                     lawcasePhaseTask.setTaskHours(totalHours);
@@ -85,6 +89,24 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
             }
         }
 
+    }
+
+    private List<LawcasePhaseTask> assembleTasks(List<LawcasePhase> lawcasePhases, List<LawcasePhaseTask> lawcasePhaseTaskList) {
+        if (lawcasePhases == null) {
+            return null;
+        }
+        if (lawcasePhaseTaskList == null) {
+            return null;
+        }
+        List<LawcasePhaseTask> result = new ArrayList<>();
+        for (LawcasePhaseTask lawcasePhaseTask : lawcasePhaseTaskList) {
+            for (LawcasePhase lawcasePhase : lawcasePhases) {
+                if (lawcasePhase.getPhaseId().equals(lawcasePhaseTask.getPhaseId()) && IS_CUSTONMER_VISIBLE == lawcasePhase.getIsCustomerVisible()) {
+                    result.add(lawcasePhaseTask);
+                }
+            }
+        }
+        return result;
     }
 
     /**
