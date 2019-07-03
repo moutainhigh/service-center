@@ -17,6 +17,6 @@
         <foreach collection="list" item="caseId" open="(" separator="," close=")">
             #{caseId}
         </foreach>
-        order by complete_time
+        order by complete_time desc
     </select>
 </mapper>
