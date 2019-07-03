@@ -488,7 +488,13 @@ public class DateUtil
         }
         return (int) quot;
     }
-
+    public static final String getDetailDateTime(Date date)
+    {
+        if (date == null)
+            return "";
+        DateFormat ymdhmsFormat = new SimpleDateFormat(DEFAULT_DATETIME_FORMAT);
+        return ymdhmsFormat.format(date);
+    }
     public static final String getDateTime(Date date)
     {
         if (date == null)
@@ -832,8 +838,7 @@ public class DateUtil
     }
     /**
      * 根据时间段获取日期
-     * @param args
-     * @return 
+     * @return
      * @throws ParseException 
      * @throws Exception
      */
