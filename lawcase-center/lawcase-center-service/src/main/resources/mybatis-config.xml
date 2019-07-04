@@ -18,5 +18,6 @@
 
     <typeAliases>
     	<package name="com.shengsu.lawcase.entity"/>
+        <package name="com.shengsu.system.entity"/>
     </typeAliases>
 </configuration>

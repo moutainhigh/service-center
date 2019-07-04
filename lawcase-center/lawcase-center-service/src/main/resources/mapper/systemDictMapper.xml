@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsu.system.mapper.SystemDictionaryMapper">
+	<resultMap id="systemDictionary_result_map" type="systemDictionary" >
+    </resultMap>
+    <select id="getManyByDictCodes" parameterType="java.util.List" resultMap="systemDictionary_result_map">
+        select
+        *
+        from
+        system_dict
+        where
+        del_flag = 0 and
+        dict_code in
+        <foreach collection="list" item="dictCode" open="(" separator="," close=")">
+            #{dictCode}
+        </foreach>
+        order by
+        dict_code,
+        display_value,
+        modify_time desc
+    </select>
+</mapper>
