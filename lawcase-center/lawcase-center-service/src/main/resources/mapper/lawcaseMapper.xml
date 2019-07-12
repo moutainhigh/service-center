@@ -5,7 +5,8 @@
 <mapper namespace="com.shengsu.lawcase.mapper.LawcaseMapper">
 	<resultMap id="lawcase_result_map" type="lawcase" >
     </resultMap>
-
+    <resultMap id="dailyLawcaseStatisticsVo_result_map" type="dailyLawcaseStatisticsVo">
+    </resultMap>
     <select id="get" parameterType="string" resultMap="lawcase_result_map">
         select
           *
@@ -41,4 +42,108 @@
             #{caseId}
         </foreach>
     </select>
+    <select id="countLawcaseList" parameterType="dailyLawcaseStatisticsVo" resultMap="dailyLawcaseStatisticsVo_result_map">
+		select 	date_format(l.create_time,'%Y-%m-%d')  as count_date,
+			sum(case when l.approve_status=0 then '1' else '0' end) as count_approve_status_init,
+			sum(case when l.approve_status=2 then '1' else '0' end) as count_approve_status_pass,
+			sum(case when l.approve_status=3 then '1' else '0' end) as count_approve_status_reject,
+			sum(case when l.case_type='001'  then '1' else '0' end) as count_civil_and_commercial_litigation,
+			sum(case when l.case_type='002'  then '1' else '0' end) as count_criminal_proceeding,
+			sum(case when l.case_type='003'  then '1' else '0' end) as count_foreign_litigation,
+			sum(case when l.case_type='004'  then '1' else '0' end) as count_administrative_case,
+			sum(case when l.case_type='005'  then '1' else '0' end) as count_contract_dispute,
+			sum(case when l.case_type='006'  then '1' else '0' end) as count_other,
+			sum(case when l.case_type='007'  then '1' else '0' end) as count_lawyer_letter,
+			sum(case when l.case_type='008'  then '1' else '0' end) as count_legal_counsel,
+			sum(case when l.case_type='009'  then '1' else '0' end) as count_special_legal_service,
+			sum(case when l.case_type='010'  then '1' else '0' end) as count_non_litigation_case,
+			cast(sum(target) as decimal (19, 6) ) as count_target_of_entry
+		from lawcase l
+		where l.del_flag = 0 and
+			date_format(l.create_time,'%Y-%m-%d') between date_format(#{startDate},'%Y-%m-%d') and date_format(#{endDate},'%Y-%m-%d')
+		group by date_format(l.create_time,'%Y-%m-%d')
+	</select>
+    <select id="getAgencyTarget" parameterType="dailyLawcaseStatisticsVo" resultMap="dailyLawcaseStatisticsVo_result_map">
+		select
+		  cast(sum(target) as decimal (19, 6)) as count_agency_target,
+		  date_format(create_time,'%Y-%m-%d')  as count_date
+		from
+		  lawcase
+		where del_flag = 0 and
+		  approve_status = 2 and
+		  date_format(create_time, '%Y-%m-%d') between date_format(#{startDate}, '%Y-%m-%d') and date_format(#{endDate}, '%Y-%m-%d')
+		group by date_format(create_time, '%Y-%m-%d')
+	</select>
+    <select id="getApproveStatusCurrentDate" parameterType="dailyLawcaseStatisticsVo" resultMap="dailyLawcaseStatisticsVo_result_map">
+		select
+		  date_format(create_time,'%Y-%m-%d')  as count_date,
+		  count(1) as count_approve_status_current_date
+		from
+		  lawcase
+		where del_flag = 0 and
+			date_format(create_time, '%Y%m%d')
+		  	between date_format(#{startDate}, '%Y%m%d') and
+		  	date_format(#{endDate}, '%Y%m%d')
+		group by date_format(create_time,'%Y-%m-%d')
+	</select>
+    <select id="getApproveStatusLastYear" parameterType="dailyLawcaseStatisticsVo" resultMap="dailyLawcaseStatisticsVo_result_map">
+		select
+		  date_format(create_time,'%Y-%m-%d')  as count_date,
+		  count(1) as count_approve_status_last_year
+		from
+		  lawcase
+		where del_flag = 0 and
+			date_format(date_add(date_format(create_time,'%Y-%m-%d'),interval 1 year),'%Y-%m-%d')
+		  	between date_format(#{startDate}, '%Y-%m-%d') and
+		  	date_format(#{endDate}, '%Y-%m-%d')
+		group by date_format(create_time,'%Y-%m-%d')
+	</select>
+    <select id="getApproveStatusLastWeek" parameterType="dailyLawcaseStatisticsVo" resultMap="dailyLawcaseStatisticsVo_result_map">
+		select
+		  date_format(create_time,'%Y-%m-%d')  as count_date,
+		  count(1) as count_approve_status_last_week
+		from
+		  lawcase
+		where del_flag = 0
+		  and date_format(date_add(date_format(create_time,'%Y-%m-%d'),interval 1 week),'%Y-%m-%d')
+		  between date_format(#{startDate}, '%Y-%m-%d') and
+		  date_format(#{endDate}, '%Y-%m-%d')
+		group by date_format(create_time,'%Y-%m-%d')
+	</select>
+    <select id="getTargetCurrentDate" parameterType="dailyLawcaseStatisticsVo" resultMap="dailyLawcaseStatisticsVo_result_map">
+		select
+		  date_format(create_time,'%Y-%m-%d')  as count_date,
+		  sum(target) as count_target_current_date
+		from
+		  lawcase
+		where del_flag = 0 and
+			date_format(create_time, '%Y%m%d')
+		  	between date_format(#{startDate}, '%Y%m%d') and
+		  	date_format(#{endDate}, '%Y%m%d')
+		group by date_format(create_time,'%Y-%m-%d')
+	</select>
+    <select id="getTargetLastYear" parameterType="dailyLawcaseStatisticsVo" resultMap="dailyLawcaseStatisticsVo_result_map">
+		select
+		  date_format(create_time,'%Y-%m-%d')  as count_date,
+		  sum(target) as count_target_last_year
+		from
+		  lawcase
+		where del_flag = 0 and
+			date_format(date_add(date_format(create_time,'%Y-%m-%d'),interval 1 year),'%Y-%m-%d')
+		  	between date_format(#{startDate}, '%Y-%m-%d') and
+		  	date_format(#{endDate}, '%Y-%m-%d')
+		group by date_format(create_time,'%Y-%m-%d')
+	</select>
+    <select id="getTargetLastWeek" parameterType="dailyLawcaseStatisticsVo" resultMap="dailyLawcaseStatisticsVo_result_map">
+		select
+		  date_format(create_time,'%Y-%m-%d')  as count_date,
+		  sum(target) as count_target_last_week
+		from
+		  lawcase
+		where del_flag = 0
+		  and date_format(date_add(date_format(create_time,'%Y-%m-%d'),interval 1 week),'%Y-%m-%d')
+		  between date_format(#{startDate}, '%Y-%m-%d') and
+		  date_format(#{endDate}, '%Y-%m-%d')
+		group by date_format(create_time,'%Y-%m-%d')
+	</select>
 </mapper>
