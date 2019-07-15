@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="global">
+	<!-- 分页：mysql -->
+	<sql id="paginationStart_mysql">
+		<![CDATA[ select * from ( ]]>
+	</sql>
+	<sql id="paginationEnd_mysql">
+		<bind name="key_page" value="(page-1)*pageSize"></bind>
+		<if test="page == 0 "> 
+			<![CDATA[ ) row_ limit 0, #{pageSize} ]]>
+		</if>
+		<if test="page > 0 "> 
+			<![CDATA[ ) row_ limit  #{key_page}, #{pageSize} ]]>
+		</if>
+	</sql>
+	
+	<!-- 排序 -->
+	<sql id="orderBy">
+		<if test="sort!=null">
+			<![CDATA[ order by ${sort} ${dir} ]]>
+		</if>
+	</sql>
+
+</mapper>

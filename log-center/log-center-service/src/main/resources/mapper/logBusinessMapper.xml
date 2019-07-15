@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper 
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.shengsu.log.mapper.LogBusinessMapper">
 	<!-- Result Map-->
@@ -23,50 +23,48 @@
 	<!-- 获取所有操作日志记录数 -->
 	<select id="countAll" resultType="int">
 		select
-			count(1)
+		count(1)
 		from
-			system_log_business b
+		system_log_business b
 		<include refid="logBusiness_where_clause" />
 	</select>
 
-    <!-- 获取操作日志信息列表 -->
+	<!-- 获取操作日志信息列表 -->
 	<select id="listByPage" parameterType="logBusiness" resultMap="logBusiness_result_map">
 		<include refid="global.paginationStart_mysql" />
 		select
-			b.*
+		b.*
 		from
-			system_log_business  b
+		system_log_business  b
 		<include refid="logBusiness_where_clause" />
-		order by 
-			operate_time desc
+		order by
+		operate_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
 
-    <!-- 新增操作日志 -->
-    <insert id="save" parameterType="logBusiness">
-        insert into system_log_business
-        (
-        id,
-        operate_type,
-        operator_id,
-        operator,
-        module,
-        request_arg,
-        response_msg,
-        system_tag,
-        operate_time
-        )
-        values
-        (
-        #{id,jdbcType=VARCHAR},
-        #{operateType,jdbcType=VARCHAR},
-        #{operatorId,jdbcType=VARCHAR},
-        #{operator,jdbcType=INTEGER},
-        #{module,jdbcType=VARCHAR},
-        #{requestArg,jdbcType=VARCHAR},
-        #{responseMsg,jdbcType=VARCHAR},
-        #{systemTag,jdbcType=VARCHAR},
-        current_timestamp()
-        )
+	<!-- 新增操作日志 -->
+	<insert id="save" parameterType="logBusiness">
+		insert into system_log_business
+		(
+			id,
+			operate_type,
+			operator_id,
+			operator,
+			module,
+			operate_time,
+			request_arg,
+			request_ip
+		)
+		values
+		(
+			#{id,jdbcType=VARCHAR},
+			#{operateType,jdbcType=VARCHAR},
+			#{operatorId,jdbcType=VARCHAR},
+			#{operator,jdbcType=INTEGER},
+			#{module,jdbcType=CLOB},
+			current_timestamp(),
+			#{requestArg,jdbcType=VARCHAR},
+			#{requestIp,jdbcType=VARCHAR}
+		)
 	</insert>
 </mapper>

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper 
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.shengsu.log.mapper.LogErrorMapper">
-<!-- Result Map-->
+	<!-- Result Map-->
 	<resultMap id="logError_result_map" type="logError">
+		<result property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="operatorId" column="operator_id" />
+		<result property="operator" column="operator" />
+		<result property="errName" column="err_name" />
+		<result property="errMsg" column="err_msg"  />
+		<result property="errRemark" column="err_remark"/>
 	</resultMap>
 
 	<!-- 查询条件 -->
@@ -19,31 +26,31 @@
 			</if>
 		</where>
 	</sql>
-	
+
 	<!-- 获取所有操作日志记录数 -->
 	<select id="countAll" resultType="int">
 		select
-			count(1)
+		count(1)
 		from
-			system_log_error e
+		system_log_error e
 		<include refid="logError_where_clause" />
 	</select>
 
-    <!-- 获取错误日志信息列表 -->
+	<!-- 获取错误日志信息列表 -->
 	<select id="listByPage" parameterType="logError" resultMap="logError_result_map">
 		<include refid="global.paginationStart_mysql" />
 		select
-			rand() id,
-			e.*
+		rand() id,
+		e.*
 		from
-			system_log_error e
+		system_log_error e
 
 		<include refid="logError_where_clause" />
-		order by 
-			e.create_time desc
+		order by
+		e.create_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
-	
+
 	<!-- 新增错误日志 -->
 	<insert id="save" parameterType="logError">
 		insert into system_log_error
