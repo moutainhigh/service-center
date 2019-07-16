@@ -3,13 +3,13 @@ package com.shengsu.system.entity;
 import com.shengsu.base.entity.BaseEntity;
 
 /**
- * @ClassName: SystemDictionary
+ * @ClassName: LawcaseDictionary
  * @Description: 系统字典（实体类）
  * @author zxh
  * @date 2018-7-6
  * 
  */
-public class SystemDictionary extends BaseEntity
+public class LawcaseDictionary extends BaseEntity
 {
 	private static final long serialVersionUID = -1962148635528521842L;
 	/**
