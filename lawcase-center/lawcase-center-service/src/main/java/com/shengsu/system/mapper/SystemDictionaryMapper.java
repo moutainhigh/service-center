@@ -9,4 +9,8 @@ import java.util.List;
 @Mapper
 public interface SystemDictionaryMapper extends BaseMapper<SystemDictionary,String> {
     List<SystemDictionary> getManyByDictCodes(List<String> dictCodes);
+
+    int dictExistCheck(SystemDictionary systemDictionary);
+
+    int dictExistCheckExceptSelf(SystemDictionary systemDictionary);
 }
