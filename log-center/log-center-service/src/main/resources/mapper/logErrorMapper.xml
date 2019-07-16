@@ -8,8 +8,7 @@
 	<resultMap id="logError_result_map" type="logError">
 		<result property="id" column="id" />
 		<result property="createTime" column="create_time" />
-		<result property="operatorId" column="operator_id" />
-		<result property="operator" column="operator" />
+		<result property="creator" column="creator" />
 		<result property="errName" column="err_name" />
 		<result property="errMsg" column="err_msg"  />
 		<result property="errRemark" column="err_remark"/>
@@ -56,8 +55,7 @@
 		insert into system_log_error
 		(
 			create_time,
-			operator_id,
-			operator,
+			creator,
 			err_name,
 			err_msg,
 			err_remark
@@ -65,8 +63,7 @@
 		values
 		(
 			current_timestamp(),
-			#{operatorId,jdbcType=VARCHAR},
-			#{operator,jdbcType=VARCHAR},
+			#{creator,jdbcType=VARCHAR},
 			#{errName,jdbcType=VARCHAR},
 			#{errMsg,jdbcType=CLOB},
 			#{errRemark,jdbcType=CLOB}

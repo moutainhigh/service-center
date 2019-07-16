@@ -9,7 +9,7 @@ import java.util.Date;
  * @Description: (错误日志)
  * @author zxh
  * @date 2018-9-10
- * 
+ *
  */
 public class LogError extends BaseEntity
 {
@@ -26,14 +26,9 @@ public class LogError extends BaseEntity
     private Date createTime;
 
     /**
-     * 操作员ID
+     * 创建人
      */
-    private String operatorId;
-
-    /**
-     * 操作员
-     */
-    private String operator;
+    private String creator;
 
     /**
      * 错误名
@@ -63,20 +58,12 @@ public class LogError extends BaseEntity
         this.createTime = createTime;
     }
 
-    public String getOperatorId() {
-        return operatorId;
+    public String getCreator() {
+        return creator;
     }
 
-    public void setOperatorId(String operatorId) {
-        this.operatorId = operatorId;
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     /**
