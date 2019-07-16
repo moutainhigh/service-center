@@ -21,11 +21,6 @@ public class LogError extends BaseEntity
 
     private String id;
     /**
-     * 发生时间
-     */
-    private Date createTime;
-
-    /**
      * 创建人
      */
     private String creator;
@@ -44,19 +39,6 @@ public class LogError extends BaseEntity
      * 错误描述
      */
     private String errRemark;
-
-    public Date getCreateTime()
-    {
-        return createTime;
-    }
-
-    /**
-     * @param createTime 要设置的 createTime
-     */
-    public void setCreateTime(Date createTime)
-    {
-        this.createTime = createTime;
-    }
 
     public String getCreator() {
         return creator;
