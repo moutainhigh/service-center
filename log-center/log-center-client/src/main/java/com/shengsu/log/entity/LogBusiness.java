@@ -57,6 +57,10 @@ public class LogBusiness extends BaseEntity
 	 * 系统标签
 	 */
 	private String systemTag;
+	/**
+	 * 请求ip
+	 */
+	private String requestIp;
 
 	public String getOperateType() {
 		return operateType;
@@ -128,5 +132,13 @@ public class LogBusiness extends BaseEntity
 
 	public void setSystemTag(String systemTag) {
 		this.systemTag = systemTag;
+	}
+
+	public String getRequestIp() {
+		return requestIp;
+	}
+
+	public void setRequestIp(String requestIp) {
+		this.requestIp = requestIp;
 	}
 }
