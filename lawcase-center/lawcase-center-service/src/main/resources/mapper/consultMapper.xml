@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsu.consult.mapper.ConsultMapper">
+    <resultMap id="consult_result_map" type="consult">
+    </resultMap>
+
+    <!-- 查询条件 -->
+    <sql id="consult_where_clause">
+        <where>
+            del_flag=0
+            <if test="consultId != null and  consultId != ''">and consult_id = #{consultId}</if>
+            <if test="consultor != null and  consultor != ''">and consultor = #{consultor}</if>
+        </where>
+    </sql>
+    <!-- 分页获取咨询列表 -->
+    <select id="listByPage" parameterType="consult" resultMap="consult_result_map">
+        <include refid="global.paginationStart_mysql" />
+        select
+        *
+        from
+        law_consult
+        <include refid="consult_where_clause" />
+        order by
+        modify_time desc
+        <include refid="global.paginationEnd_mysql" />
+    </select>
+    <!-- 查询咨询列表总数 -->
+    <select id="countAll" resultType="int">
+        select
+        count(1)
+        from
+        law_consult
+        <include refid="consult_where_clause" />
+    </select>
+    <!-- 根据条件查询列表-->
+    <select id="listByModel" parameterType="consult" resultMap="consult_result_map">
+        select
+        *
+        from
+        law_consult
+        <include refid="consult_where_clause" />
+        order by
+        modify_time desc
+    </select>
+</mapper>
