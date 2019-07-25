@@ -8,6 +8,7 @@ import com.shengsu.lawcase.mapper.LawcaseMapper;
 import com.shengsu.lawcase.service.*;
 import com.shengsu.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * Created by zxh on 2019/5/8.
  */
+@Service("lawcaseService")
 public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implements LawcaseService,BizConst{
     @Autowired
     LawcaseMapper lawcaseMapper;
