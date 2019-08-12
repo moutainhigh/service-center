@@ -20,7 +20,7 @@ import java.util.List;
  * Created by zxh on 2019/5/8.
  */
 @Service("lawcaseService")
-public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implements LawcaseService,BizConst{
+public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implements LawcaseService,BizConst {
     @Autowired
     LawcaseMapper lawcaseMapper;
 

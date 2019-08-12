@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shengsu.bench.mapper.BenchJournalismMapper">
+	<!-- Result Map -->
+	<resultMap id="bench_journalism" type="benchJournalism">
+	</resultMap>
+	<sql id="bench_journalism_columns">
+		bench_journalism.*
+	</sql>
+	<sql id="bench_journalism_where_clause">
+		<if test="title!=null and title!=''">
+			AND title=#{title}
+		</if>
+		<if test="journalismDate!=null ">
+			AND journalism_date=#{journalismDate}
+		</if>
+		<if test="url!=null and url!=''">
+			AND url=#{url}
+		</if>
+		<if test="pictureOssId!=null and pictureOssId!=''">
+			AND picture_oss_id=#{pictureOssId}
+		</if>
+		<if test="delFlag!=null and delFlag!=''">
+			AND del_flag = #{delFlag}
+		</if>
+	</sql>
+	<select id="countJournalism" resultType="int">
+		SELECT COUNT(1) FROM bench_journalism WHERE del_flag = 0
+		<include refid="bench_journalism_where_clause"/>
+	</select>
+	<select id="selectJournalismByPage"   resultType="benchJournalism">
+		<include refid="global.paginationStart_mysql"/>
+		SELECT
+		<include refid="bench_journalism_columns"/>
+		FROM
+		bench_journalism
+		WHERE del_flag = 0
+		<include refid="bench_journalism_where_clause"/>
+		ORDER BY is_top DESC,journalism_date DESC
+		<include refid="global.paginationEnd_mysql"/>
+	</select>
+	<insert id="save" parameterType="benchJournalism" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO `bench_journalism`
+		(
+			title,
+			journalism_date,
+			url,
+			picture_oss_id,
+			is_top,
+			del_flag,
+			features,
+			create_time,
+			modify_time
+		)
+		VALUES
+		(
+			#{title},
+			#{journalismDate},
+			#{url},
+			#{pictureOssId},
+			#{isTop},
+			0,
+			#{features},
+			current_timestamp(),
+			current_timestamp()
+		)
+
+	</insert>
+	<update id="batchDelete" parameterType="java.util.List">
+		<foreach collection="list" item="id" index="index" open="" close="" separator=";">
+			UPDATE bench_journalism
+			<set>
+				del_flag = 1,
+				modify_time = current_timestamp()
+			</set>
+			WHERE id = #{id}
+		</foreach>
+	</update>
+	<update id="update"  parameterType="benchJournalism">
+		UPDATE bench_journalism
+		<set>
+			<if test="title!=null and title!=''">
+				title=#{title},
+			</if>
+			<if test="journalismDate!=null">
+				journalism_date=#{journalismDate},
+			</if>
+			<if test="url!=null and url!=''">
+				url=#{url},
+			</if>
+			<if test="pictureOssId!=null and pictureOssId!=''">
+				picture_oss_id=#{pictureOssId},
+			</if>
+			<if test="delFlag!=null and delFlag!=''">
+				del_flag = #{delFlag},
+			</if>
+			<if test="features!=null and features!=''">
+				features=#{features},
+			</if>
+			modify_time = current_timestamp()
+		</set>
+		WHERE id = #{id}
+	</update>
+	<select id="selectById" parameterType="long" resultType="benchJournalism">
+		select * FROM  bench_journalism WHERE id = #{id} AND del_flag = 0
+	</select>
+</mapper>

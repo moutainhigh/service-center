@@ -20,5 +20,6 @@
     	<package name="com.shengsu.lawcase.entity"/>
         <package name="com.shengsu.system.entity"/>
         <package name="com.shengsu.consult.entity"/>
+        <package name="com.shengsu.bench.entity"/>
     </typeAliases>
 </configuration>
