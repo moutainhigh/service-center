@@ -1,6 +1,5 @@
 package com.shengsu.bench.service.impl;
 
-
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.bench.constant.BenchConstant;
@@ -34,7 +33,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
 
     /**
      * 功能描述: <br>
-     * 〈〉新闻资讯分页查询
+     * 〈新闻资讯分页查询〉
      *
      * @Param: [journalism]
      * @Return: com.shengsu.base.domain.ResultBean
@@ -49,6 +48,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
             return null;
         }
 
+        //使用ossid获取ossurl
         for (BenchJournalism benchJournalism :
                 journalismList) {
             String pictureOssId = benchJournalism.getPictureOssId();

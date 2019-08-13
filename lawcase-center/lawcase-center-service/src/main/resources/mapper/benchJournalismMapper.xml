@@ -39,7 +39,7 @@
 		bench_journalism
 		WHERE del_flag = 0
 		<include refid="bench_journalism_where_clause"/>
-		ORDER BY is_top DESC,journalism_date DESC
+		ORDER BY modify_time DESC
 		<include refid="global.paginationEnd_mysql"/>
 	</select>
 	<insert id="save" parameterType="benchJournalism" useGeneratedKeys="true" keyProperty="id" >
