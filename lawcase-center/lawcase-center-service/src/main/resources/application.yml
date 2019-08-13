@@ -32,8 +32,8 @@ management:
 oss:
   url: https://shengsu.oss-cn-hangzhou.aliyuncs.com/
   endpoint: https://oss-cn-hangzhou.aliyuncs.com
-  accessKeyId: LTAIKFi0yWGi3byy
-  accessKeySecret: W9qZ8PBHWCcIWgsC2ScSvvX9qFi4bx
+  accessKeyId: LTAISsw5CZys2sER
+  accessKeySecret: 08pkECtJSNKPMwXnsYm3WSqdbkXm8h
   bucketName: boss-platform-test
   timeout: 5000
   expiretime: 60000
