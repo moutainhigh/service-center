@@ -24,4 +24,6 @@ public interface BenchJournalismMapper extends BaseMapper<BenchJournalism,String
      int  update(BenchJournalism benchournalism);
 
      BenchJournalism selectById(Long id);
+
+     BenchJournalism selectByTitle(String title);
 }

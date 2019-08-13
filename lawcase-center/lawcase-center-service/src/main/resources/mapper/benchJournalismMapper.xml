@@ -11,12 +11,16 @@
 		bench_journalism.*
 	</sql>
 	<sql id="bench_journalism_search_clause">
-		<if test="title!=null and title!=''">
-			AND title LIKE "%"#{title}"%"
-		</if>
+		<where>
+			del_flag = 0
+			<if test="title!=null and title != ''">
+				and title like concat(concat('%',#{title}),'%')
+			</if>
+		</where>
+
 	</sql>
 	<select id="countJournalism" resultType="int">
-		SELECT COUNT(1) FROM bench_journalism WHERE del_flag = 0
+		SELECT COUNT(1) FROM bench_journalism
 		<include refid="bench_journalism_search_clause"/>
 	</select>
 	<select id="selectJournalismByPage"   resultType="benchJournalism">
@@ -25,7 +29,6 @@
 		<include refid="bench_journalism_columns"/>
 		FROM
 		bench_journalism
-		WHERE del_flag = 0
 		<include refid="bench_journalism_search_clause"/>
 		ORDER BY modify_time DESC
 		<include refid="global.paginationEnd_mysql"/>
@@ -79,7 +82,7 @@
 			<if test="url!=null and url!=''">
 				url=#{url},
 			</if>
-            <if test="isTop!=null and isTop!=''">
+            <if test="isTop != null " >
                 is_top=#{isTop},
             </if>
 			<if test="pictureOssId!=null and pictureOssId!=''">
@@ -98,4 +101,7 @@
 	<select id="selectById" parameterType="long" resultType="benchJournalism">
 		select * FROM  bench_journalism WHERE id = #{id} AND del_flag = 0
 	</select>
+    <select id="selectByTitle" parameterType="string" resultType="benchJournalism" >
+        select * FROM  bench_journalism WHERE  del_flag = 0 AND title=#{title} limit 1
+    </select>
 </mapper>

@@ -96,4 +96,17 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
         journalism.setPictureOssUrl(url);
         return journalism;
     }
+
+    @Override
+    public BenchJournalism selectByTitle(String title) {
+        BenchJournalism journalism = benchJournalismMapper.selectByTitle(title);
+        if (journalism == null) {
+            return null;
+        }
+
+        String url = ossClientUtil.getUrl(BenchConstant.OSS_FILEDIR, journalism.getPictureOssId());
+        journalism.setPictureOssUrl(url);
+        return journalism;
+    }
+
 }
