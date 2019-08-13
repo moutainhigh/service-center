@@ -52,7 +52,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
         for (BenchJournalism benchJournalism :
                 journalismList) {
             String pictureOssId = benchJournalism.getPictureOssId();
-            journalism.setPictureOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_FILEDIR, pictureOssId));
+            benchJournalism.setPictureOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_FILEDIR, pictureOssId));
         }
         return journalismList;
     }
