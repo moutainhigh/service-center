@@ -91,6 +91,9 @@
 			<if test="url!=null and url!=''">
 				url=#{url},
 			</if>
+            <if test="isTop!=null and isTop!=''">
+                is_top=#{isTop},
+            </if>
 			<if test="pictureOssId!=null and pictureOssId!=''">
 				picture_oss_id=#{pictureOssId},
 			</if>
