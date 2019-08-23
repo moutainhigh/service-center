@@ -17,7 +17,7 @@ zookeeper:
 dubbo:
   group: log-center
   port: 20883
-  version: 1.0
+  version: 1.0.zxh1
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
