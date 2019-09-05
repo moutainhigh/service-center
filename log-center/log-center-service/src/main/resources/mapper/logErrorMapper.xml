@@ -62,7 +62,7 @@
 			#{errName,jdbcType=VARCHAR},
 			#{errMsg,jdbcType=CLOB},
 			#{errRemark,jdbcType=CLOB},
-			#{errParam,VARCHAR}
+			#{errParam,jdbcType=VARCHAR}
 		)
 	</insert>
 </mapper>
