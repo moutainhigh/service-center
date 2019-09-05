@@ -1,6 +1,7 @@
 package com.shengsu.log.entity;
 
 import com.shengsu.base.entity.BaseEntity;
+import lombok.Data;
 
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
  * @date 2019-5-24
  * 
  */
+@Data
 public class LogBusiness extends BaseEntity
 {
     /**
@@ -62,83 +64,4 @@ public class LogBusiness extends BaseEntity
 	 */
 	private String requestIp;
 
-	public String getOperateType() {
-		return operateType;
-	}
-
-	public void setOperateType(String operateType) {
-		this.operateType = operateType;
-	}
-
-	public String getOperatorId() {
-		return operatorId;
-	}
-
-	public void setOperatorId(String operatorId) {
-		this.operatorId = operatorId;
-	}
-
-	public String getOperator() {
-		return operator;
-	}
-
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
-
-	public String getModule() {
-		return module;
-	}
-
-	public void setModule(String module) {
-		this.module = module;
-	}
-
-	public Date getOperateTime() {
-		return operateTime;
-	}
-
-	public void setOperateTime(Date operateTime) {
-		this.operateTime = operateTime;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getRequestArg() {
-		return requestArg;
-	}
-
-	public void setRequestArg(String requestArg) {
-		this.requestArg = requestArg;
-	}
-
-	public String getResponseMsg() {
-		return responseMsg;
-	}
-
-	public void setResponseMsg(String responseMsg) {
-		this.responseMsg = responseMsg;
-	}
-
-	public String getSystemTag() {
-		return systemTag;
-	}
-
-	public void setSystemTag(String systemTag) {
-		this.systemTag = systemTag;
-	}
-
-	public String getRequestIp() {
-		return requestIp;
-	}
-
-	public void setRequestIp(String requestIp) {
-		this.requestIp = requestIp;
-	}
 }

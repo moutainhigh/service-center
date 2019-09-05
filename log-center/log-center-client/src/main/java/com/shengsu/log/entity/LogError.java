@@ -1,6 +1,7 @@
 package com.shengsu.log.entity;
 
 import com.shengsu.base.entity.BaseEntity;
+import lombok.Data;
 
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
  * @date 2018-9-10
  *
  */
+@Data
 public class LogError extends BaseEntity
 {
 
@@ -40,68 +42,9 @@ public class LogError extends BaseEntity
      */
     private String errRemark;
 
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
     /**
-     * @return errName
+     * 参数
      */
-    public String getErrName()
-    {
-        return errName;
-    }
-
-    /**
-     * @param errName 要设置的 errName
-     */
-    public void setErrName(String errName)
-    {
-        this.errName = errName;
-    }
-
-    /**
-     * @return errMsg
-     */
-    public String getErrMsg()
-    {
-        return errMsg;
-    }
-
-    /**
-     * @param errMsg 要设置的 errMsg
-     */
-    public void setErrMsg(String errMsg)
-    {
-        this.errMsg = errMsg;
-    }
-
-    /**
-     * @return errRemark
-     */
-    public String getErrRemark()
-    {
-        return errRemark;
-    }
-
-    /**
-     * @param errRemark 要设置的 errRemark
-     */
-    public void setErrRemark(String errRemark)
-    {
-        this.errRemark = errRemark;
-    }
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+    private String errParam;
 
 }

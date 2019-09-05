@@ -6,12 +6,6 @@
 <mapper namespace="com.shengsu.log.mapper.LogErrorMapper">
 	<!-- Result Map-->
 	<resultMap id="logError_result_map" type="logError">
-		<result property="id" column="id" />
-		<result property="createTime" column="create_time" />
-		<result property="creator" column="creator" />
-		<result property="errName" column="err_name" />
-		<result property="errMsg" column="err_msg"  />
-		<result property="errRemark" column="err_remark"/>
 	</resultMap>
 
 	<!-- 查询条件 -->
@@ -58,7 +52,8 @@
 			creator,
 			err_name,
 			err_msg,
-			err_remark
+			err_remark,
+			err_param
 		)
 		values
 		(
@@ -66,7 +61,8 @@
 			#{creator,jdbcType=VARCHAR},
 			#{errName,jdbcType=VARCHAR},
 			#{errMsg,jdbcType=CLOB},
-			#{errRemark,jdbcType=CLOB}
+			#{errRemark,jdbcType=CLOB},
+			#{errParam,VARCHAR}
 		)
 	</insert>
 </mapper>
