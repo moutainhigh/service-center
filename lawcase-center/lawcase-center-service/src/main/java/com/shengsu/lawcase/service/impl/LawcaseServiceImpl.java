@@ -452,6 +452,7 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
         result.setCountDate(caseVo.getCountDate());
         result.setCountApproveStatusInit(caseVo.getCountApproveStatusInit());
         result.setCountApproveStatusPass(caseVo.getCountApproveStatusPass());
+        result.setCountApproveStatusAgent(caseVo.getCountApproveStatusAgent());
         result.setCountApproveStatusReject(caseVo.getCountApproveStatusReject());
         result.setCountCivilAndCommercialLitigation(caseVo.getCountCivilAndCommercialLitigation());
         result.setCountCriminalProceeding(caseVo.getCountCriminalProceeding());
