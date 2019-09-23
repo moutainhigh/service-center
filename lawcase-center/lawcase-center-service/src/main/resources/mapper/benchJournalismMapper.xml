@@ -14,7 +14,7 @@
 		<where>
 			del_flag = 0
 			<if test="title!=null and title != ''">
-				and title like concat(concat('%',#{title}),'%')
+				and title like concat('%',#{title},'%')
 			</if>
 		</where>
 
