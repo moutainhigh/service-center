@@ -1,5 +1,7 @@
 package com.shengsu.bench.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.shengsu.bench.entity.BenchLawyer;
 import com.shengsu.bench.po.BenchLawyerQueryPo;
 import com.shengsu.bench.vo.BenchLawyerCreateVo;
@@ -21,7 +23,9 @@ public class BenchLawyerUtils {
             benchLawyer.setName(lawyerCreateVo.getName());
             benchLawyer.setField(lawyerCreateVo.getField());
             benchLawyer.setMajorExperience(lawyerCreateVo.getMajorExperience());
-            benchLawyer.setRepresentativeCase(lawyerCreateVo.getRepresentativeCase());
+            if(lawyerCreateVo.getRepresentativeCaseList()!=null){
+                benchLawyer.setRepresentativeCase(JSON.toJSONString(lawyerCreateVo.getRepresentativeCaseList()));
+            }
             benchLawyer.setIsGoldMedal(lawyerCreateVo.getIsGoldMedal());
             benchLawyer.setIsTop(lawyerCreateVo.getIsTop());
             benchLawyer.setWeight(lawyerCreateVo.getWeight());
@@ -38,7 +42,9 @@ public class BenchLawyerUtils {
             benchLawyer.setName(lawyerUpdateVo.getName());
             benchLawyer.setField(lawyerUpdateVo.getField());
             benchLawyer.setMajorExperience(lawyerUpdateVo.getMajorExperience());
-            benchLawyer.setRepresentativeCase(lawyerUpdateVo.getRepresentativeCase());
+            if(lawyerUpdateVo.getRepresentativeCaseList()!=null){
+                benchLawyer.setRepresentativeCase(JSON.toJSONString(lawyerUpdateVo.getRepresentativeCaseList()));
+            }
             benchLawyer.setIsGoldMedal(lawyerUpdateVo.getIsGoldMedal());
             benchLawyer.setIsTop(lawyerUpdateVo.getIsTop());
             benchLawyer.setWeight(lawyerUpdateVo.getWeight());
@@ -56,7 +62,9 @@ public class BenchLawyerUtils {
             lawyerQueryPo.setName(lawyer.getName());
             lawyerQueryPo.setField(lawyer.getField());
             lawyerQueryPo.setMajorExperience(lawyer.getMajorExperience());
-            lawyerQueryPo.setRepresentativeCase(lawyer.getRepresentativeCase());
+            if(lawyer.getRepresentativeCase()!=null){
+                lawyerQueryPo.setRepresentativeCaseList(JSONArray.parseArray(lawyer.getRepresentativeCase(),String.class));
+            }
             lawyerQueryPo.setIsGoldMedal(lawyer.getIsGoldMedal());
             lawyerQueryPo.setIsTop(lawyer.getIsTop());
             return lawyerQueryPo;
@@ -89,7 +97,9 @@ public class BenchLawyerUtils {
                 lawyerQueryPo.setName(lawyer.getName());
                 lawyerQueryPo.setField(lawyer.getField());
                 lawyerQueryPo.setMajorExperience(lawyer.getMajorExperience());
-                lawyerQueryPo.setRepresentativeCase(lawyer.getRepresentativeCase());
+                if(lawyer.getRepresentativeCase()!=null){
+                    lawyerQueryPo.setRepresentativeCaseList(JSONArray.parseArray(lawyer.getRepresentativeCase(),String.class));
+                }
                 lawyerQueryPo.setIsGoldMedal(lawyer.getIsGoldMedal());
                 lawyerQueryPo.setIsTop(lawyer.getIsTop());
                 list.add(lawyerQueryPo);

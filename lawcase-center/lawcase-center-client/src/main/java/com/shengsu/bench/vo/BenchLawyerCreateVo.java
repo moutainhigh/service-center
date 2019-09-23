@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by zyc on 2019/9/23.
@@ -20,12 +21,13 @@ public class BenchLawyerCreateVo {
     @NotBlank
     private String majorExperience;
 
-    private String representativeCase;
     @NotNull
     private Integer isGoldMedal;
     @NotNull
     private Integer isTop;
 
     private Double weight;
+
+    private List<String> representativeCaseList;
 
 }
