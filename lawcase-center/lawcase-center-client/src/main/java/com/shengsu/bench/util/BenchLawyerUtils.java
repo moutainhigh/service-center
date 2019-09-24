@@ -71,6 +71,7 @@ public class BenchLawyerUtils {
                 lawyerQueryPo.setRepresentativeCaseList(JSONArray.parseArray(lawyer.getRepresentativeCase(),String.class));
             }
             lawyerQueryPo.setIsGoldMedal(lawyer.getIsGoldMedal());
+            lawyerQueryPo.setWeight(lawyer.getWeight());
             lawyerQueryPo.setIsTop(lawyer.getIsTop());
             return lawyerQueryPo;
         }
@@ -111,6 +112,7 @@ public class BenchLawyerUtils {
                 }
                 lawyerQueryPo.setIsGoldMedal(lawyer.getIsGoldMedal());
                 lawyerQueryPo.setIsTop(lawyer.getIsTop());
+                lawyerQueryPo.setWeight(lawyer.getWeight());
                 list.add(lawyerQueryPo);
             }
 

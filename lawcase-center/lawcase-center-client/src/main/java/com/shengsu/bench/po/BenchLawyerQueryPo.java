@@ -19,6 +19,8 @@ public class BenchLawyerQueryPo {
 
     private String majorExperience;
 
+    private Double weight;
+
     private Integer isGoldMedal;
 
     private Integer isTop;
@@ -31,5 +33,7 @@ public class BenchLawyerQueryPo {
 
     private String portraitOssUrl;
 
+
+    
     private List<String> representativeCaseList;
 }
