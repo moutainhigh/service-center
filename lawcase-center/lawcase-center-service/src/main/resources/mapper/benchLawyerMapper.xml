@@ -18,7 +18,7 @@
 				and name like concat('%',#{name},'%')
 			</if>
 			<if test="isGoldMedal != null and isGoldMedal != ''">
-				and isGoldMedal like concat('%',#{isGoldMedal},'%')
+				and isGoldMedal = #{isGoldMedal}
 			</if>
 		</where>
 
