@@ -71,7 +71,7 @@
 		from
 		  lawcase
 		where del_flag = 0 and
-		  approve_status = 2 and
+		  approve_status = 6 and
 		  date_format(create_time, '%Y-%m-%d') between date_format(#{startDate}, '%Y-%m-%d') and date_format(#{endDate}, '%Y-%m-%d')
 		group by date_format(create_time, '%Y-%m-%d')
 	</select>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shengsu.bench.mapper.BenchLawyerMapper">
+	<!-- Result Map -->
+	<resultMap id="bench_lawyer" type="benchLawyer">
+	</resultMap>
+	<sql id="bench_lawyer_columns">
+		bench_lawyer.*
+	</sql>
+
+	<sql id="bench_lawyer_search_clause">
+		<where>
+			del_flag = 0
+			<if test="name != null and name != ''">
+				and name like concat('%',#{name},'%')
+			</if>
+			<if test="isGoldMedal != null and isGoldMedal != ''">
+				and isGoldMedal like concat('%',#{isGoldMedal},'%')
+			</if>
+		</where>
+
+	</sql>
+	<insert id="save" parameterType="benchLawyer">
+		INSERT INTO bench_lawyer
+		(
+		portrait_oss_id,
+		name,
+		field,
+		major_experience,
+		representative_case,
+		is_gold_medal,
+		is_top,
+		weight,
+		del_flag,
+		create_time,
+		modify_time
+		)
+		VALUES
+		(
+		#{portraitOssId},
+		#{name},
+		#{field},
+		#{majorExperience},
+		#{representativeCase},
+		#{isGoldMedal},
+		#{isTop},
+		#{weight},
+		0,
+		current_timestamp(),
+		current_timestamp()
+		)
+	</insert>
+	<select id="selectByName" parameterType="string" resultType="benchLawyer">
+		SELECT <include refid="bench_lawyer_columns"/> FROM bench_lawyer
+		WHERE del_flag = 0 AND name = #{name} limit 1
+	</select>
+	<delete id="softDelete" parameterType="long" >
+		UPDATE bench_lawyer
+		<set>
+			del_flag = 1,
+			modify_time = current_timestamp()
+		</set>
+		WHERE id = #{id} AND  del_flag = 0
+	</delete>
+
+	<select id="selectById" parameterType="long" resultType="benchLawyer">
+		SELECT <include refid="bench_lawyer_columns"/> FROM bench_lawyer
+		WHERE del_flag = 0 AND id = #{id} limit 1
+	</select>
+
+	<update id="update"  parameterType="benchLawyer">
+		UPDATE bench_lawyer
+		<set>
+			portrait_oss_id = #{portraitOssId},
+			name = #{name},
+			field = #{field},
+			major_experience = #{majorExperience},
+			representative_case = #{representativeCase},
+			is_gold_medal = #{isGoldMedal},
+			is_top = #{isTop},
+			weight = #{weight},
+			modify_time = current_timestamp()
+		</set>
+		WHERE id = #{id} AND  del_flag = 0
+	</update>
+
+	<select id="countAll" parameterType="benchLawyer" resultType="int">
+		 SELECT COUNT(1) FROM bench_lawyer
+		 <include refid="bench_lawyer_search_clause"/>
+	</select>
+
+	<select id="listByPage" parameterType="benchLawyer" resultType="benchLawyer">
+		<include refid="global.paginationStart_mysql"/>
+		SELECT <include refid="bench_lawyer_columns"/> FROM bench_lawyer
+		<include refid="bench_lawyer_search_clause"/>
+		ORDER BY modify_time DESC
+		<include refid="global.paginationEnd_mysql"/>
+	</select>
+</mapper>

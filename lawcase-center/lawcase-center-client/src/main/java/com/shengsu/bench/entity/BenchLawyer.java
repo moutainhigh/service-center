@@ -1,0 +1,32 @@
+package com.shengsu.bench.entity;
+
+import com.shengsu.base.entity.BaseEntity;
+import lombok.Data;
+
+/**
+ * Created by zyc on 2019/9/20.
+ */
+@Data
+public class BenchLawyer extends BaseEntity {
+
+    private Long id;
+
+    private String portraitOssId;
+
+    private String portraitOssUrl;
+
+    private String name;
+
+    private String field;
+
+    private String majorExperience;
+
+    private String representativeCase;
+
+    private Integer isGoldMedal;
+
+    private Integer isTop;
+
+    private Double weight;
+
+}
