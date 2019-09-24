@@ -26,6 +26,7 @@
 	<insert id="save" parameterType="benchLawyer">
 		INSERT INTO bench_lawyer
 		(
+		head_oss_id,
 		portrait_oss_id,
 		name,
 		field,
@@ -40,6 +41,7 @@
 		)
 		VALUES
 		(
+		#{headOssId},
 		#{portraitOssId},
 		#{name},
 		#{field},
@@ -74,7 +76,8 @@
 	<update id="update"  parameterType="benchLawyer">
 		UPDATE bench_lawyer
 		<set>
-			portrait_oss_id = #{portraitOssId},
+            head_oss_id = #{headOssId},
+            portrait_oss_id = #{portraitOssId},
 			name = #{name},
 			field = #{field},
 			major_experience = #{majorExperience},

@@ -20,6 +20,7 @@ public class BenchLawyerUtils {
     public static BenchLawyer toBenchLawyer(BenchLawyerCreateVo lawyerCreateVo) {
         if (lawyerCreateVo != null) {
             BenchLawyer benchLawyer = new BenchLawyer();
+            benchLawyer.setHeadOssId(lawyerCreateVo.getHeadOssId());
             benchLawyer.setPortraitOssId(lawyerCreateVo.getPortraitOssId());
             benchLawyer.setName(lawyerCreateVo.getName());
             benchLawyer.setField(lawyerCreateVo.getField());
@@ -39,6 +40,7 @@ public class BenchLawyerUtils {
         if (lawyerUpdateVo != null) {
             BenchLawyer benchLawyer = new BenchLawyer();
             benchLawyer.setId(lawyerUpdateVo.getId());
+            benchLawyer.setHeadOssId(lawyerUpdateVo.getHeadOssId());
             benchLawyer.setPortraitOssId(lawyerUpdateVo.getPortraitOssId());
             benchLawyer.setName(lawyerUpdateVo.getName());
             benchLawyer.setField(lawyerUpdateVo.getField());
@@ -58,6 +60,8 @@ public class BenchLawyerUtils {
         if (lawyer != null) {
             BenchLawyerQueryPo lawyerQueryPo = new BenchLawyerQueryPo();
             lawyerQueryPo.setId(lawyer.getId());
+            lawyerQueryPo.setHeadOssId(lawyer.getHeadOssId());
+            lawyerQueryPo.setHeadOssUrl(lawyer.getHeadOssUrl());
             lawyerQueryPo.setPortraitOssId(lawyer.getPortraitOssId());
             lawyerQueryPo.setPortraitOssUrl(lawyer.getPortraitOssUrl());
             lawyerQueryPo.setName(lawyer.getName());
@@ -95,8 +99,10 @@ public class BenchLawyerUtils {
                     lawyers) {
                 lawyerQueryPo = new BenchLawyerQueryPo();
                 lawyerQueryPo.setId(lawyer.getId());
-                lawyerQueryPo.setPortraitOssUrl(lawyer.getPortraitOssUrl());
+                lawyerQueryPo.setHeadOssId(lawyer.getHeadOssId());
+                lawyerQueryPo.setHeadOssUrl(lawyer.getHeadOssUrl());
                 lawyerQueryPo.setPortraitOssId(lawyer.getPortraitOssId());
+                lawyerQueryPo.setPortraitOssUrl(lawyer.getPortraitOssUrl());
                 lawyerQueryPo.setName(lawyer.getName());
                 lawyerQueryPo.setField(lawyer.getField());
                 lawyerQueryPo.setMajorExperience(lawyer.getMajorExperience());

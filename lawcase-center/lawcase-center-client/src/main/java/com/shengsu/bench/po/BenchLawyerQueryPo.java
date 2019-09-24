@@ -23,6 +23,10 @@ public class BenchLawyerQueryPo {
 
     private Integer isTop;
 
+    private String headOssId;
+
+    private String headOssUrl;
+
     private String portraitOssId;
 
     private String portraitOssUrl;

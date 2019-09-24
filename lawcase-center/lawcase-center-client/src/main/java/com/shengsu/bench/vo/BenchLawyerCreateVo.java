@@ -13,6 +13,8 @@ import java.util.List;
 public class BenchLawyerCreateVo {
 
     @NotBlank
+    private String headOssId;
+    @NotBlank
     private String portraitOssId;
     @NotBlank
     private String name;

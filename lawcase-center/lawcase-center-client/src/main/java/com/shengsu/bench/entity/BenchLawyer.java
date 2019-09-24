@@ -11,6 +11,10 @@ public class BenchLawyer extends BaseEntity {
 
     private Long id;
 
+    private String headOssId;
+
+    private String headOssUrl;
+
     private String portraitOssId;
 
     private String portraitOssUrl;

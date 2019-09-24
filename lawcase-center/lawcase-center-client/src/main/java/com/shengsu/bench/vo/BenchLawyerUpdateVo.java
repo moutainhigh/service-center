@@ -14,7 +14,8 @@ public class BenchLawyerUpdateVo {
 
     @NotNull
     private Long id;
-
+    @NotBlank
+    private String headOssId;
     @NotBlank
     private String portraitOssId;
     @NotBlank
@@ -23,7 +24,6 @@ public class BenchLawyerUpdateVo {
     private String field;
     @NotBlank
     private String majorExperience;
-
     @NotNull
     private Integer isGoldMedal;
     @NotNull
