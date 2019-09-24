@@ -7,6 +7,7 @@ import com.shengsu.bench.po.BenchLawyerQueryPo;
 import com.shengsu.bench.vo.BenchLawyerCreateVo;
 import com.shengsu.bench.vo.BenchLawyerListPageVo;
 import com.shengsu.bench.vo.BenchLawyerUpdateVo;
+import com.shengsu.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,10 +76,12 @@ public class BenchLawyerUtils {
     public static BenchLawyer toBenchLawyer(BenchLawyerListPageVo lawyerListPageVo) {
         if (lawyerListPageVo != null) {
             BenchLawyer benchLawyer = new BenchLawyer();
-            benchLawyer.setName(lawyerListPageVo.getName());
+            benchLawyer.setName(StringUtil.ToLikeStr(lawyerListPageVo.getName()));
             benchLawyer.setIsGoldMedal(lawyerListPageVo.getIsGoldMedal());
-            benchLawyer.setPage(lawyerListPageVo.getPage());
-            benchLawyer.setPageSize(lawyerListPageVo.getPageSize());
+            Integer page = lawyerListPageVo.getPage();
+            benchLawyer.setPage(page==null?1:page);
+            Integer pageSize = lawyerListPageVo.getPageSize();
+            benchLawyer.setPageSize(pageSize==null?10:pageSize);
             return benchLawyer;
         }
         return null;
