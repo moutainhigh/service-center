@@ -99,7 +99,7 @@
 		<include refid="global.paginationStart_mysql"/>
 		SELECT <include refid="bench_lawyer_columns"/> FROM bench_lawyer
 		<include refid="bench_lawyer_search_clause"/>
-		ORDER BY modify_time DESC
+		ORDER BY is_top DESC,modify_time DESC
 		<include refid="global.paginationEnd_mysql"/>
 	</select>
 </mapper>
