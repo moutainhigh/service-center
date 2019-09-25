@@ -47,4 +47,6 @@ public class LogError extends BaseEntity
      */
     private String errParam;
 
+    private String systemTag;
+
 }

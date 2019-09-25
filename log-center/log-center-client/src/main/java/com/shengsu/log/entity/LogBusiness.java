@@ -19,7 +19,7 @@ public class LogBusiness extends BaseEntity
      * @Fields serialVersionUID : (序列号)
      */
     private static final long serialVersionUID = -6350094733983342070L;
-    private String id;
+    private Integer id;
     /**
      * 操作类型
      */

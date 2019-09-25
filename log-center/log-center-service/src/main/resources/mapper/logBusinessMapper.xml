@@ -52,25 +52,25 @@
 	<insert id="save" parameterType="logBusiness">
 		insert into system_log_business
 		(
-			id,
 			operate_type,
 			operator_id,
 			operator,
 			module,
 			operate_time,
 			request_arg,
-			request_ip
+			request_ip,
+			system_tag
 		)
 		values
 		(
-			#{id,jdbcType=VARCHAR},
 			#{operateType,jdbcType=VARCHAR},
 			#{operatorId,jdbcType=VARCHAR},
 			#{operator,jdbcType=INTEGER},
 			#{module,jdbcType=CLOB},
 			current_timestamp(),
 			#{requestArg,jdbcType=VARCHAR},
-			#{requestIp,jdbcType=VARCHAR}
+			#{requestIp,jdbcType=VARCHAR},
+			#{systemTag}
 		)
 	</insert>
 </mapper>

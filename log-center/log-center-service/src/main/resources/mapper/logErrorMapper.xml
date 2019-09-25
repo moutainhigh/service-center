@@ -53,7 +53,8 @@
 			err_name,
 			err_msg,
 			err_remark,
-			err_param
+			err_param,
+			system_tag
 		)
 		values
 		(
@@ -62,7 +63,8 @@
 			#{errName,jdbcType=VARCHAR},
 			#{errMsg,jdbcType=CLOB},
 			#{errRemark,jdbcType=CLOB},
-			#{errParam,jdbcType=VARCHAR}
+			#{errParam,jdbcType=VARCHAR},
+			#{systemTag}
 		)
 	</insert>
 </mapper>

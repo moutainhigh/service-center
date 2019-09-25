@@ -12,8 +12,8 @@ spring:
   aop:
     proxy-target-class: true
 zookeeper:
-  address: 192.168.1.52:2181
-  #address: 127.0.0.1:2181
+#  address: 192.168.1.52:2181
+  address: 127.0.0.1:2181
 dubbo:
   group: lawcase-center
   port: 20881
@@ -24,6 +24,8 @@ mybatis:
   typeAliasesPackage: com.shengsu.*.entity
 logging:
   file: logs/lawcase-center-service.log
+  level:
+       com.shengsu.bench.mapper : debug
 management:
   health:
     redis:
