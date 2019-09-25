@@ -23,6 +23,7 @@
 			<if test="operator!=null and operator !=''">
 				and operator like concat('%',#{operator},'%')
 			</if>
+			<if test="systemTag != null and  systemTag != ''"> and system_tag= #{systemTag}</if>
 		</where>
 	</sql>
 
