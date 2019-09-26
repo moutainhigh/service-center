@@ -25,17 +25,8 @@ public class LogBusinessMessageConsumer implements RocketMQListener<LogBusiness>
 
     @Override
     public void onMessage(LogBusiness business) {
-
-        if (business!= null
-                &&StringUtils.isNoneBlank(business.getOperateType())
-                && StringUtils.isNoneBlank(business.getOperatorId())
-                && StringUtils.isNoneBlank(business.getOperator())
-                && StringUtils.isNoneBlank(business.getRequestArg())
-                && StringUtils.isNoneBlank(business.getRequestIp())
-                ) {
-            logBusinessService.save(business);
-            System.out.println("[test--logs]**************************************"+business.toString());
-        }
+        logBusinessService.save(business);
+        System.out.println("[test--logs]**************************************"+business.toString());
 
     }
 }

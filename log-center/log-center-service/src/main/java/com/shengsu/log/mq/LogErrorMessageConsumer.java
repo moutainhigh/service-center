@@ -26,16 +26,8 @@ public class LogErrorMessageConsumer implements RocketMQListener<LogError> {
 
     @Override
     public void onMessage(LogError error) {
-
-        if (error != null
-                && StringUtils.isNoneBlank(error.getCreator())
-                && StringUtils.isNoneBlank(error.getErrName())
-                && StringUtils.isNoneBlank(error.getErrRemark())
-                && StringUtils.isNoneBlank(error.getErrMsg())
-                && StringUtils.isNoneBlank(error.getErrParam())
-                ) {
-            logErrorService.save(error);
-        }
+        logErrorService.save(error);
+        System.out.println("[test--logs]**************************************"+error.toString());
 
     }
 }

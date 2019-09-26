@@ -59,7 +59,7 @@
 		)
 		values
 		(
-			current_timestamp(),
+			#{createTime},
 			#{creator,jdbcType=VARCHAR},
 			#{errName,jdbcType=VARCHAR},
 			#{errMsg,jdbcType=CLOB},
