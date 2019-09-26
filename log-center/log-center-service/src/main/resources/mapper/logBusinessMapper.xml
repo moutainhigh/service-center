@@ -68,7 +68,7 @@
 			#{operatorId,jdbcType=VARCHAR},
 			#{operator,jdbcType=INTEGER},
 			#{module,jdbcType=CLOB},
-			current_timestamp(),
+			#{operateTime},
 			#{requestArg,jdbcType=VARCHAR},
 			#{requestIp,jdbcType=VARCHAR},
 			#{systemTag}

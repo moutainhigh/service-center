@@ -2,19 +2,19 @@ package com.shengsu.log.entity;
 
 import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
 /**
+ * @author zxh
  * @ClassName: LogBusiness
  * @Description: (业务日志)
- * @author zxh
  * @date 2019-5-24
- * 
  */
 @Data
-public class LogBusiness extends BaseEntity
-{
+@ToString
+public class LogBusiness extends BaseEntity {
     /**
      * @Fields serialVersionUID : (序列号)
      */
@@ -29,12 +29,12 @@ public class LogBusiness extends BaseEntity
      * 操作员ID
      */
     private String operatorId;
-    
+
     /**
      * 操作员
      */
     private String operator;
-    
+
     /**
      * 模块
      */
@@ -44,24 +44,24 @@ public class LogBusiness extends BaseEntity
      * 操作时间
      */
     private Date operateTime;
-    
+
     /**
      * 请求参数
      */
     private String requestArg;
-    
+
     /**
      * 响应消息
      */
     private String responseMsg;
 
-	/**
-	 * 系统标签
-	 */
-	private String systemTag;
-	/**
-	 * 请求ip
-	 */
-	private String requestIp;
+    /**
+     * 系统标签
+     */
+    private String systemTag;
+    /**
+     * 请求ip
+     */
+    private String requestIp;
 
 }
