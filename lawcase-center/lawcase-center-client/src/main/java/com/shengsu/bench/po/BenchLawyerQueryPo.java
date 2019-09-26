@@ -23,8 +23,6 @@ public class BenchLawyerQueryPo {
 
     private Integer isGoldMedal;
 
-    private Integer isTop;
-
     private String headOssId;
 
     private String headOssUrl;

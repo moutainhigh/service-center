@@ -83,7 +83,6 @@
 			major_experience = #{majorExperience},
 			representative_case = #{representativeCase},
 			is_gold_medal = #{isGoldMedal},
-			is_top = #{isTop},
 			weight = #{weight},
 			modify_time = current_timestamp()
 		</set>
@@ -99,7 +98,7 @@
 		<include refid="global.paginationStart_mysql"/>
 		SELECT <include refid="bench_lawyer_columns"/> FROM bench_lawyer
 		<include refid="bench_lawyer_search_clause"/>
-		ORDER BY is_top DESC,modify_time DESC
+		ORDER BY weight
 		<include refid="global.paginationEnd_mysql"/>
 	</select>
 </mapper>
