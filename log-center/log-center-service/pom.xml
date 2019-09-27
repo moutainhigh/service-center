@@ -10,17 +10,26 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
     <artifactId>log-center-service</artifactId>
+
     <dependencies>
+        <!--整合rocketMQ-->
         <dependency>
-            <groupId>org.apache.rocketmq</groupId>
+            <groupId>com.alibaba.rocketmq</groupId>
+            <artifactId>rocketmq-common</artifactId>
+            <version>3.6.2.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
-            <version>4.5.1</version>
+            <version>3.6.2.Final</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-spring-boot-starter</artifactId>
-            <version>2.0.3</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.alibaba.rocketmq</groupId>-->
+            <!--<artifactId>rocketmq-all</artifactId>-->
+            <!--<version>3.6.2.Final</version>-->
+            <!--<type>pom</type>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.shengsu</groupId>
             <artifactId>log-center-client</artifactId>

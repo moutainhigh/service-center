@@ -27,6 +27,22 @@ management:
   health:
     redis:
       enabled: false
+###consumer
+##该应用是否启用消费者
 rocketmq:
-  name-server: 192.168.1.52:9876
+  consumer:
+    isOnOff: on
+    groupName: logGroup
+    #mq的nameserver地址
+    namesrvAddr: 192.168.1.52:9876
+    logBusiness:
+      topic: logBusinessTopic
+      tag: logBusinessTag
+    logError:
+      topic: logErrorTopic
+      tag: logErrorTag
+    consumeThreadMin: 20
+    consumeThreadMax: 64
+    # 设置一次消费消息的条数，默认为1条
+    consumeMessageBatchMaxSize: 1
 

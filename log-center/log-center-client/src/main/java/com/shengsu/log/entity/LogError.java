@@ -2,6 +2,7 @@ package com.shengsu.log.entity;
 
 import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -13,6 +14,7 @@ import java.util.Date;
  *
  */
 @Data
+@ToString
 public class LogError extends BaseEntity
 {
 

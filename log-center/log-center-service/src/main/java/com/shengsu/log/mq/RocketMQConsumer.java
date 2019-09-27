@@ -1,0 +1,73 @@
+package com.shengsu.log.mq;
+
+import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
+import com.alibaba.rocketmq.client.exception.MQClientException;
+import com.shengsu.log.mq.message.MessageListen;
+import com.shengsu.log.mq.message.MessageProcessor;
+import com.shengsu.log.service.impl.LogBusinessServiceImpl;
+import com.shengsu.log.service.impl.LogErrorServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
+/**
+ * Created by zyc on 2019/9/27.
+ */
+@Component
+public class RocketMQConsumer {
+
+    public static final Logger log = LoggerFactory.getLogger(RocketMQConsumer.class);
+
+    @Autowired
+    private LogBusinessServiceImpl logBusinessService;
+    @Autowired
+    private LogErrorServiceImpl logErrorService;
+
+    @Value("${rocketmq.consumer.namesrvAddr}")
+    private String namesrvAddr;
+    @Value("${rocketmq.consumer.groupName}")
+    private String groupName;
+
+    @Value("${rocketmq.consumer.consumeThreadMin}")
+    private int consumeThreadMin;
+    @Value("${rocketmq.consumer.consumeThreadMax}")
+    private int consumeThreadMax;
+    @Value("${rocketmq.consumer.logBusiness.topic}")
+    private String logBusinessTopic;
+    @Value("${rocketmq.consumer.logBusiness.tag}")
+    private String logBusinessTag;
+    @Value("${rocketmq.consumer.logError.topic}")
+    private String logErrorTopic;
+    @Value("${rocketmq.consumer.logError.tag}")
+    private String logErrorTag;
+    @Bean
+    public DefaultMQPushConsumer getRocketMQConsumer()
+    {
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
+        consumer.setNamesrvAddr(namesrvAddr);
+        consumer.setConsumeThreadMin(consumeThreadMin);
+        consumer.setConsumeThreadMax(consumeThreadMax);
+        consumer.setVipChannelEnabled(false);
+
+        //我们自己实现的监听类
+        MessageListen messageListen = new MessageListen();
+        messageListen.registerHandler(logBusinessTag,logBusinessService);
+        messageListen.registerHandler(logErrorTag,logErrorService);
+        consumer.registerMessageListener(messageListen);
+        try {
+            consumer.subscribe(logBusinessTopic,logBusinessTag);
+            consumer.subscribe(logErrorTopic,logErrorTag);
+            consumer.start();
+            log.info("consume is start ,groupName:{},topic:{}",groupName);
+        } catch (MQClientException e) {
+            log.error("consume start error");
+            e.printStackTrace();
+        }
+        return consumer;
+    }
+
+
+}
