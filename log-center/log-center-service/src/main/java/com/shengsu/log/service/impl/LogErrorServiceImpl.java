@@ -7,6 +7,7 @@ import com.shengsu.log.entity.LogError;
 import com.shengsu.log.mapper.LogErrorMapper;
 import com.shengsu.log.mq.message.MessageProcessor;
 import com.shengsu.log.service.LogErrorService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @Description: 错误日志
  * @date 2018-9-10
  */
+@Slf4j
 @Service("logErrorService")
 public class LogErrorServiceImpl extends BaseServiceImpl<LogError, String> implements LogErrorService,MessageProcessor<LogError> {
 
@@ -33,15 +35,14 @@ public class LogErrorServiceImpl extends BaseServiceImpl<LogError, String> imple
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void log(LogError logError) {
         logErrorMapper.save(logError);
     }
 
     @Override
     public boolean handleMessage(LogError logError) {
+        log.info("处理消息："+logError.toString());
         logErrorMapper.save(logError);
-        System.out.println("收到消息："+logError.toString());
         return true;
     }
 

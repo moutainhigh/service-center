@@ -12,24 +12,16 @@
     <artifactId>log-center-service</artifactId>
 
     <dependencies>
-        <!--整合rocketMQ-->
         <dependency>
-            <groupId>com.alibaba.rocketmq</groupId>
-            <artifactId>rocketmq-common</artifactId>
-            <version>3.6.2.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.rocketmq</groupId>
+            <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
-            <version>3.6.2.Final</version>
+            <version>4.3.0</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.alibaba.rocketmq</groupId>-->
-            <!--<artifactId>rocketmq-all</artifactId>-->
-            <!--<version>3.6.2.Final</version>-->
-            <!--<type>pom</type>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-common</artifactId>
+            <version>4.3.0</version>
+        </dependency>
         <dependency>
             <groupId>com.shengsu</groupId>
             <artifactId>log-center-client</artifactId>

@@ -1,11 +1,13 @@
 package com.shengsu.log.mq;
 
-import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
-import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.shengsu.log.mq.message.MessageListen;
 import com.shengsu.log.mq.message.MessageProcessor;
 import com.shengsu.log.service.impl.LogBusinessServiceImpl;
 import com.shengsu.log.service.impl.LogErrorServiceImpl;
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
+import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,9 @@ public class RocketMQConsumer {
         try {
             consumer.subscribe(logBusinessTopic,logBusinessTag);
             consumer.subscribe(logErrorTopic,logErrorTag);
+            consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+            // 设置为集群消费(区别于广播消费)
+            consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.start();
             log.info("consume is start ,groupName:{},topic:{}",groupName);
         } catch (MQClientException e) {

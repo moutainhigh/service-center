@@ -1,10 +1,10 @@
 package com.shengsu.log.mq.message;
 
-import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
-import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
-import com.alibaba.rocketmq.common.message.MessageExt;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.common.message.MessageExt;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +13,8 @@ import java.util.Map;
 /**
  * Created by zyc on 2019/9/27.
  */
-public class MessageListen implements MessageListenerConcurrently{
+@Slf4j
+public class MessageListen implements MessageListenerConcurrently {
 
     //MessageProcessor接口的实现类放进map集合 key：tag value：MessageProcessor实习类
     private Map<String, MessageProcessor> handleMap = new HashMap<>();
@@ -36,7 +37,7 @@ public class MessageListen implements MessageListenerConcurrently{
             obj = messageProcessor.transferMessage(message);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("反序列化失败了");
+            log.info("反序列化失败了");
         }
         //处理消息
         boolean result = messageProcessor.handleMessage(obj);
