@@ -25,6 +25,4 @@ public interface BenchJournalismService extends BaseService<BenchJournalism, Str
     BenchJournalism selectById(Long Id);
 
     BenchJournalism selectByTitle(String title);
-
-
 }

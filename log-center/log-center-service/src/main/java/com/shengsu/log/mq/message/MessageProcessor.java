@@ -12,7 +12,6 @@ public interface MessageProcessor<T> {
     Class<T> getClazz();
 
     default T transferMessage(String message) {
-        T t = JSON.parseObject(message, getClazz());
         return JSON.parseObject(message, getClazz());
     }
 }

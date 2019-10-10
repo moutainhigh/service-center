@@ -30,6 +30,8 @@ public class BenchLawyerCreateVo {
 
     private Double weight;
 
+    private List<Integer> typeList;
+
     private List<String> representativeCaseList;
 
 }

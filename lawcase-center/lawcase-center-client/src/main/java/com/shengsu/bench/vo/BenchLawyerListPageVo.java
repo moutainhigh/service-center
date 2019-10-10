@@ -17,4 +17,6 @@ public class BenchLawyerListPageVo extends BaseEntity {
 
     private Integer isGoldMedal;
 
+    private Integer type;
+
 }

@@ -44,5 +44,5 @@ rocketmq:
     consumeThreadMin: 20
     consumeThreadMax: 64
     # 设置一次消费消息的条数，默认为1条
-    consumeMessageBatchMaxSize: 1
+    consumeMessageBatchMaxSize: 10
 

@@ -17,6 +17,9 @@
 			<if test="name != null and name != ''">
 				and name like concat('%',#{name},'%')
 			</if>
+			<if test="types != null and types != ''">
+				and FIND_IN_SET(#{types},types)
+			</if>
 			<if test="isGoldMedal != null and isGoldMedal != ''">
 				and isGoldMedal = #{isGoldMedal}
 			</if>
@@ -35,6 +38,7 @@
 		is_gold_medal,
 		is_top,
 		weight,
+		types,
 		del_flag,
 		create_time,
 		modify_time
@@ -50,6 +54,7 @@
 		#{isGoldMedal},
 		#{isTop},
 		#{weight},
+		#{types},
 		0,
 		current_timestamp(),
 		current_timestamp()
@@ -84,6 +89,7 @@
 			representative_case = #{representativeCase},
 			is_gold_medal = #{isGoldMedal},
 			weight = #{weight},
+			types=#{types}
 			modify_time = current_timestamp()
 		</set>
 		WHERE id = #{id} AND  del_flag = 0

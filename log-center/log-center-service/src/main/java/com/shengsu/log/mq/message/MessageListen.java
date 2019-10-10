@@ -48,5 +48,4 @@ public class MessageListen implements MessageListenerConcurrently {
 
     }
 
-
 }

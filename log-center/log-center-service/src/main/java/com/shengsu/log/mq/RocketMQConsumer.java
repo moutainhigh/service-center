@@ -45,9 +45,9 @@ public class RocketMQConsumer {
     private String logErrorTopic;
     @Value("${rocketmq.consumer.logError.tag}")
     private String logErrorTag;
+
     @Bean
-    public DefaultMQPushConsumer getRocketMQConsumer()
-    {
+    public DefaultMQPushConsumer getRocketMQConsumer() {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
         consumer.setNamesrvAddr(namesrvAddr);
         consumer.setConsumeThreadMin(consumeThreadMin);
@@ -56,17 +56,17 @@ public class RocketMQConsumer {
 
         //我们自己实现的监听类
         MessageListen messageListen = new MessageListen();
-        messageListen.registerHandler(logBusinessTag,logBusinessService);
-        messageListen.registerHandler(logErrorTag,logErrorService);
+        messageListen.registerHandler(logBusinessTag, logBusinessService);
+        messageListen.registerHandler(logErrorTag, logErrorService);
         consumer.registerMessageListener(messageListen);
         try {
-            consumer.subscribe(logBusinessTopic,logBusinessTag);
-            consumer.subscribe(logErrorTopic,logErrorTag);
+            consumer.subscribe(logBusinessTopic, logBusinessTag);
+            consumer.subscribe(logErrorTopic, logErrorTag);
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
             // 设置为集群消费(区别于广播消费)
             consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.start();
-            log.info("consume is start ,groupName:{},topic:{}",groupName);
+            log.info("consume is start ,groupName:{},topic:{}", groupName);
         } catch (MQClientException e) {
             log.error("consume start error");
             e.printStackTrace();

@@ -33,4 +33,6 @@ public class BenchLawyer extends BaseEntity {
 
     private Double weight;
 
+    private String types;
+
 }

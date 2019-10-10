@@ -31,7 +31,7 @@ public class BenchLawyerQueryPo {
 
     private String portraitOssUrl;
 
+    private List<Integer> typeList;
 
-    
     private List<String> representativeCaseList;
 }
