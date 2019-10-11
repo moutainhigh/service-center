@@ -6,9 +6,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/lawyer-platform-new-process?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/log-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: root
+    password: 1234
   aop:
     proxy-target-class: true
 zookeeper:
