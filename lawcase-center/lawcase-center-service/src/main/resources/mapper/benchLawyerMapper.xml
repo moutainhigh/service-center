@@ -89,7 +89,7 @@
 			representative_case = #{representativeCase},
 			is_gold_medal = #{isGoldMedal},
 			weight = #{weight},
-			types=#{types}
+			types=#{types},
 			modify_time = current_timestamp()
 		</set>
 		WHERE id = #{id} AND  del_flag = 0

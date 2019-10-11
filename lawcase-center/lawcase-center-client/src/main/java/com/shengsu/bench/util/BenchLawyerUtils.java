@@ -74,6 +74,7 @@ public class BenchLawyerUtils {
             if (lawyer.getRepresentativeCase() != null) {
                 lawyerQueryPo.setRepresentativeCaseList(JSONArray.parseArray(lawyer.getRepresentativeCase(), String.class));
             }
+            lawyerQueryPo.setTypeList(toArray(lawyer.getTypes()));
             lawyerQueryPo.setIsGoldMedal(lawyer.getIsGoldMedal());
             lawyerQueryPo.setWeight(lawyer.getWeight());
             return lawyerQueryPo;
@@ -130,10 +131,9 @@ public class BenchLawyerUtils {
             StringBuffer str = new StringBuffer();
             for (Integer intter :
                     typeList) {
-                str.append(intter);
-                str.append(",");
+                str.append(intter).append(",");
             }
-            return str.substring(str.length(), str.length() - 1).toString();
+            return str.substring(0, str.length() - 1);
         }
         return null;
     }
