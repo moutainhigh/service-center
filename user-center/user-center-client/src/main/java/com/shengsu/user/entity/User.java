@@ -1,41 +1,27 @@
 package com.shengsu.user.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.shengsu.base.entity.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.Data;
 
-import java.util.Date;
-
+@Data
 public class User extends BaseEntity {
-	private int id;
-	private String username;
-	private int age;
-	private Date ctm;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public int getAge() {
-		return age;
-	}
-	public void setAge(int age) {
-		this.age = age;
-	}
-	public Date getCtm() {
-		return ctm;
-	}
-	public void setCtm(Date ctm) {
-		this.ctm = ctm;
-	}
-	public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
-
+	private static final long serialVersionUID = 6253394804472191324L;
+	private String userId;
+	private String userName;
+	private String realName;
+	private Short userType;
+	@JSONField(serialize=false)
+	private String pwd;
+	private String descri;
+	private String creator;
+	private String mobile;
+	private Short gender;
+	private String tel;
+	private String email;
+	private String iconOssResourceId;
+	private String org;
+	private String iconImageUrl;
+	@JSONField(serialize=false)
+	private String newPwd;
 }

@@ -16,8 +16,18 @@ zookeeper:
   #address: 127.0.0.1:2181
 dubbo:
   group: user-center
-  port: 20882
+  port: 20881
   version: 1.0
+oss:
+  url: https://shengsu.oss-cn-hangzhou.aliyuncs.com/
+  endpoint: https://oss-cn-hangzhou.aliyuncs.com
+  accessKeyId: LTAISsw5CZys2sER
+  accessKeySecret: 08pkECtJSNKPMwXnsYm3WSqdbkXm8h
+  bucketName: boss-platform-test
+  timeout: 5000
+  expiretime: 60000
+  shengsuBucket: shengsu-test
+  shengsuFileDir: law-news/
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml

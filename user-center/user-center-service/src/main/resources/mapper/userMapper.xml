@@ -3,42 +3,222 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shengsu.user.mapper.UserMapper">
-	<resultMap id="BaseResultMap" type="user" >
+    <!-- Result Map-->
+    <resultMap id="user_result_map" type="user">
     </resultMap>
 
-    <sql id="Base_Column_List" >
-        id, username, age, ctm
-    </sql>
+    <!-- 表中所有列 -->
+    <sql id="user_columns">
+		user.*
+	</sql>
 
-    <select id="getUserById" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
-        SELECT
-        <include refid="Base_Column_List" />
-        FROM user
-        WHERE id = #{id}
+    <!-- 查询条件 -->
+    <sql id="user_where_clause">
+        <where>
+            del_flag = 0
+            <if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
+            <if test="userName != null and  userName != ''"> and user_name= #{userName}</if>
+            <if test="realName != null and  realName != ''"> and real_name like concat('%',#{realName},'%')</if>
+            <if test="tel != null and  tel != ''"> and tel like concat('%',#{tel},'%')</if>
+            <if test="userType != null and  userType != ''"> and user_type= #{userType}</if>
+            <if test="search != null and  search != ''">
+                <bind name="pattern" value="search" />
+                and concat(ifnull(user_name,''),ifnull(tel,''),ifnull(real_name,'')) like concat('%',#{pattern},'%') escape'/'
+            </if>
+        </where>
+    </sql>
+    <!-- 获取用户信息列表 -->
+    <select id="listByPage" parameterType="user" resultMap="user_result_map">
+        <include refid="global.paginationStart_mysql" />
+        select
+        <include refid="user_columns" />
+        from user
+        <include refid="user_where_clause" />
+        order by create_time desc
+        <include refid="global.paginationEnd_mysql" />
     </select>
+
+    <!-- 根据条件获取用户信息列表 -->
+    <select id="listByModel" parameterType="user" resultMap="user_result_map">
+        select
+        <include refid="user_columns" />
+        from user
+        <include refid="user_where_clause" />
+    </select>
+    <!-- 判断用户是否存在 -->
+    <select id="userExistCheck" parameterType="user" resultType="int">
+		select
+			count(1)
+		from
+			user
+		where
+			user_name=#{userName}
+	</select>
+
+    <!-- 新增账户信息 -->
+    <insert id="save" parameterType="user">
+		insert into
+		user
+		(
+			user_id,
+			user_name,
+			real_name,
+			user_type,
+			pwd,
+			descri,
+			creator,
+			create_time,
+			modify_time,
+			mobile,
+			gender,
+			tel,
+			email,
+			icon_oss_resource_id,
+			org
+		)
+		values
+		(
+			#{userId,jdbcType=VARCHAR},
+			#{userName,jdbcType=VARCHAR},
+			#{realName,jdbcType=VARCHAR},
+			#{userType,jdbcType=VARCHAR},
+			#{pwd,jdbcType=VARCHAR},
+			#{descri,jdbcType=VARCHAR},
+			#{creator,jdbcType=VARCHAR},
+			current_timestamp(),
+			current_timestamp(),
+			#{mobile,jdbcType=VARCHAR},
+			#{gender,jdbcType=VARCHAR},
+			#{tel,jdbcType=VARCHAR},
+			#{email,jdbcType=VARCHAR},
+			#{iconOssResourceId,jdbcType=VARCHAR},
+			#{org,jdbcType=VARCHAR}
+		)
+	</insert>
+
+    <!-- 修改用户信息 -->
     <update id="update" parameterType="user">
-    	update 
-    		user
-    	set
-    		username = #{username},
-    		age = #{age},
-    		ctm = #{ctm}
-    	where
-    		id = #{id}
+        update
+        user
+        set
+        <if test="userName != null and  userName != ''">user_name=#{userName,jdbcType=VARCHAR},</if>
+        <if test="realName != null ">real_name=#{realName,jdbcType=VARCHAR},</if>
+        <if test="userType != null and  userType != ''">user_type=#{userType,jdbcType=VARCHAR},</if>
+        <if test="pwd != null and pwd != ''"> pwd=#{pwd,jdbcType=VARCHAR}, </if>
+        <if test="gender != null and  gender != ''">gender=#{gender,jdbcType=VARCHAR},</if>
+        <if test="tel != null ">tel=#{tel,jdbcType=VARCHAR},</if>
+        <if test="descri != null ">descri=#{descri,jdbcType=VARCHAR},</if>
+        <if test="email != null ">email=#{email,jdbcType=VARCHAR},</if>
+        <if test="mobile != null ">mobile=#{mobile,jdbcType=VARCHAR},</if>
+        <if test="iconOssResourceId != null and  iconOssResourceId != ''">icon_oss_resource_id=#{iconOssResourceId,jdbcType=VARCHAR},</if>
+        <if test="org != null ">org=#{org,jdbcType=VARCHAR},</if>
+        modify_time=current_timestamp()
+        where
+        user_id=#{userId}
     </update>
 
-    <select id="get" parameterType="string" resultType="user">
-        select
-          *
-        from
-          user
+    <!-- 删除用户信息 -->
+    <delete id="delete" parameterType="string">
+		delete from
+			user
+		where
+			user_id=#{userId}
+	</delete>
+
+    <!-- 批量删除用户 -->
+    <delete id="batchDelete" parameterType="java.util.List">
+        delete from
+        user
         where
-          id = #{id}
+        user_id in
+        <foreach collection="list" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <!-- 获取一条用户信息 -->
+    <select id="get" parameterType="string" resultMap="user_result_map">
+        select
+        <include refid="user_columns" />
+        from
+        user
+        where
+        user_id=#{userId}
     </select>
-    <insert id="save1">
-        INSERT INTO tb VALUES ("save1")
-            </insert>
-    <insert id="save2">
-INSERT INTO tb VALUES ("save2")
-    </insert>
+
+    <!-- 根据用户名密码获取一条用户信息 -->
+    <select id="getOne" parameterType="user" resultMap="user_result_map">
+        select
+        <include refid="user_columns" />
+        from
+        user
+        where
+        user_name=#{userName} and
+        pwd=#{pwd} and
+        del_flag = 0
+    </select>
+
+    <select id="getMany" parameterType="java.util.List" resultMap="user_result_map">
+        select
+        *
+        from
+        user
+        where
+        del_flag = 0 and
+        user_id in
+        <foreach collection="list" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </select>
+
+    <!-- 获取所有用户数 -->
+    <select id="countAll" resultType="int">
+        select
+        count(1)
+        from
+        user
+        <include refid="user_where_clause" />
+    </select>
+
+    <!-- 获取所有用户信息列表 -->
+    <select id="listAll" resultMap="user_result_map">
+        select
+        <include refid="user_columns" />
+        from
+        user
+        order by
+        user_id desc
+    </select>
+
+    <!-- 软删 -->
+    <update id="softDelete" parameterType="string">
+		update
+			user
+		set
+			del_flag=1
+		where
+			user_id=#{userId}
+	</update>
+
+    <!-- 批量软删 -->
+    <update id="batchSoftDelete" parameterType="java.util.List">
+        update
+        user
+        set
+        del_flag=1
+        where
+        user_id in
+        <foreach collection="list" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </update>
+    <select id="userExistCheckExceptSelf" parameterType="user" resultType="int">
+		select
+			count(1)
+		from
+			user
+		where
+			user_name=#{userName} and
+			<![CDATA[ user_id <> #{userId} ]]>
+    </select>
 </mapper>
