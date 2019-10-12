@@ -87,6 +87,6 @@ public class StsServiceImpl implements StsService {
         } catch (ClientException e) {
             e.printStackTrace();
         }
-        return null;
+        return securityToken;
     }
 }
