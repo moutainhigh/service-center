@@ -50,8 +50,8 @@ public class BenchLawyerServiceImpl extends BaseServiceImpl<BenchLawyer, String>
     public BenchLawyer selectById(Long id) {
         BenchLawyer benchLawyer = lawyerMapper.selectById(id);
         if (benchLawyer != null && StringUtils.isNoneBlank(benchLawyer.getPortraitOssId())) {
-            benchLawyer.setPortraitOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_FILEDIR, benchLawyer.getPortraitOssId()));
-            benchLawyer.setHeadOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_FILEDIR, benchLawyer.getHeadOssId()));
+            benchLawyer.setPortraitOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_LAWYER_FILEDIR, benchLawyer.getPortraitOssId()));
+            benchLawyer.setHeadOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_LAWYER_FILEDIR, benchLawyer.getHeadOssId()));
         }
         return benchLawyer;
     }
@@ -63,10 +63,10 @@ public class BenchLawyerServiceImpl extends BaseServiceImpl<BenchLawyer, String>
         for (BenchLawyer lawyer :
                 lawyers) {
             String portraitOssId = lawyer.getPortraitOssId();
-            lawyer.setPortraitOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_FILEDIR, portraitOssId));
+            lawyer.setPortraitOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_LAWYER_FILEDIR, portraitOssId));
 
             String headOssId = lawyer.getHeadOssId();
-            lawyer.setHeadOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_FILEDIR, headOssId));
+            lawyer.setHeadOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_LAWYER_FILEDIR, headOssId));
         }
         return lawyers;
     }

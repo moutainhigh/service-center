@@ -87,11 +87,11 @@ public class BenchLawyerUtils {
             BenchLawyer benchLawyer = new BenchLawyer();
             benchLawyer.setName(StringUtil.ToLikeStr(lawyerListPageVo.getName()));
             benchLawyer.setIsGoldMedal(lawyerListPageVo.getIsGoldMedal());
-            benchLawyer.setTypes(lawyerListPageVo.getType() + "");
             Integer page = lawyerListPageVo.getPage();
             benchLawyer.setPage(page == null ? 1 : page);
             Integer pageSize = lawyerListPageVo.getPageSize();
             benchLawyer.setPageSize(pageSize == null ? 10 : pageSize);
+            benchLawyer.setTypes(lawyerListPageVo.getType() == null ? null : lawyerListPageVo.getType() + "");
             return benchLawyer;
         }
         return null;
