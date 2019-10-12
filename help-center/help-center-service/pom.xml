@@ -28,7 +28,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>user-center-service</finalName>
+        <finalName>help-center-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
