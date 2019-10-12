@@ -25,6 +25,9 @@ oss:
   bucketName: shengsu-test
   timeout: 5000
   expiretime: 60000
+sts:
+  roleArn: acs:ram::1476735593452953:role/sts-oss
+  roleSessionName: yuanshou-website-platform
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
