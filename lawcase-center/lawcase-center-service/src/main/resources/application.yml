@@ -35,9 +35,7 @@ oss:
   endpoint: https://oss-cn-hangzhou.aliyuncs.com
   accessKeyId: LTAISsw5CZys2sER
   accessKeySecret: 08pkECtJSNKPMwXnsYm3WSqdbkXm8h
-  bucketName: boss-platform-test
+  bucketName: shengsu-test
   filedir:
   timeout: 5000
   expiretime: 60000
-  shengsuBucket: shengsu-test
-  shengsuFileDir: law-news/
