@@ -19,7 +19,4 @@
     <dubbo:service interface="com.shengsu.helper.service.OssService" ref="ossService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.helper.service.StsService" ref="stsService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 
-    <!--具体实现该接口的 bean-->
-    <bean id="ossService" class="com.shengsu.helper.impl.OssServiceImpl"/>
-    <bean id="stsService" class="com.shengsu.helper.impl.StsServiceImpl"/>
 </beans>
