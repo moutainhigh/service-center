@@ -28,9 +28,9 @@ oss:
 sts:
   roleArn: acs:ram::1476735593452953:role/sts-oss
   roleSessionName: yuanshou-website-platform
-mybatis:
-  config-location: classpath:mybatis-config.xml
-  mapper-locations: classpath:mapper/*.xml
-  typeAliasesPackage: com.shengsu.*.model
+#mybatis:
+#  config-location: classpath:mybatis-config.xml
+#  mapper-locations: classpath:mapper/*.xml
+#  typeAliasesPackage: com.shengsu.*.model
 logging:
   file: logs/user-center-service.log

@@ -1,7 +1,7 @@
 package com.shengsu.helper.service;
 
 
-public interface OssService {
+public interface OssService{
 
     String getUrl(String filedir, String key);
 }

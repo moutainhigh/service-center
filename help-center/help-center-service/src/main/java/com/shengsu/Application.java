@@ -17,8 +17,12 @@ public class Application {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
-		SpringApplication.run(Application.class, args);
+		try {
+			TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
+			SpringApplication.run(Application.class, args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
