@@ -1,5 +1,5 @@
 server:
-  port: 9092
+  port: 9099
   session-timeout: 30
   tomcat.max-threads: 0
   tomcat.uri-encoding: UTF-8
@@ -15,7 +15,7 @@ zookeeper:
   address: 192.168.1.52:2181
 dubbo:
   group: help-center
-  port: 20881
+  port: 20884
   version: 1.0
 oss:
   endpoint: https://oss-cn-hangzhou.aliyuncs.com
