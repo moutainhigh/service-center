@@ -22,6 +22,10 @@ public class UserServiceImpl extends BaseServiceImpl<User,String> implements Use
 
 	@Autowired
 	OssClientUtil ossClientUtil ;
+
+	//0SS文件路径
+	private final static String fileDir = "user-center";
+
 	@Override
 	public BaseMapper<User, String> getBaseMapper() {
 		return userMapper;
@@ -47,7 +51,7 @@ public class UserServiceImpl extends BaseServiceImpl<User,String> implements Use
 	public void assembleUserIconImageUrl(User user) {
 		if (user == null)
 			return;
-		user.setIconImageUrl(ossClientUtil.getUrl(user.getIconOssResourceId()));
+		user.setIconImageUrl(ossClientUtil.getUrl(fileDir,user.getIconOssResourceId()));
 	}
 
 	@Override
