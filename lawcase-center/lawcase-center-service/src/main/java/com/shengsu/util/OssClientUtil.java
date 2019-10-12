@@ -38,16 +38,16 @@ import java.util.zip.ZipOutputStream;
 public class OssClientUtil {
  
 	public static final Logger logger = LoggerFactory.getLogger(com.shengsu.util.OssClientUtil.class);
-	@Value("${oss.endpoint:}")
+	@Value("${oss.endpoint}")
 	private String endpoint;
-	@Value("${oss.accessKeyId:}")
+	@Value("${oss.accessKeyId}")
 	private String accessKeyId;
-	@Value("${oss.accessKeySecret:}")
+	@Value("${oss.accessKeySecret}")
 	private String accessKeySecret;
-	@Value("${oss.bucketName:}")
+	@Value("${oss.bucketName}")
 	private String bucketName;
 	// 文件存储目录
-	@Value("${oss.filedir:}")
+	@Value("${oss.filedir}")
 	private String filedir;
  
 	private OSSClient ossClient;

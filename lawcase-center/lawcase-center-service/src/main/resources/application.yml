@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/lawyer-platform?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: 1234
+    password: root
   aop:
     proxy-target-class: true
 zookeeper:
@@ -30,3 +30,14 @@ management:
   health:
     redis:
       enabled: false
+oss:
+  url: https://shengsu.oss-cn-hangzhou.aliyuncs.com/
+  endpoint: https://oss-cn-hangzhou.aliyuncs.com
+  accessKeyId: LTAISsw5CZys2sER
+  accessKeySecret: 08pkECtJSNKPMwXnsYm3WSqdbkXm8h
+  bucketName: boss-platform-test
+  filedir:
+  timeout: 5000
+  expiretime: 60000
+  shengsuBucket: shengsu-test
+  shengsuFileDir: law-news/
