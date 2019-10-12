@@ -6,9 +6,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/log-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: 1234
+    url: jdbc:mysql://rm-bp1o00hl21xvv5eq7no.mysql.rds.aliyuncs.com:3306/log-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: dev
+    password: 'ss123456!@'
   aop:
     proxy-target-class: true
 zookeeper:
@@ -34,7 +34,7 @@ rocketmq:
     isOnOff: on
     groupName: logGroup
     #mq的nameserver地址
-    namesrvAddr: 192.168.1.52:9876
+    namesrvAddr: 127.0.0.1:9876
     logBusiness:
       topic: logBusinessTopic
       tag: logBusinessTag
