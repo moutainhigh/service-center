@@ -25,6 +25,8 @@ public class BenchLawyer extends BaseEntity {
 
     private String majorExperience;
 
+    private String  position;
+
     private String representativeCase;
 
     private Integer isGoldMedal;

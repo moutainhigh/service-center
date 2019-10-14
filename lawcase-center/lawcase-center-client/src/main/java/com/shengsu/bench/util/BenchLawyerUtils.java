@@ -26,6 +26,7 @@ public class BenchLawyerUtils {
             benchLawyer.setName(lawyerCreateVo.getName());
             benchLawyer.setField(lawyerCreateVo.getField());
             benchLawyer.setMajorExperience(lawyerCreateVo.getMajorExperience());
+            benchLawyer.setPosition(lawyerCreateVo.getPosition());
             List<String> representativeCaseList = lawyerCreateVo.getRepresentativeCaseList();
             if (representativeCaseList != null && !representativeCaseList.isEmpty()) {
                 benchLawyer.setRepresentativeCase(JSON.toJSONString(representativeCaseList));
@@ -48,6 +49,7 @@ public class BenchLawyerUtils {
             benchLawyer.setName(lawyerUpdateVo.getName());
             benchLawyer.setField(lawyerUpdateVo.getField());
             benchLawyer.setMajorExperience(lawyerUpdateVo.getMajorExperience());
+            benchLawyer.setPosition(lawyerUpdateVo.getPosition());
             if (lawyerUpdateVo.getRepresentativeCaseList() != null) {
                 benchLawyer.setRepresentativeCase(JSON.toJSONString(lawyerUpdateVo.getRepresentativeCaseList()));
             }
@@ -71,6 +73,7 @@ public class BenchLawyerUtils {
             lawyerQueryPo.setName(lawyer.getName());
             lawyerQueryPo.setField(lawyer.getField());
             lawyerQueryPo.setMajorExperience(lawyer.getMajorExperience());
+            lawyerQueryPo.setPosition(lawyer.getPosition());
             if (lawyer.getRepresentativeCase() != null) {
                 lawyerQueryPo.setRepresentativeCaseList(JSONArray.parseArray(lawyer.getRepresentativeCase(), String.class));
             }
@@ -112,6 +115,7 @@ public class BenchLawyerUtils {
                 lawyerQueryPo.setName(lawyer.getName());
                 lawyerQueryPo.setField(lawyer.getField());
                 lawyerQueryPo.setMajorExperience(lawyer.getMajorExperience());
+                lawyerQueryPo.setPosition(lawyer.getPosition());
                 if (lawyer.getRepresentativeCase() != null) {
                     lawyerQueryPo.setRepresentativeCaseList(JSONArray.parseArray(lawyer.getRepresentativeCase(), String.class));
                 }

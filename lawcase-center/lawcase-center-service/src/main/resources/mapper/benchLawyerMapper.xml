@@ -39,6 +39,7 @@
 		is_top,
 		weight,
 		types,
+		position,
 		del_flag,
 		create_time,
 		modify_time
@@ -55,6 +56,7 @@
 		#{isTop},
 		#{weight},
 		#{types},
+		#{position},
 		0,
 		current_timestamp(),
 		current_timestamp()
@@ -90,6 +92,7 @@
 			is_gold_medal = #{isGoldMedal},
 			weight = #{weight},
 			types=#{types},
+			position=#{position},
 			modify_time = current_timestamp()
 		</set>
 		WHERE id = #{id} AND  del_flag = 0

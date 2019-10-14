@@ -23,12 +23,16 @@ public class BenchLawyerCreateVo {
     @NotBlank
     private String majorExperience;
 
+    private String position;
+
     @NotNull
     private Integer isGoldMedal;
     @NotNull
     private Integer isTop;
 
     private Double weight;
+
+
 
     private List<Integer> typeList;
 

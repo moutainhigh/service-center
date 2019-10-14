@@ -24,6 +24,9 @@ public class BenchLawyerUpdateVo {
     private String field;
     @NotBlank
     private String majorExperience;
+
+    private String position;
+
     @NotNull
     private Integer isGoldMedal;
     @NotNull

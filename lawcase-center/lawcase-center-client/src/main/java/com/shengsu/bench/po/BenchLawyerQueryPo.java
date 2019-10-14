@@ -19,6 +19,8 @@ public class BenchLawyerQueryPo {
 
     private String majorExperience;
 
+    private String position;
+
     private Double weight;
 
     private Integer isGoldMedal;
