@@ -45,14 +45,14 @@
         from user
         <include refid="user_where_clause" />
     </select>
-    <!-- 判断用户是否存在 -->
-    <select id="userExistCheck" parameterType="user" resultType="int">
+
+    <select id="selectbyUserName" parameterType="string" resultType="user">
 		select
-			count(1)
+        <include refid="user_columns" />
 		from
 			user
 		where
-			user_name=#{userName}
+			user_name=#{userName} limit 1
 	</select>
 
     <!-- 新增账户信息 -->
@@ -212,13 +212,4 @@
             #{userId}
         </foreach>
     </update>
-    <select id="userExistCheckExceptSelf" parameterType="user" resultType="int">
-		select
-			count(1)
-		from
-			user
-		where
-			user_name=#{userName} and
-			<![CDATA[ user_id <> #{userId} ]]>
-    </select>
 </mapper>
