@@ -15,12 +15,11 @@ public interface UserService extends BaseService<User,String> {
 
     ResultBean listPage(User user);
 
-    void create(UserCreateVo userCreateVo) throws IOException, BizException;
+    ResultBean create(UserCreateVo userCreateVo) throws IOException;
 
-    void edit(UserEditVo userEditVo) throws BizException, IOException;
+    ResultBean edit(UserEditVo userEditVo) throws IOException;
 
-    void updatePwd(UserUpdatePwdVo userUpdatePwdVo) throws IOException, BizException;
-
+    ResultBean updatePwd(UserUpdatePwdVo userUpdatePwdVo)throws IOException;
 
 
 }

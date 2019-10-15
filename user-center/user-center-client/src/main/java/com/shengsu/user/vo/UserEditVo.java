@@ -4,17 +4,16 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * Created by zyc on 2019/10/14.
  */
 @Data
-public class UserEditVo {
+public class UserEditVo implements Serializable {
 
     @NotBlank
     private String userId;
-    @NotBlank
-    private String userName;
     @NotBlank
     private String realName;
     @NotNull

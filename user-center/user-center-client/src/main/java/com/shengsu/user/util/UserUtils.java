@@ -5,6 +5,7 @@ import com.shengsu.user.po.UserDetailsPo;
 import com.shengsu.user.vo.UserCreateVo;
 import com.shengsu.user.vo.UserEditVo;
 import com.shengsu.user.vo.UserLoginVo;
+import com.shengsu.user.vo.UserUpdatePwdVo;
 import com.shengsu.util.EncryptUtil;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class UserUtils {
         }
         return null;
     }
+
     public static User toUser(UserCreateVo userCreateVo) throws IOException {
         if (userCreateVo != null) {
             User user = new User();
@@ -43,11 +45,11 @@ public class UserUtils {
         }
         return null;
     }
+
     public static User toUser(UserEditVo userEditVo) throws IOException {
         if (userEditVo != null) {
             User user = new User();
-            user.setUserId(user.getUserId());
-            user.setUserName(userEditVo.getUserName());
+            user.setUserId(userEditVo.getUserId());
             user.setRealName(userEditVo.getRealName());
             user.setUserType(userEditVo.getUserType());
             user.setDescri(userEditVo.getDescri());
@@ -62,6 +64,7 @@ public class UserUtils {
         }
         return null;
     }
+
     public static UserDetailsPo toUserDetailsPo(User user) {
         if (user != null) {
             UserDetailsPo detailsPo = new UserDetailsPo();
@@ -81,17 +84,18 @@ public class UserUtils {
         return null;
     }
 
-    public static List<UserDetailsPo> toUserDetailsPos(List<User> users){
+    public static List<UserDetailsPo> toUserDetailsPos(List<User> users) {
         if (users != null) {
             List<UserDetailsPo> userDetailsPos = new ArrayList<>();
-            for (User user:
-            users) {
+            for (User user :
+                    users) {
                 userDetailsPos.add(toUserDetailsPo(user));
             }
             return userDetailsPos;
         }
         return null;
     }
+
     public static Map<String, User> toUserMap(List<User> users) {
         if (users != null) {
             Map<String, User> userMap = new HashMap<>();
