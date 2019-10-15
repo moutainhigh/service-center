@@ -18,13 +18,6 @@ dubbo:
   group: user-center
   port: 20882
   version: 1.0
-oss:
-  endpoint: https://oss-cn-hangzhou.aliyuncs.com
-  accessKeyId: LTAISsw5CZys2sER
-  accessKeySecret: 08pkECtJSNKPMwXnsYm3WSqdbkXm8h
-  bucketName: boss-platform-test
-  timeout: 5000
-  expiretime: 60000
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml

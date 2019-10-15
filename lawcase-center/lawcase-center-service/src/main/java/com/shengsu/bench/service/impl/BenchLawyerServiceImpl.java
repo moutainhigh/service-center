@@ -3,19 +3,11 @@ package com.shengsu.bench.service.impl;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.bench.constant.BenchConstant;
-import com.shengsu.bench.entity.BenchJournalism;
 import com.shengsu.bench.entity.BenchLawyer;
-import com.shengsu.bench.mapper.BenchJournalismMapper;
 import com.shengsu.bench.mapper.BenchLawyerMapper;
-import com.shengsu.bench.po.BenchLawyerQueryPo;
-import com.shengsu.bench.service.BenchJournalismService;
 import com.shengsu.bench.service.BenchLawyerService;
-import com.shengsu.bench.vo.BenchLawyerCreateVo;
-import com.shengsu.bench.vo.BenchLawyerDeleteVo;
-import com.shengsu.bench.vo.BenchLawyerQueryVo;
-import com.shengsu.bench.vo.BenchLawyerUpdateVo;
-import com.shengsu.util.OssClientUtil;
-import lombok.Data;
+import com.shengsu.helper.constant.OssConstant;
+import com.shengsu.helper.service.OssService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +25,7 @@ public class BenchLawyerServiceImpl extends BaseServiceImpl<BenchLawyer, String>
     private BenchLawyerMapper lawyerMapper;
 
     @Autowired
-    OssClientUtil ossClientUtil;
+    OssService ossService;
 
 
     @Override
@@ -50,8 +42,8 @@ public class BenchLawyerServiceImpl extends BaseServiceImpl<BenchLawyer, String>
     public BenchLawyer selectById(Long id) {
         BenchLawyer benchLawyer = lawyerMapper.selectById(id);
         if (benchLawyer != null && StringUtils.isNoneBlank(benchLawyer.getPortraitOssId())) {
-            benchLawyer.setPortraitOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_LAWYER_FILEDIR, benchLawyer.getPortraitOssId()));
-            benchLawyer.setHeadOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_LAWYER_FILEDIR, benchLawyer.getHeadOssId()));
+            benchLawyer.setPortraitOssUrl(ossService.getUrl(OssConstant.OSS_LAWYER_FILEDIR, benchLawyer.getPortraitOssId()));
+            benchLawyer.setHeadOssUrl(ossService.getUrl(OssConstant.OSS_LAWYER_FILEDIR, benchLawyer.getHeadOssId()));
         }
         return benchLawyer;
     }
@@ -63,10 +55,10 @@ public class BenchLawyerServiceImpl extends BaseServiceImpl<BenchLawyer, String>
         for (BenchLawyer lawyer :
                 lawyers) {
             String portraitOssId = lawyer.getPortraitOssId();
-            lawyer.setPortraitOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_LAWYER_FILEDIR, portraitOssId));
+            lawyer.setPortraitOssUrl(ossService.getUrl(OssConstant.OSS_LAWYER_FILEDIR, portraitOssId));
 
             String headOssId = lawyer.getHeadOssId();
-            lawyer.setHeadOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_LAWYER_FILEDIR, headOssId));
+            lawyer.setHeadOssUrl(ossService.getUrl(OssConstant.OSS_LAWYER_FILEDIR, headOssId));
         }
         return lawyers;
     }

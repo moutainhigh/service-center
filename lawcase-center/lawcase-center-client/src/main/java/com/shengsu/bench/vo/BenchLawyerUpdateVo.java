@@ -29,7 +29,7 @@ public class BenchLawyerUpdateVo {
 
     @NotNull
     private Integer isGoldMedal;
-    @NotNull
+
     private Integer isTop;
 
     private Double weight;

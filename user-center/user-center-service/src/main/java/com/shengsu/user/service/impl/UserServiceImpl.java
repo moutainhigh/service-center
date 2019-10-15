@@ -2,7 +2,6 @@ package com.shengsu.user.service.impl;
 
 import com.shengsu.app.constant.ResultBean;
 import com.shengsu.app.constant.ResultCode;
-import com.shengsu.app.util.OssClientUtil;
 import com.shengsu.app.util.ResultUtil;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
@@ -17,7 +16,6 @@ import com.shengsu.user.vo.UserUpdateEmailVo;
 import com.shengsu.user.vo.UserUpdatePwdVo;
 import com.shengsu.util.EncryptUtil;
 import com.shengsu.util.StringUtil;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +28,6 @@ import java.util.Map;
 public class UserServiceImpl extends BaseServiceImpl<User, String> implements UserService {
     @Autowired
     UserMapper userMapper;
-
-    @Autowired
-    OssClientUtil ossClientUtil;
 
     @Override
     public BaseMapper<User, String> getBaseMapper() {

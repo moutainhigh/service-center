@@ -18,14 +18,13 @@
         </dependency>
         <dependency>
             <groupId>com.shengsu</groupId>
-            <artifactId>common-web</artifactId>
+            <artifactId>help-center-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!-- oss -->
         <dependency>
-            <groupId>com.aliyun.oss</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-            <version>2.7.0</version>
+            <groupId>com.shengsu</groupId>
+            <artifactId>common-web</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>

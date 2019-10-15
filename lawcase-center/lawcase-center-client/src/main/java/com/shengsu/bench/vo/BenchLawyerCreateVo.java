@@ -27,7 +27,7 @@ public class BenchLawyerCreateVo {
 
     @NotNull
     private Integer isGoldMedal;
-    @NotNull
+
     private Integer isTop;
 
     private Double weight;

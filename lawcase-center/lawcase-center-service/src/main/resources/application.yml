@@ -30,12 +30,3 @@ management:
   health:
     redis:
       enabled: false
-oss:
-  url: https://shengsu.oss-cn-hangzhou.aliyuncs.com/
-  endpoint: https://oss-cn-hangzhou.aliyuncs.com
-  accessKeyId: LTAISsw5CZys2sER
-  accessKeySecret: 08pkECtJSNKPMwXnsYm3WSqdbkXm8h
-  bucketName: shengsu-test
-  filedir:
-  timeout: 5000
-  expiretime: 60000

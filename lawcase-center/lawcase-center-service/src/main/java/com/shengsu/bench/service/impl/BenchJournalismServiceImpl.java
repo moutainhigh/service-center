@@ -6,7 +6,8 @@ import com.shengsu.bench.constant.BenchConstant;
 import com.shengsu.bench.entity.BenchJournalism;
 import com.shengsu.bench.mapper.BenchJournalismMapper;
 import com.shengsu.bench.service.BenchJournalismService;
-import com.shengsu.util.OssClientUtil;
+import com.shengsu.helper.constant.OssConstant;
+import com.shengsu.helper.service.OssService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
     private BenchJournalismMapper benchJournalismMapper;
 
     @Autowired
-    OssClientUtil ossClientUtil;
+    OssService ossService;
 
     @Override
     public BaseMapper<BenchJournalism, String> getBaseMapper() {
@@ -52,7 +53,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
         for (BenchJournalism benchJournalism :
                 journalismList) {
             String pictureOssId = benchJournalism.getPictureOssId();
-            benchJournalism.setPictureOssUrl(ossClientUtil.getUrl(BenchConstant.OSS_FILEDIR, pictureOssId));
+            benchJournalism.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_FILEDIR, pictureOssId));
         }
         return journalismList;
     }
@@ -92,7 +93,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
             return null;
         }
 
-        String url = ossClientUtil.getUrl(BenchConstant.OSS_FILEDIR, journalism.getPictureOssId());
+        String url = ossService.getUrl(OssConstant.OSS_FILEDIR, journalism.getPictureOssId());
         journalism.setPictureOssUrl(url);
         return journalism;
     }
@@ -104,7 +105,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
             return null;
         }
 
-        String url = ossClientUtil.getUrl(BenchConstant.OSS_FILEDIR, journalism.getPictureOssId());
+        String url = ossService.getUrl(OssConstant.OSS_FILEDIR, journalism.getPictureOssId());
         journalism.setPictureOssUrl(url);
         return journalism;
     }
