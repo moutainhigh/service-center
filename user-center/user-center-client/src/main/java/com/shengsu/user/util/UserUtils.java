@@ -79,6 +79,7 @@ public class UserUtils {
             detailsPo.setMobile(user.getMobile());
             detailsPo.setIconOssResourceId(user.getIconOssResourceId());
             detailsPo.setOrg(user.getOrg());
+            detailsPo.setCreateTime(user.getCreateTime());
             return detailsPo;
         }
         return null;
