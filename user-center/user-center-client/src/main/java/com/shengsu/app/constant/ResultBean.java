@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author zxh
  *
  */
-public class ResultBean implements Serializable
+public class ResultBean<T> implements Serializable
 {
     /**
      * @Fields serialVersionUID : 序列号
@@ -33,12 +33,12 @@ public class ResultBean implements Serializable
     /**
      * 内容体
      */
-    private Object body;
+    private T body;
 
     public ResultBean() {
 	}
     public ResultBean(boolean success, Integer resultCode, String resultMsg,
-                      Object body) {
+                      T body) {
     	this.success = success;
     	this.resultCode = resultCode;
     	this.resultMsg = resultMsg;
@@ -81,7 +81,7 @@ public class ResultBean implements Serializable
     /**
      * @return body
      */
-    public Object getBody()
+    public T getBody()
     {
         return body;
     }
@@ -89,7 +89,7 @@ public class ResultBean implements Serializable
     /**
      * @param body 要设置的 body
      */
-    public void setBody(Object body)
+    public void setBody(T body)
     {
         this.body = body;
     }

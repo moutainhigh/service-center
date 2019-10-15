@@ -5,15 +5,14 @@ import com.shengsu.app.constant.ResultCode;
 import com.shengsu.app.util.ResultUtil;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.helper.constant.OssConstant;
+import com.shengsu.helper.service.OssService;
 import com.shengsu.user.entity.User;
 import com.shengsu.user.mapper.UserMapper;
 import com.shengsu.user.po.UserDetailsPo;
 import com.shengsu.user.service.UserService;
 import com.shengsu.user.util.UserUtils;
-import com.shengsu.user.vo.UserCreateVo;
-import com.shengsu.user.vo.UserEditVo;
-import com.shengsu.user.vo.UserUpdateEmailVo;
-import com.shengsu.user.vo.UserUpdatePwdVo;
+import com.shengsu.user.vo.*;
 import com.shengsu.util.EncryptUtil;
 import com.shengsu.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,9 @@ import java.util.Map;
 @Service("userService")
 public class UserServiceImpl extends BaseServiceImpl<User, String> implements UserService {
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
+    @Autowired
+    private OssService ossService;
 
     @Override
     public BaseMapper<User, String> getBaseMapper() {
@@ -63,10 +64,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public ResultBean edit(UserEditVo userEditVo) throws IOException {
+    public ResultBean<UserDetailsPo> edit(UserEditVo userEditVo) throws IOException {
         User user = UserUtils.toUser(userEditVo);
         userMapper.update(user);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+        userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR,user.getIconOssResourceId()));
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, userDetailsPo);
     }
 
     @Override
@@ -101,5 +104,20 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         user.setEmail(email);
         userMapper.update(user);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+    }
+
+    @Override
+    public ResultBean<UserDetailsPo> login(UserLoginVo loginUser) throws IOException {
+
+
+        User user = UserUtils.toUser(loginUser);
+        user = userMapper.getOne(user);
+        if (user == null) {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_LOGIN_USERNAME_PASSWROD_ERROR, null);
+        }
+
+        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+        userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR,user.getIconOssResourceId()));
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, userDetailsPo);
     }
 }
