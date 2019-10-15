@@ -13,6 +13,7 @@ import com.shengsu.user.service.UserService;
 import com.shengsu.user.util.UserUtils;
 import com.shengsu.user.vo.UserCreateVo;
 import com.shengsu.user.vo.UserEditVo;
+import com.shengsu.user.vo.UserUpdateEmailVo;
 import com.shengsu.user.vo.UserUpdatePwdVo;
 import com.shengsu.util.EncryptUtil;
 import com.shengsu.util.StringUtil;
@@ -88,6 +89,21 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         }
         String newPwd = userUpdatePwdVo.getNewPwd();
         user.setPwd(EncryptUtil.encryptMD5(newPwd));
+        userMapper.update(user);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+    }
+
+    @Override
+    public ResultBean updateEmail(UserUpdateEmailVo userUpdateEmailVo) {
+
+        String userId = userUpdateEmailVo.getUserId();
+        User user = userMapper.get(userId);
+        if (user == null) {
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_PARAM_ERROR, null);
+        }
+
+        String email = userUpdateEmailVo.getEmail();
+        user.setEmail(email);
         userMapper.update(user);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
