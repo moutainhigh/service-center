@@ -97,7 +97,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             Date exp = new Date(System.currentTimeMillis() + INVALID_TIME);
             Auth auth = new Auth(iat.getTime(), exp.getTime(), token, user);
             String cacheKey = getCacheKey(token);
-            redisTemplate.opsForValue().set(cacheKey, auth, INVALID_TIME, TimeUnit.MILLISECONDS);
+            redisTemplate.opsForValue().set(cacheKey, auth, INVALID_TIME, TimeUnit.SECONDS);
         }
     }
 
