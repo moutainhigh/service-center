@@ -16,11 +16,15 @@ public interface UserService extends BaseService<User,String> {
 
     ResultBean create(UserCreateVo userCreateVo) throws IOException;
 
-    ResultBean<UserDetailsPo> edit(UserEditVo userEditVo) throws IOException;
+    ResultBean edit(UserEditVo userEditVo) throws IOException;
 
     ResultBean updatePwd(UserUpdatePwdVo userUpdatePwdVo)throws IOException;
 
     ResultBean updateEmail(UserUpdateEmailVo userUpdateEmailVo);
 
-    ResultBean<UserDetailsPo> login(UserLoginVo loginUser) throws IOException;
+    ResultBean login(UserLoginVo loginUser) throws IOException;
+
+    ResultBean logout(String token);
+
+    ResultBean getUserBytoken(String token);
 }

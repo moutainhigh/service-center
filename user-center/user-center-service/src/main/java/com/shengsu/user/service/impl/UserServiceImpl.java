@@ -10,11 +10,13 @@ import com.shengsu.helper.service.OssService;
 import com.shengsu.user.entity.User;
 import com.shengsu.user.mapper.UserMapper;
 import com.shengsu.user.po.UserDetailsPo;
+import com.shengsu.user.service.AuthorizedService;
 import com.shengsu.user.service.UserService;
 import com.shengsu.user.util.UserUtils;
 import com.shengsu.user.vo.*;
 import com.shengsu.util.EncryptUtil;
 import com.shengsu.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     private UserMapper userMapper;
     @Autowired
     private OssService ossService;
+    @Autowired
+    private AuthorizedService authorizedService;
 
     @Override
     public BaseMapper<User, String> getBaseMapper() {
@@ -56,7 +60,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         String userName = userCreateVo.getUserName();
         User userNew = userMapper.selectbyUserName(userName);
         if (userNew != null) {
-            return ResultUtil.formResult(true, ResultCode.EXCEPTION_REGISTER_USER_EXISTED, null);
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_REGISTER_USER_EXISTED);
         }
         User user = UserUtils.toUser(userCreateVo);
         userMapper.save(user);
@@ -64,12 +68,25 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public ResultBean<UserDetailsPo> edit(UserEditVo userEditVo) throws IOException {
-        User user = UserUtils.toUser(userEditVo);
+    public ResultBean edit(UserEditVo userEditVo) throws IOException {
+
+        String userId = userEditVo.getUserId();
+        User user = userMapper.get(userId);
+        if (user == null) {
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_REGISTER_USER_NOT_EXISTED);
+        }
+
+        user = UserUtils.toUser(userEditVo);
         userMapper.update(user);
-        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
-        userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR,user.getIconOssResourceId()));
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, userDetailsPo);
+        String token = userEditVo.getToken();
+        if (StringUtils.isNoneBlank(token)) {
+            UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+            userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIconOssResourceId()));
+            authorizedService.flushUserToken(userDetailsPo, token);
+        }
+
+
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
     @Override
@@ -78,17 +95,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         String userId = userUpdatePwdVo.getUserId();
         User user = userMapper.get(userId);
         if (user == null) {
-            return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_PARAM_ERROR, null);
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_PARAM_ERROR);
         }
 
         String pwd = userUpdatePwdVo.getPwd();
         if (!(EncryptUtil.encryptMD5(pwd).equals(user.getPwd()))) {
-            return ResultUtil.formResult(true, ResultCode.EXCEPTION_USER_PASSWROD_DISAFFINITY, null);
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_USER_PASSWROD_DISAFFINITY);
         }
         String newPwd = userUpdatePwdVo.getNewPwd();
         user.setPwd(EncryptUtil.encryptMD5(newPwd));
         userMapper.update(user);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
     @Override
@@ -97,27 +114,55 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         String userId = userUpdateEmailVo.getUserId();
         User user = userMapper.get(userId);
         if (user == null) {
-            return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_PARAM_ERROR, null);
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_PARAM_ERROR);
         }
 
         String email = userUpdateEmailVo.getEmail();
         user.setEmail(email);
         userMapper.update(user);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
     @Override
-    public ResultBean<UserDetailsPo> login(UserLoginVo loginUser) throws IOException {
+    public ResultBean login(UserLoginVo loginUser) throws IOException {
 
 
         User user = UserUtils.toUser(loginUser);
         user = userMapper.getOne(user);
         if (user == null) {
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_LOGIN_USERNAME_PASSWROD_ERROR, null);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_LOGIN_USERNAME_PASSWROD_ERROR);
         }
 
         UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
-        userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR,user.getIconOssResourceId()));
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, userDetailsPo);
+        userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIconOssResourceId()));
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("user", userDetailsPo);
+        resultMap.put("token", authorizedService.generateToken(userDetailsPo));
+
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
+    }
+
+    public ResultBean logout(String token) {
+        if (token == null) {
+            ResultUtil.formResult(false, ResultCode.FAIL, null);
+        }
+        authorizedService.destoryToken(token);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
+
+    @Override
+    public ResultBean getUserBytoken(String token) {
+        if (token == null) {
+            ResultUtil.formResult(false, ResultCode.FAIL, null);
+        }
+        UserDetailsPo user = authorizedService.getUserByToken(token);
+        if (user == null) {
+            return ResultUtil.formResult(false, ResultCode.FAIL, null);
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("user", user);
+        result.put("token", token);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
     }
 }

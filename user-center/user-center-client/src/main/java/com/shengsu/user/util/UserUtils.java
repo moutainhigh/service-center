@@ -50,6 +50,7 @@ public class UserUtils {
         if (userEditVo != null) {
             User user = new User();
             user.setUserId(userEditVo.getUserId());
+            user.setUserName(userEditVo.getUserName());
             user.setRealName(userEditVo.getRealName());
             user.setUserType(userEditVo.getUserType());
             user.setDescri(userEditVo.getDescri());
@@ -84,6 +85,7 @@ public class UserUtils {
         }
         return null;
     }
+
 
     public static List<UserDetailsPo> toUserDetailsPos(List<User> users) {
         if (users != null) {

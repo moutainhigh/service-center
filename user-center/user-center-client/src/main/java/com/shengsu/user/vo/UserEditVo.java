@@ -14,6 +14,7 @@ public class UserEditVo implements Serializable {
 
     @NotBlank
     private String userId;
+    private String userName;
     @NotBlank
     private String realName;
     @NotNull
@@ -27,4 +28,6 @@ public class UserEditVo implements Serializable {
     private String email;
     private String iconOssResourceId;
     private String org;
+    //制定刷新的token
+    private String token;
 }

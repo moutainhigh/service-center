@@ -14,9 +14,13 @@ import java.util.HashMap;
  *
  */
 public class ResultUtil implements Serializable {
-public static ResultBean formResult(boolean success, ResultCode resultCode, Object body){
-	return new ResultBean(success, resultCode.getCode(), resultCode.getResultMessage(), body);
-}
+
+	public static ResultBean formResult(boolean success, ResultCode resultCode) {
+		return new ResultBean(success, resultCode.getCode(), resultCode.getResultMessage());
+	}
+	public static ResultBean formResult(boolean success, ResultCode resultCode, Object body) {
+		return new ResultBean(success, resultCode.getCode(), resultCode.getResultMessage(), body);
+	}
 	/**
 	 * 转换空值返回结构
 	 * @return

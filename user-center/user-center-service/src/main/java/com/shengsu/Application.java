@@ -13,6 +13,7 @@ import java.util.TimeZone;
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @ImportResource({"classpath:application-context.xml"})
+@SpringBootApplication
 public class Application {
 	/**
 	 * @param args
