@@ -16,8 +16,8 @@ zookeeper:
   #address: 127.0.0.1:2181
 dubbo:
   group: lawcase-center
-  port: 20882
-  version: 1.0.lipiao
+  port: 20881
+  version: 1.0
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
