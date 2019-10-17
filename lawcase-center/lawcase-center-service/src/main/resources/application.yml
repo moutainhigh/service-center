@@ -12,12 +12,12 @@ spring:
   aop:
     proxy-target-class: true
 zookeeper:
-#  address: 192.168.1.52:2181
-  address: 127.0.0.1:2181
+  address: 192.168.1.52:2181
+  #address: 127.0.0.1:2181
 dubbo:
   group: lawcase-center
-  port: 20881
-  version: 1.0
+  port: 20882
+  version: 1.0.lipiao
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
