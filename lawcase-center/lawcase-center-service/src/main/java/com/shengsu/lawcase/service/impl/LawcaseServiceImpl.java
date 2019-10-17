@@ -450,7 +450,7 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
     }
     private void makeResult(DailyLawcaseStatisticsVo result, DailyLawcaseStatisticsVo caseVo) {
         result.setCountDate(caseVo.getCountDate());
-        result.setCountApproveStatusInit(caseVo.getCountApproveStatusInit());
+        result.setCountApprovingStatus(caseVo.getCountApprovingStatus());
         result.setCountApproveStatusPass(caseVo.getCountApproveStatusPass());
         result.setCountApproveStatusAgent(caseVo.getCountApproveStatusAgent());
         result.setCountApproveStatusReject(caseVo.getCountApproveStatusReject());

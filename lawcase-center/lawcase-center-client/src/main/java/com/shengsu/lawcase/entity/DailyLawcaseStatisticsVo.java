@@ -9,7 +9,7 @@ public class DailyLawcaseStatisticsVo implements Serializable {
 	private Date startDate;//创建开始时间
 	private Date endDate;//创建结束时间
 	private String countDate;//统计日期
-	private String countApproveStatusInit; //待审核
+	private String countApprovingStatus; //审核中
 	private String countApproveStatusPass; //已通过待签约
 	private String countApproveStatusAgent; //已签约代理中
 	private String countApproveStatusReject; //已驳回
@@ -56,15 +56,18 @@ public class DailyLawcaseStatisticsVo implements Serializable {
 	public void setCountDate(String countDate) {
 		this.countDate = countDate;
 	}
-	public String getCountApproveStatusInit() {
-		if (null == countApproveStatusInit) {
+
+	public String getCountApprovingStatus() {
+		if (null == countApprovingStatus) {
 			return "0";
 		}
-		return countApproveStatusInit;
+		return countApprovingStatus;
 	}
-	public void setCountApproveStatusInit(String countApproveStatusInit) {
-		this.countApproveStatusInit = countApproveStatusInit;
+
+	public void setCountApprovingStatus(String countApprovingStatus) {
+		this.countApprovingStatus = countApprovingStatus;
 	}
+
 	public String getCountApproveStatusPass() {
 		if (null == countApproveStatusPass) {
 			return "0";
