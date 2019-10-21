@@ -13,5 +13,7 @@ public class OssConstant {
     public static String OSS_NEWS_CENTERR_FFILEDIR= "news-center/";
     //用户oss的file名称
     public static String OSS_USER_CENTERR_FFILEDIR= "user-center/";
+    //成功案例oss的file名称
+    public static String OSS_SUCCESS_CASE_FFILEDIR= "success-case/";
 
 }
