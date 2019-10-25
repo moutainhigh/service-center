@@ -1,11 +1,10 @@
 package com.shengsu.helper.service.impl;
 
 
-import com.aliyun.oss.OSSClient;
 import com.shengsu.app.constant.ResultBean;
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.app.util.ResultUtil;
-import com.shengsu.helper.service.OssService;
+import com.shengsu.helper.entity.Producer;
 import com.shengsu.helper.service.ProducerService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
@@ -23,8 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.util.Date;
 
 /**
  * Created by zyc on 2019/10/12.
@@ -65,15 +62,12 @@ public class ProducerServiceImpl implements ProducerService {
         return rocketMqProducer;
     }
 
-    public ResultBean rocketMqSend(String topic, String tags, String body) throws UnsupportedEncodingException, InterruptedException, RemotingException, MQClientException, MQBrokerException {
-
-        if (StringUtils.isBlank(topic)
-                && StringUtils.isBlank(tags)
-                && StringUtils.isBlank(body)) {
+    public ResultBean rocketMqSend(Producer producer, String body) throws UnsupportedEncodingException, InterruptedException, RemotingException, MQClientException, MQBrokerException {
+        if (producer == null || StringUtils.isBlank(body)) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_LOGIN_PARAM_ERROR);
         }
 
-        Message message = new Message(topic, tags, body.getBytes(RemotingHelper.DEFAULT_CHARSET));
+        Message message = new Message(producer.getTopic(), producer.getTag(), body.getBytes(RemotingHelper.DEFAULT_CHARSET));
         StopWatch stop = new StopWatch();
         stop.start();
         SendResult result = rocketMqProducer.send(message);
