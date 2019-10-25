@@ -16,13 +16,13 @@ import java.util.Date;
 @Service(value = "ossService")
 public class OssServiceImpl implements OssService{
 
-    @Value("${oss.endpoint:}")
+    @Value("${oss.endpoint}")
     private String endpoint;
-    @Value("${oss.accessKeyId:}")
+    @Value("${oss.accessKeyId}")
     private String accessKeyId;
-    @Value("${oss.accessKeySecret:}")
+    @Value("${oss.accessKeySecret}")
     private String accessKeySecret;
-    @Value("${oss.bucketName:}")
+    @Value("${oss.bucketName}")
     private String bucketName;
 
     private OSSClient ossClient;
