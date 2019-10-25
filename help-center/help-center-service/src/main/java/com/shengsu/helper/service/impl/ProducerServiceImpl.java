@@ -4,7 +4,7 @@ package com.shengsu.helper.service.impl;
 import com.shengsu.app.constant.ResultBean;
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.app.util.ResultUtil;
-import com.shengsu.helper.entity.Producer;
+import com.shengsu.helper.constant.ProducerEnum;
 import com.shengsu.helper.service.ProducerService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
@@ -62,7 +62,7 @@ public class ProducerServiceImpl implements ProducerService {
         return rocketMqProducer;
     }
 
-    public ResultBean rocketMqSend(Producer producer, String body) throws UnsupportedEncodingException, InterruptedException, RemotingException, MQClientException, MQBrokerException {
+    public ResultBean rocketMqSend(ProducerEnum producer, String body) throws UnsupportedEncodingException, InterruptedException, RemotingException, MQClientException, MQBrokerException {
         if (producer == null || StringUtils.isBlank(body)) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_LOGIN_PARAM_ERROR);
         }

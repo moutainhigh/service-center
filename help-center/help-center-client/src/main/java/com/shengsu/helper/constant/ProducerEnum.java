@@ -1,10 +1,10 @@
-package com.shengsu.helper.entity;
+package com.shengsu.helper.constant;
 
 
 /**
  * Created by zyc on 2019/10/25.
  */
-public enum  Producer {
+public enum ProducerEnum {
     //成功日志常量
     LOGBUSINESS("logBusinessTopic","logBusinessTag"),
     //失败日志常量
@@ -14,7 +14,7 @@ public enum  Producer {
     private String topic;
     private String  tag;
 
-    Producer(String topic, String tag) {
+    ProducerEnum(String topic, String tag) {
         this.topic = topic;
         this.tag = tag;
     }
