@@ -1,4 +1,5 @@
-package com.shengsu.log.mq.message;
+package com.shengsu.mq.message;
+
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
@@ -28,20 +29,20 @@ public class MessageListen implements MessageListenerConcurrently {
         String message = new String(ext.getBody());
         //获取到tag
         String tags = ext.getTags();
+        String msgId=ext.getMsgId();
+
         //根据tag从handleMap里获取到我们的处理类
         MessageProcessor messageProcessor = handleMap.get(tags);
         Object obj = null;
-
         try {
             //将String类型的message反序列化成对应的对象。
             obj = messageProcessor.transferMessage(message);
         } catch (Exception e) {
             e.printStackTrace();
-            log.info("反序列化失败了");
         }
         //处理消息
-        boolean result = messageProcessor.handleMessage(obj);
-        if (!result) {
+        boolean result = messageProcessor.handleMessage(obj, msgId);
+        if (result) {
             return ConsumeConcurrentlyStatus.RECONSUME_LATER;
         }
         return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;

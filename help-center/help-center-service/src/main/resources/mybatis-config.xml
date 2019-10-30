@@ -18,5 +18,6 @@
 
     <typeAliases>
         <!--<package name="com.shengsu.census.entity"/>-->
+        <package name="com.shengsu.Entity"/>
     </typeAliases>
 </configuration>

@@ -6,9 +6,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/help-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/service-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: 1234
+    password: 123456
   aop:
     proxy-target-class: true
 zookeeper:
@@ -37,7 +37,31 @@ logging:
 ###consumer
 rocketmq:
   producer:
-    namesrvAddr: 192.168.1.52:9876
+    namesrvAddr: 127.0.0.1:9876
     groupName: defaultGroup
     maxMessageSize: 131072
     sendMsgTimeout: 10000
+  consumer:
+      isOnOff: on
+      groupName: FirstConsumer
+      #mq的nameserver地址
+      namesrvAddr: 127.0.0.1:9876
+      #namesrvAddr: 192.168.1.52:9876
+      jpush:
+        topic: jpushMessageTopic
+        tag: jpushNormalTag
+        tag1: jpushScheduleTag
+        tag2: jpushScheduleCancelTag
+      consumeThreadMin: 20
+      consumeThreadMax: 64
+          # 设置一次消费消息的条数，默认为1条
+      consumeMessageBatchMaxSize: 10
+
+jiguang:
+  apnsProduction: false
+  appKey: c62934eb318e099b1cfa0b88
+  masterSecret: 5d7267bfbd396317fa0e37b8
+
+
+
+
