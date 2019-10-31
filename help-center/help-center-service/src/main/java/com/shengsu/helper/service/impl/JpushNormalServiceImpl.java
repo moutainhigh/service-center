@@ -18,7 +18,7 @@ import java.util.List;
 @Service(value = "jpushNormalService")
 public class JpushNormalServiceImpl implements MessageProcessor<JpushNormal> {
     @Autowired
-    JiPushUtil jiPushUtil;
+    JiPushUtil JiPushUtil;
     @Override
     public boolean handleMessage(JpushNormal jpushNormal, String ... extraParams){
         List<String> aliasList= jpushNormal.getAliasList();
@@ -26,7 +26,7 @@ public class JpushNormalServiceImpl implements MessageProcessor<JpushNormal> {
         String msgTitle= jpushNormal.getMsgTitle();
         String msgContent= jpushNormal.getMsgContent();
         Extrasparam extrasParam = jpushNormal.getExtrasparam();
-        jiPushUtil.sendToAliasList(aliasList,notificationTitle,msgTitle,msgContent,extrasParam);
+        JiPushUtil.sendToAliasList(aliasList,notificationTitle,msgTitle,msgContent,extrasParam);
         return true;
     }
     @Override

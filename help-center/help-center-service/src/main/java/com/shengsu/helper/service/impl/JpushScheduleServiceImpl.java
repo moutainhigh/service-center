@@ -22,7 +22,7 @@ import java.util.List;
 @Service(value = "jpushScheduleService")
 public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule> {
     @Autowired
-    JiPushUtil jiPushUtil;
+    JiPushUtil JiPushUtil;
     @Autowired
     private JpushSchedualRecordMapper jpushSchedualRecordMapper;
     @Override
@@ -35,7 +35,7 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
         Extrasparam extrasParam = jpushSchedule.getExtrasparam();
         String content = jpushSchedule.getContent();
         String name = jpushSchedule.getName();
-        ScheduleResult scheduleResult = jiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notificationTitle, extrasParam, content, name );
+        ScheduleResult scheduleResult = JiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notificationTitle, extrasParam, content, name );
         if(scheduleResult!=null){
             String scheduleId=scheduleResult.getSchedule_id();
             jpushSchedualRecordMapper.save( new JpushSchedualRecord(extraParams[0],scheduleId));

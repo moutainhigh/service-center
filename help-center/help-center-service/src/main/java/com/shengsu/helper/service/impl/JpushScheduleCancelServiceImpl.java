@@ -16,14 +16,17 @@ import org.springframework.stereotype.Service;
 @Service( value = "jpushScheduleCancelService")
 public class JpushScheduleCancelServiceImpl implements MessageProcessor<JpushScheduleCancel> {
     @Autowired
-    JiPushUtil jiPushUtil;
+    JiPushUtil JiPushUtil;
     @Autowired
     JpushSchedualRecordMapper jpushSchedualRecordMapper;
     @Override
     public boolean handleMessage(JpushScheduleCancel jpushScheduleCancel, String ... extraParams){
         String messageId = jpushScheduleCancel.getMessageId();
+
         JpushSchedualRecord jpushSchedualRecord = jpushSchedualRecordMapper.selectByMsgId(messageId);
-        jiPushUtil.DeleteSchedule(jpushSchedualRecord.getScheduleId());
+        if(jpushSchedualRecord !=null){
+            JiPushUtil.deleteSchedule(jpushSchedualRecord.getScheduleId());
+        }
         return true;
     }
     @Override

@@ -14,7 +14,6 @@ import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.schedule.ScheduleResult;
 import com.alibaba.fastjson.JSON;
-import com.shengsu.helper.entity.Extrasparam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,10 +50,11 @@ public class JiPushUtil {
      * @param extrasparam 扩展字段
      * @return 0推送失败，1推送成功
      */
-    public int sendToAliasList(Collection<String> aliasList, String notification_title, String msg_title, String msg_content, Extrasparam extrasparam) {
+    public int sendToAliasList(Collection<String> aliasList, String notification_title, String msg_title, String msg_content, Object extrasparam) {
         int result = 0;
         try {
-            PushPayload pushPayload= buildPushObject_all_aliasList_alertWithTitle(aliasList,notification_title,msg_title,msg_content,extrasparam);
+            String extrasparamStr = objectToJson(extrasparam);
+            PushPayload pushPayload= buildPushObject_all_aliasList_alertWithTitle(aliasList,notification_title,msg_title,msg_content,extrasparamStr);
             LOGGER.info("推送给设备标识参数的用户"+pushPayload);
             PushResult pushResult=jPushClient.sendPush(pushPayload);
             LOGGER.info("推送结果"+pushResult);
@@ -252,8 +252,8 @@ public class JiPushUtil {
      * @param extrasparam
      * @return
      */
-    private PushPayload buildPushObject_all_aliasList_alertWithTitle(Collection<String> aliasList,String notification_title, String msg_title, String msg_content, Extrasparam extrasparam) {
-        String extrasparamStr = ObjectToJson(extrasparam);
+    private PushPayload buildPushObject_all_aliasList_alertWithTitle(Collection<String> aliasList,String notification_title, String msg_title, String msg_content, Object extrasparam) {
+        String extrasparamStr = objectToJson(extrasparam);
         LOGGER.info("----------向所有平台单个或多个指定别名用户推送消息中......");
         //创建一个IosAlert对象，可指定APNs的alert、title等字段
         //IosAlert iosAlert =  IosAlert.newBuilder().setTitleAndBody("title", "alert body").build();
@@ -509,7 +509,7 @@ public class JiPushUtil {
      *
      */
     public ScheduleResult sendSchedulePush(Object obj, String deviceSN, Date date, String MsgType, String name) {
-    	String objStr = ObjectToJson(obj);
+    	String objStr = objectToJson(obj);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = format.format(date);
         ScheduleResult result = null;
@@ -541,7 +541,7 @@ public class JiPushUtil {
      * @decripe 定时推送,推送到所有设备,同时记录返回的msg_id
      */
     public ScheduleResult sendSchedulePushAll(Object obj, Date date, String MsgType, String name) {
-        String objStr = ObjectToJson(obj);
+        String objStr = objectToJson(obj);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = format.format(date);
         ScheduleResult result = null;
@@ -573,7 +573,7 @@ public class JiPushUtil {
      * @decripe 删除定时任务
      * @param
      */
-    public void DeleteSchedule(String scheduleId) {
+    public void deleteSchedule(String scheduleId) {
         try {
             jPushClient.deleteSchedule(scheduleId);
         } catch (APIConnectionException e) {
@@ -591,10 +591,10 @@ public class JiPushUtil {
      * @auth
      * @date 2018年5月2日
      * @decripe:把obj对象的json串推送到别名为DeviceSN的设备上,同时记录返回的msg_id
-     * @throws BizException
+     * @throws bizException
      */
-    public PushResult SendPush(Object obj, String DeviceSN, String MsgType) throws BizException {
-        String objStr = ObjectToJson(obj);
+    public PushResult SendPush(Object obj, String DeviceSN, String MsgType) throws bizException {
+        String objStr = objectToJson(obj);
         PushPayload push = PushPayload.newBuilder().setPlatform(Platform.all())
                 .setMessage(Message.newBuilder().setMsgContent(objStr)
                         .addExtras(Collections.singletonMap("MsgType", MsgType)).build())
@@ -619,7 +619,7 @@ public class JiPushUtil {
             LOGGER.error("Sendno: " + push.getSendno());
         }
         if (result == null) {
-            throw new BizException("与设备通话失败，请联系管理员处理！");
+            throw new bizException("与设备通话失败，请联系管理员处理！");
         }
         return result;
     }
@@ -629,10 +629,10 @@ public class JiPushUtil {
      * @auth
      * @date 2018年5月2日
      * @decripe 把obj对象的json串推送到所有设备上
-     * @throws BizException
+     * @throws bizException
      */
-    public PushResult SendPushAll(Object obj, String MsgType) throws BizException {
-        String objStr = ObjectToJson(obj);
+    public PushResult sendPushAll(Object obj, String MsgType) throws bizException {
+        String objStr = objectToJson(obj);
         PushPayload push = PushPayload.newBuilder().setPlatform(Platform.all())
                 .setMessage(Message.newBuilder().setMsgContent(objStr)
                         .addExtras(Collections.singletonMap("MsgType", MsgType)).build())
@@ -657,7 +657,7 @@ public class JiPushUtil {
             LOGGER.error("Sendno: " + push.getSendno());
         }
         if (result == null) {
-            throw new BizException("推送失败,请联系管理员处理！");
+            throw new bizException("推送失败,请联系管理员处理！");
         }
         return result;
     }
@@ -667,9 +667,9 @@ public class JiPushUtil {
      * @date 2019年4月17日
      *
      */
-    public ScheduleResult sendSchedulePushList(Object obj, Collection<String> aliasList, Date date, String MsgType, String notification_title, Extrasparam extrasparam, String content, String name) {
-        String objStr = ObjectToJson(obj);
-        String extrasparamStr = ObjectToJson(extrasparam);
+    public ScheduleResult sendSchedulePushList(Object obj, Collection<String> aliasList, Date date, String MsgType, String notification_title, Object extrasparam, String content, String name) {
+        String objStr = objectToJson(obj);
+        String extrasparamStr = objectToJson(extrasparam);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = format.format(date);
         ScheduleResult result = null;
@@ -714,7 +714,7 @@ public class JiPushUtil {
         }
         return result;
     }
-    public static String ObjectToJson(Object o) {
+    public static String objectToJson(Object o) {
         //String json = JsonUtil.getJsonString4JavaPOJO(o, "yyyy-MM-dd HH:mm:ss");
     	String json = JSON.toJSONString(o);
         return json;
