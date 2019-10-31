@@ -20,7 +20,7 @@ public class JpushScheduleCancelServiceImpl implements MessageProcessor<JpushSch
     @Autowired
     JpushSchedualRecordMapper jpushSchedualRecordMapper;
     @Override
-    public boolean handleMessage(JpushScheduleCancel jpushScheduleCancel, String ...ags){
+    public boolean handleMessage(JpushScheduleCancel jpushScheduleCancel, String ...extraParam){
         String messageId = jpushScheduleCancel.getMessageId();
         JpushSchedualRecord jpushSchedualRecord = jpushSchedualRecordMapper.selectByMsgId(messageId);
         jiPushUtil.DeleteSchedule(jpushSchedualRecord.getScheduleId());

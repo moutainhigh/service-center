@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON;
  * Created by zyc on 2019/9/27.
  */
 public interface MessageProcessor<T> {
-    boolean handleMessage(T messageExt,String ...extraPara);
+    boolean handleMessage(T messageExt,String ...extraParam);
     
     Class<T> getClazz();
 
