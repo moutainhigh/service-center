@@ -538,7 +538,6 @@ public class JiPushUtil {
      * @auth
      * @date 2018年5月2日
      * @decripe 定时推送,推送到所有设备,同时记录返回的msg_id
-     * @param obj推送对象,定时的时间date,MsgType推送的业务类型(APIConstants中定义),name推送的名称
      */
     public ScheduleResult sendSchedulePushAll(Object obj, Date date, String MsgType, String name) {
         String objStr = ObjectToJson(obj);
@@ -571,7 +570,7 @@ public class JiPushUtil {
      * @auth
      * @date 2018年5月2日
      * @decripe 删除定时任务
-     * @param scheduleId定时任务的Id
+     * @param
      */
     public void DeleteSchedule(String scheduleId) {
         try {
@@ -667,9 +666,8 @@ public class JiPushUtil {
      * @date 2019年4月17日
      *
      */
-    public ScheduleResult sendSchedulePushList(Object obj, Collection<String> aliasList, Date date, String MsgType, String notification_title, String extrasparam, String content, String name) {
+    public ScheduleResult sendSchedulePushList(String objStr, Collection<String> aliasList, Date date, String MsgType, String notification_title, String extrasparam, String content, String name) {
 
-        String objStr = ObjectToJson(obj);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = format.format(date);
         ScheduleResult result = null;

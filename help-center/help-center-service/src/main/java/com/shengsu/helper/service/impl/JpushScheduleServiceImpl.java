@@ -1,14 +1,14 @@
 package com.shengsu.helper.service.impl;
 
 import cn.jpush.api.schedule.ScheduleResult;
-import com.alibaba.dubbo.config.annotation.Service;
-import com.shengsu.Entity.JpushScheduleCancel;
-import com.shengsu.Entity.JpushSchedule;
-import com.shengsu.mapper.JPushMapper;
+import com.shengsu.helper.entity.JpushSchedualRecord;
+import com.shengsu.helper.entity.JpushSchedule;
+import com.shengsu.mapper.JpushSchedualRecordMapper;
 import com.shengsu.mq.message.MessageProcessor;
 import com.shengsu.util.JiPushUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -17,15 +17,15 @@ import java.util.List;
  * Created by Bell on 2019/10/25.
  */
 @Slf4j
-@Service
+@Service(value = "jpushScheduleService")
 public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule> {
     @Autowired
     JiPushUtil jiPushUtil;
     @Autowired
-    private JPushMapper jPushMapper;
+    private JpushSchedualRecordMapper jpushSchedualRecordMapper;
     @Override
     public boolean handleMessage(JpushSchedule jpushSchedule, String ...ags) {
-        Object obj = jpushSchedule.getObj();
+        String obj = jpushSchedule.getObj();
         List<String> aliasList = jpushSchedule.getAliasList();
         Date date = jpushSchedule.getDate();
         String MsgType = jpushSchedule.getMsgType();
@@ -35,11 +35,7 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
         String name = jpushSchedule.getName();
         ScheduleResult scheduleResult = jiPushUtil.sendSchedulePushList(obj, aliasList, date, MsgType, notification_title, extrasparam, content, name);
         String scheduleId=scheduleResult.getSchedule_id();
-        String msgId=ags[0];
-        JpushScheduleCancel jpushScheduleCancel =new JpushScheduleCancel();
-        jpushScheduleCancel.setMessageId(msgId);
-        jpushScheduleCancel.setScheduleId(scheduleId);
-        jPushMapper.save(jpushScheduleCancel);
+        jpushSchedualRecordMapper.save( new JpushSchedualRecord(ags[0],scheduleId));
         return true;
     }
 

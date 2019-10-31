@@ -1,4 +1,4 @@
-package com.shengsu.Entity;
+package com.shengsu.helper.entity;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Data
 public class JpushSchedule {
-    Object obj;
+    String obj;
     List<String> aliasList;
     Date date;
     String MsgType;

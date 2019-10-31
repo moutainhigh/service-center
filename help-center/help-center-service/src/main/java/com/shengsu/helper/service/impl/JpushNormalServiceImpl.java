@@ -1,11 +1,12 @@
 package com.shengsu.helper.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
-import com.shengsu.Entity.JpushNormal;
+
+import com.shengsu.helper.entity.JpushNormal;
 import com.shengsu.mq.message.MessageProcessor;
 import com.shengsu.util.JiPushUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by Bell on 2019/10/24.
  */
 @Slf4j
-@Service
+@Service(value = "jpushNormalService")
 public class JpushNormalServiceImpl implements MessageProcessor<JpushNormal> {
     @Autowired
     JiPushUtil jiPushUtil;

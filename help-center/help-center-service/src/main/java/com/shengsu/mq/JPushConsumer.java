@@ -1,5 +1,6 @@
 package com.shengsu.mq;
 
+import com.shengsu.helper.constant.ConsumerEnum;
 import com.shengsu.helper.service.impl.JpushScheduleServiceImpl;
 import com.shengsu.mq.message.MessageListen;
 import com.shengsu.helper.service.impl.JpushScheduleCancelServiceImpl;
@@ -31,19 +32,11 @@ public class JPushConsumer {
     private String namesrvAddr;
     @Value("${rocketmq.consumer.groupName}")
     private String groupName;
-
     @Value("${rocketmq.consumer.consumeThreadMin}")
     private int consumeThreadMin;
     @Value("${rocketmq.consumer.consumeThreadMax}")
     private int consumeThreadMax;
-    @Value("${rocketmq.consumer.jpush.topic}")
-    private String jipushTopic;
-    @Value("${rocketmq.consumer.jpush.tag}")
-    private String jipushTag;
-    @Value("${rocketmq.consumer.jpush.tag1}")
-    private String jipushTag1;
-    @Value("${rocketmq.consumer.jpush.tag2}")
-    private String jipushTag2;
+
 
     @Bean
     public DefaultMQPushConsumer getsendToAliasListConsumer(){
@@ -55,14 +48,10 @@ public class JPushConsumer {
 
 
         MessageListen messageListen = new MessageListen();
-        messageListen.registerHandler(jipushTag,jpushNormalService);
-        messageListen.registerHandler(jipushTag1,jpushScheduleService);
-        messageListen.registerHandler(jipushTag2, jpushScheduleCancelService);
-
-
+        addJpushMessage(messageListen);
         consumer.registerMessageListener(messageListen);
         try{
-            consumer.subscribe(jipushTopic, jipushTag+"||"+jipushTag1+"||"+jipushTag2);
+            consumer.subscribe(ConsumerEnum.JPUSHMESSAGE.getTopic(),ConsumerEnum.JPUSHMESSAGE.getTag());
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
             consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.start();
@@ -72,6 +61,13 @@ public class JPushConsumer {
             e.printStackTrace();
         }
         return consumer;
+    }
+
+    private void addJpushMessage(MessageListen messageListen){
+        String[] split = ConsumerEnum.JPUSHMESSAGE.getTag().split("\\|\\|");
+        messageListen.registerHandler(split[0],jpushNormalService);
+        messageListen.registerHandler(split[1],jpushScheduleService);
+        messageListen.registerHandler(split[2], jpushScheduleCancelService);
     }
 
 }

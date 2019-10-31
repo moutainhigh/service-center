@@ -9,12 +9,5 @@
 
     <context:annotation-config/>
     <import resource="classpath:dubbo/dubbo-provider.xml"/>
-    <bean id="jiPushUtil" class="com.shengsu.util.JiPushUtil">
-        <constructor-arg name="masterSecret" value="${jiguang.masterSecret}"/>
-        <constructor-arg name="appKey" value="${jiguang.appKey}"/>
-        <constructor-arg name="apnsProduction" value="${jiguang.apnsProduction}"/>
-    </bean>
-    <bean id="JpushNormalServiceImpl" class="com.shengsu.helper.service.impl.JpushNormalServiceImpl"/>
-    <bean id="JpushScheduleServiceImpl" class="com.shengsu.helper.service.impl.JpushScheduleServiceImpl"/>
-    <bean id="JpushScheduleCancelServiceImpl" class="com.shengsu.helper.service.impl.JpushScheduleCancelServiceImpl"/>
+    <import resource="classpath:/spring-beans.xml"/>
 </beans>

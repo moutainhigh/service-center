@@ -25,6 +25,7 @@ public class MessageListen implements MessageListenerConcurrently {
     }
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+
         MessageExt ext = list.get(0);
         String message = new String(ext.getBody());
         //获取到tag
@@ -32,7 +33,7 @@ public class MessageListen implements MessageListenerConcurrently {
         String msgId=ext.getMsgId();
 
         //根据tag从handleMap里获取到我们的处理类
-        MessageProcessor messageProcessor = handleMap.get(tags);
+            MessageProcessor messageProcessor = handleMap.get(tags);
         Object obj = null;
         try {
             //将String类型的message反序列化成对应的对象。
@@ -42,7 +43,7 @@ public class MessageListen implements MessageListenerConcurrently {
         }
         //处理消息
         boolean result = messageProcessor.handleMessage(obj, msgId);
-        if (result) {
+        if (!result) {
             return ConsumeConcurrentlyStatus.RECONSUME_LATER;
         }
         return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;

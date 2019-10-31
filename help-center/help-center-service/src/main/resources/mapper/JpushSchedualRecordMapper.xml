@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.shengsu.mapper.JPushMapper">
-    <insert id="save" parameterType="JpushScheduleCancel">
+<mapper namespace="com.shengsu.mapper.JpushSchedualRecordMapper">
+    <insert id="save" parameterType="jpushSchedualRecord">
         INSERT INTO jpush_schedual_record
             (
                 message_id,
@@ -21,12 +21,12 @@
                 0
             )
     </insert>
-    <select id="list" parameterType="JpushScheduleCancel" resultType="JpushScheduleCancel">
+    <select id="selectByMsgId" parameterType="string" resultType="jpushSchedualRecord">
         SELECT
-        schedule_id
+        *
         FROM
         jpush_schedual_record
         WHERE
-        message_id=#{messageId}
+        message_id=#{msgId} limit 1
     </select>
 </mapper>

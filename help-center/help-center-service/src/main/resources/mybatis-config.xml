@@ -17,7 +17,6 @@
     </settings>
 
     <typeAliases>
-        <!--<package name="com.shengsu.census.entity"/>-->
-        <package name="com.shengsu.Entity"/>
+        <package name="com.shengsu.helper.entity"/>
     </typeAliases>
 </configuration>

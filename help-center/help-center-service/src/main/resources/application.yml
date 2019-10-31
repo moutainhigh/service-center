@@ -37,7 +37,7 @@ logging:
 ###consumer
 rocketmq:
   producer:
-    namesrvAddr: 127.0.0.1:9876
+    namesrvAddr: 192.168.1.52:9876
     groupName: defaultGroup
     maxMessageSize: 131072
     sendMsgTimeout: 10000
@@ -45,13 +45,7 @@ rocketmq:
       isOnOff: on
       groupName: FirstConsumer
       #mq的nameserver地址
-      namesrvAddr: 127.0.0.1:9876
-      #namesrvAddr: 192.168.1.52:9876
-      jpush:
-        topic: jpushMessageTopic
-        tag: jpushNormalTag
-        tag1: jpushScheduleTag
-        tag2: jpushScheduleCancelTag
+      namesrvAddr: 192.168.1.52:9876
       consumeThreadMin: 20
       consumeThreadMax: 64
           # 设置一次消费消息的条数，默认为1条
