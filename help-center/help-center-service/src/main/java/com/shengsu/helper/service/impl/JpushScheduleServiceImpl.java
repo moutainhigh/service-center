@@ -25,23 +25,20 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
     @Autowired
     private JpushSchedualRecordMapper jpushSchedualRecordMapper;
     @Override
-    public boolean handleMessage(JpushSchedule jpushSchedule, String ...ags) {
+    public boolean handleMessage(JpushSchedule jpushSchedule, String ... otherParam) {
         Message message = jpushSchedule.getMessage();
         List<String> aliasList = jpushSchedule.getAliasList();
         Date date = jpushSchedule.getDate();
         String MsgType = jpushSchedule.getMsgType();
-        String notification_title = jpushSchedule.getNotificationTitle();
-        String extrasparam = jpushSchedule.getExtrasparam();
+        String notificationTitle = jpushSchedule.getNotificationTitle();
+        String extrasParam = jpushSchedule.getExtrasparam();
         String content = jpushSchedule.getContent();
         String name = jpushSchedule.getName();
-        ScheduleResult scheduleResult = jiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notification_title, extrasparam, content, name);
+        ScheduleResult scheduleResult = jiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notificationTitle, extrasParam, content, name);
         if(scheduleResult!=null){
             String scheduleId=scheduleResult.getSchedule_id();
-            jpushSchedualRecordMapper.save( new JpushSchedualRecord(ags[0],scheduleId));
-        }else{
-            return false;
+            jpushSchedualRecordMapper.save( new JpushSchedualRecord(otherParam[0],scheduleId));
         }
-
         return true;
     }
 
