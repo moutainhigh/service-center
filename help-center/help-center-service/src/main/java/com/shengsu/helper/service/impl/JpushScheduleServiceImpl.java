@@ -38,10 +38,7 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
         if(scheduleResult!=null){
             String scheduleId=scheduleResult.getSchedule_id();
             jpushSchedualRecordMapper.save( new JpushSchedualRecord(ags[0],scheduleId));
-        }else{
-            return false;
         }
-
         return true;
     }
 
