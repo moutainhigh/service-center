@@ -24,7 +24,7 @@ public class JpushNormalServiceImpl implements MessageProcessor<JpushNormal> {
         String notificationTitle= jpushNormal.getNotificationTitle();
         String msgTitle= jpushNormal.getMsgTitle();
         String msgContent= jpushNormal.getMsgContent();
-        String extrasParam= jpushNormal.getExtrasparam();
+        String extrasParam = jpushNormal.getExtrasparam() ==null?null:jpushNormal.getExtrasparam().toJSONString();
         jiPushUtil.sendToAliasList(aliasList,notificationTitle,msgTitle,msgContent,extrasParam);
         return true;
     }

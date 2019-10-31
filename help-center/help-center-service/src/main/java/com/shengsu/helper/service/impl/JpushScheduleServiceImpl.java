@@ -31,10 +31,10 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
         Date date = jpushSchedule.getDate();
         String MsgType = jpushSchedule.getMsgType();
         String notificationTitle = jpushSchedule.getNotificationTitle();
-        String extrasParam = jpushSchedule.getExtrasparam();
+        String extrasParam = jpushSchedule.getExtrasparam() ==null?null:jpushSchedule.getExtrasparam().toJSONString();
         String content = jpushSchedule.getContent();
         String name = jpushSchedule.getName();
-        ScheduleResult scheduleResult = jiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notificationTitle, extrasParam, content, name);
+        ScheduleResult scheduleResult = jiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notificationTitle, extrasParam, content, name );
         if(scheduleResult!=null){
             String scheduleId=scheduleResult.getSchedule_id();
             jpushSchedualRecordMapper.save( new JpushSchedualRecord(otherParam[0],scheduleId));

@@ -1,5 +1,6 @@
 package com.shengsu.helper.entity;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ public class JpushSchedule {
     private Date date;
     private String MsgType;
     private String notificationTitle;
-    private String extrasparam;
+    private JSONObject extrasparam;
     private String content;
     private String name;
     private String msgId;
