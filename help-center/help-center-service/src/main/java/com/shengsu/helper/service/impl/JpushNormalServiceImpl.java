@@ -20,7 +20,7 @@ public class JpushNormalServiceImpl implements MessageProcessor<JpushNormal> {
     @Autowired
     JiPushUtil JiPushUtil;
     @Override
-    public boolean handleMessage(JpushNormal jpushNormal, String ... extraParams){
+    public boolean handleMessage(JpushNormal jpushNormal){
         List<String> aliasList= jpushNormal.getAliasList();
         String notificationTitle= jpushNormal.getNotificationTitle();
         String msgTitle= jpushNormal.getMsgTitle();

@@ -30,7 +30,6 @@ public class MessageListen implements MessageListenerConcurrently {
         String message = new String(ext.getBody());
         //获取到tag
         String tags = ext.getTags();
-        String msgId=ext.getMsgId();
 
         //根据tag从handleMap里获取到我们的处理类
             MessageProcessor messageProcessor = handleMap.get(tags);
@@ -42,7 +41,7 @@ public class MessageListen implements MessageListenerConcurrently {
             e.printStackTrace();
         }
         //处理消息
-        boolean result = messageProcessor.handleMessage(obj, msgId);
+        boolean result = messageProcessor.handleMessage(obj);
         if (!result) {
             return ConsumeConcurrentlyStatus.RECONSUME_LATER;
         }
