@@ -666,8 +666,8 @@ public class JiPushUtil {
      * @date 2019年4月17日
      *
      */
-    public ScheduleResult sendSchedulePushList(String objStr, Collection<String> aliasList, Date date, String MsgType, String notification_title, String extrasparam, String content, String name) {
-
+    public ScheduleResult sendSchedulePushList(Object obj, Collection<String> aliasList, Date date, String MsgType, String notification_title, String extrasparam, String content, String name) {
+        String objStr = ObjectToJson(obj);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = format.format(date);
         ScheduleResult result = null;

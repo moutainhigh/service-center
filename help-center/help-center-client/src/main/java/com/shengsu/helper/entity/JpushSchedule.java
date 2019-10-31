@@ -10,13 +10,13 @@ import java.util.List;
  */
 @Data
 public class JpushSchedule {
-    String obj;
-    List<String> aliasList;
-    Date date;
-    String MsgType;
-    String notificationTitle;
-    String extrasparam;
-    String content;
-    String name;
-    String msgId;
+    private Message Message;
+    private List<String> aliasList;
+    private Date date;
+    private String MsgType;
+    private String notificationTitle;
+    private String extrasparam;
+    private String content;
+    private String name;
+    private String msgId;
 }

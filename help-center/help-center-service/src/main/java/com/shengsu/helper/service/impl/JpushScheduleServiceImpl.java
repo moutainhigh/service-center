@@ -3,6 +3,7 @@ package com.shengsu.helper.service.impl;
 import cn.jpush.api.schedule.ScheduleResult;
 import com.shengsu.helper.entity.JpushSchedualRecord;
 import com.shengsu.helper.entity.JpushSchedule;
+import com.shengsu.helper.entity.Message;
 import com.shengsu.mapper.JpushSchedualRecordMapper;
 import com.shengsu.mq.message.MessageProcessor;
 import com.shengsu.util.JiPushUtil;
@@ -25,7 +26,7 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
     private JpushSchedualRecordMapper jpushSchedualRecordMapper;
     @Override
     public boolean handleMessage(JpushSchedule jpushSchedule, String ...ags) {
-        String obj = jpushSchedule.getObj();
+        Message message = jpushSchedule.getMessage();
         List<String> aliasList = jpushSchedule.getAliasList();
         Date date = jpushSchedule.getDate();
         String MsgType = jpushSchedule.getMsgType();
@@ -33,7 +34,7 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
         String extrasparam = jpushSchedule.getExtrasparam();
         String content = jpushSchedule.getContent();
         String name = jpushSchedule.getName();
-        ScheduleResult scheduleResult = jiPushUtil.sendSchedulePushList(obj, aliasList, date, MsgType, notification_title, extrasparam, content, name);
+        ScheduleResult scheduleResult = jiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notification_title, extrasparam, content, name);
         String scheduleId=scheduleResult.getSchedule_id();
         jpushSchedualRecordMapper.save( new JpushSchedualRecord(ags[0],scheduleId));
         return true;
