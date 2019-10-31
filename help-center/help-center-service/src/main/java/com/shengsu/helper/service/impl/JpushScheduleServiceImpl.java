@@ -35,8 +35,13 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
         String content = jpushSchedule.getContent();
         String name = jpushSchedule.getName();
         ScheduleResult scheduleResult = jiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notification_title, extrasparam, content, name);
-        String scheduleId=scheduleResult.getSchedule_id();
-        jpushSchedualRecordMapper.save( new JpushSchedualRecord(ags[0],scheduleId));
+        if(scheduleResult!=null){
+            String scheduleId=scheduleResult.getSchedule_id();
+            jpushSchedualRecordMapper.save( new JpushSchedualRecord(ags[0],scheduleId));
+        }else{
+            return false;
+        }
+
         return true;
     }
 
