@@ -14,6 +14,7 @@ import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.schedule.ScheduleResult;
 import com.alibaba.fastjson.JSON;
+import com.shengsu.helper.entity.Extrasparam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +51,7 @@ public class JiPushUtil {
      * @param extrasparam 扩展字段
      * @return 0推送失败，1推送成功
      */
-    public int sendToAliasList(Collection<String> aliasList, String notification_title, String msg_title, String msg_content, String extrasparam) {
+    public int sendToAliasList(Collection<String> aliasList, String notification_title, String msg_title, String msg_content, Extrasparam extrasparam) {
         int result = 0;
         try {
             PushPayload pushPayload= buildPushObject_all_aliasList_alertWithTitle(aliasList,notification_title,msg_title,msg_content,extrasparam);
@@ -251,8 +252,8 @@ public class JiPushUtil {
      * @param extrasparam
      * @return
      */
-    private PushPayload buildPushObject_all_aliasList_alertWithTitle(Collection<String> aliasList,String notification_title, String msg_title, String msg_content, String extrasparam) {
-
+    private PushPayload buildPushObject_all_aliasList_alertWithTitle(Collection<String> aliasList,String notification_title, String msg_title, String msg_content, Extrasparam extrasparam) {
+        String extrasparamStr = ObjectToJson(extrasparam);
         LOGGER.info("----------向所有平台单个或多个指定别名用户推送消息中......");
         //创建一个IosAlert对象，可指定APNs的alert、title等字段
         //IosAlert iosAlert =  IosAlert.newBuilder().setTitleAndBody("title", "alert body").build();
@@ -270,7 +271,7 @@ public class JiPushUtil {
                                 .setAlert(msg_content)
                                 .setTitle(notification_title)
                                 //此字段为透传字段，不会显示在通知栏。用户可以通过此字段来做一些定制需求，如特定的key传要指定跳转的页面（value）
-                                .addExtra("extrasparam",extrasparam)
+                                .addExtra("extrasparam",extrasparamStr)
 
                                 .build())
                         //指定当前推送的iOS通知
@@ -284,7 +285,7 @@ public class JiPushUtil {
                                 // 如果系统没有此音频则以系统默认声音提醒；此字段如果传空字符串，iOS9及以上的系统是无声音提醒，以下的系统是默认声音
                                 .setSound("default")
                                 //此字段为透传字段，不会显示在通知栏。用户可以通过此字段来做一些定制需求，如特定的key传要指定跳转的页面（value）
-                                .addExtra("extrasparam",extrasparam)
+                                .addExtra("extrasparam",extrasparamStr)
                                 //此项说明此推送是一个background推送，想了解background看：http://docs.jpush.io/client/ios_tutorials/#ios-7-background-remote-notification
                                 //取消此注释，消息推送时ios将无法在锁屏情况接收
                                 // .setContentAvailable(true)
@@ -300,7 +301,7 @@ public class JiPushUtil {
 
                         .setTitle(msg_title)
 
-                        .addExtra("extrasparam",extrasparam)
+                        .addExtra("extrasparam",extrasparamStr)
 
                         .build())
 
@@ -666,8 +667,9 @@ public class JiPushUtil {
      * @date 2019年4月17日
      *
      */
-    public ScheduleResult sendSchedulePushList(Object obj, Collection<String> aliasList, Date date, String MsgType, String notification_title, String extrasparam, String content, String name) {
+    public ScheduleResult sendSchedulePushList(Object obj, Collection<String> aliasList, Date date, String MsgType, String notification_title, Extrasparam extrasparam, String content, String name) {
         String objStr = ObjectToJson(obj);
+        String extrasparamStr = ObjectToJson(extrasparam);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = format.format(date);
         ScheduleResult result = null;
@@ -676,13 +678,13 @@ public class JiPushUtil {
                         .addPlatformNotification(AndroidNotification.newBuilder()
                                 .setAlert(content)
                                 .setTitle(notification_title)
-                                .addExtra("extrasparam",extrasparam)
+                                .addExtra("extrasparam",extrasparamStr)
                                 .build())
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(content)
                                 .incrBadge(1)
                                 .setSound("default")
-                                .addExtra("extrasparam",extrasparam)
+                                .addExtra("extrasparam",extrasparamStr)
                                 .build())
                         .build())
                 .setMessage(Message.newBuilder().setMsgContent(objStr)

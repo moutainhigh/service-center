@@ -1,6 +1,7 @@
 package com.shengsu.helper.service.impl;
 
 
+import com.shengsu.helper.entity.Extrasparam;
 import com.shengsu.helper.entity.JpushNormal;
 import com.shengsu.mq.message.MessageProcessor;
 import com.shengsu.util.JiPushUtil;
@@ -24,7 +25,7 @@ public class JpushNormalServiceImpl implements MessageProcessor<JpushNormal> {
         String notificationTitle= jpushNormal.getNotificationTitle();
         String msgTitle= jpushNormal.getMsgTitle();
         String msgContent= jpushNormal.getMsgContent();
-        String extrasParam = jpushNormal.getExtrasparam() ==null?null:jpushNormal.getExtrasparam().toJSONString();
+        Extrasparam extrasParam = jpushNormal.getExtrasparam();
         jiPushUtil.sendToAliasList(aliasList,notificationTitle,msgTitle,msgContent,extrasParam);
         return true;
     }

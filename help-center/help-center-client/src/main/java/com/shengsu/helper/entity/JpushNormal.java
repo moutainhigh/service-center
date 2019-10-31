@@ -1,6 +1,5 @@
 package com.shengsu.helper.entity;
 
-import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 import java.util.List;
@@ -14,5 +13,5 @@ public class JpushNormal {
     String notificationTitle;
     String msgTitle;
     String msgContent;
-    JSONObject extrasparam;
+    Extrasparam extrasparam;
 }
