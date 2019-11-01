@@ -28,12 +28,9 @@ management:
     redis:
       enabled: false
 ###consumer
-##该应用是否启用消费者
 rocketmq:
   consumer:
-    isOnOff: on
-    groupName: logGroup
-    #mq的nameserver地址
+    logGroup: logGroup
     namesrvAddr: 127.0.0.1:9876
     logBusiness:
       topic: logBusinessTopic
@@ -43,6 +40,5 @@ rocketmq:
       tag: logErrorTag
     consumeThreadMin: 20
     consumeThreadMax: 64
-    # 设置一次消费消息的条数，默认为1条
     consumeMessageBatchMaxSize: 10
 

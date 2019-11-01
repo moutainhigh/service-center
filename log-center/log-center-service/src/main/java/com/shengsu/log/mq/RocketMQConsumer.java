@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * Created by zyc on 2019/9/27.
@@ -30,8 +31,8 @@ public class RocketMQConsumer {
 
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
-    @Value("${rocketmq.consumer.groupName}")
-    private String groupName;
+    @Value("${rocketmq.consumer.logGroup}")
+    private String logGroup;
 
     @Value("${rocketmq.consumer.consumeThreadMin}")
     private int consumeThreadMin;
@@ -45,10 +46,11 @@ public class RocketMQConsumer {
     private String logErrorTopic;
     @Value("${rocketmq.consumer.logError.tag}")
     private String logErrorTag;
+    DefaultMQPushConsumer consumer;
 
     @PostConstruct
-    public void init() {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
+    private void init() {
+        consumer = new DefaultMQPushConsumer(logGroup);
         consumer.setNamesrvAddr(namesrvAddr);
         consumer.setConsumeThreadMin(consumeThreadMin);
         consumer.setConsumeThreadMax(consumeThreadMax);
@@ -66,12 +68,17 @@ public class RocketMQConsumer {
             // 设置为集群消费(区别于广播消费)
             consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.start();
-            log.info("consume is start ,groupName:{},topic:{}", groupName);
+            log.info("consume is start ,groupName:{},topic:{}", logGroup);
         } catch (MQClientException e) {
             log.error("consume start error");
             e.printStackTrace();
         }
     }
 
-
+    @PreDestroy
+    private void destroy() {
+        if (consumer != null) {
+            consumer.shutdown();
+        }
+    }
 }
