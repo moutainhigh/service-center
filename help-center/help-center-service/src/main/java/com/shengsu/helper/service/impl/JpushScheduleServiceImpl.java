@@ -25,6 +25,7 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
     JiPushUtil JiPushUtil;
     @Autowired
     private JpushSchedualRecordMapper jpushSchedualRecordMapper;
+
     @Override
     public boolean handleMessage(JpushSchedule jpushSchedule) {
         Message message = jpushSchedule.getMessage();
@@ -35,10 +36,17 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
         Extrasparam extrasParam = jpushSchedule.getExtrasparam();
         String content = jpushSchedule.getContent();
         String name = jpushSchedule.getName();
-        ScheduleResult scheduleResult = JiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notificationTitle, extrasParam, content, name );
-        if(scheduleResult!=null){
-            String scheduleId=scheduleResult.getSchedule_id();
-            jpushSchedualRecordMapper.save( new JpushSchedualRecord(message.getMessageId(),scheduleId));
+        ScheduleResult scheduleResult = null;
+        try {
+            scheduleResult = JiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notificationTitle, extrasParam, content, name);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("极光推送失败了");
+        }
+
+        if (scheduleResult != null) {
+            String scheduleId = scheduleResult.getSchedule_id();
+            jpushSchedualRecordMapper.save(new JpushSchedualRecord(message.getMessageId(), scheduleId));
         }
         return true;
     }

@@ -1,10 +1,10 @@
 package com.shengsu.mq;
 
 import com.shengsu.helper.constant.ConsumerEnum;
+import com.shengsu.helper.service.impl.JpushNormalServiceImpl;
+import com.shengsu.helper.service.impl.JpushScheduleCancelServiceImpl;
 import com.shengsu.helper.service.impl.JpushScheduleServiceImpl;
 import com.shengsu.mq.message.MessageListen;
-import com.shengsu.helper.service.impl.JpushScheduleCancelServiceImpl;
-import com.shengsu.helper.service.impl.JpushNormalServiceImpl;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
@@ -13,8 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * Created by Bell on 2019/10/24.
@@ -30,17 +32,18 @@ public class JPushConsumer {
     private JpushScheduleCancelServiceImpl jpushScheduleCancelService;
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
-    @Value("${rocketmq.consumer.groupName}")
-    private String groupName;
+    @Value("${rocketmq.consumer.jpushGroup}")
+    private String jpushGroup;
     @Value("${rocketmq.consumer.consumeThreadMin}")
     private int consumeThreadMin;
     @Value("${rocketmq.consumer.consumeThreadMax}")
     private int consumeThreadMax;
+    DefaultMQPushConsumer consumer;
 
 
-    @Bean
-    public DefaultMQPushConsumer getsendToAliasListConsumer(){
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
+    @PostConstruct
+    public void init() {
+        consumer = new DefaultMQPushConsumer(jpushGroup);
         consumer.setNamesrvAddr(namesrvAddr);
         consumer.setConsumeThreadMin(consumeThreadMin);
         consumer.setConsumeThreadMax(consumeThreadMax);
@@ -50,24 +53,30 @@ public class JPushConsumer {
         MessageListen messageListen = new MessageListen();
         addJpushMessage(messageListen);
         consumer.registerMessageListener(messageListen);
-        try{
-            consumer.subscribe(ConsumerEnum.JPUSHMESSAGE.getTopic(),ConsumerEnum.JPUSHMESSAGE.getTag());
+        try {
+            consumer.subscribe(ConsumerEnum.JPUSHMESSAGE.getTopic(), ConsumerEnum.JPUSHMESSAGE.getTag());
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
             consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.start();
 
-        }catch (MQClientException e){
+        } catch (MQClientException e) {
             log.error("consumer start error");
             e.printStackTrace();
         }
-        return consumer;
     }
 
-    private void addJpushMessage(MessageListen messageListen){
+    private void addJpushMessage(MessageListen messageListen) {
         String[] split = ConsumerEnum.JPUSHMESSAGE.getTag().split("\\|\\|");
-        messageListen.registerHandler(split[0],jpushNormalService);
-        messageListen.registerHandler(split[1],jpushScheduleService);
+        messageListen.registerHandler(split[0], jpushNormalService);
+        messageListen.registerHandler(split[1], jpushScheduleService);
         messageListen.registerHandler(split[2], jpushScheduleCancelService);
+    }
+
+    @PreDestroy
+    private void destroy() {
+        if (consumer != null) {
+            consumer.shutdown();
+        }
     }
 
 }

@@ -28,6 +28,8 @@ public class MessageListen implements MessageListenerConcurrently {
 
         MessageExt ext = list.get(0);
         String message = new String(ext.getBody());
+        log.info(message);
+        System.out.println(ext.getMsgId());
         //获取到tag
         String tags = ext.getTags();
 
@@ -39,6 +41,7 @@ public class MessageListen implements MessageListenerConcurrently {
              obj = messageProcessor.transferMessage(message);
         } catch (Exception e) {
             e.printStackTrace();
+            log.info("反序列化失败了");
         }
         //处理消息
         boolean result = messageProcessor.handleMessage(obj);

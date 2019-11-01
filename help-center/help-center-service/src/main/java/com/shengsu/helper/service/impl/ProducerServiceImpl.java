@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -33,8 +34,8 @@ public class ProducerServiceImpl implements ProducerService {
 
     @Value("${rocketmq.producer.namesrvAddr}")
     private String namesrvAddr;
-    @Value("${rocketmq.producer.groupName}")
-    private String groupName;
+    @Value("${rocketmq.producer.logGroup}")
+    private String logGroup;
     @Value("${rocketmq.producer.maxMessageSize}")
     private Integer maxMessageSize;
     @Value("${rocketmq.producer.sendMsgTimeout}")
@@ -42,11 +43,10 @@ public class ProducerServiceImpl implements ProducerService {
 
     private DefaultMQProducer rocketMqProducer;
 
+    @PostConstruct
+    public void init() {
 
-    @Bean
-    public DefaultMQProducer getRocketMQProducer() {
-
-        rocketMqProducer = new DefaultMQProducer(groupName);
+        rocketMqProducer = new DefaultMQProducer(logGroup);
         rocketMqProducer.setNamesrvAddr(namesrvAddr);
         rocketMqProducer.setMaxMessageSize(maxMessageSize);
         rocketMqProducer.setSendMsgTimeout(sendMsgTimeout);
@@ -59,7 +59,6 @@ public class ProducerServiceImpl implements ProducerService {
             log.error(String.format("rocketMQ start error,{}", e.getMessage()));
             e.printStackTrace();
         }
-        return rocketMqProducer;
     }
 
     public ResultBean rocketMqSend(ProducerEnum producer, String body) throws UnsupportedEncodingException, InterruptedException, RemotingException, MQClientException, MQBrokerException {

@@ -17,7 +17,7 @@ zookeeper:
 dubbo:
   group: help-center
   port: 20884
-  version: 1.0
+  version: 2.0
 oss:
   endpoint: https://oss-cn-hangzhou.aliyuncs.com
   accessKeyId: LTAISsw5CZys2sER
@@ -38,12 +38,11 @@ logging:
 rocketmq:
   producer:
     namesrvAddr: 192.168.1.52:9876
-    groupName: defaultGroup
+    logGroup: logGroup
     maxMessageSize: 131072
     sendMsgTimeout: 10000
   consumer:
-      isOnOff: on
-      groupName: defaultGroup
+      jpushGroup: jpushGroup
       #mq的nameserver地址
       namesrvAddr: 192.168.1.52:9876
       consumeThreadMin: 20
