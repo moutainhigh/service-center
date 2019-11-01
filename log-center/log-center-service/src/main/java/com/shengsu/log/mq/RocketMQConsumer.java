@@ -1,7 +1,6 @@
 package com.shengsu.log.mq;
 
 import com.shengsu.log.mq.message.MessageListen;
-import com.shengsu.log.mq.message.MessageProcessor;
 import com.shengsu.log.service.impl.LogBusinessServiceImpl;
 import com.shengsu.log.service.impl.LogErrorServiceImpl;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -12,8 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by zyc on 2019/9/27.
@@ -46,8 +46,8 @@ public class RocketMQConsumer {
     @Value("${rocketmq.consumer.logError.tag}")
     private String logErrorTag;
 
-    @Bean
-    public DefaultMQPushConsumer getRocketMQConsumer() {
+    @PostConstruct
+    public void init() {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
         consumer.setNamesrvAddr(namesrvAddr);
         consumer.setConsumeThreadMin(consumeThreadMin);
@@ -71,7 +71,6 @@ public class RocketMQConsumer {
             log.error("consume start error");
             e.printStackTrace();
         }
-        return consumer;
     }
 
 
