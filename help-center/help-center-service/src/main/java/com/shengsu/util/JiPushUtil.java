@@ -16,6 +16,11 @@ import cn.jpush.api.schedule.ScheduleResult;
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -28,13 +33,18 @@ import java.util.List;
  * @Description: 极光推送工具类
  * @Date: 2019/4/2
  */
-
+@Component
 public class JiPushUtil {
  
     private static final Logger LOGGER = LoggerFactory.getLogger(JiPushUtil.class);
+    @Value("${jiguang.apnsProduction}")
     private boolean apnsProduction;//上线之后要改为true
- 
+    @Value("${jiguang.appKey}")
+    private String appKey;
+    @Value("${jiguang.masterSecret}")
+    private String masterSecret;
     private JPushClient jPushClient;
+
 
     public JiPushUtil(String masterSecret, String appKey, boolean apnsProduction){
     	jPushClient = new JPushClient(masterSecret,appKey);
