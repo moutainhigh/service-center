@@ -601,12 +601,12 @@ public class JiPushUtil {
     }
 
     /**
-     * @throws bizException
+     *
      * @auth
      * @date 2018年5月2日
      * @decripe:把obj对象的json串推送到别名为DeviceSN的设备上,同时记录返回的msg_id
      */
-    public PushResult SendPush(Object obj, String DeviceSN, String MsgType) throws bizException {
+    public PushResult SendPush(Object obj, String DeviceSN, String MsgType) throws BizException {
         String objStr = objectToJson(obj);
         PushPayload push = PushPayload.newBuilder().setPlatform(Platform.all())
                 .setMessage(Message.newBuilder().setMsgContent(objStr)
@@ -632,18 +632,18 @@ public class JiPushUtil {
             LOGGER.error("Sendno: " + push.getSendno());
         }
         if (result == null) {
-            throw new bizException("与设备通话失败，请联系管理员处理！");
+            throw new BizException("与设备通话失败，请联系管理员处理！");
         }
         return result;
     }
 
     /**
-     * @throws bizException
+     *
      * @auth
      * @date 2018年5月2日
      * @decripe 把obj对象的json串推送到所有设备上
      */
-    public PushResult sendPushAll(Object obj, String MsgType) throws bizException {
+    public PushResult sendPushAll(Object obj, String MsgType) throws BizException {
         String objStr = objectToJson(obj);
         PushPayload push = PushPayload.newBuilder().setPlatform(Platform.all())
                 .setMessage(Message.newBuilder().setMsgContent(objStr)
@@ -669,7 +669,7 @@ public class JiPushUtil {
             LOGGER.error("Sendno: " + push.getSendno());
         }
         if (result == null) {
-            throw new bizException("推送失败,请联系管理员处理！");
+            throw new BizException("推送失败,请联系管理员处理！");
         }
         return result;
     }
@@ -703,11 +703,11 @@ public class JiPushUtil {
                 .setMessage(Message.newBuilder().setMsgContent(objStr)
                         .addExtras(Collections.singletonMap("MsgType", MsgType)).build())
                 .setOptions(Options.newBuilder()
-                        //此字段的值是用来指定本推送要推送的apns环境，false表示开发，true表示生产；对android和自定义消息无意义
-                        .setApnsProduction(apnsProduction)
-                        //此字段是给开发者自己给推送编号，方便推送者分辨推送记录
-                        .setSendno(1)
-                        //此字段的值是用来指定本推送的离线保存时长，如果不传此字段则默认保存一天，最多指定保留十天；
+                		 //此字段的值是用来指定本推送要推送的apns环境，false表示开发，true表示生产；对android和自定义消息无意义
+                		 .setApnsProduction(apnsProduction)
+                		 //此字段是给开发者自己给推送编号，方便推送者分辨推送记录
+                		 .setSendno(1)
+                		 //此字段的值是用来指定本推送的离线保存时长，如果不传此字段则默认保存一天，最多指定保留十天；
                         .setTimeToLive(86400)
                         .build())
                 .setAudience(Audience.alias(aliasList)).build();
