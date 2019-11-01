@@ -591,9 +591,9 @@ public class JiPushUtil {
      * @auth
      * @date 2018年5月2日
      * @decripe:把obj对象的json串推送到别名为DeviceSN的设备上,同时记录返回的msg_id
-     * @throws bizException
+     * @throws BizException
      */
-    public PushResult SendPush(Object obj, String DeviceSN, String MsgType) throws bizException {
+    public PushResult SendPush(Object obj, String DeviceSN, String MsgType) throws BizException {
         String objStr = objectToJson(obj);
         PushPayload push = PushPayload.newBuilder().setPlatform(Platform.all())
                 .setMessage(Message.newBuilder().setMsgContent(objStr)
@@ -619,7 +619,7 @@ public class JiPushUtil {
             LOGGER.error("Sendno: " + push.getSendno());
         }
         if (result == null) {
-            throw new bizException("与设备通话失败，请联系管理员处理！");
+            throw new BizException("与设备通话失败，请联系管理员处理！");
         }
         return result;
     }
@@ -629,9 +629,9 @@ public class JiPushUtil {
      * @auth
      * @date 2018年5月2日
      * @decripe 把obj对象的json串推送到所有设备上
-     * @throws bizException
+     * @throws BizException
      */
-    public PushResult sendPushAll(Object obj, String MsgType) throws bizException {
+    public PushResult sendPushAll(Object obj, String MsgType) throws BizException {
         String objStr = objectToJson(obj);
         PushPayload push = PushPayload.newBuilder().setPlatform(Platform.all())
                 .setMessage(Message.newBuilder().setMsgContent(objStr)
@@ -657,7 +657,7 @@ public class JiPushUtil {
             LOGGER.error("Sendno: " + push.getSendno());
         }
         if (result == null) {
-            throw new bizException("推送失败,请联系管理员处理！");
+            throw new BizException("推送失败,请联系管理员处理！");
         }
         return result;
     }

@@ -5,14 +5,14 @@ package com.shengsu.util;
  * @author zxh
  *
  */
-public class bizException extends Exception {
+public class BizException extends Exception {
 	private static final long serialVersionUID = 1L;
 	private Integer code;
-	public bizException(String message) {
+	public BizException(String message) {
 		super(message);
 	}
 	// 根据结果返回消息构造异常
-	public bizException(ResultCode resultCode){
+	public BizException(ResultCode resultCode){
 		super(resultCode.getResultMessage());
 		this.code = resultCode.getCode();
 	}
