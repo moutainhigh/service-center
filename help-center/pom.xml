@@ -47,10 +47,5 @@
             <artifactId>ding-talk-client</artifactId>
             <version>1.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>ding-talk-client-source</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 </project>
