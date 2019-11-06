@@ -10,12 +10,14 @@ import com.aliyuncs.sts.model.v20150401.AssumeRoleRequest;
 import com.aliyuncs.sts.model.v20150401.AssumeRoleResponse;
 import com.shengsu.helper.entity.SecurityToken;
 import com.shengsu.helper.service.StsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by zyc on 2019/10/12.
  */
+@Slf4j
 @Service(value = "stsService")
 public class StsServiceImpl implements StsService {
     // 目前只有"cn-hangzhou"这个region可用, 不要使用填写其他region的值
@@ -85,7 +87,7 @@ public class StsServiceImpl implements StsService {
             securityToken.setStsToken(response.getCredentials().getSecurityToken());
             securityToken.setBucket(bucketName);
         } catch (ClientException e) {
-            e.printStackTrace();
+            log.error("异常",e);
         }
         return securityToken;
     }

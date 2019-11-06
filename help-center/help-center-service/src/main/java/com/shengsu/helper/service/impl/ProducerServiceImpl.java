@@ -56,8 +56,7 @@ public class ProducerServiceImpl implements ProducerService {
             rocketMqProducer.start();
             log.info("rocketMQ is start !!groupName : {},nameserAddr:{}", logGroup, namesrvAddr);
         } catch (MQClientException e) {
-            log.error(String.format("rocketMQ start error,{}", e.getMessage()));
-            e.printStackTrace();
+            log.error(String.format("rocketMQ start error,{}", e));
         }
     }
 

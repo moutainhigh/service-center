@@ -11,11 +11,13 @@ import com.shengsu.app.util.ResultUtil;
 import com.shengsu.helper.entity.DingTalkLink;
 import com.shengsu.helper.service.DingTalkService;
 import com.taobao.api.ApiException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by zyc on 2019/10/12.
  */
+@Slf4j
 @Service(value = "dingTalkService")
 public class DingTalkServiceImpl implements DingTalkService {
 
@@ -34,7 +36,7 @@ public class DingTalkServiceImpl implements DingTalkService {
         try {
             response = client.execute(request);
         } catch (ApiException e) {
-            e.printStackTrace();
+            log.error("调用钉钉api异常",e);
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS, response);
     }
