@@ -41,4 +41,8 @@ rocketmq:
     consumeThreadMin: 20
     consumeThreadMax: 64
     consumeMessageBatchMaxSize: 10
-
+dingtalk:
+  environment: test
+  groupUrl: https://oapi.dingtalk.com/robot/send?access_token=f105a713f128434216f72bd98b37b141f134d5a272eca4a9168cf0bcc435db0a
+  msgUrl: http://192.168.1.52:9005/system/error_log
+  picUrl: https://shengsu-public.oss-cn-hangzhou.aliyuncs.com/help-center/exception.png

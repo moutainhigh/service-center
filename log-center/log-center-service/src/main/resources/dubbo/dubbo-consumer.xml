@@ -8,7 +8,7 @@
     	http://code.alibabatech.com/schema/dubbo
        	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <!--使用 dubbo 协议实现定义好的接口-->
-    <dubbo:service interface="com.shengsu.log.service.LogBusinessService" ref="logBusinessService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.log.service.LogErrorService" ref="logErrorService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+
+	<!--接口服务-->
+	<dubbo:reference id="dingTalkService" interface="com.shengsu.helper.service.DingTalkService" timeout="3000" version="${dubbo.version}"/>
 </beans>
