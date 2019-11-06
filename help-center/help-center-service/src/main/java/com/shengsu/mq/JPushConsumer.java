@@ -38,6 +38,8 @@ public class JPushConsumer {
     private int consumeThreadMin;
     @Value("${rocketmq.consumer.consumeThreadMax}")
     private int consumeThreadMax;
+    @Value("${rocketmq.consumer.consumeTimeout}")
+    private int consumeTimeout;
     DefaultMQPushConsumer consumer;
 
 
@@ -48,7 +50,7 @@ public class JPushConsumer {
         consumer.setConsumeThreadMin(consumeThreadMin);
         consumer.setConsumeThreadMax(consumeThreadMax);
         consumer.setVipChannelEnabled(false);
-
+        consumer.setConsumeTimeout(consumeTimeout);
 
         MessageListen messageListen = new MessageListen();
         addJpushMessage(messageListen);

@@ -43,12 +43,11 @@ rocketmq:
     sendMsgTimeout: 10000
   consumer:
       jpushGroup: jpushGroup
-      #mq的nameserver地址
       namesrvAddr: 192.168.1.52:9876
       consumeThreadMin: 20
       consumeThreadMax: 64
-          # 设置一次消费消息的条数，默认为1条
       consumeMessageBatchMaxSize: 10
+      consumeTimeout: 30
 
 jiguang:
   apnsProduction: false
