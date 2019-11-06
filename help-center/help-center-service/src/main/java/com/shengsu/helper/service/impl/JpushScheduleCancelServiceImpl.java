@@ -29,8 +29,7 @@ public class JpushScheduleCancelServiceImpl implements MessageProcessor<JpushSch
             try {
                 JiPushUtil.deleteSchedule(jpushSchedualRecord.getScheduleId());
             } catch (Exception e) {
-                e.printStackTrace();
-                log.info("极光推送失败了");
+                log.error("极光推送失败了:",e);
             }
         }
         return true;

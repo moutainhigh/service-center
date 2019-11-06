@@ -40,8 +40,7 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
         try {
             scheduleResult = JiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notificationTitle, extrasParam, content, name);
         } catch (Exception e) {
-            e.printStackTrace();
-            log.info("极光推送失败了");
+            log.error("极光推送失败了:",e);
         }
 
         if (scheduleResult != null) {

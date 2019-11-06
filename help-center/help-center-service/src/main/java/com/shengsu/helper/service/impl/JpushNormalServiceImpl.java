@@ -30,8 +30,7 @@ public class JpushNormalServiceImpl implements MessageProcessor<JpushNormal> {
         try {
             JiPushUtil.sendToAliasList(aliasList, notificationTitle, msgTitle, msgContent, extrasParam);
         } catch (Exception e) {
-            e.printStackTrace();
-            log.info("极光推送失败了");
+            log.error("极光推送失败了:",e);
         }
         return true;
     }
