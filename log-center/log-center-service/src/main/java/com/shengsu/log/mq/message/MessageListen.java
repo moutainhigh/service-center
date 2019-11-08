@@ -36,8 +36,7 @@ public class MessageListen implements MessageListenerConcurrently {
             //将String类型的message反序列化成对应的对象。
             obj = messageProcessor.transferMessage(message);
         } catch (Exception e) {
-            e.printStackTrace();
-            log.info("反序列化失败了");
+            log.error("反序列化失败了",e);
         }
         //处理消息
         boolean result = messageProcessor.handleMessage(obj);

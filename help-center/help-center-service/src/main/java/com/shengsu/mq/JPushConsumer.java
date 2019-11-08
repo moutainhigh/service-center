@@ -5,6 +5,7 @@ import com.shengsu.helper.service.impl.JpushNormalServiceImpl;
 import com.shengsu.helper.service.impl.JpushScheduleCancelServiceImpl;
 import com.shengsu.helper.service.impl.JpushScheduleServiceImpl;
 import com.shengsu.mq.message.MessageListen;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
@@ -21,9 +22,9 @@ import javax.annotation.PreDestroy;
 /**
  * Created by Bell on 2019/10/24.
  */
+@Slf4j
 @Component
 public class JPushConsumer {
-    public static final Logger log = LoggerFactory.getLogger(JPushConsumer.class);
     @Autowired
     private JpushNormalServiceImpl jpushNormalService;
     @Autowired
@@ -51,19 +52,15 @@ public class JPushConsumer {
         consumer.setConsumeThreadMax(consumeThreadMax);
         consumer.setVipChannelEnabled(false);
         consumer.setConsumeTimeout(consumeTimeout);
-
         MessageListen messageListen = new MessageListen();
         addJpushMessage(messageListen);
         consumer.registerMessageListener(messageListen);
         try {
             consumer.subscribe(ConsumerEnum.JPUSHMESSAGE.getTopic(), ConsumerEnum.JPUSHMESSAGE.getTag());
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-            consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.start();
-
         } catch (MQClientException e) {
-            log.error("consumer start error");
-            e.printStackTrace();
+            log.error("consumer start error:",e);
         }
     }
 

@@ -65,13 +65,10 @@ public class RocketMQConsumer {
             consumer.subscribe(logBusinessTopic, logBusinessTag);
             consumer.subscribe(logErrorTopic, logErrorTag);
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-            // 设置为集群消费(区别于广播消费)
-            consumer.setMessageModel(MessageModel.CLUSTERING);
             consumer.start();
             log.info("consume is start ,groupName:{},topic:{}", logGroup);
         } catch (MQClientException e) {
-            log.error("consume start error");
-            e.printStackTrace();
+            log.error("consume start error:",e);
         }
     }
 

@@ -73,10 +73,9 @@ public class JiPushUtil {
                 result = 1;
             }
         } catch (APIConnectionException e) {
-            e.printStackTrace();
-
+            LOGGER.error("连接异常：",e);
         } catch (APIRequestException e) {
-            e.printStackTrace();
+            LOGGER.error("请求异常:",e);
         }
 
         return result;
@@ -715,8 +714,6 @@ public class JiPushUtil {
             result = jPushClient.createSingleSchedule(name, time, push);
             LOGGER.info("Got result - " + result);
             LOGGER.info("send objStr - " + objStr);
-            System.out.println(result);
-            System.out.println(objStr);
         } catch (APIConnectionException e) {
             LOGGER.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {

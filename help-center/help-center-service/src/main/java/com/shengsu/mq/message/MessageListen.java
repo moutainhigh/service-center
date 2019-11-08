@@ -29,19 +29,16 @@ public class MessageListen implements MessageListenerConcurrently {
         MessageExt ext = list.get(0);
         String message = new String(ext.getBody());
         log.info(message);
-        System.out.println(ext.getMsgId());
         //获取到tag
         String tags = ext.getTags();
-
         //根据tag从handleMap里获取到我们的处理类
-            MessageProcessor messageProcessor = handleMap.get(tags);
+        MessageProcessor messageProcessor = handleMap.get(tags);
         Object obj = null;
         try {
             //将String类型的message反序列化成对应的对象。
              obj = messageProcessor.transferMessage(message);
         } catch (Exception e) {
-            e.printStackTrace();
-            log.info("反序列化失败了");
+            log.error("反序列化失败了:",e);
         }
         //处理消息
         boolean result = messageProcessor.handleMessage(obj);
