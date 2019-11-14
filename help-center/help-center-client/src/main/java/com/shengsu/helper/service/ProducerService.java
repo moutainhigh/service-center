@@ -1,6 +1,6 @@
 package com.shengsu.helper.service;
 
-import com.shengsu.app.constant.ResultBean;
+import com.shengsu.result.ResultBean;
 import com.shengsu.helper.constant.ProducerEnum;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;

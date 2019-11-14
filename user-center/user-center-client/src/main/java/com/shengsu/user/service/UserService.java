@@ -1,7 +1,6 @@
 package com.shengsu.user.service;
 
-import com.shengsu.app.constant.ResultBean;
-import com.shengsu.app.exception.BizException;
+import com.shengsu.result.ResultBean;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.user.entity.User;
 import com.shengsu.user.po.UserDetailsPo;

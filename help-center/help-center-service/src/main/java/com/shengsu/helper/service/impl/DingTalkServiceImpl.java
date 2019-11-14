@@ -5,7 +5,7 @@ import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiRobotSendRequest;
 import com.dingtalk.api.response.OapiRobotSendResponse;
-import com.shengsu.app.constant.ResultBean;
+import com.shengsu.result.ResultBean;
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.app.util.ResultUtil;
 import com.shengsu.helper.entity.DingTalkLink;

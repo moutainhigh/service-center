@@ -1,6 +1,6 @@
 package com.shengsu.user.service.impl;
 
-import com.shengsu.app.constant.ResultBean;
+import com.shengsu.result.ResultBean;
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.app.util.ResultUtil;
 import com.shengsu.base.mapper.BaseMapper;

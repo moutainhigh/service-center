@@ -1,6 +1,6 @@
 package com.shengsu.user.service;
 
-import com.shengsu.app.constant.ResultBean;
+import com.shengsu.result.ResultBean;
 import com.shengsu.user.po.UserDetailsPo;
 
 /**
