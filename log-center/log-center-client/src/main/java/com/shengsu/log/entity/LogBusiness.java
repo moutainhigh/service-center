@@ -63,5 +63,6 @@ public class LogBusiness extends BaseEntity {
      * 请求ip
      */
     private String requestIp;
-
+    private String startTime;//创建开始时间
+    private String endTime;//创建结束时间
 }
