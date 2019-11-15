@@ -13,7 +13,7 @@ import java.util.Date;
  */
 
 @Data
-public class Message extends BaseEntity{
+public class JpushMessage extends BaseEntity{
 	private static final long serialVersionUID = 1L;
 	private String messageId;
 	private String userId;

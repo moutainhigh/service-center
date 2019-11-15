@@ -4,7 +4,7 @@ import cn.jpush.api.schedule.ScheduleResult;
 import com.shengsu.helper.entity.Extrasparam;
 import com.shengsu.helper.entity.JpushSchedualRecord;
 import com.shengsu.helper.entity.JpushSchedule;
-import com.shengsu.helper.entity.Message;
+import com.shengsu.helper.entity.JpushMessage;
 import com.shengsu.mapper.JpushSchedualRecordMapper;
 import com.shengsu.mq.message.MessageProcessor;
 import com.shengsu.util.JiPushUtil;
@@ -28,7 +28,7 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
 
     @Override
     public boolean handleMessage(JpushSchedule jpushSchedule) {
-        Message message = jpushSchedule.getMessage();
+        JpushMessage message = jpushSchedule.getMessage();
         List<String> aliasList = jpushSchedule.getAliasList();
         Date date = jpushSchedule.getDate();
         String MsgType = jpushSchedule.getMsgType();

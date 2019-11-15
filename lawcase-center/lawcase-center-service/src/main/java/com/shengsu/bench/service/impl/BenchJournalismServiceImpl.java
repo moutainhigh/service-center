@@ -53,7 +53,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
         for (BenchJournalism benchJournalism :
                 journalismList) {
             String pictureOssId = benchJournalism.getPictureOssId();
-            benchJournalism.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_FILEDIR, pictureOssId));
+            benchJournalism.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_LAW_NEWS_FILEDIR, pictureOssId));
         }
         return journalismList;
     }
@@ -93,7 +93,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
             return null;
         }
 
-        String url = ossService.getUrl(OssConstant.OSS_FILEDIR, journalism.getPictureOssId());
+        String url = ossService.getUrl(OssConstant.OSS_LAW_NEWS_FILEDIR, journalism.getPictureOssId());
         journalism.setPictureOssUrl(url);
         return journalism;
     }
@@ -105,7 +105,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
             return null;
         }
 
-        String url = ossService.getUrl(OssConstant.OSS_FILEDIR, journalism.getPictureOssId());
+        String url = ossService.getUrl(OssConstant.OSS_LAW_NEWS_FILEDIR, journalism.getPictureOssId());
         journalism.setPictureOssUrl(url);
         return journalism;
     }

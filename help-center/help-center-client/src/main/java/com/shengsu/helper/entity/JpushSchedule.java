@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Data
 public class JpushSchedule {
-    private Message Message;
+    private JpushMessage Message;
     private List<String> aliasList;
     private Date date;
     private String MsgType;
