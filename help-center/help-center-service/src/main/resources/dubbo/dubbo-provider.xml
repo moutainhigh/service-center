@@ -20,4 +20,6 @@
     <dubbo:service interface="com.shengsu.helper.service.StsService" ref="stsService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.helper.service.ProducerService" ref="producerService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.helper.service.DingTalkService" ref="dingTalkService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.service.CodeGeneratorService" ref="codeGeneratorService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.service.AntiDuplicateService" ref="antiDuplicateService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>
