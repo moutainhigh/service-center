@@ -13,4 +13,5 @@
 	<dubbo:service interface="com.shengsu.consult.service.ConsultService" ref="consultService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:service interface="com.shengsu.bench.service.BenchJournalismService" ref="benchJournalismService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:service interface="com.shengsu.bench.service.BenchLawyerService" ref="benchLawyerService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+	<dubbo:service interface="com.shengsu.system.service.SystemConfigService" ref="systemConfigService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>
