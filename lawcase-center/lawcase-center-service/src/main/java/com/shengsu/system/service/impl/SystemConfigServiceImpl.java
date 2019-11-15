@@ -38,8 +38,8 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     public ResultBean getLawcaseUser(){
         Map<String, List<LawcaseJoinUser>> resultMap = new HashMap<>();
         resultMap.put("appointMemberList",lawcaseAppointMemberMapper.getLawcaseJoinUser());
-        resultMap.put("approveTrialMemberList",lawcaseGroupPermanentMemberMapper.getLawcaseJoinUser());
-        resultMap.put("groupPermanentMemberList",lawcaseApproveTrialMemberMapper.getLawcaseJoinUser());
+        resultMap.put("approveTrialMemberList",lawcaseApproveTrialMemberMapper.getLawcaseJoinUser());
+        resultMap.put("groupPermanentMemberList",lawcaseGroupPermanentMemberMapper.getLawcaseJoinUser());
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resultMap);
     }
 
