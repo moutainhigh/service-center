@@ -9,4 +9,5 @@ public interface StsService {
 
     AssumeRoleResponse assumeRole(String policy,ProtocolType protocolType) throws ClientException;
     SecurityToken getToken();
+    SecurityToken getToken(String fileDir);
 }

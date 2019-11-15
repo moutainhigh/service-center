@@ -13,4 +13,5 @@ public class SecurityToken implements Serializable{
     private String accessKeySecret;
     private String stsToken;
     private String bucket;
+    private String fileDir;
 }

@@ -25,7 +25,7 @@ public class StsServiceImpl implements StsService {
     // 当前 STS API 版本
     public static final String STS_API_VERSION = "2015-04-01";
     // token过期时间(s)
-    public static final long EXPIRE_TIME = 1*60*60;
+    public static final long EXPIRE_TIME = 1 * 60 * 60;
     @Value("${oss.accessKeyId}")
     private String accessKeyId;
     @Value("${oss.accessKeySecret}")
@@ -39,6 +39,7 @@ public class StsServiceImpl implements StsService {
 
     /**
      * 请求阿里云STS服务
+     *
      * @param policy
      * @param protocolType
      * @return
@@ -67,27 +68,33 @@ public class StsServiceImpl implements StsService {
         }
     }
 
-
     /**
      * 获取阿里云资源访问临时token
+     *
      * @return
      */
     @Override
     public SecurityToken getToken() {
+        return getToken(null);
+    }
+
+    @Override
+    public SecurityToken getToken(String fileDir) {
         //需要在RAM控制台获取，此时要给子账号权限，并建立一个角色，把这个角色赋给子账户，这个角色会有一串值，就是rolearn要填的　　　　　　　　　　
         //记得角色的权限，子账户的权限要分配好，不然会报错
         //临时Token的会话名称，自己指定用于标识你的用户，主要用于审计，或者用于区分Token颁发给谁
         ProtocolType protocolType = ProtocolType.HTTPS;
         SecurityToken securityToken = null;
         try {
-            AssumeRoleResponse response = assumeRole( null, protocolType);
+            AssumeRoleResponse response = assumeRole(null, protocolType);
             securityToken = new SecurityToken();
             securityToken.setAccessKeyId(response.getCredentials().getAccessKeyId());
             securityToken.setAccessKeySecret(response.getCredentials().getAccessKeySecret());
             securityToken.setStsToken(response.getCredentials().getSecurityToken());
             securityToken.setBucket(bucketName);
+            securityToken.setFileDir(fileDir);
         } catch (ClientException e) {
-            log.error("异常",e);
+            log.error("异常", e);
         }
         return securityToken;
     }
