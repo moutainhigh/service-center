@@ -1,4 +1,4 @@
-package com.shengsu.helper.service;
+package com.shengsu.mapper;
 
 import com.shengsu.base.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;

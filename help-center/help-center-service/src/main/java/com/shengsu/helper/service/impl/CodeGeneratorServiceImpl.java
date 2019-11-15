@@ -1,8 +1,8 @@
-package com.shengsu.service.Impl;
+package com.shengsu.helper.service.impl;
 
 
-import com.shengsu.helper.service.CodeGeneratorMapper;
-import com.shengsu.service.CodeGeneratorService;
+import com.shengsu.helper.service.CodeGeneratorService;
+import com.shengsu.mapper.CodeGeneratorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.Map;
  * 单据流水号产生服务,数据库存储过程方式
  */
 @Service("codeGeneratorService")
-public class CodeGeneratorServiceImpl implements CodeGeneratorService{
+public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 
 
     @Autowired
