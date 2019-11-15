@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsu.helper.mapper.CodeGeneratorMapper">
+    
+    <parameterMap type="java.util.Map" id="codeGeneratorMap">
+        <parameter property="prefixCode" jdbcType="VARCHAR"/>
+        <parameter property="newCode" jdbcType="VARCHAR"/>
+    </parameterMap>
+    
+	<select id="getCode" parameterMap="codeGeneratorMap" flushCache="true" statementType="CALLABLE">
+        CALL generate_code(
+        #{prefixCode,mode=IN,jdbcType=VARCHAR},
+        #{newCode,mode=OUT,jdbcType=VARCHAR});
+    </select>
+    <select id="getLawcaseCode" parameterMap="codeGeneratorMap" flushCache="true" statementType="CALLABLE">
+        CALL generate_lawcase_code(
+        #{prefixCode,mode=IN,jdbcType=VARCHAR},
+        #{newCode,mode=OUT,jdbcType=VARCHAR});
+    </select>
+</mapper>
+
+
+
