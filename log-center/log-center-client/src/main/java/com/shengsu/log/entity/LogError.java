@@ -50,5 +50,6 @@ public class LogError extends BaseEntity
     private String errParam;
 
     private String systemTag;
-
+    private String startTime;//创建开始时间
+    private String endTime;//创建结束时间
 }

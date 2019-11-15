@@ -1,9 +1,11 @@
 package com.shengsu.user.entity;
 
 import com.shengsu.user.po.UserDetailsPo;
+import lombok.Data;
 
 import java.io.Serializable;
 
+@Data
 public class Auth implements Serializable {
 
 	/**
@@ -25,37 +27,4 @@ public class Auth implements Serializable {
 		this.user= user;
 	}
 
-	public long getIat() {
-		return iat;
-	}
-
-	public void setIat(long iat) {
-		this.iat = iat;
-	}
-
-	public long getExp() {
-		return exp;
-	}
-
-	public void setExp(long exp) {
-		this.exp = exp;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public UserDetailsPo getUser() {
-		return user;
-	}
-
-	public void setUser(UserDetailsPo user) {
-		this.user = user;
-	}
-
-	
 }
