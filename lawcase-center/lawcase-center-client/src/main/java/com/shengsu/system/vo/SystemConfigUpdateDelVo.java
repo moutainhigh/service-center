@@ -14,6 +14,6 @@ public class SystemConfigUpdateDelVo {
     private String userId;
     @NotNull
     private Integer delFlag;
-    @NotBlank
+    @NotNull
     private Integer type;
 }
