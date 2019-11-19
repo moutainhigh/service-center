@@ -1,4 +1,4 @@
-package com.shengsu.mapper;
+package com.shengsu.helper.mapper;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.helper.entity.JpushSchedualRecord;

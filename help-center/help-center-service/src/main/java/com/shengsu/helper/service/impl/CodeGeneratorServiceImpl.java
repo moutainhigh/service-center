@@ -2,7 +2,7 @@ package com.shengsu.helper.service.impl;
 
 
 import com.shengsu.helper.service.CodeGeneratorService;
-import com.shengsu.mapper.CodeGeneratorMapper;
+import com.shengsu.helper.mapper.CodeGeneratorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
