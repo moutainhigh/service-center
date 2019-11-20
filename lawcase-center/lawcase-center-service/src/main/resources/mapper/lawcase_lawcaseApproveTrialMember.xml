@@ -41,6 +41,7 @@
 		user_name,
 		real_name
 		FROM user as u inner join lawcase_approve_trial_member as l on u.user_id=l.lawyer_user_id
+		ORDER BY l.del_flag,l.sort
 	</select>
 	<update id="updateDel" parameterType="lawcaseApproveTrialMember">
 		UPDATE lawcase_approve_trial_member SET del_flag = #{delFlag}  WHERE lawyer_user_id = #{lawyerUserId}

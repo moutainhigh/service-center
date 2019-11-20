@@ -28,6 +28,7 @@
             user_name,
             real_name
         FROM user as u inner join lawcase_group_permanent_member as l on u.user_id=l.user_id
+        ORDER BY l.del_flag
 	</select>
 
     <update id="updateDel" parameterType="lawcaseGroupPermanentMember">
