@@ -3,12 +3,10 @@ package com.shengsu.log.mq;
 import com.shengsu.log.mq.message.MessageListen;
 import com.shengsu.log.service.impl.LogBusinessServiceImpl;
 import com.shengsu.log.service.impl.LogErrorServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
-import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,10 +17,9 @@ import javax.annotation.PreDestroy;
 /**
  * Created by zyc on 2019/9/27.
  */
+@Slf4j
 @Component
 public class RocketMQConsumer {
-
-    public static final Logger log = LoggerFactory.getLogger(RocketMQConsumer.class);
 
     @Autowired
     private LogBusinessServiceImpl logBusinessService;

@@ -1,11 +1,12 @@
 package com.shengsu.helper.service.impl;
 
 
-import com.shengsu.result.ResultBean;
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.app.util.ResultUtil;
 import com.shengsu.helper.constant.ProducerEnum;
 import com.shengsu.helper.service.ProducerService;
+import com.shengsu.result.ResultBean;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.rocketmq.client.exception.MQBrokerException;
@@ -15,10 +16,7 @@ import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -27,10 +25,9 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by zyc on 2019/10/12.
  */
+@Slf4j
 @Service(value = "producerService")
 public class ProducerServiceImpl implements ProducerService {
-
-    public static final Logger log = LoggerFactory.getLogger(ProducerServiceImpl.class);
 
     @Value("${rocketmq.producer.namesrvAddr}")
     private String namesrvAddr;

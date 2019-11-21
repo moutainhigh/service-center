@@ -15,8 +15,7 @@ import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.schedule.ScheduleResult;
 import com.alibaba.fastjson.JSON;
 import com.shengsu.app.exception.BizException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -32,10 +31,10 @@ import java.util.List;
  * @Description: 极光推送工具类
  * @Date: 2019/4/2
  */
+@Slf4j
 @Component
 public class JiPushUtil {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JiPushUtil.class);
     @Value("${jiguang.apnsProduction}")
     private boolean apnsProduction;
     @Value("${jiguang.appKey}")
@@ -66,17 +65,17 @@ public class JiPushUtil {
         try {
             String extrasparamStr = objectToJson(extrasparam);
             PushPayload pushPayload = buildPushObject_all_aliasList_alertWithTitle(aliasList, notification_title, msg_title, msg_content, extrasparamStr);
-            LOGGER.info("推送给设备标识参数的用户" + pushPayload);
+            log.info("推送给设备标识参数的用户" + pushPayload);
             PushResult pushResult = jPushClient.sendPush(pushPayload);
-            LOGGER.info("推送结果" + pushResult);
+            log.info("推送结果" + pushResult);
             System.out.println(result);
             if (pushResult.getResponseCode() == 200) {
                 result = 1;
             }
         } catch (APIConnectionException e) {
-            LOGGER.error("连接异常：",e);
+            log.error("连接异常：",e);
         } catch (APIRequestException e) {
-            LOGGER.error("请求异常:",e);
+            log.error("请求异常:",e);
         }
 
         return result;
@@ -96,9 +95,9 @@ public class JiPushUtil {
         int result = 0;
         try {
             PushPayload pushPayload = buildPushObject_all_tagList_alertWithTitle(tagsList, notification_title, msg_title, msg_content, extrasparam);
-            LOGGER.info("" + pushPayload);
+            log.info("" + pushPayload);
             PushResult pushResult = jPushClient.sendPush(pushPayload);
-            LOGGER.info("" + pushResult);
+            log.info("" + pushResult);
             if (pushResult.getResponseCode() == 200) {
                 result = 1;
             }
@@ -125,9 +124,9 @@ public class JiPushUtil {
         int result = 0;
         try {
             PushPayload pushPayload = buildPushObject_android_all_alertWithTitle(notification_title, msg_title, msg_content, extrasparam);
-            LOGGER.info("" + pushPayload);
+            log.info("" + pushPayload);
             PushResult pushResult = jPushClient.sendPush(pushPayload);
-            LOGGER.info("" + pushResult);
+            log.info("" + pushResult);
             if (pushResult.getResponseCode() == 200) {
                 result = 1;
             }
@@ -152,9 +151,9 @@ public class JiPushUtil {
         int result = 0;
         try {
             PushPayload pushPayload = buildPushObject_ios_all_alertWithTitle(notification_title, msg_title, msg_content, extrasparam);
-            LOGGER.info("" + pushPayload);
+            log.info("" + pushPayload);
             PushResult pushResult = jPushClient.sendPush(pushPayload);
-            LOGGER.info("" + pushResult);
+            log.info("" + pushResult);
             if (pushResult.getResponseCode() == 200) {
                 result = 1;
             }
@@ -179,9 +178,9 @@ public class JiPushUtil {
         int result = 0;
         try {
             PushPayload pushPayload = buildPushObject_android_and_ios(notification_title, msg_title, msg_content, extrasparam);
-            LOGGER.info("" + pushPayload);
+            log.info("" + pushPayload);
             PushResult pushResult = jPushClient.sendPush(pushPayload);
-            LOGGER.info("" + pushResult);
+            log.info("" + pushResult);
             if (pushResult.getResponseCode() == 200) {
                 result = 1;
             }
@@ -204,7 +203,7 @@ public class JiPushUtil {
      * @return
      */
     private PushPayload buildPushObject_android_and_ios(String notification_title, String msg_title, String msg_content, String extrasparam) {
-        LOGGER.info("----------向所有平台所有用户推送消息中......");
+        log.info("----------向所有平台所有用户推送消息中......");
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android_ios())
                 .setAudience(Audience.all())
@@ -269,7 +268,7 @@ public class JiPushUtil {
      */
     private PushPayload buildPushObject_all_aliasList_alertWithTitle(Collection<String> aliasList, String notification_title, String msg_title, String msg_content, Object extrasparam) {
         String extrasparamStr = objectToJson(extrasparam);
-        LOGGER.info("----------向所有平台单个或多个指定别名用户推送消息中......");
+        log.info("----------向所有平台单个或多个指定别名用户推送消息中......");
         //创建一个IosAlert对象，可指定APNs的alert、title等字段
         //IosAlert iosAlert =  IosAlert.newBuilder().setTitleAndBody("title", "alert body").build();
 
@@ -346,7 +345,7 @@ public class JiPushUtil {
      */
     private PushPayload buildPushObject_all_tagList_alertWithTitle(List<String> tagsList, String notification_title, String msg_title, String msg_content, String extrasparam) {
 
-        LOGGER.info("----------向所有平台单个或多个指定Tag用户推送消息中.......");
+        log.info("----------向所有平台单个或多个指定Tag用户推送消息中.......");
         //创建一个IosAlert对象，可指定APNs的alert、title等字段
         //IosAlert iosAlert =  IosAlert.newBuilder().setTitleAndBody("title", "alert body").build();
 
@@ -424,7 +423,7 @@ public class JiPushUtil {
      * @return
      */
     private PushPayload buildPushObject_android_all_alertWithTitle(String notification_title, String msg_title, String msg_content, String extrasparam) {
-        LOGGER.info("----------向android平台所有用户推送消息中......");
+        log.info("----------向android平台所有用户推送消息中......");
         return PushPayload.newBuilder()
                 //指定要推送的平台，all代表当前应用配置了的所有平台，也可以传android等具体平台
                 .setPlatform(Platform.android())
@@ -472,7 +471,7 @@ public class JiPushUtil {
      * @return
      */
     private PushPayload buildPushObject_ios_all_alertWithTitle(String notification_title, String msg_title, String msg_content, String extrasparam) {
-        LOGGER.info("----------向ios平台所有用户推送消息中.......");
+        log.info("----------向ios平台所有用户推送消息中.......");
         return PushPayload.newBuilder()
                 //指定要推送的平台，all代表当前应用配置了的所有平台，也可以传android等具体平台
                 .setPlatform(Platform.ios())
@@ -535,17 +534,17 @@ public class JiPushUtil {
                 .setAudience(Audience.alias(deviceSN)).build();
         try {
             result = jPushClient.createSingleSchedule(name, time, push);
-            LOGGER.info("Got result - " + result);
-            LOGGER.info("send objStr - " + objStr);
+            log.info("Got result - " + result);
+            log.info("send objStr - " + objStr);
             System.out.println(result);
             System.out.println(objStr);
         } catch (APIConnectionException e) {
-            LOGGER.error("Connection error. Should retry later. ", e);
+            log.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            LOGGER.error("Error response from JPush server. Should review and fix it. ", e);
-            LOGGER.info("HTTP Status: " + e.getStatus());
-            LOGGER.info("Error Code: " + e.getErrorCode());
-            LOGGER.info("Error Message: " + e.getErrorMessage());
+            log.error("Error response from JPush server. Should review and fix it. ", e);
+            log.info("HTTP Status: " + e.getStatus());
+            log.info("Error Code: " + e.getErrorCode());
+            log.info("Error Message: " + e.getErrorMessage());
         }
         return result;
     }
@@ -566,17 +565,17 @@ public class JiPushUtil {
                 .setAudience(Audience.all()).build();
         try {
             result = jPushClient.createSingleSchedule(name, time, push);
-            LOGGER.info("Got result - " + result);
-            LOGGER.info("send objStr - " + objStr);
+            log.info("Got result - " + result);
+            log.info("send objStr - " + objStr);
             System.out.println(result);
             System.out.println(objStr);
         } catch (APIConnectionException e) {
-            LOGGER.error("Connection error. Should retry later. ", e);
+            log.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            LOGGER.error("Error response from JPush server. Should review and fix it. ", e);
-            LOGGER.info("HTTP Status: " + e.getStatus());
-            LOGGER.info("Error Code: " + e.getErrorCode());
-            LOGGER.info("Error Message: " + e.getErrorMessage());
+            log.error("Error response from JPush server. Should review and fix it. ", e);
+            log.info("HTTP Status: " + e.getStatus());
+            log.info("Error Code: " + e.getErrorCode());
+            log.info("Error Message: " + e.getErrorMessage());
         }
         return result;
     }
@@ -591,12 +590,12 @@ public class JiPushUtil {
         try {
             jPushClient.deleteSchedule(scheduleId);
         } catch (APIConnectionException e) {
-            LOGGER.error("Connection error. Should retry later. ", e);
+            log.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            LOGGER.error("Error response from JPush server. Should review and fix it. ", e);
-            LOGGER.info("HTTP Status: " + e.getStatus());
-            LOGGER.info("Error Code: " + e.getErrorCode());
-            LOGGER.info("Error Message: " + e.getErrorMessage());
+            log.error("Error response from JPush server. Should review and fix it. ", e);
+            log.info("HTTP Status: " + e.getStatus());
+            log.info("Error Code: " + e.getErrorCode());
+            log.info("Error Message: " + e.getErrorMessage());
         }
     }
 
@@ -615,21 +614,21 @@ public class JiPushUtil {
         PushResult result = null;
         try {
             result = jPushClient.sendPush(push);
-            LOGGER.info("Got result - " + result);
-            LOGGER.info("send objStr - " + objStr);
+            log.info("Got result - " + result);
+            log.info("send objStr - " + objStr);
             System.out.println(result);
             System.out.println(objStr);
         } catch (APIConnectionException e) {
-            LOGGER.error("Connection error. Should retry later. ", e);
-            LOGGER.error("Sendno: " + push.getSendno());
+            log.error("Connection error. Should retry later. ", e);
+            log.error("Sendno: " + push.getSendno());
 
         } catch (APIRequestException e) {
-            LOGGER.error("Error response from JPush server. Should review and fix it. ", e);
-            LOGGER.info("HTTP Status: " + e.getStatus());
-            LOGGER.info("Error Code: " + e.getErrorCode());
-            LOGGER.info("Error Message: " + e.getErrorMessage());
-            LOGGER.info("Msg ID: " + e.getMsgId());
-            LOGGER.error("Sendno: " + push.getSendno());
+            log.error("Error response from JPush server. Should review and fix it. ", e);
+            log.info("HTTP Status: " + e.getStatus());
+            log.info("Error Code: " + e.getErrorCode());
+            log.info("Error Message: " + e.getErrorMessage());
+            log.info("Msg ID: " + e.getMsgId());
+            log.error("Sendno: " + push.getSendno());
         }
         if (result == null) {
             throw new BizException("与设备通话失败，请联系管理员处理！");
@@ -652,21 +651,21 @@ public class JiPushUtil {
         PushResult result = null;
         try {
             result = jPushClient.sendPush(push);
-            LOGGER.info("Got result - " + result);
-            LOGGER.info("send objStr - " + objStr);
+            log.info("Got result - " + result);
+            log.info("send objStr - " + objStr);
             System.out.println(result);
             System.out.println(objStr);
         } catch (APIConnectionException e) {
-            LOGGER.error("Connection error. Should retry later. ", e);
-            LOGGER.error("Sendno: " + push.getSendno());
+            log.error("Connection error. Should retry later. ", e);
+            log.error("Sendno: " + push.getSendno());
 
         } catch (APIRequestException e) {
-            LOGGER.error("Error response from JPush server. Should review and fix it. ", e);
-            LOGGER.info("HTTP Status: " + e.getStatus());
-            LOGGER.info("Error Code: " + e.getErrorCode());
-            LOGGER.info("Error Message: " + e.getErrorMessage());
-            LOGGER.info("Msg ID: " + e.getMsgId());
-            LOGGER.error("Sendno: " + push.getSendno());
+            log.error("Error response from JPush server. Should review and fix it. ", e);
+            log.info("HTTP Status: " + e.getStatus());
+            log.info("Error Code: " + e.getErrorCode());
+            log.info("Error Message: " + e.getErrorMessage());
+            log.info("Msg ID: " + e.getMsgId());
+            log.error("Sendno: " + push.getSendno());
         }
         if (result == null) {
             throw new BizException("推送失败,请联系管理员处理！");
@@ -713,15 +712,15 @@ public class JiPushUtil {
                 .setAudience(Audience.alias(aliasList)).build();
         try {
             result = jPushClient.createSingleSchedule(name, time, push);
-            LOGGER.info("Got result - " + result);
-            LOGGER.info("send objStr - " + objStr);
+            log.info("Got result - " + result);
+            log.info("send objStr - " + objStr);
         } catch (APIConnectionException e) {
-            LOGGER.error("Connection error. Should retry later. ", e);
+            log.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            LOGGER.error("Error response from JPush server. Should review and fix it. ", e);
-            LOGGER.info("HTTP Status: " + e.getStatus());
-            LOGGER.info("Error Code: " + e.getErrorCode());
-            LOGGER.info("Error Message: " + e.getErrorMessage());
+            log.error("Error response from JPush server. Should review and fix it. ", e);
+            log.info("HTTP Status: " + e.getStatus());
+            log.info("Error Code: " + e.getErrorCode());
+            log.info("Error Message: " + e.getErrorMessage());
         }
         return result;
     }
