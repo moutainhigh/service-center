@@ -2,7 +2,7 @@ package com.shengsu.lawcase.service.impl;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
-import com.shengsu.contant.BizConst;
+import com.shengsu.app.contant.BizConst;
 import com.shengsu.lawcase.entity.*;
 import com.shengsu.lawcase.mapper.LawcaseMapper;
 import com.shengsu.lawcase.service.*;

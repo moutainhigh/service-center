@@ -9,11 +9,10 @@ import com.shengsu.lawcase.mapper.LawcaseApproveTrialMemberMapper;
 import com.shengsu.lawcase.mapper.LawcaseGroupPermanentMemberMapper;
 import com.shengsu.system.service.SystemConfigService;
 import com.shengsu.result.ResultBean;
-import com.shengsu.system.constant.ResultCode;
-import com.shengsu.system.util.ResultUtil;
+import com.shengsu.app.contant.ResultCode;
+import com.shengsu.app.util.ResultUtil;
 import com.shengsu.system.util.SystemConfigUtils;
 import com.shengsu.system.vo.SystemConfigUpdateDelVo;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

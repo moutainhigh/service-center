@@ -1,4 +1,4 @@
-package com.shengsu.system.constant;
+package com.shengsu.app.contant;
 
 /**
  * 防重类型

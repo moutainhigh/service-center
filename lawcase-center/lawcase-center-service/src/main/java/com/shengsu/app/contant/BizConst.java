@@ -1,4 +1,4 @@
-package com.shengsu.contant;
+package com.shengsu.app.contant;
 
 
 /**

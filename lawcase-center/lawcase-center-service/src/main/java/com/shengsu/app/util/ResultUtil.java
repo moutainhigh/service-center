@@ -1,9 +1,9 @@
-package com.shengsu.system.util;
+package com.shengsu.app.util;
 
 
 import com.shengsu.constant.CommonConst;
 import com.shengsu.result.ResultBean;
-import com.shengsu.system.constant.ResultCode;
+import com.shengsu.app.contant.ResultCode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
