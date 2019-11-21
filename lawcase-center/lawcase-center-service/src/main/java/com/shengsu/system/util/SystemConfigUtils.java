@@ -3,6 +3,7 @@ package com.shengsu.system.util;
 import com.shengsu.lawcase.entity.LawcaseAppointMember;
 import com.shengsu.lawcase.entity.LawcaseApproveTrialMember;
 import com.shengsu.lawcase.entity.LawcaseGroupPermanentMember;
+import com.shengsu.lawcase.entity.LawcaseVoteMember;
 import com.shengsu.system.vo.SystemConfigUpdateDelVo;
 
 /**
@@ -36,6 +37,16 @@ public class SystemConfigUtils {
             appointMember.setUserId(systemConfigUpdateDelVo.getUserId());
             appointMember.setDelFlag(systemConfigUpdateDelVo.getDelFlag());
             return appointMember;
+        }
+        return null;
+    }
+
+    public static LawcaseVoteMember toLawcaseVoteMember(SystemConfigUpdateDelVo systemConfigUpdateDelVo){
+        if (systemConfigUpdateDelVo != null) {
+            LawcaseVoteMember voteMember = new LawcaseVoteMember();
+            voteMember.setUserId(systemConfigUpdateDelVo.getUserId());
+            voteMember.setDelFlag(systemConfigUpdateDelVo.getDelFlag());
+            return voteMember;
         }
         return null;
     }

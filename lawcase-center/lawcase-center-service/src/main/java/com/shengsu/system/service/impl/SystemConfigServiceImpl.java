@@ -1,12 +1,10 @@
 package com.shengsu.system.service.impl;
 
-import com.shengsu.lawcase.entity.LawcaseAppointMember;
-import com.shengsu.lawcase.entity.LawcaseApproveTrialMember;
-import com.shengsu.lawcase.entity.LawcaseGroupPermanentMember;
-import com.shengsu.lawcase.entity.LawcaseJoinUser;
+import com.shengsu.lawcase.entity.*;
 import com.shengsu.lawcase.mapper.LawcaseAppointMemberMapper;
 import com.shengsu.lawcase.mapper.LawcaseApproveTrialMemberMapper;
 import com.shengsu.lawcase.mapper.LawcaseGroupPermanentMemberMapper;
+import com.shengsu.lawcase.mapper.LawcaseVoteMemberMapper;
 import com.shengsu.system.service.SystemConfigService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.app.contant.ResultCode;
@@ -32,6 +30,8 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     private LawcaseApproveTrialMemberMapper lawcaseApproveTrialMemberMapper;
     @Autowired
     private LawcaseGroupPermanentMemberMapper lawcaseGroupPermanentMemberMapper;
+    @Autowired
+    private LawcaseVoteMemberMapper lawcaseVoteMemberMapper;
 
 
     public ResultBean getLawcaseUser(){
@@ -39,6 +39,7 @@ public class SystemConfigServiceImpl implements SystemConfigService {
         resultMap.put("appointMemberList",lawcaseAppointMemberMapper.getLawcaseJoinUser());
         resultMap.put("approveTrialMemberList",lawcaseApproveTrialMemberMapper.getLawcaseJoinUser());
         resultMap.put("groupPermanentMemberList",lawcaseGroupPermanentMemberMapper.getLawcaseJoinUser());
+        resultMap.put("voteMemberList",lawcaseVoteMemberMapper.getLawcaseJoinUser());
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resultMap);
     }
 
@@ -57,6 +58,10 @@ public class SystemConfigServiceImpl implements SystemConfigService {
             case 3:
                 LawcaseGroupPermanentMember groupPermanentMember = SystemConfigUtils.toLawcaseGroupPermanentMember(systemConfigUpdateDelVo);
                 lawcaseGroupPermanentMemberMapper.updateDel(groupPermanentMember);
+                break;
+            case 4:
+                LawcaseVoteMember voteMember = SystemConfigUtils.toLawcaseVoteMember(systemConfigUpdateDelVo);
+                lawcaseVoteMemberMapper.updateDel(voteMember);
                 break;
 
         }
