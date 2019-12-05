@@ -4,8 +4,6 @@ import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
 
-import java.util.Date;
-
 /**
  * @ClassName: LogError
  * @Description: (错误日志)
@@ -50,6 +48,7 @@ public class LogError extends BaseEntity
     private String errParam;
 
     private String systemTag;
+    private String requestIp;
     private String startTime;//创建开始时间
     private String endTime;//创建结束时间
 }
