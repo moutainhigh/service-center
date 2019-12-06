@@ -14,9 +14,9 @@ public class LogErrorUtils {
             dingTalkLink.setDingGroupUrl(groupUrl);
             dingTalkLink.setMsgUrl(msgUrl);
             dingTalkLink.setPicUrl(picUrl);
-            String title = logError.getSystemTag() + "-" + environment + "\n" + logError.getCreator()+"\n" + logError.getErrName();
+            String title = logError.getSystemTag() + "-" + environment + "\n" + logError.getCreator();
             dingTalkLink.setTitle(title);
-            dingTalkLink.setText(logError.getErrRemark());
+            dingTalkLink.setText(logError.getErrName());
             return dingTalkLink;
         }
         return null;
