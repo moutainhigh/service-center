@@ -56,7 +56,8 @@
 			err_remark,
 			err_param,
 			system_tag,
-			request_ip
+			request_ip,
+			environment
 		)
 		values
 		(
@@ -67,7 +68,8 @@
 			#{errRemark,jdbcType=CLOB},
 			#{errParam,jdbcType=VARCHAR},
 			#{systemTag},
-			#{requestIp}
+			#{requestIp},
+			#{environment}
 		)
 	</insert>
 </mapper>

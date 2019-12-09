@@ -32,9 +32,6 @@ public class LogErrorServiceImpl extends BaseServiceImpl<LogError, String> imple
 
     @Autowired
     private DingTalkService dingTalkService;
-
-    @Value("${dingtalk.environment}")
-    private String environment;
     @Value("${dingtalk.groupUrl}")
     private String groupUrl;
     @Value("${dingtalk.msgUrl}")
@@ -58,7 +55,8 @@ public class LogErrorServiceImpl extends BaseServiceImpl<LogError, String> imple
         DingTalkLink dingTalkLink = new DingTalkLink();
         logErrorMapper.save(logError);
         //发送钉钉消息
-        DingTalkLink dingTalkLink1 = LogErrorUtils.toDingTalkLink(logError, groupUrl, msgUrl, picUrl, environment);
+        String environment1 = logError.getEnvironment();
+        DingTalkLink dingTalkLink1 = LogErrorUtils.toDingTalkLink(logError, groupUrl, msgUrl, picUrl, environment1);
         dingTalkService.sendLink(dingTalkLink1);
         return true;
     }
