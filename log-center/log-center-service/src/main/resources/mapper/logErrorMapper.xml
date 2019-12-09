@@ -34,7 +34,6 @@
 	<select id="listByPage" parameterType="logError" resultMap="logError_result_map">
 		<include refid="global.paginationStart_mysql" />
 		select
-		rand() id,
 		e.*
 		from
 		system_log_error e
