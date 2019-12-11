@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * @create: 2019-12-10 17:21
  **/
 @Slf4j
-@Service
+@Service(value = "smsService")
 public class SmsServiceImpl implements SmsService {
     @Value("${sms.product}")
     private String product;
