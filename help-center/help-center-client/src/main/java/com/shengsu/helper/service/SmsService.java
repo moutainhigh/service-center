@@ -6,5 +6,5 @@ package com.shengsu.helper.service;
  * @create: 2019-12-10 17:16
  **/
 public interface SmsService {
-     String sendSms(String mobile);
+     void sendSms(String mobile,String code);
 }

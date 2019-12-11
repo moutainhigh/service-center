@@ -10,6 +10,7 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.shengsu.helper.service.SmsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,8 @@ import org.springframework.stereotype.Service;
  * @author: lipiao
  * @create: 2019-12-10 17:21
  **/
-@Service(value = "smsService")
+@Slf4j
+@Service
 public class SmsServiceImpl implements SmsService {
     @Value("${sms.product}")
     private String product;
@@ -33,55 +35,46 @@ public class SmsServiceImpl implements SmsService {
     @Value("${sms.templateCode}")
     private String templateCode;
     @Override
-    public String sendSms(String mobile) {
+    public void sendSms(String mobile,String code) {
         if (mobile == null || mobile == "") {
-            System.out.println("手机号为空");
-            return "";
+            log.error("手机号为空");
+            return ;
         }
+        // 初始化ascClient,暂时不支持多region
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou",
                 accessKeyId, accessKeySecret);
         try {
             DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product,
                     domain);
         } catch (ClientException e1) {
-            e1.printStackTrace();
+            log.error("初始化ascClient失败",e1);
         }
-
-        //获取验证码
-        String code = vcode();
-
         IAcsClient acsClient = new DefaultAcsClient(profile);
         SendSmsRequest request = new SendSmsRequest();
+        // post方式提交
         request.setMethod(MethodType.POST);
+        // 必填:待发送手机号
         request.setPhoneNumbers(mobile);
+        // 必填:短信签名
         request.setSignName(signName);
+        // 必填:短信模板
         request.setTemplateCode(templateCode);
+        // 可选:模板中的变量替换JSON串
         request.setTemplateParam("{ \"code\":\""+code+"\"}");
         SendSmsResponse sendSmsResponse;
         try {
             sendSmsResponse = acsClient.getAcsResponse(request);
             if (sendSmsResponse.getCode() != null
                     && sendSmsResponse.getCode().equals("OK")) {
-                System.out.println("获取验证码成功！！！");
+                log.info("获取验证码成功！！！");
             } else {
-                System.out.println(sendSmsResponse.getCode());
-                System.out.println("获取验证码失败...");
+                log.info("获取验证码失败！！！");
             }
         } catch (ServerException e) {
-            e.printStackTrace();
-            return "由于系统维护，暂时无法注册！！！";
+            log.error("由于系统维护，暂时无法注册！！！:",e);
         } catch (ClientException e) {
-            e.printStackTrace();
-            return "由于系统维护，暂时无法注册！！！";
+            log.error("由于系统维护，暂时无法注册！！！:",e);
         }
-        return code;
     }
 
-    private String vcode() {
-        String vcode = "";
-        for (int i = 0; i < 6; i++) {
-            vcode = vcode + (int)(Math.random() * 9);
-        }
-        return vcode;
-    }
 }
