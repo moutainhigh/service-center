@@ -53,6 +53,14 @@ jiguang:
   apnsProduction: false
   appKey: c5320bf3f48ab3e2e4f6d809
   masterSecret: 340e3eac3a3ae754219cded9
+sms:
+  product: Dysmsapi
+  domain: dysmsapi.aliyuncs.com
+  accessKeyId: LTAI4Fdwm4oZHtE6SJdTJnDx
+  accessKeySecret: It3EmApg1qSRoKoJuMItWtzoZAPIcY
+  signName: 浙江援手律师事务所
+  templateCode: SMS_179860298
+
 
 
 
