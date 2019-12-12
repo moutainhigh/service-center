@@ -59,7 +59,7 @@ public class ProducerServiceImpl implements ProducerService {
 
     public ResultBean rocketMqSend(ProducerEnum producer, String body) throws UnsupportedEncodingException, InterruptedException, RemotingException, MQClientException, MQBrokerException {
         if (producer == null || StringUtils.isBlank(body)) {
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_LOGIN_PARAM_ERROR);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_PARAM_ERROR);
         }
 
         Message message = new Message(producer.getTopic(), producer.getTag(), body.getBytes(RemotingHelper.DEFAULT_CHARSET));
