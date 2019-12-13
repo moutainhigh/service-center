@@ -40,18 +40,18 @@ public class ProducerServiceImpl implements ProducerService {
     @Value("${rocketmq.producer.sendMsgTimeout}")
     private Integer sendMsgTimeout;
 
-    private DefaultMQProducer rocketMqProducer;
+    private DefaultMQProducer logRocketMqProducer;
 
     private DefaultMQProducer jpushRocketMqProducer;
 
     @PostConstruct
     public void init() {
 
-        rocketMqProducer = new DefaultMQProducer(logGroup);
-        rocketMqProducer.setNamesrvAddr(namesrvAddr);
-        rocketMqProducer.setMaxMessageSize(maxMessageSize);
-        rocketMqProducer.setSendMsgTimeout(sendMsgTimeout);
-        rocketMqProducer.setVipChannelEnabled(false);
+        logRocketMqProducer = new DefaultMQProducer(logGroup);
+        logRocketMqProducer.setNamesrvAddr(namesrvAddr);
+        logRocketMqProducer.setMaxMessageSize(maxMessageSize);
+        logRocketMqProducer.setSendMsgTimeout(sendMsgTimeout);
+        logRocketMqProducer.setVipChannelEnabled(false);
 
         jpushRocketMqProducer = new DefaultMQProducer(jpushGroup);
         jpushRocketMqProducer.setNamesrvAddr(namesrvAddr);
@@ -59,7 +59,7 @@ public class ProducerServiceImpl implements ProducerService {
         jpushRocketMqProducer.setSendMsgTimeout(sendMsgTimeout);
         jpushRocketMqProducer.setVipChannelEnabled(false);
         try {
-            rocketMqProducer.start();
+            logRocketMqProducer.start();
             jpushRocketMqProducer.start();
             log.info("rocketMQ is start !!groupName : {},nameserAddr:{}", logGroup, namesrvAddr);
         } catch (MQClientException e) {
@@ -79,7 +79,7 @@ public class ProducerServiceImpl implements ProducerService {
         if(ProducerEnum.JPUSHSCHEDULE.getTopic().equals(producer.getTag())){
              result = jpushRocketMqProducer.send(message);
         }else {
-             result = rocketMqProducer.send(message);
+             result = logRocketMqProducer.send(message);
         }
 
         log.info("发送响应：MsgId:" + result.getMsgId() + "，发送状态:" + result.getSendStatus());
