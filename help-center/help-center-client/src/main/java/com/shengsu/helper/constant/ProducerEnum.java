@@ -8,8 +8,11 @@ public enum ProducerEnum {
     //成功日志常量
     LOGBUSINESS("logBusinessTopic","logBusinessTag"),
     //失败日志常量
-    LOGERROR("logErrorTopic","logErrorTag"),;
-
+    LOGERROR("logErrorTopic","logErrorTag"),
+    //极光推送常量
+    JPUSHNORMAL("jpushMessageTopic","jpushNormalTag"),
+    JPUSHSCHEDULE("jpushMessageTopic","jpushScheduleTag"),
+    JPUSHSCHEDULECANCEL("jpushMessageTopic","jpushScheduleCancelTag"),;
 
     private String topic;
     private String  tag;

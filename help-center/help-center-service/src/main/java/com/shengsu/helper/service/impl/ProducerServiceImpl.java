@@ -33,12 +33,16 @@ public class ProducerServiceImpl implements ProducerService {
     private String namesrvAddr;
     @Value("${rocketmq.producer.logGroup}")
     private String logGroup;
+    @Value("${rocketmq.producer.jpushGroup}")
+    private String jpushGroup;
     @Value("${rocketmq.producer.maxMessageSize}")
     private Integer maxMessageSize;
     @Value("${rocketmq.producer.sendMsgTimeout}")
     private Integer sendMsgTimeout;
 
     private DefaultMQProducer rocketMqProducer;
+
+    private DefaultMQProducer jpushRocketMqProducer;
 
     @PostConstruct
     public void init() {
@@ -49,8 +53,14 @@ public class ProducerServiceImpl implements ProducerService {
         rocketMqProducer.setSendMsgTimeout(sendMsgTimeout);
         rocketMqProducer.setVipChannelEnabled(false);
 
+        jpushRocketMqProducer = new DefaultMQProducer(jpushGroup);
+        jpushRocketMqProducer.setNamesrvAddr(namesrvAddr);
+        jpushRocketMqProducer.setMaxMessageSize(maxMessageSize);
+        jpushRocketMqProducer.setSendMsgTimeout(sendMsgTimeout);
+        jpushRocketMqProducer.setVipChannelEnabled(false);
         try {
             rocketMqProducer.start();
+            jpushRocketMqProducer.start();
             log.info("rocketMQ is start !!groupName : {},nameserAddr:{}", logGroup, namesrvAddr);
         } catch (MQClientException e) {
             log.error(String.format("rocketMQ start error,{}", e));
@@ -65,11 +75,19 @@ public class ProducerServiceImpl implements ProducerService {
         Message message = new Message(producer.getTopic(), producer.getTag(), body.getBytes(RemotingHelper.DEFAULT_CHARSET));
         StopWatch stop = new StopWatch();
         stop.start();
-        SendResult result = rocketMqProducer.send(message);
+        SendResult result = null;
+        if(ProducerEnum.JPUSHSCHEDULE.getTopic().equals(producer.getTag())){
+             result = jpushRocketMqProducer.send(message);
+        }else {
+             result = rocketMqProducer.send(message);
+        }
+
         log.info("发送响应：MsgId:" + result.getMsgId() + "，发送状态:" + result.getSendStatus());
         stop.stop();
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
+
+
 
 }
