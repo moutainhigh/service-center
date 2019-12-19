@@ -3,7 +3,7 @@ package com.shengsu.helper.constant;
 /**
  * Created by Bell on 2019/10/30.
  */
-public enum ConsumerEnum {
+public enum MQConsumerEnum {
 
     JPUSHMESSAGE("jpushMessageTopic","jpushNormalTag||jpushScheduleTag||jpushScheduleCancelTag");
     private String topic;
@@ -24,7 +24,7 @@ public enum ConsumerEnum {
     public void setTag(String tag) {
         this.tag = tag;
     }
-    ConsumerEnum(String topic, String tag){
+    MQConsumerEnum(String topic, String tag){
         this.topic=topic;
         this.tag=tag;
     }

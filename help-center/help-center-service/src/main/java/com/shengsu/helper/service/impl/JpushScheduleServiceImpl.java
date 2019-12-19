@@ -1,7 +1,7 @@
 package com.shengsu.helper.service.impl;
 
 import cn.jpush.api.schedule.ScheduleResult;
-import com.shengsu.helper.entity.Extrasparam;
+import com.shengsu.helper.entity.JpushExtrasparam;
 import com.shengsu.helper.entity.JpushSchedualRecord;
 import com.shengsu.helper.entity.JpushSchedule;
 import com.shengsu.helper.entity.JpushMessage;
@@ -33,7 +33,7 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
         Date date = jpushSchedule.getDate();
         String MsgType = jpushSchedule.getMsgType();
         String notificationTitle = jpushSchedule.getNotificationTitle();
-        Extrasparam extrasParam = jpushSchedule.getExtrasparam();
+        JpushExtrasparam extrasParam = jpushSchedule.getExtrasparam();
         String content = jpushSchedule.getContent();
         String name = jpushSchedule.getName();
         ScheduleResult scheduleResult = null;

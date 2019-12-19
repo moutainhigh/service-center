@@ -1,6 +1,6 @@
 package com.shengsu.mq;
 
-import com.shengsu.helper.constant.ConsumerEnum;
+import com.shengsu.helper.constant.MQConsumerEnum;
 import com.shengsu.helper.service.impl.JpushNormalServiceImpl;
 import com.shengsu.helper.service.impl.JpushScheduleCancelServiceImpl;
 import com.shengsu.helper.service.impl.JpushScheduleServiceImpl;
@@ -53,7 +53,7 @@ public class JPushConsumer {
         addJpushMessage(messageListen);
         consumer.registerMessageListener(messageListen);
         try {
-            consumer.subscribe(ConsumerEnum.JPUSHMESSAGE.getTopic(), ConsumerEnum.JPUSHMESSAGE.getTag());
+            consumer.subscribe(MQConsumerEnum.JPUSHMESSAGE.getTopic(), MQConsumerEnum.JPUSHMESSAGE.getTag());
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
             consumer.start();
         } catch (MQClientException e) {
@@ -62,7 +62,7 @@ public class JPushConsumer {
     }
 
     private void addJpushMessage(MessageListen messageListen) {
-        String[] split = ConsumerEnum.JPUSHMESSAGE.getTag().split("\\|\\|");
+        String[] split = MQConsumerEnum.JPUSHMESSAGE.getTag().split("\\|\\|");
         messageListen.registerHandler(split[0], jpushNormalService);
         messageListen.registerHandler(split[1], jpushScheduleService);
         messageListen.registerHandler(split[2], jpushScheduleCancelService);

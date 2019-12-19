@@ -15,7 +15,7 @@ public class JpushSchedule {
     private Date date;
     private String MsgType;
     private String notificationTitle;
-    private Extrasparam extrasparam;
+    private JpushExtrasparam extrasparam;
     private String content;
     private String name;
     private String msgId;

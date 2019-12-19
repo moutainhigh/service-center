@@ -4,7 +4,7 @@ package com.shengsu.helper.constant;
 /**
  * Created by zyc on 2019/10/25.
  */
-public enum ProducerEnum {
+public enum MQProducerEnum {
     //成功日志常量
     LOGBUSINESS("logBusinessTopic","logBusinessTag"),
     //失败日志常量
@@ -17,7 +17,7 @@ public enum ProducerEnum {
     private String topic;
     private String  tag;
 
-    ProducerEnum(String topic, String tag) {
+    MQProducerEnum(String topic, String tag) {
         this.topic = topic;
         this.tag = tag;
     }

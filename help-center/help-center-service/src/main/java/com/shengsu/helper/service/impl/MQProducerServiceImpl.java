@@ -3,8 +3,8 @@ package com.shengsu.helper.service.impl;
 
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.app.util.ResultUtil;
-import com.shengsu.helper.constant.ProducerEnum;
-import com.shengsu.helper.service.ProducerService;
+import com.shengsu.helper.constant.MQProducerEnum;
+import com.shengsu.helper.service.MQProducerService;
 import com.shengsu.result.ResultBean;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -26,8 +26,8 @@ import java.io.UnsupportedEncodingException;
  * Created by zyc on 2019/10/12.
  */
 @Slf4j
-@Service(value = "producerService")
-public class ProducerServiceImpl implements ProducerService {
+@Service(value = "mqProducerService")
+public class MQProducerServiceImpl implements MQProducerService {
 
     @Value("${rocketmq.producer.namesrvAddr}")
     private String namesrvAddr;
@@ -67,7 +67,7 @@ public class ProducerServiceImpl implements ProducerService {
         }
     }
 
-    public ResultBean rocketMqSend(ProducerEnum producer, String body) throws UnsupportedEncodingException, InterruptedException, RemotingException, MQClientException, MQBrokerException {
+    public ResultBean send(MQProducerEnum producer, String body) throws UnsupportedEncodingException, InterruptedException, RemotingException, MQClientException, MQBrokerException {
         if (producer == null || StringUtils.isBlank(body)) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_PARAM_ERROR);
         }
@@ -76,7 +76,7 @@ public class ProducerServiceImpl implements ProducerService {
         StopWatch stop = new StopWatch();
         stop.start();
         SendResult result = null;
-        if(ProducerEnum.JPUSHSCHEDULE.getTopic().equals(producer.getTag())){
+        if(MQProducerEnum.JPUSHSCHEDULE.getTopic().equals(producer.getTag())){
              result = jpushRocketMqProducer.send(message);
         }else {
              result = logRocketMqProducer.send(message);

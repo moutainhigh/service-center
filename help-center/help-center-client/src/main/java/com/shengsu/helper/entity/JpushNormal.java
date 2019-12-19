@@ -13,5 +13,5 @@ public class JpushNormal {
     String notificationTitle;
     String msgTitle;
     String msgContent;
-    Extrasparam extrasparam;
+    JpushExtrasparam extrasparam;
 }
