@@ -102,10 +102,10 @@ public class JiPushUtil {
                 result = 1;
             }
         } catch (APIConnectionException e) {
-            e.printStackTrace();
+            log.error("异常",e);
 
         } catch (APIRequestException e) {
-            e.printStackTrace();
+            log.error("异常",e);
         }
 
         return result;
@@ -132,7 +132,7 @@ public class JiPushUtil {
             }
         } catch (Exception e) {
 
-            e.printStackTrace();
+            log.error("异常",e);
         }
 
         return result;
@@ -159,7 +159,7 @@ public class JiPushUtil {
             }
         } catch (Exception e) {
 
-            e.printStackTrace();
+            log.error("异常",e);
         }
 
         return result;
@@ -186,7 +186,7 @@ public class JiPushUtil {
             }
         } catch (Exception e) {
 
-            e.printStackTrace();
+            log.error("异常",e);
         }
 
         return result;

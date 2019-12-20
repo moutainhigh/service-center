@@ -1,5 +1,6 @@
 package com.shengsu;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import java.util.TimeZone;
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @ImportResource({"classpath:application-context.xml"})
+@Slf4j
 public class Application {
     /**
      * @param args
@@ -24,7 +26,7 @@ public class Application {
             TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
             SpringApplication.run(Application.class, args);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("异常",e);
         }
     }
 

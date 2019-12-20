@@ -7,6 +7,7 @@ import com.shengsu.lawcase.entity.*;
 import com.shengsu.lawcase.mapper.LawcaseMapper;
 import com.shengsu.lawcase.service.*;
 import com.shengsu.util.DateUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * Created by zxh on 2019/5/8.
  */
 @Service("lawcaseService")
+@Slf4j
 public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implements LawcaseService,BizConst {
     @Autowired
     LawcaseMapper lawcaseMapper;
@@ -284,7 +286,7 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
         try {
             dates = DateUtil.getDate(startTime,endTime);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("异常",e);
         }
         List<DailyLawcaseStatisticsVo> result = new ArrayList<>();
         //查询案件数据
@@ -346,7 +348,7 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
             lastWeek = DateUtil.addDays(DateUtil.parseDate(countDate),-7);
             lastYear = DateUtil.addYears(DateUtil.parseDate(countDate),-1);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("异常",e);
         }
         String lastWeekDate = DateUtil.getDate(lastWeek);
         String lastYearDate = DateUtil.getDate(lastYear);
@@ -405,7 +407,7 @@ public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implemen
             lastWeek = DateUtil.addDays(DateUtil.parseDate(countDate),-7);
             lastYear = DateUtil.addYears(DateUtil.parseDate(countDate),-1);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("异常",e);
         }
         String lastWeekDate = DateUtil.getDate(lastWeek);
         String lastYearDate = DateUtil.getDate(lastYear);
