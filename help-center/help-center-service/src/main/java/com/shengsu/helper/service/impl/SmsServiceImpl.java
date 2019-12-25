@@ -38,7 +38,7 @@ public class SmsServiceImpl implements SmsService {
     @Value("${sms.templateCode}")
     private String templateCode;
     @Override
-    public ResultBean sendSms(String mobile, String code) {
+    public ResultBean sendSmsCode(String mobile, String code) {
         if (mobile == null || mobile == "") {
             log.error("手机号为空");
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_MOBILE_EMPTY);
