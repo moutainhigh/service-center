@@ -8,5 +8,5 @@ import com.shengsu.result.ResultBean;
  * @create: 2019-12-10 17:16
  **/
 public interface SmsService {
-     ResultBean sendSmsCode(String mobile, String code);
+     ResultBean sendSms(String mobile, String code);
 }
