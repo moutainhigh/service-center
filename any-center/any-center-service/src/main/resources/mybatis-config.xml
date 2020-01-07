@@ -17,6 +17,7 @@
     </settings>
 
     <typeAliases>
-        <package name="com.shengsu.clue.entity"/>
+        <package name="com.shengsu.any.user.entity"/>
+        <package name="com.shengsu.any.clue.entity"/>
     </typeAliases>
 </configuration>

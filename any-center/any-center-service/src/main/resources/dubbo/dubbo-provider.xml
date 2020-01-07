@@ -16,4 +16,5 @@
     <dubbo:protocol name="dubbo" port="${dubbo.port}" />
     
     <!--使用 dubbo 协议实现定义好的接口-->
+	<dubbo:service interface="com.shengsu.any.user.service.UserService" ref="userService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>
