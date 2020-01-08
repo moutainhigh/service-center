@@ -1,7 +1,12 @@
 package com.shengsu.any.user.service;
 
 import com.shengsu.any.user.entity.User;
+import com.shengsu.any.user.vo.SmsSendVo;
+import com.shengsu.any.user.vo.UserLoginVo;
 import com.shengsu.base.service.BaseService;
+import com.shengsu.result.ResultBean;
+
+import java.io.IOException;
 
 /**
  * @description:
@@ -9,4 +14,6 @@ import com.shengsu.base.service.BaseService;
  * @create: 2020-01-07 17:17
  **/
 public interface UserService extends BaseService<User,String> {
+    ResultBean sendSms(SmsSendVo smsSendVo);
+    ResultBean login(UserLoginVo loginUserVo) throws IOException;
 }

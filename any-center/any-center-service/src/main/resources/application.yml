@@ -1,5 +1,5 @@
 server:
-  port: 9099
+  port: 9091
   session-timeout: 30
   tomcat.max-threads: 0
   tomcat.uri-encoding: UTF-8
@@ -11,18 +11,37 @@ spring:
     password: ss123456!@
   aop:
     proxy-target-class: true
+  redis:
+    host: 127.0.0.1
+    #host: 192.168.1.52
+    port: 6379
+    timeout: 2000
+    password: 123456
+    database: 1
+    jedis:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 100
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 5000
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
 zookeeper:
-  address: 192.168.1.52:2181
-  #address: localhost:2181
+  #address: 192.168.1.52:2181
+  address: localhost:2181
 dubbo:
   group: any-center
-  port: 20884
+  port: 20881
   version: 2.0
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
 logging:
   file: logs/help-center-service.log
+sms:
+  expireTimeSecond: 60
 
 
 

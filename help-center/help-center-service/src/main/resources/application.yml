@@ -12,8 +12,8 @@ spring:
   aop:
     proxy-target-class: true
 zookeeper:
-  address: 192.168.1.52:2181
-  #address: localhost:2181
+  #address: 192.168.1.52:2181
+  address: localhost:2181
 dubbo:
   group: help-center
   port: 20884

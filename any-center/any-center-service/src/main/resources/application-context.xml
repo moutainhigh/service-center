@@ -9,4 +9,5 @@
 
     <context:annotation-config/>
     <import resource="classpath:dubbo/dubbo-provider.xml"/>
+    <import resource="classpath:dubbo/dubbo-consumer.xml"/>
 </beans>
