@@ -18,6 +18,8 @@
 
     <typeAliases>
         <package name="com.shengsu.any.user.entity"/>
+        <package name="com.shengsu.any.account.entity"/>
         <package name="com.shengsu.any.clue.entity"/>
+        <package name="com.shengsu.any.message.entity"/>
     </typeAliases>
 </configuration>
