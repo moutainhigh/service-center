@@ -8,7 +8,6 @@ import com.shengsu.any.user.vo.UserLoginVo;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.service.SmsService;
-import com.shengsu.helper.util.SmsUtil;
 import com.shengsu.result.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,15 +42,28 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Override
     public ResultBean sendSms(SmsSendVo smsSendVo) {
         String tel = smsSendVo.getTel();
-        smsSendVo.setSmsCode(SmsUtil.getSixRandomCode());
+        smsSendVo.setSmsCode(getSixRandomCode());
         // 将短信验证码存储到redis,时效是1分钟
         redisTemplate.opsForValue().set(tel, smsSendVo.getSmsCode(), SMS_INVALID_TIME, TimeUnit.SECONDS);
         // 发送手机验证码
         return smsService.sendSms(tel, smsSendVo.getSmsCode());
     }
-
+    /**
+    * @Description: 获取6位手机验证码
+    * @Param: 
+    * @Return: * @return: java.lang.String
+    * @date: 
+    */
+    private String getSixRandomCode() {
+        String vcode = "";
+        for (int i = 0; i < 6; i++) {
+            vcode = vcode + (int)(Math.random() * 9);
+        }
+        return vcode;
+    }
     @Override
     public ResultBean login(UserLoginVo loginUserVo) throws IOException {
         return null;
     }
+
 }
