@@ -7,7 +7,61 @@
 	<!-- Result Map-->
 	<resultMap id="user_result_map" type="user">
 	</resultMap>
+    <insert id="save" parameterType="user">
+		insert into
+		user
+		(
+			user_id,
+			user_name,
+			real_name,
+			icon_oss_resource_id,
+			gender,
+			id_card,
+			tel,
+			province_code,
+			city_code,
+			district_code,
+			law_firm,
+			lawyer_license_no,
+			id_card_front_oss_resource_id,
+			id_card_back_oss_resource_id,
+			license_oss_resource_id,
+			field,
+			auth_state,
+			wechat_unionid,
+			wechat_openid,
+			create_time,
+			modify_time
+		)
+		values
+		(
+			#{userId,jdbcType=VARCHAR},
+			#{userName,jdbcType=VARCHAR},
+			#{realName,jdbcType=VARCHAR},
+			#{iconOssResourceId,jdbcType=VARCHAR},
+            #{gender,jdbcType=VARCHAR},
+            #{idCard,jdbcType=VARCHAR},
+            #{tel,jdbcType=VARCHAR},
+            #{provinceCode,jdbcType=VARCHAR},
+            #{cityCode,jdbcType=VARCHAR},
+            #{districtCode,jdbcType=VARCHAR},
+            #{lawFirm,jdbcType=VARCHAR},
+            #{lawyerLicenseNo,jdbcType=VARCHAR},
+            #{idCardFrontOssResourceId,jdbcType=VARCHAR},
+            #{idCardBackOssResourceId,jdbcType=VARCHAR},
+            #{licenseOssResourceId,jdbcType=VARCHAR},
+            #{field,jdbcType=VARCHAR},
+            #{authState,jdbcType=VARCHAR},
+			#{wechatUnionid,jdbcType=VARCHAR},
+			#{wechatOpenid,jdbcType=VARCHAR},
+			current_timestamp(),
+			current_timestamp()
+		)
+	</insert>
     <select id="listByModel" parameterType="user" resultMap="user_result_map">
         select * from user
+    </select>
+    <select id="getUserByTel" parameterType="string" resultType="user">
+        select * from user where tel=#{tel} and del_flag = 0 limit 1
     </select>
 </mapper>

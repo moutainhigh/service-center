@@ -16,4 +16,5 @@ import java.io.IOException;
 public interface UserService extends BaseService<User,String> {
     ResultBean sendSms(SmsSendVo smsSendVo);
     ResultBean login(UserLoginVo loginUserVo) throws IOException;
+    ResultBean getUserBytoken(String token);
 }
