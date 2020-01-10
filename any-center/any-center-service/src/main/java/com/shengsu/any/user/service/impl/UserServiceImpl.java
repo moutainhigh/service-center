@@ -114,6 +114,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         if (!redisSmsCode.equals(smsCode)) {
             return ResultUtil.formResult(false, ResultCode.SMS_AUTHENTICATION_CODE_ERROR);
         }
+        // 缓存验证码清除
+        redisTemplate.delete(tel);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     @Override
@@ -129,5 +131,20 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         result.put("user", user);
         result.put("token", token);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
+    }
+
+    @Override
+    public User selectByWeChatUnionId(String weChatUnionId) {
+        if (StringUtils.isBlank(weChatUnionId)) {
+            return null;
+        }
+
+        User user = userMapper.selectByWeChatUnionId(weChatUnionId);
+        if (user == null) {
+            return null;
+        }
+
+        user.setIconUrl(ossService.getUrl(OssConstant.OSS_LAWYER_PLATFORM_FFILEDIR, user.getIconOssResourceId()));
+        return user;
     }
 }

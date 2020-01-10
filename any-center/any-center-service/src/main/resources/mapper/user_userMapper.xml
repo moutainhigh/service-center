@@ -27,7 +27,6 @@
 			id_card_back_oss_resource_id,
 			license_oss_resource_id,
 			field,
-			auth_state,
 			wechat_unionid,
 			wechat_openid,
 			create_time,
@@ -51,7 +50,6 @@
             #{idCardBackOssResourceId,jdbcType=VARCHAR},
             #{licenseOssResourceId,jdbcType=VARCHAR},
             #{field,jdbcType=VARCHAR},
-            #{authState,jdbcType=VARCHAR},
 			#{wechatUnionid,jdbcType=VARCHAR},
 			#{wechatOpenid,jdbcType=VARCHAR},
 			current_timestamp(),
@@ -64,4 +62,7 @@
     <select id="getUserByTel" parameterType="string" resultType="user">
         select * from user where tel=#{tel} and del_flag = 0 limit 1
     </select>
+	<select id="selectByWeChatUnionId" parameterType="string" resultType="user">
+		select * from user where wechat_unionid = #{wechatUnionid} and del_flag = 0
+	</select>
 </mapper>

@@ -15,6 +15,7 @@ public class User extends BaseEntity {
     private String userName;// 用户姓名
     private String realName;// 真实姓名
     private String iconOssResourceId;// 头像资源
+    private String iconUrl;
     private Short gender;// 性别
     private String idCard;// 身份证
     private String tel;// 手机号
