@@ -12,4 +12,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper extends BaseMapper<User,String> {
     User getUserByTel(String tel);
+
+    User selectByWeChatUnionId(String weChatUnionId);
 }

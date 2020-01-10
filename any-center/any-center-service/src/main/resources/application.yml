@@ -46,6 +46,14 @@ sms:
 token:
   secretKey: 97c7d3b3313d31b8#3996a!*1dd85c9711fc1f4?e35<0c9052683e63a
   expireTimeSecond: 3600
+wechat:
+  pc:
+    accessTokenUrl: https://api.weixin.qq.com/sns/oauth2/access_token
+    userInfoUrl: https://api.weixin.qq.com/sns/userinfo
+    pcAppID: wx66a3c02a77100500
+    pcAppsecret: 241ad8d3138af34e6b5879645eb25a45
+  code:
+    expireTimeSecond: 3600
 
 
 
