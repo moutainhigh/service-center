@@ -9,4 +9,6 @@ package com.shengsu.any.app.constant;
  * 
  */
 public interface BizConst {
+    //案件类型
+    String DICT_CODE_AUTH_STATE= "auth_state";
 }

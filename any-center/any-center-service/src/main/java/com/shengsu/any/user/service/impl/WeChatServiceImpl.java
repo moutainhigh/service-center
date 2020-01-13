@@ -71,7 +71,7 @@ public class WeChatServiceImpl implements WeChatService {
         }
         // 登录到首页 返回token信息
         UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
-        userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIconOssResourceId()));
+        userService.supplyUserDetailsPo(userDetailsPo,user);
         Map<String, Object> result = new HashMap<>();
         result.put("user", userDetailsPo);
         result.put("token", authorizedService.generateToken(userDetailsPo));

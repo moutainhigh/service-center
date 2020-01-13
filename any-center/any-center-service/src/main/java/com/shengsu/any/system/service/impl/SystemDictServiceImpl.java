@@ -70,8 +70,11 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
     public List<SystemDict> getManyByDisplayVlue(Map<String, Object> map) {
         return systemDictMapper.getManyByDisplayVlue(map);
     }
-    public SystemDict getOneByDisplayVlue(Map<String, Object> map) {
-        return systemDictMapper.getOneByDisplayVlue(map);
+    public SystemDict getOneByDisplayVlue(String dictCode,String displayValue){
+        Map<String, Object> systeMap = new HashMap<>();
+        systeMap.put("dictCode", dictCode);
+        systeMap.put("displayValue", displayValue);
+        return systemDictMapper.getOneByDisplayVlue(systeMap);
     }
     public List<SystemDict> listByDictCode(String dictCode) {
         return systemDictMapper.listByDictCode(dictCode);

@@ -1,7 +1,10 @@
 package com.shengsu.any.user.service.impl;
 
+import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
+import com.shengsu.any.system.entity.SystemDict;
+import com.shengsu.any.system.service.SystemDictService;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.mapper.UserMapper;
 import com.shengsu.any.user.po.UserDetailsPo;
@@ -35,13 +38,15 @@ import java.util.concurrent.TimeUnit;
  * @create: 2020-01-07 17:20
  **/
 @Service("userService")
-public class UserServiceImpl extends BaseServiceImpl<User, String> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, String> implements UserService,BizConst {
     @Autowired
     private SmsService smsService;
     @Autowired
     private OssService ossService;
     @Autowired
     private AuthorizedService authorizedService;
+    @Autowired
+    private SystemDictService systemDictService;
     @Resource
     private RedisTemplate<Serializable, Serializable> redisTemplate;
     @Value("${sms.expireTimeSecond}")
@@ -91,7 +96,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             save(user);
         }
         UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
-        userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIconOssResourceId()));
+        supplyUserDetailsPo(userDetailsPo,user);
         resultMap.put("user", userDetailsPo);
         resultMap.put("token", authorizedService.generateToken(userDetailsPo));
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
@@ -143,8 +148,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         if (user == null) {
             return null;
         }
-
-        user.setIconUrl(ossService.getUrl(OssConstant.OSS_LAWYER_PLATFORM_FFILEDIR, user.getIconOssResourceId()));
         return user;
+    }
+    public void supplyUserDetailsPo(UserDetailsPo userDetailsPo,User user){
+        SystemDict systemDict = systemDictService.getOneByDisplayVlue(DICT_CODE_AUTH_STATE,user.getAuthState());
+        if (systemDict != null) {
+            userDetailsPo.setAuthStateStr(systemDict.getDisplayName());
+        }
+        userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIconOssResourceId()));
+        userDetailsPo.setIdCardFrontUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIdCardFrontOssResourceId()));
+        userDetailsPo.setIdCardBackUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIdCardBackOssResourceId()));
+        userDetailsPo.setLicenseUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getLicenseOssResourceId()));
     }
 }
