@@ -1,6 +1,7 @@
 package com.shengsu.any.user.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.HttpClientUtil;
@@ -11,6 +12,7 @@ import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.any.user.service.WeChatService;
 import com.shengsu.any.user.util.UserUtils;
+import com.shengsu.any.user.vo.ViewButtonVo;
 import com.shengsu.any.user.vo.WeChatVo;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
@@ -191,5 +193,32 @@ public class WeChatServiceImpl implements WeChatService {
             resultMap.put("unionid", unionid);
         }
         return resultMap;
+    }
+    /**
+    * @Description: 公众号菜单创建
+    * @Param: * @Param viewButtonVo: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
+    @Override
+    public ResultBean createView(ViewButtonVo viewButtonVo) {
+        String httpResultStr = HttpClientUtil.sendGet("https://api.weixin.qq.com/cgi-bin/token", "grant_type=client_credential" + "&appid=" + pcAppID + "&secret=" + pcAppsecret + "");
+        JSONObject jSONObject = JSON.parseObject(httpResultStr);
+        String accessToken = String.valueOf(jSONObject.get("access_token"));
+        ViewButtonVo vbt = new ViewButtonVo();
+        vbt.setUrl(viewButtonVo.getUrl());
+        vbt.setName(viewButtonVo.getName());
+        vbt.setType(viewButtonVo.getType());
+        JSONArray button = new JSONArray();
+        button.add(vbt);
+        JSONObject menujson = new JSONObject();
+        menujson.put("button", button);
+        String url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token="+accessToken;
+        try {
+            String rs = HttpClientUtil.sendPost(url, menujson.toJSONString());
+        } catch (Exception e) {
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_REQUEST_ERROR);
+        }
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 }
