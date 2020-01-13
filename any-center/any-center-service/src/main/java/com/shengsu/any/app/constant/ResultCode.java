@@ -24,7 +24,7 @@ public enum ResultCode {
     //获取token
     EXCEPTION_PARAM_ERROR(1002,"参数有误"),
     // 短信验证
-    SMS_AUTHENTICATION_CODE_OVERTIME(1002,"短信验证码已过期"),
+    SMS_AUTHENTICATION_CODE_OVERTIME(1002,"短信验证码不存在或已过期"),
     SMS_AUTHENTICATION_CODE_ERROR(1002,"短信验证码错误"),
     //数据校验
     EXCEPTION_DATA_EXISTENCE(1002,"数据已存在"),

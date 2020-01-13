@@ -12,7 +12,6 @@ import com.shengsu.any.user.service.UserService;
 import com.shengsu.any.user.service.WeChatService;
 import com.shengsu.any.user.util.UserUtils;
 import com.shengsu.any.user.vo.WeChatVo;
-import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import org.apache.commons.lang3.StringUtils;
