@@ -21,5 +21,6 @@
         <package name="com.shengsu.any.account.entity"/>
         <package name="com.shengsu.any.clue.entity"/>
         <package name="com.shengsu.any.message.entity"/>
+        <package name="com.shengsu.any.system.entity"/>
     </typeAliases>
 </configuration>

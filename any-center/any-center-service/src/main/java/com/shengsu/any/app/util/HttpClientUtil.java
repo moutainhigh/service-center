@@ -24,7 +24,7 @@ import java.util.*;
 
 /**
  * @ClassName: HttpClientUtil
- * @Description: TODO
+ * @Description:
  * @author Mundo
  */
 
