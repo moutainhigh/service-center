@@ -14,11 +14,11 @@ public class User extends BaseEntity {
     private String userId;// 用户id
     private String userName;// 用户姓名
     private String realName;// 真实姓名
+    private Short gender;// 性别
+    private String tel;// 手机号
     private String iconOssResourceId;// 头像资源
     private String iconUrl;
-    private Short gender;// 性别
     private String idCard;// 身份证
-    private String tel;// 手机号
     private String provinceCode;// 省级编码
     private String cityCode;// 市级编码
     private String districtCode;// 区级编码

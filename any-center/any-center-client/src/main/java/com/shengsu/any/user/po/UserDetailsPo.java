@@ -17,8 +17,18 @@ public class UserDetailsPo implements Serializable{
     private String realName;
     private Short gender;
     private String tel;
-    private String iconOssResourceId;
     private String iconUrl;
+    private String idCard;// 身份证
+    private String provinceCode;// 省级编码
+    private String cityCode;// 市级编码
+    private String districtCode;// 区级编码
+    private String lawFirm;// 律所
+    private String lawyerLicenseNo;// 执照号
+    private String idCardFrontUrl;// 身份证正面图片资源
+    private String idCardBackUrl;// 身份证反面面图片资源
+    private String licenseUrl;// 执照图片资源
+    private String field;// 擅长领域
+    private String authStateStr;// 用户状态:未认证,认证中,已认证,已拒绝
     @JsonFormat(pattern = DateUtil.DEFAULT_DATETIME_FORMAT,timezone = "GMT+8")
     private Date createTime;
 

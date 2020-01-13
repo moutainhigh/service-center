@@ -26,7 +26,13 @@ public class UserUtils {
             detailsPo.setRealName(user.getRealName());
             detailsPo.setGender(user.getGender());
             detailsPo.setTel(user.getTel());
-            detailsPo.setIconOssResourceId(user.getIconOssResourceId());
+            detailsPo.setIdCard(user.getIdCard());
+            detailsPo.setProvinceCode(user.getProvinceCode());
+            detailsPo.setCityCode(user.getCityCode());
+            detailsPo.setDistrictCode(user.getDistrictCode());
+            detailsPo.setLawFirm(user.getLawFirm());
+            detailsPo.setLawyerLicenseNo(user.getLawyerLicenseNo());
+            detailsPo.setField(user.getField());
             detailsPo.setCreateTime(user.getCreateTime());
             return detailsPo;
         }
