@@ -189,6 +189,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isNotBlank(oldUser.getWechatUnionid())){
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_REGISTER_TEL_BANDED);
         }
-        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+        // 构造返回值
+        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+        Map<String, Object> result = new HashMap<>();
+        result.put("user", userDetailsPo);
+        result.put("token", authorizedService.generateToken(userDetailsPo));
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
     }
 }
