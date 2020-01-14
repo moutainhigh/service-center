@@ -34,7 +34,7 @@ public class UserUtils {
             detailsPo.setLawFirm(user.getLawFirm());
             detailsPo.setLawyerLicenseNo(user.getLawyerLicenseNo());
             detailsPo.setField(user.getField());
-            detailsPo.setAuthState(user.getAuthState());
+            detailsPo.setAuthState(StringUtils.isBlank(user.getAuthState())?"0":user.getAuthState());
             detailsPo.setCreateTime(user.getCreateTime());
             return detailsPo;
         }
