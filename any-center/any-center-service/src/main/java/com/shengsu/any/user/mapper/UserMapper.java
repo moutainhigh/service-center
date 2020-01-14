@@ -14,4 +14,6 @@ public interface UserMapper extends BaseMapper<User,String> {
     User getUserByTel(String tel);
 
     User selectByWeChatUnionId(String weChatUnionId);
+
+    void bandWechat(User user);
 }

@@ -12,6 +12,7 @@ import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.any.user.service.WeChatService;
 import com.shengsu.any.user.util.UserUtils;
+import com.shengsu.any.user.vo.UserBandVo;
 import com.shengsu.any.user.vo.ViewButtonVo;
 import com.shengsu.any.user.vo.WeChatVo;
 import com.shengsu.helper.service.OssService;
@@ -198,7 +199,7 @@ public class WeChatServiceImpl implements WeChatService {
     * @Description: 公众号菜单创建
     * @Param: * @Param viewButtonVo: 
     * @Return: * @return: com.shengsu.result.ResultBean
-    * @date: 
+    * @date:
     */
     @Override
     public ResultBean createView(ViewButtonVo viewButtonVo) {
@@ -220,5 +221,10 @@ public class WeChatServiceImpl implements WeChatService {
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_REQUEST_ERROR);
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
+
+    @Override
+    public ResultBean band(UserBandVo userBandVo) {
+        return userService.band(userBandVo);
     }
 }

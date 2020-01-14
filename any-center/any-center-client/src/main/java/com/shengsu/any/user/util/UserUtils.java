@@ -2,6 +2,7 @@ package com.shengsu.any.user.util;
 
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
+import com.shengsu.any.user.vo.UserBandVo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -59,6 +60,20 @@ public class UserUtils {
                 userMap.put(user.getUserId(), user);
             }
             return userMap;
+        }
+        return null;
+    }
+    public static User toUser(UserBandVo userBandVo){
+        if (userBandVo !=null) {
+            User user = new User();
+            user.setUserId(UUID.randomUUID().toString());
+            user.setWechatUnionid(userBandVo.getUnionid());
+            user.setWechatOpenid(userBandVo.getOpenid());
+            user.setTel(userBandVo.getTel());
+            user.setRealName(userBandVo.getNickname());
+            user.setGender(userBandVo.getSex());
+            user.setUserName(userBandVo.getTel());
+            return user;
         }
         return null;
     }

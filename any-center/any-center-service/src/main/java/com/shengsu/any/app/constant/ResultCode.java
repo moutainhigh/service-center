@@ -22,6 +22,8 @@ public enum ResultCode {
     EXCEPTION_WECHAT_LOGIN_CODE_IS_NULL(1002,"code为空"),
     EXCEPTION_WECHAT_RESPONSE_ERROR(1002,"微信响应错误"),
     EXCEPTION_REQUEST_ERROR(1002,"请求错误"),
+    //注册
+    EXCEPTION_REGISTER_TEL_BANDED(1002,"手机号已被绑定"),
     //获取token
     EXCEPTION_PARAM_ERROR(1002,"参数有误"),
     // 短信验证

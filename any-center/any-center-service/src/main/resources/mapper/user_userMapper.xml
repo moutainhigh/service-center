@@ -65,4 +65,7 @@
 	<select id="selectByWeChatUnionId" parameterType="string" resultType="user">
 		select * from user where wechat_unionid = #{wechatUnionid} and del_flag = 0
 	</select>
+	<update id="bandWechat" parameterType="user">
+		update user set wechat_unionid=#{wechatUnionid},wechat_openid=#{wechatOpenid} where tel=#{tel}
+	</update>
 </mapper>

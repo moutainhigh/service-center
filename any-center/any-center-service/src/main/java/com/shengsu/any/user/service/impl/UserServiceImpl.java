@@ -12,6 +12,7 @@ import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.any.user.util.UserUtils;
 import com.shengsu.any.user.vo.SmsSendVo;
+import com.shengsu.any.user.vo.UserBandVo;
 import com.shengsu.any.user.vo.UserLoginVo;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
@@ -159,5 +160,35 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         userDetailsPo.setIdCardFrontUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIdCardFrontOssResourceId()));
         userDetailsPo.setIdCardBackUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIdCardBackOssResourceId()));
         userDetailsPo.setLicenseUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getLicenseOssResourceId()));
+    }
+
+    @Override
+    public ResultBean band(UserBandVo userBandVo) {
+        // 手机验证码校验
+        ResultBean phoneCodeChekResult = checkPhoneValidationCode(userBandVo.getTel(),userBandVo.getSmsCode());
+        if (!phoneCodeChekResult.isSuccess()){
+            return phoneCodeChekResult;
+        }
+        // 用户保存
+        User user = UserUtils.toUser(userBandVo);
+        User oldUser = userMapper.getUserByTel(user.getTel());
+
+        // 库中无此用户 保存
+        if (oldUser == null){
+            save(user);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS);
+        }
+
+        // 库中已经有在网页中注册过的手机号但未绑定过微信
+        if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isBlank(oldUser.getWechatUnionid())){
+            userMapper.bandWechat(user);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS);
+        }
+
+        // 库中已经有手机号也已绑定过微信
+        if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isNotBlank(oldUser.getWechatUnionid())){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_REGISTER_TEL_BANDED);
+        }
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 }
