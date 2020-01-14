@@ -173,27 +173,28 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         User user = UserUtils.toUser(userBandVo);
         User oldUser = userMapper.getUserByTel(user.getTel());
 
+        // 构造返回值
+        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+        Map<String, Object> result = new HashMap<>();
+        result.put("user", userDetailsPo);
+        result.put("token", authorizedService.generateToken(userDetailsPo));
+
         // 库中无此用户 保存
         if (oldUser == null){
             save(user);
-            return ResultUtil.formResult(true, ResultCode.SUCCESS);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
         }
 
         // 库中已经有在网页中注册过的手机号但未绑定过微信
         if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isBlank(oldUser.getWechatUnionid())){
             userMapper.bandWechat(user);
-            return ResultUtil.formResult(true, ResultCode.SUCCESS);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
         }
 
         // 库中已经有手机号也已绑定过微信
         if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isNotBlank(oldUser.getWechatUnionid())){
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_REGISTER_TEL_BANDED);
         }
-        // 构造返回值
-        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
-        Map<String, Object> result = new HashMap<>();
-        result.put("user", userDetailsPo);
-        result.put("token", authorizedService.generateToken(userDetailsPo));
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 }
