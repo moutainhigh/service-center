@@ -173,21 +173,19 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         User user = UserUtils.toUser(userBandVo);
         User oldUser = userMapper.getUserByTel(user.getTel());
 
-        // 构造返回值
-        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
-        Map<String, Object> result = new HashMap<>();
-        result.put("user", userDetailsPo);
-        result.put("token", authorizedService.generateToken(userDetailsPo));
-
         // 库中无此用户 保存
         if (oldUser == null){
             save(user);
+            // 构造返回值
+            Map<String, Object> result = userTokenResult(user);
             return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
         }
 
         // 库中已经有在网页中注册过的手机号但未绑定过微信
         if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isBlank(oldUser.getWechatUnionid())){
             userMapper.bandWechat(user);
+            // 构造返回值
+            Map<String, Object> result = userTokenResult(oldUser);
             return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
         }
 
@@ -197,4 +195,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
+    private  Map<String, Object> userTokenResult(User user){
+        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+        Map<String, Object> result = new HashMap<>();
+        result.put("user", userDetailsPo);
+        result.put("token", authorizedService.generateToken(userDetailsPo));
+        return result;
+    }
+
 }
