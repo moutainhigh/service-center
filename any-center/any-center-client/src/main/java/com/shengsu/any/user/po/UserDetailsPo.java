@@ -28,7 +28,8 @@ public class UserDetailsPo implements Serializable{
     private String idCardBackUrl;// 身份证反面面图片资源
     private String licenseUrl;// 执照图片资源
     private String field;// 擅长领域
-    private String authStateStr;// 用户状态:未认证,认证中,已认证,已拒绝
+    private String authState;// 用户状态:未认证,认证中,已认证,已拒绝
+    private String authStateStr;// 用户状态名称:未认证,认证中,已认证,已拒绝
     @JsonFormat(pattern = DateUtil.DEFAULT_DATETIME_FORMAT,timezone = "GMT+8")
     private Date createTime;
 

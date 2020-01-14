@@ -197,6 +197,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
     private  Map<String, Object> userTokenResult(User user){
         UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+        supplyUserDetailsPo(userDetailsPo,user);
         Map<String, Object> result = new HashMap<>();
         result.put("user", userDetailsPo);
         result.put("token", authorizedService.generateToken(userDetailsPo));
