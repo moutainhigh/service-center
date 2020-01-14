@@ -156,10 +156,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         if (systemDict != null) {
             userDetailsPo.setAuthStateStr(systemDict.getDisplayName());
         }
-        userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIconOssResourceId()));
-        userDetailsPo.setIdCardFrontUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIdCardFrontOssResourceId()));
-        userDetailsPo.setIdCardBackUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getIdCardBackOssResourceId()));
-        userDetailsPo.setLicenseUrl(ossService.getUrl(OssConstant.OSS_USER_CENTERR_FFILEDIR, user.getLicenseOssResourceId()));
+        userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIconOssResourceId()));
+        userDetailsPo.setIdCardFrontUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIdCardFrontOssResourceId()));
+        userDetailsPo.setIdCardBackUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIdCardBackOssResourceId()));
+        userDetailsPo.setLicenseUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getLicenseOssResourceId()));
     }
 
     @Override
