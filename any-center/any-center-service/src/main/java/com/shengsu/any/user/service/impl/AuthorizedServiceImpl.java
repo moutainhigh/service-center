@@ -167,4 +167,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_INVALID);
         }
     }
+    public void logout(String token) {
+        destoryToken(token);
+    }
 }

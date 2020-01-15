@@ -4,6 +4,9 @@ import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.result.ResultBean;
 
 public interface AuthorizedService {
+    String AUTHORIZATION_HEAD_KEY = "Authorization";
+
+    String AUTHORIZATION_HEAD = "Bearer ";
 
     String generateToken(UserDetailsPo user);
 
@@ -14,4 +17,6 @@ public interface AuthorizedService {
     void flushUserToken(UserDetailsPo user, String token);
 
     ResultBean checkToken(String token);
+
+    void logout(String token);
 }

@@ -199,6 +199,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
+
     private  Map<String, Object> userTokenResult(User user){
         UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
         supplyUserDetailsPo(userDetailsPo,user);
@@ -206,6 +207,18 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         result.put("user", userDetailsPo);
         result.put("token", authorizedService.generateToken(userDetailsPo));
         return result;
+    }
+
+    /**
+    * @Description: 登出
+    * @Param: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
+    @Override
+    public ResultBean logout(String token) {
+        authorizedService.logout(token);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
 }

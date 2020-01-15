@@ -22,4 +22,5 @@ public interface UserService extends BaseService<User,String> {
     User selectByWeChatOpenid(String openid);
     void supplyUserDetailsPo(UserDetailsPo userDetailsPo, User user);
     ResultBean band(UserBandVo userBandVo);
+    ResultBean logout(String token);
 }
