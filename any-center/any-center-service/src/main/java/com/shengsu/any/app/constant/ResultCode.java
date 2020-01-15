@@ -32,7 +32,9 @@ public enum ResultCode {
     //数据校验
     EXCEPTION_DATA_EXISTENCE(1002,"数据已存在"),
     EXCEPTION_NOT_NATA_EXISTENCE(1002,"数据不存在"),
-    EXCEPTION_DUPLICATE_ACTION(1002,"重复操作");
+    EXCEPTION_DUPLICATE_ACTION(1002,"重复操作"),
+    // 微信公众号
+    EXCEPTION_WECHAT_USER_TEL_BANDED(1002,"当前账户已绑定过手机号");
 
     private Integer code;
     private String  resultMessage;

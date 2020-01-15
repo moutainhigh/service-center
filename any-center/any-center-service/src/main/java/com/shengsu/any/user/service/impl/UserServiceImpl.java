@@ -172,7 +172,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         // 一个微信只能绑定一个手机号
         User userResult = userMapper.selectByWeChatOpenid(userBandVo.getOpenid());
         if (null != userResult){
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_REGISTER_TEL_BANDED);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_WECHAT_USER_TEL_BANDED);
         }
 
         User oldUser = userMapper.selectByTel(userBandVo.getTel());
