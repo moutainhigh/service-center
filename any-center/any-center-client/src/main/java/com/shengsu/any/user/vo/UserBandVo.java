@@ -12,7 +12,6 @@ import java.io.Serializable;
  **/
 @Data
 public class UserBandVo implements Serializable {
-    @NotBlank
     private String unionid;
     @NotBlank
     private String openid;
