@@ -90,7 +90,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             return resultBean;
         }
         Map<String, Object> resultMap = new HashMap<>();
-        User user = userMapper.getUserByTel(tel);
+        User user = userMapper.selectByTel(tel);
         if (user == null) {
             // 保存用户
             user = UserUtils.toUser(tel);
@@ -169,9 +169,22 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         if (!phoneCodeChekResult.isSuccess()){
             return phoneCodeChekResult;
         }
-        // 用户保存
+        // 一个微信只能绑定一个手机号
+        User userResult = userMapper.selectByWeChatOpenid(userBandVo.getOpenid());
+        if (null != userResult){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_REGISTER_TEL_BANDED);
+        }
+
+        User oldUser = userMapper.selectByTel(userBandVo.getTel());
         User user = UserUtils.toUser(userBandVo);
-        User oldUser = userMapper.getUserByTel(user.getTel());
+        // 库中无此用户 保存
+        if (oldUser == null){
+            save(user);
+            // 构造返回值
+            Map<String, Object> result = userTokenResult(user);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
+        }
+
         // 库中已经有在网页中注册过的手机号但未绑定过微信
         if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isBlank(oldUser.getWechatOpenid())){
             userMapper.bandWechat(user);
@@ -182,18 +195,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         // 一个手机号只能和一个微信号绑定
         if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isNotBlank(oldUser.getWechatOpenid())){
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_REGISTER_TEL_BANDED);
-        }
-        // 同一个微信只能绑定一个账号
-        User userResult = userMapper.selectByWeChatOpenid(userBandVo.getOpenid());
-        if (null != userResult || StringUtils.isNotBlank(userResult.getWechatOpenid())){
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_WECHAT_USER_BANDED);
-        }
-        // 库中无此用户 保存
-        if (oldUser == null){
-            save(user);
-            // 构造返回值
-            Map<String, Object> result = userTokenResult(user);
-            return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
         }
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);

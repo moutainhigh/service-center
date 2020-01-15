@@ -59,7 +59,7 @@
     <select id="listByModel" parameterType="user" resultMap="user_result_map">
         select * from user
     </select>
-    <select id="getUserByTel" parameterType="string" resultType="user">
+    <select id="selectByTel" parameterType="string" resultType="user">
         select * from user where tel=#{tel} and del_flag = 0 limit 1
     </select>
 	<select id="selectByWeChatOpenid" parameterType="string" resultType="user">
