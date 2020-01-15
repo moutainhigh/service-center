@@ -140,12 +140,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public User selectByWeChatUnionId(String weChatUnionId) {
-        if (StringUtils.isBlank(weChatUnionId)) {
+    public User selectByWeChatOpenid(String openid) {
+        if (StringUtils.isBlank(openid)) {
             return null;
         }
 
-        User user = userMapper.selectByWeChatUnionId(weChatUnionId);
+        User user = userMapper.selectByWeChatOpenid(openid);
         if (user == null) {
             return null;
         }
@@ -182,17 +182,24 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         }
 
         // 库中已经有在网页中注册过的手机号但未绑定过微信
-        if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isBlank(oldUser.getWechatUnionid())){
+        if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isBlank(oldUser.getWechatOpenid())){
             userMapper.bandWechat(user);
             // 构造返回值
             Map<String, Object> result = userTokenResult(oldUser);
             return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
         }
 
-        // 库中已经有手机号也已绑定过微信
-        if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isNotBlank(oldUser.getWechatUnionid())){
+        // 一个手机号只能和一个微信号绑定
+        if (StringUtils.isNotBlank(oldUser.getTel())&&StringUtils.isNotBlank(oldUser.getWechatOpenid())){
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_REGISTER_TEL_BANDED);
         }
+
+        // 同一个微信只能绑定一个账号
+        User userResult = userMapper.selectByWeChatOpenid(userBandVo.getOpenid());
+        if (null != userResult || StringUtils.isNotBlank(userResult.getWechatOpenid())){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_WECHAT_USER_BANDED);
+        }
+
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     private  Map<String, Object> userTokenResult(User user){

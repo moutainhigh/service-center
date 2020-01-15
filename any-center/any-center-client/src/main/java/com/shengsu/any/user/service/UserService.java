@@ -19,7 +19,7 @@ public interface UserService extends BaseService<User,String> {
     ResultBean sendSms(SmsSendVo smsSendVo);
     ResultBean login(UserLoginVo loginUserVo) throws IOException;
     ResultBean getUserBytoken(String token);
-    User selectByWeChatUnionId(String unionid);
+    User selectByWeChatOpenid(String openid);
     void supplyUserDetailsPo(UserDetailsPo userDetailsPo, User user);
     ResultBean band(UserBandVo userBandVo);
 }

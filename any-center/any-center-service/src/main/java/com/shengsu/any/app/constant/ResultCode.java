@@ -24,6 +24,8 @@ public enum ResultCode {
     EXCEPTION_REQUEST_ERROR(1002,"请求错误"),
     //注册
     EXCEPTION_REGISTER_TEL_BANDED(1002,"手机号已被绑定"),
+    // 微信
+    EXCEPTION_WECHAT_USER_BANDED(1002,"该手机号已绑定过微信"),
     //获取token
     EXCEPTION_PARAM_ERROR(1002,"参数有误"),
     // 短信验证

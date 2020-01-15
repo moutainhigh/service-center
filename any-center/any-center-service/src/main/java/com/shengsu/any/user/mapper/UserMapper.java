@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper extends BaseMapper<User,String> {
     User getUserByTel(String tel);
 
-    User selectByWeChatUnionId(String weChatUnionId);
+    User selectByWeChatOpenid(String wechatOpenid);
 
     void bandWechat(User user);
 }

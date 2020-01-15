@@ -65,9 +65,9 @@ public class WeChatServiceImpl implements WeChatService {
             resultMap =  getWeChatUser(weChatVo).getBody();
             redisTemplate.opsForValue().set(weChatVo.getCode(),new HashMap<>(resultMap), WECHAT_CODE_INVALID_TIME, TimeUnit.SECONDS);
         }
-        // 根据 unionid 登录
-        String unionid = resultMap.get("unionid");
-        User user = userService.selectByWeChatUnionId(unionid);
+        // 根据 openid 登录
+        String openid = resultMap.get("openid");
+        User user = userService.selectByWeChatOpenid(openid);
         if(user == null){
             return ResultUtil.formResult(true,ResultCode.EXCEPTION_WECHAT_LOGIN_UNREGISTERED,resultMap);
         }
