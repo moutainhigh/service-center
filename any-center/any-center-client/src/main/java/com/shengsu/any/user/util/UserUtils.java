@@ -3,6 +3,7 @@ package com.shengsu.any.user.util;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.vo.UserBandVo;
+import com.shengsu.any.user.vo.UserEditVo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -74,6 +75,27 @@ public class UserUtils {
             user.setRealName(userBandVo.getNickname());
             user.setGender(userBandVo.getSex());
             user.setUserName(userBandVo.getTel());
+            return user;
+        }
+        return null;
+    }
+    public static User toUser(UserEditVo userVerifyVo){
+        if (userVerifyVo != null) {
+            User user = new User();
+            user.setUserId(userVerifyVo.getUserId());
+            user.setRealName(userVerifyVo.getRealName());
+            user.setGender(userVerifyVo.getGender());
+            user.setIconOssResourceId(userVerifyVo.getIconOssResourceId());
+            user.setIdCard(userVerifyVo.getIdCard());
+            user.setLawFirm(userVerifyVo.getLawFirm());
+            user.setLawyerLicenseNo(userVerifyVo.getLawyerLicenseNo());
+            user.setIdCardFrontOssResourceId(userVerifyVo.getIdCardFrontOssResourceId());
+            user.setIdCardBackOssResourceId(userVerifyVo.getIdCardBackOssResourceId());
+            user.setLicenseOssResourceId(userVerifyVo.getLicenseOssResourceId());
+            user.setField(userVerifyVo.getField());
+            user.setProvinceCode(userVerifyVo.getProvinceCode());
+            user.setCityCode(userVerifyVo.getCityCode());
+            user.setDistrictCode(userVerifyVo.getDistrictCode());
             return user;
         }
         return null;

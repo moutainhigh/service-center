@@ -14,6 +14,7 @@ import com.shengsu.any.user.util.UserUtils;
 import com.shengsu.any.user.vo.SmsSendVo;
 import com.shengsu.any.user.vo.UserBandVo;
 import com.shengsu.any.user.vo.UserLoginVo;
+import com.shengsu.any.user.vo.UserEditVo;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.OssConstant;
@@ -29,9 +30,13 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import static com.shengsu.any.user.util.UserUtils.toUserDetailsPo;
 
 /**
  * @description:
@@ -51,7 +56,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Resource
     private RedisTemplate<Serializable, Serializable> redisTemplate;
     @Value("${sms.expireTimeSecond}")
-    private long SMS_INVALID_TIME;
+    private long smsExpireTime;
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -64,7 +69,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         String tel = smsSendVo.getTel();
         smsSendVo.setSmsCode(getSixRandomCode());
         // 将短信验证码存储到redis,时效是1分钟
-        redisTemplate.opsForValue().set(tel, smsSendVo.getSmsCode(), SMS_INVALID_TIME, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(tel, smsSendVo.getSmsCode(), smsExpireTime, TimeUnit.SECONDS);
         // 发送手机验证码
         return smsService.sendSms(tel, smsSendVo.getSmsCode());
     }
@@ -96,7 +101,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             user = UserUtils.toUser(tel);
             save(user);
         }
-        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+        UserDetailsPo userDetailsPo = toUserDetailsPo(user);
         supplyUserDetailsPo(userDetailsPo,user);
         resultMap.put("user", userDetailsPo);
         resultMap.put("token", authorizedService.generateToken(userDetailsPo));
@@ -201,7 +206,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     private  Map<String, Object> userTokenResult(User user){
-        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+        UserDetailsPo userDetailsPo = toUserDetailsPo(user);
         supplyUserDetailsPo(userDetailsPo,user);
         Map<String, Object> result = new HashMap<>();
         result.put("user", userDetailsPo);
@@ -219,6 +224,39 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     public ResultBean logout(String token) {
         authorizedService.logout(token);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
+
+    @Override
+    public ResultBean edit(UserEditVo userEditVo) {
+        String userId = userEditVo.getUserId();
+        User user = userMapper.get(userId);
+        if (user == null) {
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_REGISTER_USER_NOT_EXISTED);
+        }
+        user = UserUtils.toUser(userEditVo);
+        user.setAuthState(USER_AUTH_STATE_AUTHENTICATION);
+        userMapper.update(user);
+        String token = userEditVo.getToken();
+        if (StringUtils.isNoneBlank(token)) {
+            UserDetailsPo userDetailsPo = toUserDetailsPo(user);
+            userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIconOssResourceId()));
+            authorizedService.flushUserToken(userDetailsPo, token);
+        }
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
+
+    @Override
+    public ResultBean<List<UserDetailsPo>> toUserDetailsPos(List<User> users) {
+        if (users != null) {
+            List<UserDetailsPo> userDetailsPos = new ArrayList<>();
+            for (User user :users) {
+                UserDetailsPo userDetailsPo =toUserDetailsPo(user);
+                supplyUserDetailsPo(userDetailsPo,user);
+                userDetailsPos.add(userDetailsPo);
+            }
+            return ResultUtil.formResult(true, ResultCode.SUCCESS,userDetailsPos);
+        }
+        return ResultUtil.formResult(false, ResultCode.FAIL);
     }
 
 }

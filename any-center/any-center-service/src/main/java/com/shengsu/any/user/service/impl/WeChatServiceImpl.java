@@ -47,7 +47,7 @@ public class WeChatServiceImpl implements WeChatService {
     @Value("${wechat.pc.pcAppsecret}")
     private String pcAppsecret;
     @Value("${wechat.code.expireTimeSecond}")
-    private long WECHAT_CODE_INVALID_TIME;
+    private long wechatExpireTime;
     @Autowired
     private UserService userService;
     @Autowired
@@ -63,7 +63,7 @@ public class WeChatServiceImpl implements WeChatService {
         Map<String, String> resultMap = (HashMap<String, String>)redisTemplate.opsForValue().get(weChatVo.getCode());
         if (resultMap==null || resultMap.size()==0){
             resultMap =  getWeChatUser(weChatVo).getBody();
-            redisTemplate.opsForValue().set(weChatVo.getCode(),new HashMap<>(resultMap), WECHAT_CODE_INVALID_TIME, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(weChatVo.getCode(),new HashMap<>(resultMap), wechatExpireTime, TimeUnit.SECONDS);
         }
         // 根据 openid 登录
         String openid = resultMap.get("openid");

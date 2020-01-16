@@ -24,6 +24,7 @@ public enum ResultCode {
     EXCEPTION_REQUEST_ERROR(1002,"请求错误"),
     //注册
     EXCEPTION_REGISTER_TEL_BANDED(1002,"手机号已被绑定"),
+    EXCEPTION_REGISTER_USER_NOT_EXISTED(1002,"用户不存在"),
     //获取token
     EXCEPTION_PARAM_ERROR(1002,"参数有误"),
     // 短信验证
