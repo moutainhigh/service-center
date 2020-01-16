@@ -109,4 +109,17 @@
 	<select id="get" parameterType="string" resultType="user">
 		select * from user where user_id=#{userId}
 	</select>
+	<!-- 获取所有用户数 -->
+	<select id="countAll" resultType="int">
+		select count(1) from user
+		<include refid="user_where_clause" />
+	</select>
+	<!-- 获取用户信息列表 -->
+	<select id="listByPage" parameterType="user" resultType="user">
+		<include refid="global.paginationStart_mysql" />
+		select * from user
+		<include refid="user_where_clause" />
+		order by create_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
 </mapper>

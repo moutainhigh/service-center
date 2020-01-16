@@ -27,4 +27,5 @@ public interface UserService extends BaseService<User,String> {
     ResultBean logout(String token);
     ResultBean edit(UserEditVo userEditVo);
     ResultBean toUserDetailsPos( List<User> users);
+    ResultBean listPage(User user);
 }

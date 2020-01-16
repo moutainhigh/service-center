@@ -21,6 +21,7 @@ import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.helper.service.SmsService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -259,4 +260,22 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         return ResultUtil.formResult(false, ResultCode.FAIL);
     }
 
+    @Override
+    public ResultBean listPage(User user) {
+        Map<String, Object> map = new HashMap<>();
+        user.setSearch(StringUtil.ToLikeStr(user.getSearch()));
+        int totalCount = userMapper.countAll(user);
+        if (totalCount > 0) {
+            List<User> users = userMapper.listByPage(user);
+            ResultBean<List<UserDetailsPo>> userDetailsPosResult = toUserDetailsPos(users);
+            List<UserDetailsPo> detailDetailsPos= null;
+            if (userDetailsPosResult.isSuccess()) {
+                 detailDetailsPos= userDetailsPosResult.getBody();
+            }
+            map.put("root", detailDetailsPos);
+            map.put("totalCount", totalCount);
+        }
+
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+    }
 }
