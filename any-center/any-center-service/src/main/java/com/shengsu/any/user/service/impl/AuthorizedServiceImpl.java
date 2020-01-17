@@ -1,6 +1,8 @@
 package com.shengsu.any.user.service.impl;
 
 
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonEncoding;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.user.entity.Auth;
@@ -54,8 +56,9 @@ public class AuthorizedServiceImpl implements AuthorizedService {
                 .compact();
         // 将TOKEN放入缓存中，方便验证
         Auth auth = new Auth(token, user);
+        String authJson = JSON.toJSONString(auth);
         String cacheKey = getCacheKey(token);
-        redisService.set(cacheKey, auth, tokenExpireTime);
+        redisService.set(cacheKey, authJson, tokenExpireTime);
         return token;
     }
 
@@ -92,8 +95,9 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             Date iat = new Date();
             Date exp = new Date(System.currentTimeMillis() + tokenExpireTime);
             Auth auth = new Auth(token, user);
+            String authJson = JSON.toJSONString(auth);
             String cacheKey = getCacheKey(token);
-            redisService.set(cacheKey, auth, tokenExpireTime);
+            redisService.set(cacheKey, authJson, tokenExpireTime);
         }
     }
 
@@ -109,9 +113,10 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             parseToken(token);
             //解析token,这里会校验token是否正确
             String cacheKey = getCacheKey(token);
-            Auth auth = (Auth) redisService.get(cacheKey);
-            if (null == auth)
+            String authJson = (String) redisService.get(cacheKey);
+            if (null == authJson)
                 return null;
+            Auth auth = JSON.parseObject(authJson,Auth.class);
             return auth.getUser();
         }
 
@@ -153,10 +158,11 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         try {
             parseToken(token);
             String cacheKey = getCacheKey(token);
-            Auth auth = (Auth) redisService.get(cacheKey);
-            if(auth==null){
+            String authJson = (String)redisService.get(cacheKey);
+            if(authJson==null){
                 return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);
             }
+            Auth auth = JSON.parseObject(authJson, Auth.class);
             redisService.set(cacheKey, auth, tokenExpireTime);
             return ResultUtil.formResult(true, ResultCode.SUCCESS);
         } catch (ExpiredJwtException e) {

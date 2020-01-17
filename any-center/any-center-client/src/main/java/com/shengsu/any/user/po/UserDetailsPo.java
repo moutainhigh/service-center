@@ -15,7 +15,7 @@ public class UserDetailsPo implements Serializable{
     private String userId;
     private String userName;
     private String realName;
-//    private Short gender;
+    private Short gender;
     private String tel;
     private String iconUrl;
     private String idCard;// 身份证
@@ -30,7 +30,7 @@ public class UserDetailsPo implements Serializable{
     private String field;// 擅长领域
     private String authState;// 用户状态:未认证,认证中,已认证,已拒绝
     private String authStateStr;// 用户状态名称:未认证,认证中,已认证,已拒绝
-//    @JsonFormat(pattern = DateUtil.DEFAULT_DATETIME_FORMAT,timezone = "GMT+8")
-//    private Date createTime;
+    @JsonFormat(pattern = DateUtil.DEFAULT_DATETIME_FORMAT,timezone = "GMT+8")
+    private Date createTime;
 
 }
