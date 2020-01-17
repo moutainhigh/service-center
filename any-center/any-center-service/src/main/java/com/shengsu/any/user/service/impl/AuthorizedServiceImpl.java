@@ -53,7 +53,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
                 .signWith(SignatureAlgorithm.HS256, tokenSecretKey)// 设置编码
                 .compact();
         // 将TOKEN放入缓存中，方便验证
-        Auth auth = new Auth(iat.getTime(), exp.getTime(), token, user);
+        Auth auth = new Auth(token, user);
         String cacheKey = getCacheKey(token);
         redisService.set(cacheKey, auth, tokenExpireTime);
         return token;
@@ -91,7 +91,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         if (user != null && StringUtils.isNoneBlank(token)) {
             Date iat = new Date();
             Date exp = new Date(System.currentTimeMillis() + tokenExpireTime);
-            Auth auth = new Auth(iat.getTime(), exp.getTime(), token, user);
+            Auth auth = new Auth(token, user);
             String cacheKey = getCacheKey(token);
             redisService.set(cacheKey, auth, tokenExpireTime);
         }
