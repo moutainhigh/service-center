@@ -1,14 +1,12 @@
 package com.shengsu.any.user.service.impl;
 
 
-import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.core.JsonEncoding;
 import com.shengsu.any.app.constant.ResultCode;
+import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.user.entity.Auth;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.service.AuthorizedService;
-import com.shengsu.helper.service.RedisService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.util.MD5Util;
 import io.jsonwebtoken.*;
@@ -18,9 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service(value = "authorizedService")
@@ -38,7 +34,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
     private long tokenExpireTime;
 
     @Resource
-    private RedisService redisService;
+    private RedisUtil redisUtil;
 
 
     /**
@@ -57,10 +53,8 @@ public class AuthorizedServiceImpl implements AuthorizedService {
                 .compact();
         // 将TOKEN放入缓存中，方便验证
         Auth auth = new Auth(token, user);
-        String authJson = JSON.toJSONString(auth);
-        log.info(authJson);
         String cacheKey = getCacheKey(token);
-        redisService.set(cacheKey, authJson, tokenExpireTime);
+        redisUtil.set(cacheKey, auth, tokenExpireTime);
         return token;
     }
 
@@ -84,7 +78,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
      * @date 2018年1月18日 上午10:03:17
      */
     public void destoryToken(String token) {
-        redisService.delete(getCacheKey(token));
+        redisUtil.delete(getCacheKey(token));
     }
 
     /**
@@ -97,9 +91,8 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             Date iat = new Date();
             Date exp = new Date(System.currentTimeMillis() + tokenExpireTime);
             Auth auth = new Auth(token, user);
-            String authJson = JSON.toJSONString(auth);
             String cacheKey = getCacheKey(token);
-            redisService.set(cacheKey, authJson, tokenExpireTime);
+            redisUtil.set(cacheKey, auth, tokenExpireTime);
         }
     }
 
@@ -115,10 +108,9 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             parseToken(token);
             //解析token,这里会校验token是否正确
             String cacheKey = getCacheKey(token);
-            String authJson = (String) redisService.get(cacheKey);
-            if (null == authJson)
+            Auth auth = (Auth) redisUtil.get(cacheKey);
+            if (null == auth)
                 return null;
-            Auth auth = JSON.parseObject(authJson,Auth.class);
             return auth.getUser();
         }
 
@@ -160,12 +152,11 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         try {
             parseToken(token);
             String cacheKey = getCacheKey(token);
-            String authJson = (String)redisService.get(cacheKey);
-            if(authJson==null){
+            Auth auth = (Auth) redisUtil.get(cacheKey);
+            if(auth==null){
                 return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);
             }
-            Auth auth = JSON.parseObject(authJson, Auth.class);
-            redisService.set(cacheKey, auth, tokenExpireTime);
+            redisUtil.set(cacheKey, auth, tokenExpireTime);
             return ResultUtil.formResult(true, ResultCode.SUCCESS);
         } catch (ExpiredJwtException e) {
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);

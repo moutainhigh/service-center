@@ -11,5 +11,4 @@
 	<!--接口服务-->
 	<dubbo:reference id="smsService" interface="com.shengsu.helper.service.SmsService" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:reference id="ossService" interface="com.shengsu.helper.service.OssService" timeout="3000" version="${dubbo.version}"/>
-	<dubbo:reference id="redisService" interface="com.shengsu.helper.service.RedisService" timeout="3000" version="${dubbo.version}"/>
 </beans>
