@@ -3,10 +3,12 @@ package com.shengsu.helper.service.impl;
 import com.shengsu.helper.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
+@Service("redisService")
 public class RedisServiceImpl implements RedisService {
     @Autowired
     private static RedisTemplate redisTemplate;
