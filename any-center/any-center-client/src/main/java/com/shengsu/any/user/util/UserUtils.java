@@ -26,7 +26,7 @@ public class UserUtils {
             detailsPo.setUserId(user.getUserId());
             detailsPo.setUserName(user.getUserName());
             detailsPo.setRealName(user.getRealName());
-            detailsPo.setGender(user.getGender());
+//            detailsPo.setGender(user.getGender());
             detailsPo.setTel(user.getTel());
             detailsPo.setIdCard(user.getIdCard());
             detailsPo.setProvinceCode(user.getProvinceCode());
@@ -36,7 +36,7 @@ public class UserUtils {
             detailsPo.setLawyerLicenseNo(user.getLawyerLicenseNo());
             detailsPo.setField(user.getField());
             detailsPo.setAuthState(StringUtils.isBlank(user.getAuthState())?"0":user.getAuthState());
-            detailsPo.setCreateTime(user.getCreateTime());
+//            detailsPo.setCreateTime(user.getCreateTime());
             return detailsPo;
         }
         return null;
