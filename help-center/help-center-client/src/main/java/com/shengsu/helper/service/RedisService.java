@@ -3,6 +3,7 @@ package com.shengsu.helper.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +40,7 @@ public interface RedisService {
      *
      * @param keys 键集合
      */
-    public void delete(final Collection<String> keys);
+    public void delete(final Collection<Serializable> keys);
 
     /**
      * 存入普通对象
@@ -47,7 +48,7 @@ public interface RedisService {
      * @param key Redis键
      * @param value 值 单位分
      */
-    public  void set(final String key, final Object value);
+    public  void set(final String key, final Serializable value);
 
     // 存储普通对象操作
 
@@ -58,7 +59,7 @@ public interface RedisService {
      * @param value 值
      * @param timeout 有效期，单位秒
      */
-    public void set(final String key, final Object value, final long timeout) ;
+    public void set(final String key, final Serializable value, final long timeout) ;
 
     /**
      * 获取普通对象
@@ -66,5 +67,5 @@ public interface RedisService {
      * @param key 键
      * @return 对象
      */
-    public Object get(final String key);
+    public Serializable get(final String key);
 }
