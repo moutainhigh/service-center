@@ -7,11 +7,6 @@ import java.io.Serializable;
 
 @Data
 public class Auth implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5917228335207507063L;
 	private String token;// token
 	private UserDetailsPo user;
 
