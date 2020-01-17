@@ -16,11 +16,11 @@ import com.shengsu.any.user.vo.UserBandVo;
 import com.shengsu.any.user.vo.ViewButtonVo;
 import com.shengsu.any.user.vo.WeChatVo;
 import com.shengsu.helper.service.OssService;
+import com.shengsu.helper.service.RedisService;
 import com.shengsu.result.ResultBean;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -55,15 +55,15 @@ public class WeChatServiceImpl implements WeChatService {
     @Autowired
     private OssService ossService;
     @Resource
-    private RedisTemplate<Serializable,Serializable> redisTemplate;
+    private RedisService redisService;
 
     @Override
     public ResultBean pcLogin(WeChatVo weChatVo) {
         // 将微信用户信息放入缓存,保证前端页面重复刷新请求
-        Map<String, String> resultMap = (HashMap<String, String>)redisTemplate.opsForValue().get(weChatVo.getCode());
+        Map<String, String> resultMap = (HashMap<String, String>)redisService.get(weChatVo.getCode());
         if (resultMap==null || resultMap.size()==0){
             resultMap =  getWeChatUser(weChatVo).getBody();
-            redisTemplate.opsForValue().set(weChatVo.getCode(),new HashMap<>(resultMap), wechatExpireTime, TimeUnit.SECONDS);
+            redisService.set(weChatVo.getCode(),new HashMap<>(resultMap), wechatExpireTime);
         }
         // 根据 openid 登录
         String openid = resultMap.get("openid");

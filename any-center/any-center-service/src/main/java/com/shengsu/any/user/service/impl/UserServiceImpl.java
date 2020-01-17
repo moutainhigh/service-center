@@ -17,13 +17,13 @@ import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.service.OssService;
+import com.shengsu.helper.service.RedisService;
 import com.shengsu.helper.service.SmsService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,7 +53,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Autowired
     private SystemDictService systemDictService;
     @Resource
-    private RedisTemplate<Serializable, Serializable> redisTemplate;
+    private RedisService redisService;
     @Value("${sms.expireTimeSecond}")
     private long smsExpireTime;
     @Autowired
@@ -68,7 +68,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         String tel = smsSendVo.getTel();
         smsSendVo.setSmsCode(getSixRandomCode());
         // 将短信验证码存储到redis,时效是1分钟
-        redisTemplate.opsForValue().set(tel, smsSendVo.getSmsCode(), smsExpireTime, TimeUnit.SECONDS);
+        redisService.set(tel, smsSendVo.getSmsCode(), smsExpireTime);
         // 发送手机验证码
         return smsService.sendSms(tel, smsSendVo.getSmsCode());
     }
@@ -115,7 +115,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     public ResultBean checkPhoneValidationCode(String tel, String smsCode) {
         // 验证短信验证码
         // 根据手机号码取短信验证码
-        String redisSmsCode = (String) redisTemplate.opsForValue().get(tel);
+        String redisSmsCode = (String) redisService.get(tel);
         // 如果验证码为空就是超时
         if (StringUtils.isEmpty(redisSmsCode)) {
             return ResultUtil.formResult(false, ResultCode.SMS_AUTHENTICATION_CODE_OVERTIME);
@@ -125,7 +125,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             return ResultUtil.formResult(false, ResultCode.SMS_AUTHENTICATION_CODE_ERROR);
         }
         // 缓存验证码清除
-        redisTemplate.delete(tel);
+        redisService.delete(tel);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     @Override
