@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 @Service("redisService")
 public class RedisServiceImpl implements RedisService {
     @Autowired
-    private static RedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
     /**
      * 设置有效时间
      *
