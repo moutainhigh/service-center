@@ -122,4 +122,10 @@
 		order by create_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
+	<update id="pass" parameterType="string">
+		update user set auth_state = '2' where user_id=#{userId}
+	</update>
+	<update id="reject" parameterType="string">
+		update user set auth_state = '3' where user_id=#{userId}
+	</update>
 </mapper>
