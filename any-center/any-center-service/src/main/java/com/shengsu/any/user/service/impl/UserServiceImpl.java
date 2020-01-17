@@ -8,7 +8,6 @@ import com.shengsu.any.system.service.SystemDictService;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.mapper.UserMapper;
 import com.shengsu.any.user.po.UserDetailsPo;
-import com.shengsu.any.user.service.UserAuthService;
 import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.any.user.util.UserUtils;
@@ -28,12 +27,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static com.shengsu.any.user.util.UserUtils.toUserDetailsPo;
 
