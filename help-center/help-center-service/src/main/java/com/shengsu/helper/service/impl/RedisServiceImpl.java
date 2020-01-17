@@ -5,13 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 @Service("redisService")
 public class RedisServiceImpl implements RedisService {
-    @Autowired
+    @Resource
     private RedisTemplate<Serializable,Serializable> redisTemplate;
     /**
      * 设置有效时间
