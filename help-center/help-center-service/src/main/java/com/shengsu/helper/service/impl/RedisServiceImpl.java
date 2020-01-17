@@ -41,7 +41,7 @@ public class RedisServiceImpl implements RedisService {
      *
      * @param key 键
      */
-    public void del(final String key) {
+    public void delete(final String key) {
         redisTemplate.delete(key);
     }
 
@@ -50,7 +50,7 @@ public class RedisServiceImpl implements RedisService {
      *
      * @param keys 键集合
      */
-    public void del(final Collection<String> keys) {
+    public void delete(final Collection<String> keys) {
         redisTemplate.delete(keys);
     }
 

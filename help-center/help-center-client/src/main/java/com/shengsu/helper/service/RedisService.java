@@ -32,14 +32,14 @@ public interface RedisService {
      *
      * @param key 键
      */
-    public void del(final String key);
+    public void delete(final String key);
 
     /**
      * 删除多个key
      *
      * @param keys 键集合
      */
-    public void del(final Collection<String> keys);
+    public void delete(final Collection<String> keys);
 
     /**
      * 存入普通对象
