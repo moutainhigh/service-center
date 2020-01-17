@@ -12,6 +12,7 @@ import com.shengsu.helper.service.RedisService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.util.MD5Util;
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-
+@Slf4j
 @Service(value = "authorizedService")
 public class AuthorizedServiceImpl implements AuthorizedService {
 
@@ -57,6 +58,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         // 将TOKEN放入缓存中，方便验证
         Auth auth = new Auth(token, user);
         String authJson = JSON.toJSONString(auth);
+        log.info(authJson);
         String cacheKey = getCacheKey(token);
         redisService.set(cacheKey, authJson, tokenExpireTime);
         return token;
