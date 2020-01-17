@@ -35,7 +35,10 @@ public enum ResultCode {
     EXCEPTION_NOT_NATA_EXISTENCE(1002,"数据不存在"),
     EXCEPTION_DUPLICATE_ACTION(1002,"重复操作"),
     // 微信公众号
-    EXCEPTION_WECHAT_USER_TEL_BANDED(1002,"当前账户已绑定过手机号");
+    EXCEPTION_WECHAT_USER_TEL_BANDED(1002,"当前账户已绑定过手机号"),
+    // 用户认证状态
+    EXCEPTION_USER_AUTH_STATE_UNREVIEW(1002,"未提交或已审核"),
+    EXCEPTION_USER_AUTH_STATE_IN_REVIEW(1002,"正在审核");
 
     private Integer code;
     private String  resultMessage;
