@@ -1,10 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper 
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.shengsu.any.clue.mapper.ClueMapper">
-	<!-- Result Map-->
-	<resultMap id="clue_result_map" type="clue">
-	</resultMap>
+    <!-- Result Map-->
+    <resultMap id="clue_result_map" type="clue">
+    </resultMap>
+    <!--    查询条件-->
+    <sql id="clue_where_clause">
+        <where>
+            del_flag = 0
+            <if test="provinceCode != null and  provinceCode != ''">
+                and province_code=#{provinceCode}
+            </if>
+            <if test="cityCode != null and  cityCode != ''">
+                and city_code=#{cityCode}
+            </if>
+            <if test="districtCode != null and  districtCode != ''">
+                and district_code=#{districtCode}
+            </if>
+            <if test="tel != null and  tel != ''">
+                and tel=#{tel}
+            </if>
+            <if test="onshelf_time != null and  onshelf_time != ''">
+                and onshelf_time=#{onshelf_time}
+            </if>
+            <if test="offshelf_time != null and  offshelf_time != ''">
+                and offshelf_time=#{offshelf_time}
+            </if>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, clue_id, province_code, city_code, district_code, appellation, clue_type, customer_demands,
+    tel, clue_price, clue_state, onshelf_time, offshelf_time, create_time, modify_time,
+    del_flag
+  </sql>
+    <insert id="save" parameterType="Clue">
+    insert into clue (clue_id, province_code, city_code,
+      district_code, appellation, clue_type,
+      customer_demands, tel, clue_price,
+      clue_state, onshelf_time, offshelf_time,
+      create_time, del_flag
+      )
+    values (#{clueId,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR},
+      #{districtCode,jdbcType=VARCHAR}, #{appellation,jdbcType=VARCHAR}, #{clueType,jdbcType=VARCHAR},
+      #{customerDemands,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{cluePrice,jdbcType=DECIMAL},
+      #{clueState,jdbcType=VARCHAR}, #{onshelf_time,jdbcType=TIMESTAMP}, #{offshelf_time,jdbcType=TIMESTAMP},
+      current_Timestamp(), 0
+      )
+  </insert>
+    <select id="listByPage" parameterType="Clue" resultType="Clue">
+        <include refid="global.paginationStart_mysql"/>
+        select
+        <include refid="Base_Column_List"/>
+        from clue
+        <include refid="clue_where_clause"/>
+        <include refid="global.paginationEnd_mysql"/>
+    </select>
+    <update id="update" parameterType="Clue">
+    update clue
+    set
+      province_code = #{provinceCode,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      district_code = #{districtCode,jdbcType=VARCHAR},
+      appellation = #{appellation,jdbcType=VARCHAR},
+      clue_type = #{clueType,jdbcType=VARCHAR},
+      customer_demands = #{customerDemands,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      clue_price = #{cluePrice,jdbcType=DECIMAL},
+      clue_state = #{clueState,jdbcType=VARCHAR},
+      onshelf_time = #{onshelf_time,jdbcType=TIMESTAMP},
+      offshelf_time = #{offshelf_time,jdbcType=TIMESTAMP},
+      modify_time = current_Timestamp()
+    where clue_id = #{clueId,jdbcType=VARCHAR}
+  </update>
+    <update id="onShelf" parameterType="String">
+    update clue
+    set
+      clue_state = 'onShelf'
+    where clue_id = #{clueId,jdbcType=VARCHAR}
+  </update>
+
+    <update id="offShelf" parameterType="String">
+    update clue
+    set
+      clue_state = 'offShelf'
+    where clue_id = #{clueId,jdbcType=VARCHAR}
+  </update>
+
+    <select id="countAll" resultType="int">
+        select
+        count(1)
+        from
+        clue
+        <include refid="clue_where_clause"/>
+    </select>
+    <update id="softDelete" parameterType="String">
+		update
+			clue
+		set
+			del_flag=1
+		where
+			clue_id = #{clueId,jdbcType=VARCHAR}
+	</update>
+
+
 </mapper>
