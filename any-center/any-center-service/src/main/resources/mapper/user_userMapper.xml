@@ -130,4 +130,7 @@
 	<update id="reject" parameterType="string">
 		update user set auth_state = '3' where user_id=#{userId}
 	</update>
+    <update id="uploadHeadImage" parameterType="string">
+		update user set icon_oss_resource_id = #{iconOssResourceId} where user_id=#{userId}
+	</update>
 </mapper>

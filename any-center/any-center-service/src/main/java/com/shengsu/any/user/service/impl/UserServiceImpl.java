@@ -37,7 +37,7 @@ import static com.shengsu.any.user.util.UserUtils.toUserDetailsPo;
  * @author: lipiao
  * @create: 2020-01-07 17:20
  **/
-@Service("userService")
+@Service("anyUserService")
 public class UserServiceImpl extends BaseServiceImpl<User, String> implements UserService,BizConst {
     @Autowired
     private SmsService smsService;
@@ -348,6 +348,25 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_USER_AUTH_STATE_UNREVIEW);
         }
         userMapper.reject(userId);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
+
+    @Override
+    public ResultBean uploadHeadImage(UploadHeadImageVo uploadHeadImageVo) {
+        String userId = uploadHeadImageVo.getUserId();
+        User user = new User();
+        user.setUserId(userId);
+        user.setIconOssResourceId(uploadHeadImageVo.getIconOssResourceId());
+        userMapper.uploadHeadImage(user);
+
+        User oldUser = userMapper.get(userId);
+        String token = uploadHeadImageVo.getToken();
+        if (StringUtils.isNoneBlank(token)) {
+            UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(oldUser);
+            userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, uploadHeadImageVo.getIconOssResourceId()));
+            authorizedService.flushUserToken(userDetailsPo, token);
+        }
+
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 }

@@ -20,4 +20,6 @@ public interface UserMapper extends BaseMapper<User,String> {
     void pass(String userId);
 
     void reject(String userId);
+
+    void uploadHeadImage(User user);
 }
