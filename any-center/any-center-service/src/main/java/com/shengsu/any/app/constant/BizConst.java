@@ -9,6 +9,16 @@ package com.shengsu.any.app.constant;
  * 
  */
 public interface BizConst {
-    //案件类型
+    //字典-用户状态code
     String DICT_CODE_AUTH_STATE= "auth_state";
+    //字典-案件类型(领域)code
+    String DICT_CODE_FIELD= "field";
+    //用户状态-未认证
+    String USER_AUTH_STATE_UNAUTHORIZED = "0";
+    //用户状态-认证中
+    String USER_AUTH_STATE_AUTHENTICATION = "1";
+    //用户状态-已认证
+    String USER_AUTH_STATE_AUTHENTICATED = "2";
+    //用户状态-已拒绝
+    String USER_AUTH_STATE_REJECTED = "3";
 }

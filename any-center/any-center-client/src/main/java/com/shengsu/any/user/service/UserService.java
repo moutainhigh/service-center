@@ -2,13 +2,12 @@ package com.shengsu.any.user.service;
 
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
-import com.shengsu.any.user.vo.SmsSendVo;
-import com.shengsu.any.user.vo.UserBandVo;
-import com.shengsu.any.user.vo.UserLoginVo;
+import com.shengsu.any.user.vo.*;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @description:
@@ -23,4 +22,9 @@ public interface UserService extends BaseService<User,String> {
     void supplyUserDetailsPo(UserDetailsPo userDetailsPo, User user);
     ResultBean band(UserBandVo userBandVo);
     ResultBean logout(String token);
+    ResultBean edit(UserEditVo userEditVo);
+    ResultBean toUserDetailsPos( List<User> users);
+    ResultBean listPage(User user);
+    ResultBean pass(UserAuthStateVo userAuthStateVo);
+    ResultBean reject(UserAuthStateVo userAuthStateVo);
 }

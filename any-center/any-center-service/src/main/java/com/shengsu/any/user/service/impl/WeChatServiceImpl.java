@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.HttpClientUtil;
+import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
@@ -20,16 +21,13 @@ import com.shengsu.result.ResultBean;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @description:
@@ -47,7 +45,7 @@ public class WeChatServiceImpl implements WeChatService {
     @Value("${wechat.pc.pcAppsecret}")
     private String pcAppsecret;
     @Value("${wechat.code.expireTimeSecond}")
-    private long WECHAT_CODE_INVALID_TIME;
+    private long wechatExpireTime;
     @Autowired
     private UserService userService;
     @Autowired
@@ -55,15 +53,15 @@ public class WeChatServiceImpl implements WeChatService {
     @Autowired
     private OssService ossService;
     @Resource
-    private RedisTemplate<Serializable,Serializable> redisTemplate;
+    private RedisUtil redisUtil;
 
     @Override
     public ResultBean pcLogin(WeChatVo weChatVo) {
         // 将微信用户信息放入缓存,保证前端页面重复刷新请求
-        Map<String, String> resultMap = (HashMap<String, String>)redisTemplate.opsForValue().get(weChatVo.getCode());
+        Map<String, String> resultMap = (HashMap<String, String>) redisUtil.get(weChatVo.getCode());
         if (resultMap==null || resultMap.size()==0){
             resultMap =  getWeChatUser(weChatVo).getBody();
-            redisTemplate.opsForValue().set(weChatVo.getCode(),new HashMap<>(resultMap), WECHAT_CODE_INVALID_TIME, TimeUnit.SECONDS);
+            redisUtil.set(weChatVo.getCode(),new HashMap<>(resultMap), wechatExpireTime);
         }
         // 根据 openid 登录
         String openid = resultMap.get("openid");

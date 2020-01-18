@@ -24,6 +24,7 @@ public enum ResultCode {
     EXCEPTION_REQUEST_ERROR(1002,"请求错误"),
     //注册
     EXCEPTION_REGISTER_TEL_BANDED(1002,"手机号已被绑定"),
+    EXCEPTION_REGISTER_USER_NOT_EXISTED(1002,"用户不存在"),
     //获取token
     EXCEPTION_PARAM_ERROR(1002,"参数有误"),
     // 短信验证
@@ -34,7 +35,10 @@ public enum ResultCode {
     EXCEPTION_NOT_NATA_EXISTENCE(1002,"数据不存在"),
     EXCEPTION_DUPLICATE_ACTION(1002,"重复操作"),
     // 微信公众号
-    EXCEPTION_WECHAT_USER_TEL_BANDED(1002,"当前账户已绑定过手机号");
+    EXCEPTION_WECHAT_USER_TEL_BANDED(1002,"当前账户已绑定过手机号"),
+    // 用户认证状态
+    EXCEPTION_USER_AUTH_STATE_UNREVIEW(1002,"未提交或已审核"),
+    EXCEPTION_USER_AUTH_STATE_IN_REVIEW(1002,"正在审核");
 
     private Integer code;
     private String  resultMessage;

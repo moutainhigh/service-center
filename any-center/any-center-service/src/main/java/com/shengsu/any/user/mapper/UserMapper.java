@@ -16,4 +16,8 @@ public interface UserMapper extends BaseMapper<User,String> {
     User selectByWeChatOpenid(String wechatOpenid);
 
     void bandWechat(User user);
+
+    void pass(String userId);
+
+    void reject(String userId);
 }

@@ -2,6 +2,7 @@ package com.shengsu.any.user.service.impl;
 
 
 import com.shengsu.any.app.constant.ResultCode;
+import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.user.entity.Auth;
 import com.shengsu.any.user.po.UserDetailsPo;
@@ -9,17 +10,15 @@ import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.util.MD5Util;
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
-
+@Slf4j
 @Service(value = "authorizedService")
 public class AuthorizedServiceImpl implements AuthorizedService {
 
@@ -27,17 +26,15 @@ public class AuthorizedServiceImpl implements AuthorizedService {
      * token的签名密钥
      */
     @Value("${token.secretKey}")
-    private String SECRET_KEY;
+    private String tokenSecretKey;
     /**
      * token存活时间(秒）
      */
     @Value("${token.expireTimeSecond}")
-    private long INVALID_TIME;
-
-
+    private long tokenExpireTime;
 
     @Resource
-    private RedisTemplate<Serializable, Serializable> redisTemplate;
+    private RedisUtil redisUtil;
 
 
     /**
@@ -49,15 +46,15 @@ public class AuthorizedServiceImpl implements AuthorizedService {
     public String generateToken(UserDetailsPo user) {
         // 加密生成token
         Date iat = new Date();
-        Date exp = new Date(System.currentTimeMillis() + INVALID_TIME);
+        Date exp = new Date(System.currentTimeMillis() + tokenExpireTime);
         String token = Jwts.builder().setSubject(user.getUserName())
                 .setIssuedAt(iat)// 生成时间
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)// 设置编码
+                .signWith(SignatureAlgorithm.HS256, tokenSecretKey)// 设置编码
                 .compact();
         // 将TOKEN放入缓存中，方便验证
-        Auth auth = new Auth(iat.getTime(), exp.getTime(), token, user);
+        Auth auth = new Auth(token, user);
         String cacheKey = getCacheKey(token);
-        redisTemplate.opsForValue().set(cacheKey, auth, INVALID_TIME, TimeUnit.SECONDS);
+        redisUtil.set(cacheKey, auth, tokenExpireTime);
         return token;
     }
 
@@ -81,7 +78,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
      * @date 2018年1月18日 上午10:03:17
      */
     public void destoryToken(String token) {
-        redisTemplate.delete(getCacheKey(token));
+        redisUtil.delete(getCacheKey(token));
     }
 
     /**
@@ -92,10 +89,10 @@ public class AuthorizedServiceImpl implements AuthorizedService {
     public void flushUserToken(UserDetailsPo user, String token) {
         if (user != null && StringUtils.isNoneBlank(token)) {
             Date iat = new Date();
-            Date exp = new Date(System.currentTimeMillis() + INVALID_TIME);
-            Auth auth = new Auth(iat.getTime(), exp.getTime(), token, user);
+            Date exp = new Date(System.currentTimeMillis() + tokenExpireTime);
+            Auth auth = new Auth(token, user);
             String cacheKey = getCacheKey(token);
-            redisTemplate.opsForValue().set(cacheKey, auth, INVALID_TIME, TimeUnit.SECONDS);
+            redisUtil.set(cacheKey, auth, tokenExpireTime);
         }
     }
 
@@ -111,7 +108,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             parseToken(token);
             //解析token,这里会校验token是否正确
             String cacheKey = getCacheKey(token);
-            Auth auth = (Auth) redisTemplate.opsForValue().get(cacheKey);
+            Auth auth = (Auth) redisUtil.get(cacheKey);
             if (null == auth)
                 return null;
             return auth.getUser();
@@ -136,7 +133,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
     private Claims parseToken(String token) throws ExpiredJwtException,
             MalformedJwtException, SignatureException, IllegalArgumentException {
         // 解密token，拿到里面的对象claims
-        final Claims claims = Jwts.parser().setSigningKey(SECRET_KEY)
+        final Claims claims = Jwts.parser().setSigningKey(tokenSecretKey)
                 .parseClaimsJws(token).getBody();
         return claims;
     }
@@ -155,11 +152,11 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         try {
             parseToken(token);
             String cacheKey = getCacheKey(token);
-            Auth auth = (Auth) redisTemplate.opsForValue().get(cacheKey);
+            Auth auth = (Auth) redisUtil.get(cacheKey);
             if(auth==null){
                 return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);
             }
-            redisTemplate.opsForValue().set(cacheKey, auth, INVALID_TIME, TimeUnit.SECONDS);
+            redisUtil.set(cacheKey, auth, tokenExpireTime);
             return ResultUtil.formResult(true, ResultCode.SUCCESS);
         } catch (ExpiredJwtException e) {
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);

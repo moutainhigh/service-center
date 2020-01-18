@@ -2,36 +2,35 @@ package com.shengsu.any.user.service.impl;
 
 import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
+import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.system.entity.SystemDict;
 import com.shengsu.any.system.service.SystemDictService;
+import com.shengsu.any.system.util.SystemDictUtils;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.mapper.UserMapper;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.any.user.util.UserUtils;
-import com.shengsu.any.user.vo.SmsSendVo;
-import com.shengsu.any.user.vo.UserBandVo;
-import com.shengsu.any.user.vo.UserLoginVo;
+import com.shengsu.any.user.vo.*;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.helper.service.SmsService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+
+import static com.shengsu.any.user.util.UserUtils.toUserDetailsPo;
 
 /**
  * @description:
@@ -49,9 +48,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Autowired
     private SystemDictService systemDictService;
     @Resource
-    private RedisTemplate<Serializable, Serializable> redisTemplate;
+    private RedisUtil redisUtil;
     @Value("${sms.expireTimeSecond}")
-    private long SMS_INVALID_TIME;
+    private long smsExpireTime;
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -64,7 +63,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         String tel = smsSendVo.getTel();
         smsSendVo.setSmsCode(getSixRandomCode());
         // 将短信验证码存储到redis,时效是1分钟
-        redisTemplate.opsForValue().set(tel, smsSendVo.getSmsCode(), SMS_INVALID_TIME, TimeUnit.SECONDS);
+        redisUtil.set(tel, smsSendVo.getSmsCode(), smsExpireTime);
         // 发送手机验证码
         return smsService.sendSms(tel, smsSendVo.getSmsCode());
     }
@@ -111,7 +110,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     public ResultBean checkPhoneValidationCode(String tel, String smsCode) {
         // 验证短信验证码
         // 根据手机号码取短信验证码
-        String redisSmsCode = (String) redisTemplate.opsForValue().get(tel);
+        String redisSmsCode = (String) redisUtil.get(tel);
         // 如果验证码为空就是超时
         if (StringUtils.isEmpty(redisSmsCode)) {
             return ResultUtil.formResult(false, ResultCode.SMS_AUTHENTICATION_CODE_OVERTIME);
@@ -121,7 +120,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             return ResultUtil.formResult(false, ResultCode.SMS_AUTHENTICATION_CODE_ERROR);
         }
         // 缓存验证码清除
-        redisTemplate.delete(tel);
+        redisUtil.delete(tel);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     @Override
@@ -138,7 +137,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         result.put("token", token);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
     }
-
+    /**
+    * @Description: 微信openid获取用户
+    * @Param: * @Param openid: 
+    * @Return: * @return: com.shengsu.any.user.entity.User
+    * @date: 
+    */
     @Override
     public User selectByWeChatOpenid(String openid) {
         if (StringUtils.isBlank(openid)) {
@@ -156,12 +160,30 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         if (systemDict != null) {
             userDetailsPo.setAuthStateStr(systemDict.getDisplayName());
         }
+
+        List<SystemDict> systemDicts = systemDictService.listByDictCode(DICT_CODE_FIELD);
+        Map<String, SystemDict> systemDictMap = SystemDictUtils.toSystemDictMap(systemDicts);
+        String field = "";
+        if (StringUtils.isNotBlank(user.getField())){
+            List<String> fieldItems =Arrays.asList(StringUtils.split(user.getField(), ","));
+            for (String item : fieldItems){
+                SystemDict dict = systemDictMap.get(item);
+                if (null!=dict) field = field + " "+ dict.getDisplayName();
+            }
+        }
+        userDetailsPo.setFieldStr(field.trim());
+
         userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIconOssResourceId()));
         userDetailsPo.setIdCardFrontUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIdCardFrontOssResourceId()));
         userDetailsPo.setIdCardBackUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIdCardBackOssResourceId()));
         userDetailsPo.setLicenseUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getLicenseOssResourceId()));
     }
-
+    /**
+    * @Description: 用户绑定(手机号)
+    * @Param: * @Param userBandVo: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
     @Override
     public ResultBean band(UserBandVo userBandVo) {
         // 手机验证码校验
@@ -199,9 +221,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
-
+    /**
+    * @Description: token结果处理
+    * @Param: * @Param user: 
+    * @Return: * @return: java.util.Map<java.lang.String,java.lang.Object>
+    * @date: 
+    */
     private  Map<String, Object> userTokenResult(User user){
-        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+        UserDetailsPo userDetailsPo = toUserDetailsPo(user);
         supplyUserDetailsPo(userDetailsPo,user);
         Map<String, Object> result = new HashMap<>();
         result.put("user", userDetailsPo);
@@ -220,5 +247,107 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         authorizedService.logout(token);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
+    /**
+    * @Description: 编辑
+    * @Param: * @Param userEditVo: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
+    @Override
+    public ResultBean edit(UserEditVo userEditVo) {
+        String userId = userEditVo.getUserId();
+        User user = userMapper.get(userId);
+        if (user == null) {
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_REGISTER_USER_NOT_EXISTED);
+        }
+        if (USER_AUTH_STATE_AUTHENTICATION.equals(user.getAuthState())||USER_AUTH_STATE_AUTHENTICATED.equals(user.getAuthState())){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_USER_AUTH_STATE_IN_REVIEW);
+        }
+        user = UserUtils.toUser(userEditVo);
+        user.setAuthState(USER_AUTH_STATE_AUTHENTICATION);
+        userMapper.update(user);
+        String token = userEditVo.getToken();
+        if (StringUtils.isNoneBlank(token)) {
+            UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
+            userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIconOssResourceId()));
+            authorizedService.flushUserToken(userDetailsPo, token);
+        }
 
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
+    /**
+    * @Description: 返回用户详细信息
+    * @Param: * @Param users: 
+    * @Return: * @return: com.shengsu.result.ResultBean<java.util.List<com.shengsu.any.user.po.UserDetailsPo>>
+    * @date: 
+    */
+    @Override
+    public ResultBean<List<UserDetailsPo>> toUserDetailsPos(List<User> users) {
+        if (users != null) {
+            List<UserDetailsPo> userDetailsPos = new ArrayList<>();
+            for (User user :users) {
+                UserDetailsPo userDetailsPo =toUserDetailsPo(user);
+                supplyUserDetailsPo(userDetailsPo,user);
+                userDetailsPos.add(userDetailsPo);
+            }
+            return ResultUtil.formResult(true, ResultCode.SUCCESS,userDetailsPos);
+        }
+        return ResultUtil.formResult(false, ResultCode.FAIL);
+    }
+    /**
+    * @Description: 分页查询用户
+    * @Param: * @Param user: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
+    @Override
+    public ResultBean listPage(User user) {
+        Map<String, Object> map = new HashMap<>();
+        user.setSearch(StringUtil.ToLikeStr(user.getSearch()));
+        int totalCount = userMapper.countAll(user);
+        if (totalCount > 0) {
+            List<User> users = userMapper.listByPage(user);
+            ResultBean<List<UserDetailsPo>> userDetailsPosResult = toUserDetailsPos(users);
+            List<UserDetailsPo> detailDetailsPos= null;
+            if (userDetailsPosResult.isSuccess()) {
+                 detailDetailsPos= userDetailsPosResult.getBody();
+            }
+            map.put("root", detailDetailsPos);
+            map.put("totalCount", totalCount);
+        }
+
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+    }
+    /**
+    * @Description: 认证通过
+    * @Param: * @Param userAuthStateVo:
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date:
+    */
+    @Override
+    public ResultBean pass(UserAuthStateVo userAuthStateVo) {
+        String userId = userAuthStateVo.getUserId();
+        User user = userMapper.get(userId);
+        if (!USER_AUTH_STATE_AUTHENTICATION.equals(user.getAuthState())){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_USER_AUTH_STATE_UNREVIEW);
+        }
+        userMapper.pass(userId);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
+    /**
+    * @Description: 认证拒绝
+    * @Param: * @Param userAuthStateVo:
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date:
+    */
+    @Override
+    public ResultBean reject(UserAuthStateVo userAuthStateVo) {
+        String userId = userAuthStateVo.getUserId();
+        User user = userMapper.get(userId);
+        if (!USER_AUTH_STATE_AUTHENTICATION.equals(user.getAuthState())){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_USER_AUTH_STATE_UNREVIEW);
+        }
+        userMapper.reject(userId);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
 }

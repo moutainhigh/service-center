@@ -8,6 +8,5 @@
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <context:annotation-config/>
-    <import resource="classpath:dubbo/dubbo-provider.xml"/>
-    <import resource="classpath:dubbo/dubbo-consumer.xml"/>
+    <import resource="classpath:dubbo/dubbo-context.xml"/>
 </beans>

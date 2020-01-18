@@ -7,6 +7,24 @@
 	<!-- Result Map-->
 	<resultMap id="user_result_map" type="user">
 	</resultMap>
+	<!-- 查询条件 -->
+	<sql id="user_where_clause">
+		<where>
+			del_flag = 0
+			<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
+			<if test="userName != null and  userName != ''"> and user_name= #{userName}</if>
+			<if test="realName != null and  realName != ''"> and real_name like concat('%',#{realName},'%')</if>
+			<if test="tel != null and  tel != ''"> and tel like concat('%',#{tel},'%')</if>
+			<if test="provinceCode != null and  provinceCode != ''"> and province_code= #{provinceCode}</if>
+			<if test="cityCode != null and  cityCode != ''"> and city_code= #{cityCode}</if>
+			<if test="districtCode != null and  districtCode != ''"> and district_code= #{districtCode}</if>
+			<if test="authState != null and  authState != ''"> and auth_state= #{authState}</if>
+			<if test="search != null and  search != ''">
+				<bind name="pattern" value="search" />
+				and concat(ifnull(user_name,''),ifnull(tel,''),ifnull(real_name,'')) like concat('%',#{pattern},'%') escape'/'
+			</if>
+		</where>
+	</sql>
     <insert id="save" parameterType="user">
 		insert into
 		user
@@ -56,8 +74,28 @@
 			current_timestamp()
 		)
 	</insert>
+	<!-- 修改用户信息 -->
+	<update id="update" parameterType="user">
+		update user set
+		<if test="realName != null and  realName != '' ">real_name=#{realName,jdbcType=VARCHAR},</if>
+		<if test="gender != null and  gender != ''">gender=#{gender,jdbcType=VARCHAR},</if>
+		<if test="iconOssResourceId != null and  iconOssResourceId != ''">icon_oss_resource_id=#{iconOssResourceId,jdbcType=VARCHAR},</if>
+		<if test="idCard != null and  idCard != '' ">id_card=#{idCard,jdbcType=VARCHAR},</if>
+		<if test="lawFirm != null and  lawFirm != '' ">law_firm=#{lawFirm,jdbcType=VARCHAR},</if>
+		<if test="lawyerLicenseNo != null and  lawyerLicenseNo != '' ">lawyer_license_no=#{lawyerLicenseNo,jdbcType=VARCHAR},</if>
+		<if test="idCardFrontOssResourceId != null and  idCardFrontOssResourceId != '' ">id_card_front_oss_resource_id=#{idCardFrontOssResourceId,jdbcType=VARCHAR},</if>
+		<if test="idCardBackOssResourceId != null and  idCardBackOssResourceId != '' ">id_card_back_oss_resource_id=#{idCardBackOssResourceId,jdbcType=VARCHAR},</if>
+		<if test="licenseOssResourceId != null and  licenseOssResourceId != '' ">license_oss_resource_id=#{licenseOssResourceId,jdbcType=VARCHAR},</if>
+		<if test="field != null ">field=#{field,jdbcType=VARCHAR},</if>
+		<if test="provinceCode != null and  provinceCode != '' ">province_code=#{provinceCode,jdbcType=VARCHAR},</if>
+		<if test="cityCode != null and  cityCode != '' ">city_code=#{cityCode,jdbcType=VARCHAR},</if>
+		<if test="districtCode != null and  districtCode != '' ">district_code=#{districtCode,jdbcType=VARCHAR},</if>
+		<if test="authState != null and  authState != '' ">auth_state=#{authState,jdbcType=VARCHAR},</if>
+		modify_time=current_timestamp()
+		where user_id=#{userId}
+	</update>
     <select id="listByModel" parameterType="user" resultMap="user_result_map">
-        select * from user
+        select * from user <include refid="user_where_clause" />
     </select>
     <select id="selectByTel" parameterType="string" resultType="user">
         select * from user where tel=#{tel} and del_flag = 0 limit 1
@@ -67,5 +105,29 @@
 	</select>
 	<update id="bandWechat" parameterType="user">
 		update user set wechat_unionid=#{wechatUnionid},wechat_openid=#{wechatOpenid} where tel=#{tel}
+	</update>
+	<select id="get" parameterType="string" resultType="user">
+		select * from user where user_id=#{userId}
+	</select>
+	<!-- 获取所有用户数 -->
+	<select id="countAll" resultType="int">
+		select count(1) from user
+		<include refid="user_where_clause" />
+		and auth_state != 0
+	</select>
+	<!-- 获取用户信息列表 -->
+	<select id="listByPage" parameterType="user" resultType="user">
+		<include refid="global.paginationStart_mysql" />
+		select * from user
+		<include refid="user_where_clause" />
+		and auth_state != 0
+		order by create_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
+	<update id="pass" parameterType="string">
+		update user set auth_state = '2' where user_id=#{userId}
+	</update>
+	<update id="reject" parameterType="string">
+		update user set auth_state = '3' where user_id=#{userId}
 	</update>
 </mapper>
