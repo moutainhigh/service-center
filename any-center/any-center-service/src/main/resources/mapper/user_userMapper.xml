@@ -86,7 +86,7 @@
 		<if test="idCardFrontOssResourceId != null and  idCardFrontOssResourceId != '' ">id_card_front_oss_resource_id=#{idCardFrontOssResourceId,jdbcType=VARCHAR},</if>
 		<if test="idCardBackOssResourceId != null and  idCardBackOssResourceId != '' ">id_card_back_oss_resource_id=#{idCardBackOssResourceId,jdbcType=VARCHAR},</if>
 		<if test="licenseOssResourceId != null and  licenseOssResourceId != '' ">license_oss_resource_id=#{licenseOssResourceId,jdbcType=VARCHAR},</if>
-		<if test="field != null and  field != '' ">field=#{field,jdbcType=VARCHAR},</if>
+		<if test="field != null ">field=#{field,jdbcType=VARCHAR},</if>
 		<if test="provinceCode != null and  provinceCode != '' ">province_code=#{provinceCode,jdbcType=VARCHAR},</if>
 		<if test="cityCode != null and  cityCode != '' ">city_code=#{cityCode,jdbcType=VARCHAR},</if>
 		<if test="districtCode != null and  districtCode != '' ">district_code=#{districtCode,jdbcType=VARCHAR},</if>
@@ -113,12 +113,14 @@
 	<select id="countAll" resultType="int">
 		select count(1) from user
 		<include refid="user_where_clause" />
+		and auth_state != 0
 	</select>
 	<!-- 获取用户信息列表 -->
 	<select id="listByPage" parameterType="user" resultType="user">
 		<include refid="global.paginationStart_mysql" />
 		select * from user
 		<include refid="user_where_clause" />
+		and auth_state != 0
 		order by create_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
