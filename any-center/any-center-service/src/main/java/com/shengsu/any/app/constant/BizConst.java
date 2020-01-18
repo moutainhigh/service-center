@@ -9,8 +9,10 @@ package com.shengsu.any.app.constant;
  * 
  */
 public interface BizConst {
-    //字典用户状态code
+    //字典-用户状态code
     String DICT_CODE_AUTH_STATE= "auth_state";
+    //字典-案件类型(领域)code
+    String DICT_CODE_FIELD= "field";
     //用户状态-未认证
     String USER_AUTH_STATE_UNAUTHORIZED = "0";
     //用户状态-认证中

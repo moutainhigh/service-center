@@ -6,6 +6,7 @@ import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.system.entity.SystemDict;
 import com.shengsu.any.system.service.SystemDictService;
+import com.shengsu.any.system.util.SystemDictUtils;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.mapper.UserMapper;
 import com.shengsu.any.user.po.UserDetailsPo;
@@ -27,10 +28,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.shengsu.any.user.util.UserUtils.toUserDetailsPo;
 
@@ -97,7 +95,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             user = UserUtils.toUser(tel);
             save(user);
         }
-        UserDetailsPo userDetailsPo = toUserDetailsPo(user);
+        UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
         supplyUserDetailsPo(userDetailsPo,user);
         resultMap.put("user", userDetailsPo);
         resultMap.put("token", authorizedService.generateToken(userDetailsPo));
@@ -162,6 +160,19 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         if (systemDict != null) {
             userDetailsPo.setAuthStateStr(systemDict.getDisplayName());
         }
+
+        List<SystemDict> systemDicts = systemDictService.listByDictCode(DICT_CODE_FIELD);
+        Map<String, SystemDict> systemDictMap = SystemDictUtils.toSystemDictMap(systemDicts);
+        String field = "";
+        if (StringUtils.isNotBlank(user.getField())){
+            List<String> fieldItems =Arrays.asList(StringUtils.split(user.getField(), ","));
+            for (String item : fieldItems){
+                SystemDict dict = systemDictMap.get(item);
+                if (null!=dict) field = field + " "+ dict.getDisplayName();
+            }
+        }
+        userDetailsPo.setFieldStr(field.trim());
+
         userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIconOssResourceId()));
         userDetailsPo.setIdCardFrontUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIdCardFrontOssResourceId()));
         userDetailsPo.setIdCardBackUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIdCardBackOssResourceId()));
@@ -257,7 +268,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         userMapper.update(user);
         String token = userEditVo.getToken();
         if (StringUtils.isNoneBlank(token)) {
-            UserDetailsPo userDetailsPo = toUserDetailsPo(user);
+            UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
             userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIconOssResourceId()));
             authorizedService.flushUserToken(userDetailsPo, token);
         }
