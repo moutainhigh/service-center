@@ -40,14 +40,12 @@
     insert into clue (clue_id, province_code, city_code,
       district_code, appellation, clue_type,
       customer_demands, tel, clue_price,
-      clue_state, onshelf_time, offshelf_time,
-      create_time, del_flag
+      clue_state, create_time, modify_time,del_flag
       )
     values (#{clueId,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR},
       #{districtCode,jdbcType=VARCHAR}, #{appellation,jdbcType=VARCHAR}, #{clueType,jdbcType=VARCHAR},
       #{customerDemands,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{cluePrice,jdbcType=DECIMAL},
-      #{clueState,jdbcType=VARCHAR}, #{onshelf_time,jdbcType=TIMESTAMP}, #{offshelf_time,jdbcType=TIMESTAMP},
-      current_Timestamp(), 0
+      'pend',current_Timestamp(), current_Timestamp(),0
       )
   </insert>
     <select id="listByPage" parameterType="Clue" resultType="Clue">
@@ -78,6 +76,7 @@
     <update id="onShelf" parameterType="String">
     update clue
     set
+      onshelf_time = current_timestamp(),
       clue_state = 'onShelf'
     where clue_id = #{clueId,jdbcType=VARCHAR}
   </update>
@@ -85,6 +84,7 @@
     <update id="offShelf" parameterType="String">
     update clue
     set
+      offshelf_time = current_timestamp(),
       clue_state = 'offShelf'
     where clue_id = #{clueId,jdbcType=VARCHAR}
   </update>

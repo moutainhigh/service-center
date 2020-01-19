@@ -17,13 +17,12 @@ public class ClueUtils {
         clue.setClueId(UUID.randomUUID().toString());
         clue.setAppellation(clueVo.getAppellation());
         clue.setProvinceCode(clueVo.getProvinceCode());
+        clue.setClueType(clueVo.getClueType());
         clue.setCityCode(clueVo.getCityCode());
         clue.setDistrictCode(clueVo.getDistrictCode());
         clue.setCluePrice(clueVo.getCluePrice());
         clue.setClueState(clueVo.getClueState());
         clue.setCustomerDemands(clueVo.getCustomerDemands());
-        clue.setOffshelf_time(clueVo.getOffshelf_time());
-        clue.setOnshelf_time(clueVo.getOnshelf_time());
         clue.setTel(clueVo.getTel());
         return clue;
     }
