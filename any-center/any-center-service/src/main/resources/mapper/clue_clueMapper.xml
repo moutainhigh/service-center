@@ -37,15 +37,37 @@
     del_flag
   </sql>
     <insert id="save" parameterType="Clue">
-    insert into clue (clue_id, province_code, city_code,
-      district_code, appellation, clue_type,
-      customer_demands, tel, clue_price,
-      clue_state, create_time, modify_time,del_flag
+    insert into clue
+    (
+    clue_id,
+    province_code,
+    city_code,
+    district_code,
+    appellation,
+    clue_type,
+    customer_demands,
+    tel,
+    clue_price,
+    clue_state,
+    create_time,
+    modify_time,
+    del_flag
       )
-    values (#{clueId,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR},
-      #{districtCode,jdbcType=VARCHAR}, #{appellation,jdbcType=VARCHAR}, #{clueType,jdbcType=VARCHAR},
-      #{customerDemands,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{cluePrice,jdbcType=DECIMAL},
-      'pend',current_Timestamp(), current_Timestamp(),0
+    values
+    (
+    #{clueId,jdbcType=VARCHAR},
+    #{provinceCode,jdbcType=VARCHAR},
+    #{cityCode,jdbcType=VARCHAR},
+    #{districtCode,jdbcType=VARCHAR},
+    #{appellation,jdbcType=VARCHAR},
+    #{clueType,jdbcType=VARCHAR},
+    #{customerDemands,jdbcType=VARCHAR},
+    #{tel,jdbcType=VARCHAR},
+    #{cluePrice,jdbcType=DECIMAL},
+    'pend',
+    current_Timestamp(),
+    current_Timestamp(),
+    0
       )
   </insert>
     <select id="listByPage" parameterType="Clue" resultType="Clue">
