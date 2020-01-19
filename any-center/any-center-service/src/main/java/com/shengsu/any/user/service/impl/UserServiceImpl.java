@@ -256,20 +256,26 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Override
     public ResultBean edit(UserEditVo userEditVo) {
         String userId = userEditVo.getUserId();
-        User user = userMapper.get(userId);
-        if (user == null) {
+        User oldUser = userMapper.get(userId);
+        if (oldUser == null) {
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_REGISTER_USER_NOT_EXISTED);
         }
-        if (USER_AUTH_STATE_AUTHENTICATION.equals(user.getAuthState())||USER_AUTH_STATE_AUTHENTICATED.equals(user.getAuthState())){
+        if (USER_AUTH_STATE_AUTHENTICATION.equals(oldUser.getAuthState())){
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_USER_AUTH_STATE_IN_REVIEW);
         }
-        user = UserUtils.toUser(userEditVo);
+        if (USER_AUTH_STATE_AUTHENTICATED.equals(oldUser.getAuthState())){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_USER_AUTH_STATE_REVIEW_PASS);
+        }
+        User user = UserUtils.toUser(userEditVo);
+        user.setUserName(oldUser.getUserName());
+        user.setTel(oldUser.getTel());
+        user.setCreateTime(oldUser.getCreateTime());
         user.setAuthState(USER_AUTH_STATE_AUTHENTICATION);
         userMapper.update(user);
         String token = userEditVo.getToken();
         if (StringUtils.isNoneBlank(token)) {
             UserDetailsPo userDetailsPo = UserUtils.toUserDetailsPo(user);
-            userDetailsPo.setIconUrl(ossService.getUrl(OssConstant.OSS_ANY_PLATFORM_FFILEDIR, user.getIconOssResourceId()));
+            supplyUserDetailsPo(userDetailsPo,user);
             authorizedService.flushUserToken(userDetailsPo, token);
         }
 

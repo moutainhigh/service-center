@@ -79,23 +79,23 @@ public class UserUtils {
         }
         return null;
     }
-    public static User toUser(UserEditVo userVerifyVo){
-        if (userVerifyVo != null) {
+    public static User toUser(UserEditVo userEditVo){
+        if (userEditVo != null) {
             User user = new User();
-            user.setUserId(userVerifyVo.getUserId());
-            user.setRealName(userVerifyVo.getRealName());
-            user.setGender(userVerifyVo.getGender());
-            user.setIconOssResourceId(userVerifyVo.getIconOssResourceId());
-            user.setIdCard(userVerifyVo.getIdCard());
-            user.setLawFirm(userVerifyVo.getLawFirm());
-            user.setLawyerLicenseNo(userVerifyVo.getLawyerLicenseNo());
-            user.setIdCardFrontOssResourceId(userVerifyVo.getIdCardFrontOssResourceId());
-            user.setIdCardBackOssResourceId(userVerifyVo.getIdCardBackOssResourceId());
-            user.setLicenseOssResourceId(userVerifyVo.getLicenseOssResourceId());
-            user.setField(userVerifyVo.getField());
-            user.setProvinceCode(userVerifyVo.getProvinceCode());
-            user.setCityCode(userVerifyVo.getCityCode());
-            user.setDistrictCode(userVerifyVo.getDistrictCode());
+            user.setUserId(userEditVo.getUserId());
+            user.setRealName(userEditVo.getRealName());
+            user.setGender(userEditVo.getGender());
+            user.setIconOssResourceId(userEditVo.getIconOssResourceId());
+            user.setIdCard(userEditVo.getIdCard());
+            user.setLawFirm(userEditVo.getLawFirm());
+            user.setLawyerLicenseNo(userEditVo.getLawyerLicenseNo());
+            user.setIdCardFrontOssResourceId(userEditVo.getIdCardFrontOssResourceId());
+            user.setIdCardBackOssResourceId(userEditVo.getIdCardBackOssResourceId());
+            user.setLicenseOssResourceId(userEditVo.getLicenseOssResourceId());
+            user.setField(userEditVo.getField());
+            user.setProvinceCode(userEditVo.getProvinceCode());
+            user.setCityCode(userEditVo.getCityCode());
+            user.setDistrictCode(userEditVo.getDistrictCode());
             return user;
         }
         return null;
