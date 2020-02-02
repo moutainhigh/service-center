@@ -9,6 +9,16 @@ package com.shengsu.any.app.constant;
  * 
  */
 public interface BizConst {
+    //编码前缀-线索
+    String PREFIX_CLUE_CODE = "XS";
+    //线索状态-待上架
+    String CLUE_STATE_PEND = "pend";
+    //线索状态-已上架
+    String CLUE_STATE_ONSHELF = "onShelf";
+    //线索状态-已下架
+    String CLUE_STATE_OFFSHELF = "offShelf";
+    //线索状态-已出售
+    String CLUE_STATE_SOLD = "sold";
     //字典-用户状态code
     String DICT_CODE_AUTH_STATE= "auth_state";
     //字典-案件类型(领域)code

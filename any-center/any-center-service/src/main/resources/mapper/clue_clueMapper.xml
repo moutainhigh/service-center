@@ -23,16 +23,22 @@
             <if test="tel != null and  tel != ''">
                 and tel=#{tel}
             </if>
-            <if test="onshelf_time != null and  onshelf_time != ''">
-                and onshelf_time=#{onshelf_time}
+            <if test="onshelfStartTime != null ">
+                and onshelf_time >= #{onshelfStartTime}
             </if>
-            <if test="offshelf_time != null and  offshelf_time != ''">
-                and offshelf_time=#{offshelf_time}
+            <if test="onshelfEndTime != null ">
+                and onshelf_time <![CDATA[<=]]> #{onshelfEndTime}
+            </if>
+            <if test="offshelfStartTime != null ">
+                and offshelf_time>=#{offshelfStartTime}
+            </if>
+            <if test="offshelfEndTime != null ">
+                and offshelf_time <![CDATA[<=]]> #{offshelfEndTime}
             </if>
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, clue_id, province_code, city_code, district_code, appellation, clue_type, customer_demands,
+    id, clue_code, clue_id, province_code, city_code, district_code, appellation, clue_type, customer_demands,
     tel, clue_price, clue_state, onshelf_time, offshelf_time, create_time, modify_time,
     del_flag
   </sql>
@@ -40,6 +46,7 @@
     insert into clue
     (
     clue_id,
+    clue_code,
     province_code,
     city_code,
     district_code,
@@ -56,6 +63,7 @@
     values
     (
     #{clueId,jdbcType=VARCHAR},
+    #{clueCode,jdbcType=VARCHAR},
     #{provinceCode,jdbcType=VARCHAR},
     #{cityCode,jdbcType=VARCHAR},
     #{districtCode,jdbcType=VARCHAR},
@@ -64,13 +72,13 @@
     #{customerDemands,jdbcType=VARCHAR},
     #{tel,jdbcType=VARCHAR},
     #{cluePrice,jdbcType=DECIMAL},
-    'pend',
+    #{clueState,jdbcType=DECIMAL},
     current_Timestamp(),
     current_Timestamp(),
     0
       )
   </insert>
-    <select id="listByPage" parameterType="Clue" resultType="Clue">
+    <select id="listByPage" parameterType="com.shengsu.any.clue.vo.ClueListByPageVo" resultType="Clue">
         <include refid="global.paginationStart_mysql"/>
         select
         <include refid="Base_Column_List"/>
@@ -78,6 +86,13 @@
         <include refid="clue_where_clause"/>
         <include refid="global.paginationEnd_mysql"/>
     </select>
+    <select id="getClueState" parameterType="String" resultType="String">
+        select
+        clue_state
+        from clue
+        where clue_id = #{clueId,jdbcType=VARCHAR}
+    </select>
+
     <update id="update" parameterType="Clue">
     update clue
     set
@@ -89,9 +104,6 @@
       customer_demands = #{customerDemands,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
       clue_price = #{cluePrice,jdbcType=DECIMAL},
-      clue_state = #{clueState,jdbcType=VARCHAR},
-      onshelf_time = #{onshelf_time,jdbcType=TIMESTAMP},
-      offshelf_time = #{offshelf_time,jdbcType=TIMESTAMP},
       modify_time = current_Timestamp()
     where clue_id = #{clueId,jdbcType=VARCHAR}
   </update>
@@ -99,7 +111,7 @@
     update clue
     set
       onshelf_time = current_timestamp(),
-      clue_state = 'onShelf'
+      clue_state = #{clueState,jdbcType=DECIMAL}
     where clue_id = #{clueId,jdbcType=VARCHAR}
   </update>
 
@@ -107,11 +119,11 @@
     update clue
     set
       offshelf_time = current_timestamp(),
-      clue_state = 'offShelf'
+      clue_state = #{clueState,jdbcType=DECIMAL}
     where clue_id = #{clueId,jdbcType=VARCHAR}
   </update>
 
-    <select id="countAll" resultType="int">
+    <select id="countAll" parameterType="com.shengsu.any.clue.vo.ClueListByPageVo" resultType="int">
         select
         count(1)
         from

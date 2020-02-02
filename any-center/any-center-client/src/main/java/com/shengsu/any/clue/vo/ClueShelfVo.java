@@ -9,4 +9,5 @@ import java.io.Serializable;
 public class ClueShelfVo implements Serializable {
     @NotBlank
     private String clueId;
+    private String clueState;//线索状态
 }
