@@ -50,6 +50,7 @@ public class ClueUtils {
         List<CluePo> list = new ArrayList<>();
         for(Clue clue : clues){
         CluePo cluePo = new CluePo();
+        cluePo.setClueState(clue.getClueState());
         cluePo.setAppellation(clue.getAppellation());
         cluePo.setCityCode(clue.getCityCode());
         cluePo.setClueCode(clue.getClueCode());
@@ -64,6 +65,14 @@ public class ClueUtils {
         cluePo.setOnshelfTime(clue.getOnshelfTime());
         cluePo.setClueId(clue.getClueId());
         list.add(cluePo);}
+        return list;
+    }
+    public static List<String> toClueType(List<Clue> clues){
+        List<String> list = new ArrayList<> ();
+        for(Clue clue : clues){
+            String clueType = clue.getClueType();
+            list.add(clueType);
+        }
         return list;
     }
 }

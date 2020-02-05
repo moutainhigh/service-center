@@ -21,7 +21,7 @@
                 and district_code=#{districtCode}
             </if>
             <if test="tel != null and  tel != ''">
-                and tel=#{tel}
+                and tel like concat('%',#{tel},'%')
             </if>
             <if test="onshelfStartTime != null ">
                 and onshelf_time >= #{onshelfStartTime}

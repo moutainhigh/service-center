@@ -11,6 +11,8 @@ import com.shengsu.any.clue.vo.ClueEditVo;
 import com.shengsu.any.clue.vo.ClueListByPageVo;
 import com.shengsu.any.clue.vo.ClueShelfVo;
 import com.shengsu.any.clue.vo.ClueVo;
+import com.shengsu.any.system.entity.SystemDict;
+import com.shengsu.any.system.mapper.SystemDictMapper;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.service.CodeGeneratorService;
@@ -34,6 +36,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Autowired
     private ClueMapper clueMapper;
     @Autowired
+    private SystemDictMapper systemDictMapper;
+    @Autowired
     private CodeGeneratorService codeGeneratorService;
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
@@ -52,6 +56,17 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         Map<String,Object> map = new HashMap();
         int totalCount = clueMapper.countAll(clueListByPageVo);
         List<Clue> clues=clueMapper.listByPage(clueListByPageVo);
+        List<String> clueTypes = ClueUtils.toClueType(clues);
+        Map<String, Object> disPlayName = new HashMap<>();
+        disPlayName.put("dictCode","clue_type");
+        disPlayName.put("displayValue" , clueTypes);
+        List<SystemDict> systemDicts = systemDictMapper.getManyByDisplayVlue(disPlayName);
+        for(SystemDict systemDict : systemDicts){
+            for(Clue clue :clues){
+            if(systemDict.getDisplayValue().equals(clue.getClueType())){
+                clue.setClueType(systemDict.getDisplayName());
+            }}
+        }
         List<CluePo> cluePos = ClueUtils.toClue(clues);
         if(totalCount > 0){
         map.put("root",cluePos);
@@ -62,7 +77,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Override
     public ResultBean edit(ClueEditVo clueVo){
             String clueState = clueMapper.getClueState(clueVo.getClueId());
-            if(clueState.equals(CLUE_STATE_PEND)){
+            if(clueState.equals(CLUE_STATE_PEND)|| clueState.equals(CLUE_STATE_OFFSHELF)){
             Clue clue = ClueUtils.toClue(clueVo);
             clueMapper.update(clue);
             return ResultUtil.formResult(true, ResultCode.SUCCESS);}

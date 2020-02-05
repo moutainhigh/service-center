@@ -12,12 +12,12 @@ public class ClueListByPageVo  extends BaseEntity {
     private String cityCode;// 市级编码
     private String districtCode;// 区级编码
     private String tel;// 联系电话
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date onshelfStartTime;// 上架开始时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date onshelfEndTime;// 上架结束时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date offshelfStartTime;// 下架开始时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date offshelfEndTime;// 下架结束时间
 }

@@ -1,12 +1,9 @@
 package com.shengsu.any.clue.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.Null;
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 public class ClueEditVo implements Serializable {
@@ -27,12 +24,4 @@ public class ClueEditVo implements Serializable {
     private String tel;// 联系电话
     @NotBlank
     private String cluePrice;// 线索价格
-    @Null
-    private String clueState;//线索状态
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    @Null
-    private Date onshelfTime;// 上架时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    @Null
-    private Date offshelfTime;// 下架时间
 }
