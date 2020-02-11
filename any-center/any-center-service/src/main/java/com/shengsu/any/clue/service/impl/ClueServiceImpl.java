@@ -45,7 +45,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     }
     @Override
     public ResultBean create(ClueVo clueVo){
-        if(Integer.parseInt(clueVo.getCluePrice())<0){
+        if(Double.parseDouble(clueVo.getCluePrice())<=0){
             return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_PRICE);
         }
         Clue clue = ClueUtils.toClue(clueVo);
@@ -83,7 +83,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     }
     @Override
     public ResultBean edit(ClueEditVo clueVo){
-        if(Integer.parseInt(clueVo.getCluePrice())<0){
+        if(Double.parseDouble(clueVo.getCluePrice())<=0){
             return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_PRICE);
         }
             String clueState = clueMapper.getClueState(clueVo.getClueId());
