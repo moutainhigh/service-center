@@ -26,6 +26,8 @@ public class Clue extends BaseEntity {
     private String cluePrice;// 线索价格
     private String clueState;// 线索状态
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Date createTime;//创建时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date onshelfTime;// 上架时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date offshelfTime;// 下架时间

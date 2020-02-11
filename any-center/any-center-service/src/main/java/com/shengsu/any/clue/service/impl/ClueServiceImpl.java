@@ -45,6 +45,9 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     }
     @Override
     public ResultBean create(ClueVo clueVo){
+        if(Integer.parseInt(clueVo.getCluePrice())<0){
+            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_PRICE);
+        }
         Clue clue = ClueUtils.toClue(clueVo);
         clue.setClueCode(codeGeneratorService.generateCode(PREFIX_CLUE_CODE));
         clue.setClueState(CLUE_STATE_PEND);
@@ -57,6 +60,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         int totalCount = clueMapper.countAll(clueListByPageVo);
         List<Clue> clues=clueMapper.listByPage(clueListByPageVo);
         List<String> clueTypes = ClueUtils.toClueType(clues);
+        if(clueTypes.isEmpty()){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_FOUND);
+        }
+
         Map<String, Object> disPlayName = new HashMap<>();
         disPlayName.put("dictCode","clue_type");
         disPlayName.put("displayValue" , clueTypes);
@@ -76,49 +83,54 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     }
     @Override
     public ResultBean edit(ClueEditVo clueVo){
+        if(Integer.parseInt(clueVo.getCluePrice())<0){
+            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_PRICE);
+        }
             String clueState = clueMapper.getClueState(clueVo.getClueId());
             if(clueState.equals(CLUE_STATE_PEND)|| clueState.equals(CLUE_STATE_OFFSHELF)){
             Clue clue = ClueUtils.toClue(clueVo);
             clueMapper.update(clue);
             return ResultUtil.formResult(true, ResultCode.SUCCESS);}
             else {
-                return ResultUtil.formResult(false, ResultCode.FAIL,"当前状态不可编辑");
+                return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE);
             }
         }
     @Override
     public ResultBean onShelf(ClueShelfVo clueShelfVo){
         String clueState = clueMapper.getClueState(clueShelfVo.getClueId());
         if(clueState.equals(CLUE_STATE_ONSHELF)){
-            return ResultUtil.formResult(false,ResultCode.FAIL,"线索已上架，不可重复上架");
-        }else if(clueState.equals(CLUE_STATE_SOLD)){
-            return ResultUtil.formResult(false,ResultCode.FAIL,"线索已出售，不可上架");
-        }else{
+            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_STATE_ONSHELF);
+        }
+        if(clueState.equals(CLUE_STATE_SOLD)){
+            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_STATE_SOLD);
+        }
         clueShelfVo.setClueState(CLUE_STATE_ONSHELF);
         clueMapper.onShelf(clueShelfVo);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS);}
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
     @Override
     public ResultBean offShelf(ClueShelfVo clueShelfVo) {
         String clueState = clueMapper.getClueState(clueShelfVo.getClueId());
         if(clueState.equals(CLUE_STATE_OFFSHELF)){
-            return ResultUtil.formResult(false,ResultCode.FAIL,"线索已下架，不可重复下架");
-        }else if(clueState.equals(CLUE_STATE_SOLD) || clueState.equals(CLUE_STATE_PEND)){
-            return ResultUtil.formResult(false,ResultCode.FAIL,"当前状态下不允许下架");
-        }else {
+            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_STATE_OFFSHELF);
+        }
+        if(clueState.equals(CLUE_STATE_SOLD) || clueState.equals(CLUE_STATE_PEND)){
+            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_STATE_FORBID);
+        }
         clueShelfVo.setClueState(CLUE_STATE_OFFSHELF);
         clueMapper.offShelf(clueShelfVo);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS);}
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
     @Override
     public ResultBean clueDelete(ClueShelfVo clueShelfVo) {
         String clueState = clueMapper.getClueState(clueShelfVo.getClueId());
         if(clueState.equals(CLUE_STATE_SOLD) || clueState.equals(CLUE_STATE_ONSHELF)){
-            return ResultUtil.formResult(false,ResultCode.FAIL,"当前状态下不允许删除");
-        }else{
+            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_STATE_FORBID_DELETE);
+        }
         clueMapper.softDelete(clueShelfVo);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS);}
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
 }

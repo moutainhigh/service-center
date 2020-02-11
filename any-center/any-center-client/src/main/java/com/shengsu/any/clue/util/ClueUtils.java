@@ -64,6 +64,7 @@ public class ClueUtils {
         cluePo.setOffshelfTime(clue.getOffshelfTime());
         cluePo.setOnshelfTime(clue.getOnshelfTime());
         cluePo.setClueId(clue.getClueId());
+        cluePo.setCreateTime(clue.getCreateTime());
         list.add(cluePo);}
         return list;
     }
