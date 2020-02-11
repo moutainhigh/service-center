@@ -9,9 +9,9 @@ import java.util.Map;
 
 @Mapper
 public interface SystemDictMapper extends BaseMapper<SystemDict,String> {
-    SystemDict getOneByDisplayVlue(Map<String,Object> map);
+    SystemDict getOneByDisplayValue(Map<String,Object> map);
 
     List<SystemDict> listByDictCode(String dictCode);
 
-    List<SystemDict> getManyByDisplayVlue(Map<String,Object> map);
+    List<SystemDict> getManyByDisplayValue(Map<String,Object> map);
 }

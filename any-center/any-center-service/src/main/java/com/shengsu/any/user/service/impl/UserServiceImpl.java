@@ -156,7 +156,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         return user;
     }
     public void supplyUserDetailsPo(UserDetailsPo userDetailsPo,User user){
-        SystemDict systemDict = systemDictService.getOneByDisplayVlue(DICT_CODE_AUTH_STATE,user.getAuthState());
+        SystemDict systemDict = systemDictService.getOneByDisplayValue(DICT_CODE_AUTH_STATE,user.getAuthState());
         if (systemDict != null) {
             userDetailsPo.setAuthStateStr(systemDict.getDisplayName());
         }

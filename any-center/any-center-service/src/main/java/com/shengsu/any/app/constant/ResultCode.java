@@ -15,7 +15,6 @@ public enum ResultCode {
     EXCEPTION_PARAM_NULL(1002, "参数为空"),
     //线索录入
     EXCEPTION_CLUE_NOT_FOUND(1002,"无线索"),
-    EXCEPTION_CLUE_PRICE(1002,"线索价格必须大于0"),
     EXCEPTION_CLUE_STATE(1002,"当前状态不可编辑"),
     EXCEPTION_CLUE_STATE_ONSHELF(1002,"线索已上架，不可重复上架"),
     EXCEPTION_CLUE_STATE_SOLD(1002,"线索已出售，不可上架"),

@@ -39,95 +39,137 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private SystemDictMapper systemDictMapper;
     @Autowired
     private CodeGeneratorService codeGeneratorService;
+
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
         return clueMapper;
     }
+
+    /**
+     * @return com.shengsu.result.ResultBean
+     * @Author Bell
+     * @Description 新增线索
+     * @Date 2020/2/11
+     * @Param [clueVo]
+     **/
     @Override
-    public ResultBean create(ClueVo clueVo){
-        if(Double.parseDouble(clueVo.getCluePrice())<=0){
-            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_PRICE);
-        }
+    public ResultBean create(ClueVo clueVo) {
         Clue clue = ClueUtils.toClue(clueVo);
         clue.setClueCode(codeGeneratorService.generateCode(PREFIX_CLUE_CODE));
         clue.setClueState(CLUE_STATE_PEND);
         clueMapper.save(clue);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
+
+    /**
+     * @return com.shengsu.result.ResultBean
+     * @Author Bell
+     * @Description 分页条件查询
+     * @Date 2020/2/11
+     * @Param [clueListByPageVo]
+     **/
     @Override
-    public ResultBean clueListByPage(ClueListByPageVo clueListByPageVo){
-        Map<String,Object> map = new HashMap();
+    public ResultBean clueListByPage(ClueListByPageVo clueListByPageVo) {
+        Map<String, Object> map = new HashMap();
         int totalCount = clueMapper.countAll(clueListByPageVo);
-        List<Clue> clues=clueMapper.listByPage(clueListByPageVo);
-        List<String> clueTypes = ClueUtils.toClueType(clues);
-        if(clueTypes.isEmpty()){
+        List<Clue> clues = clueMapper.listByPage(clueListByPageVo);
+        if (clues.isEmpty()) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_FOUND);
         }
+        List<String> clueTypes = ClueUtils.toClueType(clues);
 
         Map<String, Object> disPlayName = new HashMap<>();
-        disPlayName.put("dictCode","clue_type");
-        disPlayName.put("displayValue" , clueTypes);
-        List<SystemDict> systemDicts = systemDictMapper.getManyByDisplayVlue(disPlayName);
-        for(SystemDict systemDict : systemDicts){
-            for(Clue clue :clues){
-            if(systemDict.getDisplayValue().equals(clue.getClueType())){
-                clue.setClueType(systemDict.getDisplayName());
-            }}
-        }
-        List<CluePo> cluePos = ClueUtils.toClue(clues);
-        if(totalCount > 0){
-        map.put("root",cluePos);
-        map.put("totalCount",totalCount);
-        }
-        return ResultUtil.formResult(true, ResultCode.SUCCESS,map);
-    }
-    @Override
-    public ResultBean edit(ClueEditVo clueVo){
-        if(Double.parseDouble(clueVo.getCluePrice())<=0){
-            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_PRICE);
-        }
-            String clueState = clueMapper.getClueState(clueVo.getClueId());
-            if(clueState.equals(CLUE_STATE_PEND)|| clueState.equals(CLUE_STATE_OFFSHELF)){
-            Clue clue = ClueUtils.toClue(clueVo);
-            clueMapper.update(clue);
-            return ResultUtil.formResult(true, ResultCode.SUCCESS);}
-            else {
-                return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE);
+        disPlayName.put("dictCode", "clue_type");
+        disPlayName.put("displayValue", clueTypes);
+        List<SystemDict> systemDicts = systemDictMapper.getManyByDisplayValue(disPlayName);
+        for (SystemDict systemDict : systemDicts) {
+            for (Clue clue : clues) {
+                if (systemDict.getDisplayValue().equals(clue.getClueType())) {
+                    clue.setClueType(systemDict.getDisplayName());
+                }
             }
         }
-    @Override
-    public ResultBean onShelf(ClueShelfVo clueShelfVo){
-        String clueState = clueMapper.getClueState(clueShelfVo.getClueId());
-        if(clueState.equals(CLUE_STATE_ONSHELF)){
-            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_STATE_ONSHELF);
+        List<CluePo> cluePos = ClueUtils.toClue(clues);
+        if (totalCount > 0) {
+            map.put("root", cluePos);
+            map.put("totalCount", totalCount);
         }
-        if(clueState.equals(CLUE_STATE_SOLD)){
-            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_STATE_SOLD);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+    }
+
+    /**
+     * @return com.shengsu.result.ResultBean
+     * @Author Bell
+     * @Description 编辑线索
+     * @Date 2020/2/11
+     * @Param [clueVo]
+     **/
+    @Override
+    public ResultBean edit(ClueEditVo clueVo) {
+        String clueState = clueMapper.getClueState(clueVo.getClueId());
+        if (clueState.equals(CLUE_STATE_PEND) || clueState.equals(CLUE_STATE_OFFSHELF)) {
+            Clue clue = ClueUtils.toClue(clueVo);
+            clueMapper.update(clue);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS);
+        } else {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE);
+        }
+    }
+
+    /**
+     * @return com.shengsu.result.ResultBean
+     * @Author Bell
+     * @Description 上架线索
+     * @Date 2020/2/11
+     * @Param [clueShelfVo]
+     **/
+    @Override
+    public ResultBean onShelf(ClueShelfVo clueShelfVo) {
+        String clueState = clueMapper.getClueState(clueShelfVo.getClueId());
+        if (clueState.equals(CLUE_STATE_ONSHELF)) {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_ONSHELF);
+        }
+        if (clueState.equals(CLUE_STATE_SOLD)) {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_SOLD);
         }
         clueShelfVo.setClueState(CLUE_STATE_ONSHELF);
         clueMapper.onShelf(clueShelfVo);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
+    /**
+     * @return com.shengsu.result.ResultBean
+     * @Author Bell
+     * @Description 下架线索
+     * @Date 2020/2/11
+     * @Param [clueShelfVo]
+     **/
     @Override
     public ResultBean offShelf(ClueShelfVo clueShelfVo) {
         String clueState = clueMapper.getClueState(clueShelfVo.getClueId());
-        if(clueState.equals(CLUE_STATE_OFFSHELF)){
-            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_STATE_OFFSHELF);
+        if (clueState.equals(CLUE_STATE_OFFSHELF)) {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_OFFSHELF);
         }
-        if(clueState.equals(CLUE_STATE_SOLD) || clueState.equals(CLUE_STATE_PEND)){
-            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_STATE_FORBID);
+        if (clueState.equals(CLUE_STATE_SOLD) || clueState.equals(CLUE_STATE_PEND)) {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_FORBID);
         }
         clueShelfVo.setClueState(CLUE_STATE_OFFSHELF);
         clueMapper.offShelf(clueShelfVo);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
+    /**
+     * @return com.shengsu.result.ResultBean
+     * @Author Bell
+     * @Description 删除线索
+     * @Date 2020/2/11
+     * @Param [clueShelfVo]
+     **/
     @Override
     public ResultBean clueDelete(ClueShelfVo clueShelfVo) {
         String clueState = clueMapper.getClueState(clueShelfVo.getClueId());
-        if(clueState.equals(CLUE_STATE_SOLD) || clueState.equals(CLUE_STATE_ONSHELF)){
-            return ResultUtil.formResult(false,ResultCode.EXCEPTION_CLUE_STATE_FORBID_DELETE);
+        if (clueState.equals(CLUE_STATE_SOLD) || clueState.equals(CLUE_STATE_ONSHELF)) {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_FORBID_DELETE);
         }
         clueMapper.softDelete(clueShelfVo);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);

@@ -2,8 +2,6 @@ package com.shengsu.any.system.service.impl;
 
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
-import com.shengsu.any.clue.entity.Clue;
-import com.shengsu.any.clue.mapper.ClueMapper;
 import com.shengsu.any.system.entity.SystemDict;
 import com.shengsu.any.system.mapper.SystemDictMapper;
 import com.shengsu.any.system.service.SystemDictService;
@@ -67,14 +65,14 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
         }
         return listMap;
     }
-    public List<SystemDict> getManyByDisplayVlue(Map<String, Object> map) {
-        return systemDictMapper.getManyByDisplayVlue(map);
+    public List<SystemDict> getManyByDisplayValue(Map<String, Object> map) {
+        return systemDictMapper.getManyByDisplayValue(map);
     }
-    public SystemDict getOneByDisplayVlue(String dictCode,String displayValue){
+    public SystemDict getOneByDisplayValue(String dictCode,String displayValue){
         Map<String, Object> systeMap = new HashMap<>();
         systeMap.put("dictCode", dictCode);
         systeMap.put("displayValue", displayValue);
-        return systemDictMapper.getOneByDisplayVlue(systeMap);
+        return systemDictMapper.getOneByDisplayValue(systeMap);
     }
     public List<SystemDict> listByDictCode(String dictCode) {
         return systemDictMapper.listByDictCode(dictCode);

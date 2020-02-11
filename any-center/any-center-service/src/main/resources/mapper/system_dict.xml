@@ -28,7 +28,7 @@
 	</select>
 	
 	<!-- 根据案件类型值获取字典表中的名称 返回多个-->
-	<select id="getManyByDisplayVlue" parameterType="java.util.Map" resultMap="systemDict_result_map">
+	<select id="getManyByDisplayValue" parameterType="java.util.Map" resultMap="systemDict_result_map">
 		select
 			display_name ,display_value 
 		from 
@@ -44,7 +44,7 @@
 		    </foreach>
 	</select>
 	<!-- 根据案件类型值获取字典表中的名称 返回单个-->
-	<select id="getOneByDisplayVlue" parameterType="java.util.Map" resultMap="systemDict_result_map">
+	<select id="getOneByDisplayValue" parameterType="java.util.Map" resultMap="systemDict_result_map">
 		select
 			display_name ,display_value 
 		from 
