@@ -2,10 +2,7 @@ package com.shengsu.any.clue.service;
 
 
 import com.shengsu.any.clue.entity.Clue;
-import com.shengsu.any.clue.vo.ClueEditVo;
-import com.shengsu.any.clue.vo.ClueListByPageVo;
-import com.shengsu.any.clue.vo.ClueShelfVo;
-import com.shengsu.any.clue.vo.ClueVo;
+import com.shengsu.any.clue.vo.*;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
@@ -21,4 +18,5 @@ public interface ClueService extends BaseService<Clue,String> {
      ResultBean onShelf(ClueShelfVo clueShelfVo);
      ResultBean offShelf(ClueShelfVo clueShelfVo);
      ResultBean clueDelete(ClueShelfVo clueShelfVo);
+     ResultBean buy(ClueBuyVo clueBuyVo);
 }

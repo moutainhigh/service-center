@@ -7,4 +7,21 @@
 	<!-- Result Map-->
 	<resultMap id="clue_personal_result_map" type="cluePersonal">
 	</resultMap>
+	<insert id="save" parameterType="cluePersonal">
+		insert into
+		clue_personal
+		(
+			clue_id,
+			user_id,
+			create_time,
+			modify_time
+		)
+		values
+		(
+			#{clueId,jdbcType=VARCHAR},
+			#{userId,jdbcType=VARCHAR},
+			current_timestamp(),
+			current_timestamp()
+		)
+	</insert>
 </mapper>
