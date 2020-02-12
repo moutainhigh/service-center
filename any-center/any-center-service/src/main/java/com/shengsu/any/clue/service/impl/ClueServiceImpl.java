@@ -5,18 +5,18 @@ import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.clue.Po.CluePo;
 import com.shengsu.any.clue.entity.Clue;
 import com.shengsu.any.clue.mapper.ClueMapper;
+import com.shengsu.any.clue.service.CluePersonalService;
 import com.shengsu.any.clue.service.ClueService;
 import com.shengsu.any.clue.util.ClueUtils;
-import com.shengsu.any.clue.vo.ClueEditVo;
-import com.shengsu.any.clue.vo.ClueListByPageVo;
-import com.shengsu.any.clue.vo.ClueShelfVo;
-import com.shengsu.any.clue.vo.ClueVo;
+import com.shengsu.any.clue.vo.*;
 import com.shengsu.any.system.entity.SystemDict;
 import com.shengsu.any.system.mapper.SystemDictMapper;
+import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.result.ResultBean;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +39,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private SystemDictMapper systemDictMapper;
     @Autowired
     private CodeGeneratorService codeGeneratorService;
-
+    @Autowired
+    private CluePersonalService cluePersonalService;
+    @Autowired
+    private AuthorizedService authorizedService;
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
         return clueMapper;
@@ -172,6 +175,23 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_FORBID_DELETE);
         }
         clueMapper.softDelete(clueShelfVo);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
+
+    @Override
+    public ResultBean buy(ClueBuyVo clueBuyVo) {
+        String clueId = clueBuyVo.getClueId();
+        Clue clue = get(clueId);
+        if (CLUE_STATE_SOLD.equals(clue.getClueState())) {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_RESALE);
+        }
+        String token = clueBuyVo.getToken();
+        String userId="";
+        if (StringUtils.isNoneBlank(token)) {
+            userId =  authorizedService.getUserByToken(token).getUserId();
+        }
+        // TODO 后期校验账户余额
+        cluePersonalService.create(clueId,userId);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 

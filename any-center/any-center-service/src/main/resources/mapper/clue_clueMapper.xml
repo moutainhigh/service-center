@@ -140,6 +140,8 @@
 		where
 			clue_id = #{clueId,jdbcType=VARCHAR}
 	</update>
-
+    <select id="get" parameterType="string" resultType="clue">
+		select * from clue where clue_id = #{clueId}
+	</select>
 
 </mapper>
