@@ -4,7 +4,47 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.shengsu.any.message.mapper.MessageMapper">
-	<!-- Result Map-->
-	<resultMap id="message_result_map" type="message">
-	</resultMap>
+    <!-- Result Map-->
+    <resultMap id="message_result_map" type="message">
+    </resultMap>
+
+    <!-- 查询条件 -->
+    <sql id="message_where_clause">
+        <where>
+            del_flag = 0
+            <if test="messageId != null and  messageId != ''">and message_id = #{messageId}</if>
+            <if test="userId != null and  userId != ''">and user_id = #{userId}</if>
+            <if test="readState != null and  readState != ''">and read_state = #{readState}</if>
+            <if test="createTime != null">and date_format(create_time,'%Y-%m-%d') =
+                date_format(#{createTime},'%Y-%m-%d')
+            </if>
+        </where>
+    </sql>
+    <update id="updateMsgStatus" parameterType="message">
+        update
+			message
+		set
+			message_state = 1,
+			modify_time=current_timestamp()
+		where
+			message_id=#{messageId}
+    </update>
+    <select id="listByPage" parameterType="message" resultMap="message_result_map">
+        <include refid="global.paginationStart_mysql"/>
+        select
+        *
+        from
+        message
+        order by
+        message_state,
+        modify_time desc
+        <include refid="global.paginationEnd_mysql"/>
+    </select>
+    <select id="countAll" resultType="int">
+        select
+        count(1)
+        from
+        message
+    </select>
+
 </mapper>

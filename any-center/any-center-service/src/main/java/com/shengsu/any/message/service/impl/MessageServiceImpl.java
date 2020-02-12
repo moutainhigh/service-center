@@ -21,4 +21,8 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String> impleme
     public BaseMapper<Message, String> getBaseMapper() {
         return messageMapper;
     }
+    @Override
+    public int updateMsgStatus(Message message) {
+        return messageMapper.updateMsgStatus(message);
+    }
 }
