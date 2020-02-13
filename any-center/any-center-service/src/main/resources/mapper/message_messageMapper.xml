@@ -14,7 +14,7 @@
             del_flag = 0
             <if test="messageId != null and  messageId != ''">and message_id = #{messageId}</if>
             <if test="userId != null and  userId != ''">and user_id = #{userId}</if>
-            <if test="readState != null and  readState != ''">and read_state = #{readState}</if>
+            <if test="messageState != null and  messageState != ''">and message_state = #{messageState}</if>
             <if test="createTime != null">and date_format(create_time,'%Y-%m-%d') =
                 date_format(#{createTime},'%Y-%m-%d')
             </if>
@@ -35,16 +35,18 @@
         *
         from
         message
+        <include refid="message_where_clause"/>
         order by
         message_state,
         modify_time desc
         <include refid="global.paginationEnd_mysql"/>
     </select>
-    <select id="countAll" resultType="int">
+    <select id="countAll" parameterType="message" resultType="int">
         select
         count(1)
         from
         message
+        <include refid="message_where_clause"/>
     </select>
 
 </mapper>
