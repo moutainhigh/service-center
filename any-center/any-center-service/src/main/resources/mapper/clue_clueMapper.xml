@@ -143,5 +143,15 @@
     <select id="get" parameterType="string" resultType="clue">
 		select * from clue where clue_id = #{clueId}
 	</select>
+    <select id="getMany" parameterType="list" resultType="clue">
+        select
+        *
+        from
+        clue
+        where clue_id in
+        <foreach collection="list" item="item" open="(" close=") " separator=",">
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>

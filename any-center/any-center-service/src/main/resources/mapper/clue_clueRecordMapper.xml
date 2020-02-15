@@ -7,4 +7,39 @@
 	<!-- Result Map-->
 	<resultMap id="clue_record_result_map" type="clueRecord">
 	</resultMap>
+    <select id="listMyClueRecord" parameterType="clueRecord" resultMap="clue_record_result_map">
+        select
+        content,create_time,record_id
+        from clue_record
+        where clue_id = #{clueId,jdbcType=INTEGER}
+    </select>
+    <update id="update" parameterType="clueRecord">
+    update clue_record
+    set
+      modify_time = current_timestamp(),
+      content = #{content,jdbcType=DECIMAL}
+    where record_id = #{recordId,jdbcType=VARCHAR}
+  </update>
+    <insert id="save" parameterType="clueRecord">
+		insert into
+		clue_record
+		(
+			clue_id,
+			user_id,
+			content,
+			record_id,
+			create_time,
+			modify_time
+		)
+		values
+		(
+			#{clueId,jdbcType=VARCHAR},
+			#{userId,jdbcType=VARCHAR},
+			#{content,jdbcType=VARCHAR},
+			#{recordId,jdbcType=VARCHAR},
+			current_timestamp(),
+			current_timestamp()
+		)
+	</insert>
+
 </mapper>

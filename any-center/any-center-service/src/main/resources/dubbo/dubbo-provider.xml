@@ -9,10 +9,11 @@
        	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!--使用 dubbo 协议实现定义好的接口-->
-	<dubbo:service interface="com.shengsu.any.user.service.UserService" ref="anyUserService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+	<dubbo:service interface="com.shengsu.any.user.service.UserService" ref="anyUserService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
 	<dubbo:service interface="com.shengsu.any.user.service.AuthorizedService" ref="authorizedService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:service interface="com.shengsu.any.user.service.WeChatService" ref="weChatService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:service interface="com.shengsu.any.system.service.SystemDictService" ref="systemDictService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.any.clue.service.ClueService" ref="clueService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.any.clue.service.ClueRecordService" ref="clueRecordService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.any.message.service.MessageService" ref="messageService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>

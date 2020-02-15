@@ -194,5 +194,31 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         cluePersonalService.create(clueId,userId);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
+    /**
+     * @Author Bell
+     * @Description 查询线索
+     * @Date  2020/2/15
+     * @Param [userId]
+     * @return com.shengsu.result.ResultBean
+     **/
+    @Override
+    public ResultBean listMyClue(String userId){
+        List<String> clueId = cluePersonalService.listByUserId(userId);
+        List<Clue> clues = clueMapper.getMany(clueId);
+        List<String> clueTypes = ClueUtils.toClueType(clues);
 
+        Map<String, Object> disPlayName = new HashMap<>();
+        disPlayName.put("dictCode", "clue_type");
+        disPlayName.put("displayValue", clueTypes);
+        List<SystemDict> systemDicts = systemDictMapper.getManyByDisplayValue(disPlayName);
+        for (SystemDict systemDict : systemDicts) {
+            for (Clue clue : clues) {
+                if (systemDict.getDisplayValue().equals(clue.getClueType())) {
+                    clue.setClueType(systemDict.getDisplayName());
+                }
+            }
+        }
+        List<CluePo> cluePos = ClueUtils.toClue(clues);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, cluePos);
+    }
 }

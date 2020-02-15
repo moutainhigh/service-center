@@ -19,4 +19,5 @@ public interface ClueService extends BaseService<Clue,String> {
      ResultBean offShelf(ClueShelfVo clueShelfVo);
      ResultBean clueDelete(ClueShelfVo clueShelfVo);
      ResultBean buy(ClueBuyVo clueBuyVo);
+     ResultBean listMyClue(String userId);
 }

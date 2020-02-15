@@ -4,6 +4,8 @@ import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.base.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @description:
  * @author: lipiao
@@ -11,4 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface CluePersonalMapper extends BaseMapper<CluePersonal,String> {
+    List<CluePersonal> listByUserId(String userId);
 }

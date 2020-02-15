@@ -3,12 +3,15 @@ package com.shengsu.any.clue.service.impl;
 import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.mapper.CluePersonalMapper;
 import com.shengsu.any.clue.service.CluePersonalService;
+import com.shengsu.any.clue.util.CluePersonalUtils;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @description:
@@ -34,4 +37,18 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
         cluePersonal.setUserId(userId);
         save(cluePersonal);
     }
+    /**
+     * @Author Bell
+     * @Description 查询线索ID
+     * @Date  2020/2/15
+     * @Param [userId]
+     * @return java.util.List<java.lang.String>
+     **/
+    @Override
+    public List<String> listByUserId(String userId){
+        List<CluePersonal> cluePersonals = cluePersonalMapper.listByUserId(userId);
+        List<String> clueId = CluePersonalUtils.toClueId(cluePersonals);
+        return clueId;
+    }
+
 }
