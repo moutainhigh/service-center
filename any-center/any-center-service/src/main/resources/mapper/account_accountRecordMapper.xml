@@ -7,4 +7,10 @@
 	<!-- Result Map-->
 	<resultMap id="account_record_result_map" type="accountRecord">
 	</resultMap>
+	<select id="listIncome" parameterType="string" resultType="accountRecord">
+		select * from account_record where user_id=#{userId} and action_type = 'recharge'
+	</select>
+	<select id="listExpend" parameterType="string" resultType="accountRecord">
+		select * from account_record where user_id=#{userId} and action_type = 'buy_clue'
+	</select>
 </mapper>
