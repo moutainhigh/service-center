@@ -4,6 +4,9 @@ import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.app.util.ResultUtil;
+import com.shengsu.any.message.entity.Message;
+import com.shengsu.any.message.service.MessageService;
+import com.shengsu.any.message.util.MessageUtils;
 import com.shengsu.any.system.entity.SystemDict;
 import com.shengsu.any.system.service.SystemDictService;
 import com.shengsu.any.system.util.SystemDictUtils;
@@ -47,6 +50,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     private AuthorizedService authorizedService;
     @Autowired
     private SystemDictService systemDictService;
+    @Autowired
+    private MessageService messageService;
     @Resource
     private RedisUtil redisUtil;
     @Value("${sms.expireTimeSecond}")
@@ -338,6 +343,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_USER_AUTH_STATE_UNREVIEW);
         }
         userMapper.pass(userId);
+        Message message = MessageUtils.toMessage(userId);
+        message.setMessageContent(MESSAGE_CONTENT_PASS);
+        messageService.save(message);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     /**
@@ -354,6 +362,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_USER_AUTH_STATE_UNREVIEW);
         }
         userMapper.reject(userId);
+        Message message = MessageUtils.toMessage(userId);
+        message.setMessageContent(MESSAGE_CONTENT_REJECT);
+        messageService.save(message);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 

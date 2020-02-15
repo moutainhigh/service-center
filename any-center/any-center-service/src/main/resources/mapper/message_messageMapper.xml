@@ -48,5 +48,25 @@
         message
         <include refid="message_where_clause"/>
     </select>
-
+    <insert id="save" parameterType="message">
+		insert into
+		message
+		(
+		    message_id,
+            message_type,
+            message_content,
+			user_id,
+			create_time,
+			modify_time
+		)
+		values
+		(
+			#{messageId,jdbcType=VARCHAR},
+			#{messageType,jdbcType=VARCHAR},
+			#{messageContent,jdbcType=VARCHAR},
+			#{userId,jdbcType=VARCHAR},
+			current_timestamp(),
+			current_timestamp()
+		)
+	</insert>
 </mapper>
