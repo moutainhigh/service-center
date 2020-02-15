@@ -7,4 +7,8 @@
 	<!-- Result Map-->
 	<resultMap id="account_result_map" type="account">
 	</resultMap>
+
+	<select id="getAccountBalance" parameterType="string" resultType="Decimal">
+		select balance from account where user_id=#{userId}
+	</select>
 </mapper>

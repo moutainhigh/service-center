@@ -4,6 +4,8 @@ import com.shengsu.any.account.entity.Account;
 import com.shengsu.base.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigDecimal;
+
 /**
  * @description:
  * @author: lipiao
@@ -11,4 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface AccountMapper extends BaseMapper<Account,String> {
+    BigDecimal getAccountBalance(String userId);
 }
