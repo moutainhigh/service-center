@@ -22,4 +22,6 @@ public interface UserMapper extends BaseMapper<User,String> {
     void reject(String userId);
 
     void uploadHeadImage(User user);
+
+    String getUserIdByTel(String tel);
 }

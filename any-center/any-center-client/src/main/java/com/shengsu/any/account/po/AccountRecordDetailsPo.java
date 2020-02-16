@@ -10,13 +10,14 @@ import java.util.Date;
 /**
  * @description:
  * @author: lipiao
- * @create: 2020-02-15 14:09
+ * @create: 2020-02-16 14:28
  **/
 @Data
-public class ExpendListPo implements Serializable {
-    private String clueCode;//线索号
-    private String actionType;// 动作类型
+public class AccountRecordDetailsPo implements Serializable {
+    private String tel;// 手机号
     private BigDecimal amount;// 金额
+    private String source;// 来源
+    private String actionType;// 动作类型
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Date modifyTime;
+    private Date createTime;
 }

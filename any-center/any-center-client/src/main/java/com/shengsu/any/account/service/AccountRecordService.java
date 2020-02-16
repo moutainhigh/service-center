@@ -1,6 +1,7 @@
 package com.shengsu.any.account.service;
 
 import com.shengsu.any.account.entity.AccountRecord;
+import com.shengsu.any.account.vo.AccountDetailListByPageVo;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
@@ -12,4 +13,5 @@ import com.shengsu.result.ResultBean;
 public interface AccountRecordService extends BaseService<AccountRecord,String> {
     ResultBean listIncome(String token);
     ResultBean listExpend(String token);
+    ResultBean listPage(AccountDetailListByPageVo accountDetailListByPageVo);
 }
