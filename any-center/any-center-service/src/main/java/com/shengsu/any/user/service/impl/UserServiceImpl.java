@@ -386,4 +386,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
+
+    @Override
+    public String getUserIdByTel(String tel) {
+        return userMapper.getUserIdByTel(tel);
+    }
 }
