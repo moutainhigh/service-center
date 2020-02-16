@@ -31,5 +31,7 @@
         from
         clue_personal
         where user_id=#{userId,jdbcType=VARCHAR}
+        order by
+        create_time DESC
     </select>
 </mapper>

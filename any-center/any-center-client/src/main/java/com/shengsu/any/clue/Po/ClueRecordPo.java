@@ -16,5 +16,5 @@ public class ClueRecordPo implements Serializable {
     private String recordId;// 记录id
     private String content;// 内容
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    private Date createTime;//创建时间
+    private Date modifyTime;//创建时间
 }

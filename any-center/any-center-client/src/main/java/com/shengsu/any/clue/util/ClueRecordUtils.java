@@ -2,6 +2,7 @@ package com.shengsu.any.clue.util;
 
 import com.shengsu.any.clue.Po.ClueRecordPo;
 import com.shengsu.any.clue.entity.ClueRecord;
+import com.shengsu.any.clue.vo.ClueRecordUpdateVo;
 import com.shengsu.any.clue.vo.ClueRecordVo;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class ClueRecordUtils {
             ClueRecordPo clueRecordPo = new ClueRecordPo();
             clueRecordPo.setContent(clueRecord.getContent());
             clueRecordPo.setRecordId(clueRecord.getRecordId());
-            clueRecordPo.setCreateTime(clueRecord.getCreateTime());
+            clueRecordPo.setModifyTime(clueRecord.getModifyTime());
             clueRecordPos.add(clueRecordPo);
         }
         return clueRecordPos;
@@ -31,6 +32,14 @@ public class ClueRecordUtils {
         clueRecord.setContent(clueRecordVo.getContent());
         clueRecord.setClueId(clueRecordVo.getClueId());
         clueRecord.setUserId(clueRecordVo.getUserId());
+        return clueRecord;
+    }
+    public static ClueRecord toClueRecord(ClueRecordUpdateVo clueRecordUpdateVo){
+        ClueRecord clueRecord = new ClueRecord();
+        clueRecord.setRecordId(UUID.randomUUID().toString());
+        clueRecord.setContent(clueRecordUpdateVo.getContent());
+        clueRecord.setClueId(clueRecordUpdateVo.getClueId());
+        clueRecord.setUserId(clueRecordUpdateVo.getUserId());
         return clueRecord;
     }
 }

@@ -9,9 +9,11 @@
 	</resultMap>
     <select id="listMyClueRecord" parameterType="clueRecord" resultMap="clue_record_result_map">
         select
-        content,create_time,record_id
+        content,modify_time,record_id
         from clue_record
         where clue_id = #{clueId,jdbcType=INTEGER}
+        order by
+        modify_time DESC
     </select>
     <update id="update" parameterType="clueRecord">
     update clue_record

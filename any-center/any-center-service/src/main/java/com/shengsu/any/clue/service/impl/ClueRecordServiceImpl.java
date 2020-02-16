@@ -7,6 +7,7 @@ import com.shengsu.any.clue.entity.ClueRecord;
 import com.shengsu.any.clue.mapper.ClueRecordMapper;
 import com.shengsu.any.clue.service.ClueRecordService;
 import com.shengsu.any.clue.util.ClueRecordUtils;
+import com.shengsu.any.clue.vo.ClueRecordUpdateVo;
 import com.shengsu.any.clue.vo.ClueRecordVo;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
@@ -50,7 +51,8 @@ public class ClueRecordServiceImpl extends BaseServiceImpl<ClueRecord, String> i
      * @return com.shengsu.result.ResultBean
      **/
     @Override
-    public ResultBean updateRecord(ClueRecord clueRecord){
+    public ResultBean updateRecord(ClueRecordUpdateVo clueRecordUpdateVo){
+        ClueRecord clueRecord = ClueRecordUtils.toClueRecord(clueRecordUpdateVo);
         clueRecordMapper.update(clueRecord);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }

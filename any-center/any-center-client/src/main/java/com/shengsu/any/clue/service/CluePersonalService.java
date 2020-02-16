@@ -2,9 +2,8 @@ package com.shengsu.any.clue.service;
 
 
 import com.shengsu.any.clue.entity.CluePersonal;
+import com.shengsu.any.clue.vo.CluePersonVo;
 import com.shengsu.base.service.BaseService;
-
-import java.util.List;
 
 /**
  * @description:
@@ -13,5 +12,5 @@ import java.util.List;
  **/
 public interface CluePersonalService extends BaseService<CluePersonal,String> {
      void create(String clueId,String userId);
-     List<String> listByUserId(String userId);
+     CluePersonVo listByUserId(String userId);
 }

@@ -4,6 +4,7 @@ import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.mapper.CluePersonalMapper;
 import com.shengsu.any.clue.service.CluePersonalService;
 import com.shengsu.any.clue.util.CluePersonalUtils;
+import com.shengsu.any.clue.vo.CluePersonVo;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
@@ -45,10 +46,10 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
      * @return java.util.List<java.lang.String>
      **/
     @Override
-    public List<String> listByUserId(String userId){
+    public CluePersonVo listByUserId(String userId){
         List<CluePersonal> cluePersonals = cluePersonalMapper.listByUserId(userId);
-        List<String> clueId = CluePersonalUtils.toClueId(cluePersonals);
-        return clueId;
+        CluePersonVo cluePersonVo = CluePersonalUtils.toClueId(cluePersonals);
+        return cluePersonVo;
     }
 
 }

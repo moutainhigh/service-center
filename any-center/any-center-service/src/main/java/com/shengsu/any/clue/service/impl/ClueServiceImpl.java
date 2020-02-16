@@ -3,6 +3,7 @@ package com.shengsu.any.clue.service.impl;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.clue.Po.CluePo;
+import com.shengsu.any.clue.Po.ClueWebPagePo;
 import com.shengsu.any.clue.entity.Clue;
 import com.shengsu.any.clue.mapper.ClueMapper;
 import com.shengsu.any.clue.service.CluePersonalService;
@@ -203,8 +204,18 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
      **/
     @Override
     public ResultBean listMyClue(String userId){
-        List<String> clueId = cluePersonalService.listByUserId(userId);
-        List<Clue> clues = clueMapper.getMany(clueId);
+        CluePersonVo cluePersonVo = cluePersonalService.listByUserId(userId);
+        if(cluePersonVo.getClueId().isEmpty()){
+            return  ResultUtil.formResult(true, ResultCode.SUCCESS);
+        }
+        List<Clue> clues = clueMapper.getMany(cluePersonVo.getClueId());
+        for (Clue clue : clues){
+            for (int i = 0; i <  cluePersonVo.getCreateTime().size(); i++) {
+                if(clue.getClueId().equals(cluePersonVo.getClueId().get(i))){
+                clue.setCreateTime(cluePersonVo.getCreateTime().get(i));}
+            }
+
+        }
         List<String> clueTypes = ClueUtils.toClueType(clues);
 
         Map<String, Object> disPlayName = new HashMap<>();
@@ -218,7 +229,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
                 }
             }
         }
-        List<CluePo> cluePos = ClueUtils.toClue(clues);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, cluePos);
+        List<ClueWebPagePo> clueWebPagePos = ClueUtils.toClueWebPagePo(clues);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, clueWebPagePos);
     }
 }

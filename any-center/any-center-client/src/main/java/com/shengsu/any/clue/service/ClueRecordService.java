@@ -1,6 +1,7 @@
 package com.shengsu.any.clue.service;
 
 import com.shengsu.any.clue.entity.ClueRecord;
+import com.shengsu.any.clue.vo.ClueRecordUpdateVo;
 import com.shengsu.any.clue.vo.ClueRecordVo;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
@@ -12,6 +13,6 @@ import com.shengsu.result.ResultBean;
  **/
 public interface ClueRecordService extends BaseService<ClueRecord,String> {
     ResultBean listMyClueRecord(ClueRecord clueRecord);
-    ResultBean updateRecord(ClueRecord clueRecord);
+    ResultBean updateRecord(ClueRecordUpdateVo clueRecordUpdateVo);
     ResultBean saveRecord(ClueRecordVo clueRecordVo);
 }

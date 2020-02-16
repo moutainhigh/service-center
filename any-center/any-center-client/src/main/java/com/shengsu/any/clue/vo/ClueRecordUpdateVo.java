@@ -8,13 +8,14 @@ import java.io.Serializable;
 /**
  * @program: service-center
  * @author: Bell
- * @create: 2020-02-15 11:31
+ * @create: 2020-02-16 17:36
  **/
 @Data
-public class ClueRecordVo implements Serializable {
+public class ClueRecordUpdateVo implements Serializable {
+    @NotBlank
+    private String recordId;// 记录id
+    private String clueId;// 线索id
     @NotBlank
     private String content;// 内容
-    @NotBlank
-    private String clueId;// 线索id
     private String userId;// 用户id
 }
