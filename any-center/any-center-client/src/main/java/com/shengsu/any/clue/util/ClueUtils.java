@@ -8,9 +8,7 @@ import com.shengsu.any.clue.vo.ClueVo;
 import com.shengsu.helper.service.CodeGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ClueUtils {
     @Autowired
@@ -75,5 +73,15 @@ public class ClueUtils {
             list.add(clueType);
         }
         return list;
+    }
+    public static Map<String, Clue> toClueMap(List<Clue> clues) {
+        if (clues != null) {
+            Map<String, Clue> clueMap = new HashMap<>();
+            for (Clue clue : clues) {
+                clueMap.put(clue.getClueId(), clue);
+            }
+            return clueMap;
+        }
+        return null;
     }
 }

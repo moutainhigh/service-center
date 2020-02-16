@@ -14,6 +14,7 @@ import java.util.Date;
  **/
 @Data
 public class ExpendListPo implements Serializable {
+    private String clueCode;//线索号
     private String actionType;// 动作类型
     private BigDecimal amount;// 金额
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")

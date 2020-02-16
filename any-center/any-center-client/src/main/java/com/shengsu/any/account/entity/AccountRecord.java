@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @Data
 public class AccountRecord extends BaseEntity {
     private static final long serialVersionUID = 1L;
+    private String clueId;// 线索id;
     private String recordId;// 记录id
     private String userId;// 用户id
     private BigDecimal amount;// 金额
