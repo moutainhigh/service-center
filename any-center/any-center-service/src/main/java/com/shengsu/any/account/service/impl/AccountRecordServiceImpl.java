@@ -85,7 +85,10 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
         for (AccountRecord accountRecord : accountRecords) {
             clueIds.add(accountRecord.getClueId());
         }
-        List<Clue> clues = clueService.getMany(clueIds);
+        List<Clue> clues = new ArrayList<>();
+        if (null != clueIds && clueIds.size()>0){
+            clues = clueService.getMany(clueIds);
+        }
         Map<String, Clue> clueMap = ClueUtils.toClueMap(clues);
         List<ExpendListPo> result = new ArrayList<>();
         for (AccountRecord accountRecord : accountRecords){
