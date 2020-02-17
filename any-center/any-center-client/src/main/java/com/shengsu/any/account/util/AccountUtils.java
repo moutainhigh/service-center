@@ -1,8 +1,14 @@
 package com.shengsu.any.account.util;
 
 import com.shengsu.any.account.entity.Account;
+import com.shengsu.any.account.entity.AccountRecord;
+import com.shengsu.any.account.po.AccountListPo;
+import com.shengsu.any.account.po.TotalExpendPo;
 import com.shengsu.any.account.po.TotalIncomePo;
+import com.shengsu.any.user.entity.User;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +26,52 @@ public class AccountUtils {
                 accountMap.put(account.getUserId(), account);
             }
             return accountMap;
+        }
+        return null;
+    }
+    public static Map<String, TotalIncomePo> toTotalIncomeMap(List<TotalIncomePo> totalIncomePos) {
+        if (totalIncomePos != null) {
+            Map<String, TotalIncomePo> totalIncomePoMap = new HashMap<>();
+            for (TotalIncomePo totalIncomePo : totalIncomePos) {
+                totalIncomePoMap.put(totalIncomePo.getUserId(), totalIncomePo);
+            }
+            return totalIncomePoMap;
+        }
+        return null;
+    }
+
+    public static Map<String,TotalExpendPo> toTotalExpendMap(List<TotalExpendPo> totalExpendPos) {
+        if (totalExpendPos != null) {
+            Map<String, TotalExpendPo> totalExpendPoMap = new HashMap<>();
+            for (TotalExpendPo totalExpendPo : totalExpendPos) {
+                totalExpendPoMap.put(totalExpendPo.getUserId(), totalExpendPo);
+            }
+            return totalExpendPoMap;
+        }
+        return null;
+    }
+
+    public static List<AccountListPo> toAccountListPos(List<User> users, Map<String,TotalIncomePo> totalIncomePoMap, Map<String,TotalExpendPo> totalExpendPoMap, Map<String,Account> accountMap) {
+        if (users != null) {
+            List<AccountListPo> accountListPos = new ArrayList<>();
+            for (User user : users) {
+                accountListPos.add(toAccountListPo(user,totalIncomePoMap,totalExpendPoMap,accountMap));
+            }
+            return accountListPos;
+        }
+        return null;
+    }
+
+    private static AccountListPo toAccountListPo(User user, Map<String,TotalIncomePo> totalIncomePoMap, Map<String,TotalExpendPo> totalExpendPoMap, Map<String,Account> accountMap) {
+        if (user != null) {
+            AccountListPo accountRecordPo = new AccountListPo();
+            accountRecordPo.setUserId(user.getUserId());
+            accountRecordPo.setTel(user.getTel());
+            accountRecordPo.setCreateTime(user.getCreateTime());
+            accountRecordPo.setIncome(totalIncomePoMap.get(user.getUserId())==null?new BigDecimal(0):totalIncomePoMap.get(user.getUserId()).getTotalIncome());
+            accountRecordPo.setExpend(totalExpendPoMap.get(user.getUserId())==null?new BigDecimal(0):totalExpendPoMap.get(user.getUserId()).getTotalExpend());
+            accountRecordPo.setAccountBalance(accountMap.get(user.getUserId())==null?new BigDecimal(0):accountMap.get(user.getUserId()).getBalance());
+            return accountRecordPo;
         }
         return null;
     }

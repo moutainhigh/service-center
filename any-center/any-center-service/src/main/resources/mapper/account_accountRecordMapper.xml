@@ -38,34 +38,19 @@
 		from account_record
 		<include refid="account_record_where_clause" />
 	</select>
-	<select id="listAccountByPage" parameterType="com.shengsu.any.account.vo.AccountDetailListByPageVo" resultType="accountRecord">
-		<include refid="global.paginationStart_mysql" />
-		select
-		*
-		from account_record
-		<include refid="account_record_where_clause" />
-		group by user_id
-		order by create_time desc
-		<include refid="global.paginationEnd_mysql" />
-	</select>
-	<select id="countAccountAll" parameterType="com.shengsu.any.account.vo.AccountDetailListByPageVo" resultType="int">
-		select
-		count(1)
-		from account_record
-		<include refid="account_record_where_clause" />
-		group by user_id
-	</select>
-	<select id="totalIncome" parameterType="com.shengsu.any.account.vo.AccountDetailListByPageVo" resultType="com.shengsu.any.account.po.TotalIncomePo">
+	<select id="totalIncome" parameterType="string" resultType="com.shengsu.any.account.po.TotalIncomePo">
 		select user_id,SUM(amount) AS totalIncome
 		from account_record
-		<include refid="account_record_where_clause" />
+		where del_flag = 0
+		<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
 		and action_type='recharge'
 		group by user_id
 	</select>
-	<select id="totalExpend" parameterType="com.shengsu.any.account.vo.AccountDetailListByPageVo" resultType="com.shengsu.any.account.po.TotalExpendPo">
+	<select id="totalExpend" parameterType="string" resultType="com.shengsu.any.account.po.TotalExpendPo">
 		select user_id ,SUM(amount) AS totalExpend
 		from account_record
-		<include refid="account_record_where_clause" />
+		where del_flag = 0
+		<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
 		and action_type in ('buy_clue','cash_out')
 		group by user_id
 	</select>

@@ -22,11 +22,7 @@ public interface AccountRecordMapper extends BaseMapper<AccountRecord,String> {
     int countAll(AccountDetailListByPageVo accountDetailListByPageVo);
     List<AccountRecord> listByPage(AccountDetailListByPageVo accountDetailListByPageVo);
 
-    int countAccountAll(AccountDetailListByPageVo accountVo);
+    List<TotalIncomePo> totalIncome(String userId);
 
-    List<AccountRecord> listAccountByPage(AccountDetailListByPageVo accountVo);
-
-    List<TotalIncomePo> totalIncome(AccountDetailListByPageVo accountVo);
-
-    List<TotalExpendPo> totalExpend(AccountDetailListByPageVo accountVo);
+    List<TotalExpendPo> totalExpend(String userId);
 }
