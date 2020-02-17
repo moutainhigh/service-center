@@ -1,5 +1,6 @@
 package com.shengsu.any.clue.util;
 
+import com.shengsu.any.clue.Po.ClueClientPo;
 import com.shengsu.any.clue.Po.CluePo;
 import com.shengsu.any.clue.Po.ClueWebPagePo;
 import com.shengsu.any.clue.entity.Clue;
@@ -65,6 +66,25 @@ public class ClueUtils {
         cluePo.setClueId(clue.getClueId());
         cluePo.setCreateTime(clue.getCreateTime());
         list.add(cluePo);}
+        return list;
+    }
+    public static List<ClueClientPo> toClueClientPo(List<Clue> clues){
+        List<ClueClientPo> list = new ArrayList<>();
+        for(Clue clue : clues){
+            ClueClientPo clueClientPo = new ClueClientPo();
+            clueClientPo.setClueState(clue.getClueState());
+            clueClientPo.setAppellation(clue.getAppellation());
+            clueClientPo.setCityCode(clue.getCityCode());
+            clueClientPo.setClueCode(clue.getClueCode());
+            clueClientPo.setProvinceCode(clue.getProvinceCode());
+            clueClientPo.setCluePrice(clue.getCluePrice());
+            clueClientPo.setClueType(clue.getClueType());
+            clueClientPo.setDistrictCode(clue.getDistrictCode());
+            clueClientPo.setCustomerDemands(clue.getCustomerDemands());
+            clueClientPo.setClueCode(clue.getClueCode());
+            clueClientPo.setOnshelfTime(clue.getOnshelfTime());
+            clueClientPo.setClueId(clue.getClueId());
+            list.add(clueClientPo);}
         return list;
     }
     public static List<ClueWebPagePo> toClueWebPagePo(List<Clue> clues){

@@ -2,6 +2,7 @@ package com.shengsu.any.clue.service.impl;
 
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
+import com.shengsu.any.clue.Po.ClueClientPo;
 import com.shengsu.any.clue.Po.CluePo;
 import com.shengsu.any.clue.Po.ClueWebPagePo;
 import com.shengsu.any.clue.entity.Clue;
@@ -231,5 +232,40 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         }
         List<ClueWebPagePo> clueWebPagePos = ClueUtils.toClueWebPagePo(clues);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, clueWebPagePos);
+    }
+    /**
+     * @Author Bell
+     * @Description 客户端查询线索库
+     * @Date  2020/2/17
+     * @Param [clueListByPageVo]
+     * @return com.shengsu.result.ResultBean
+     **/
+    @Override
+    public ResultBean clueClientListByPage(ClueListByPageVo clueListByPageVo) {
+        Map<String, Object> map = new HashMap();
+        int totalCount = clueMapper.countAll(clueListByPageVo);
+        List<Clue> clues = clueMapper.clueClientListByPage(clueListByPageVo);
+        if (clues.isEmpty()) {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_FOUND);
+        }
+        List<String> clueTypes = ClueUtils.toClueType(clues);
+
+        Map<String, Object> disPlayName = new HashMap<>();
+        disPlayName.put("dictCode", "clue_type");
+        disPlayName.put("displayValue", clueTypes);
+        List<SystemDict> systemDicts = systemDictMapper.getManyByDisplayValue(disPlayName);
+        for (SystemDict systemDict : systemDicts) {
+            for (Clue clue : clues) {
+                if (systemDict.getDisplayValue().equals(clue.getClueType())) {
+                    clue.setClueType(systemDict.getDisplayName());
+                }
+            }
+        }
+        List<ClueClientPo> clueClientPos = ClueUtils.toClueClientPo(clues);
+        if (totalCount > 0) {
+            map.put("root", clueClientPos);
+            map.put("totalCount", totalCount);
+        }
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
     }
 }

@@ -22,4 +22,5 @@ public interface ClueMapper extends BaseMapper<Clue,String> {
     int softDelete(ClueShelfVo clueShelfVo);
     int countAll(ClueListByPageVo clueListByPageVo);
     List<Clue> listByPage(ClueListByPageVo clueListByPageVo);
+    List<Clue> clueClientListByPage(ClueListByPageVo clueListByPageVo);
 }

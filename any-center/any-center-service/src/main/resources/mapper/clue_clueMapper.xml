@@ -23,11 +23,18 @@
             <if test="tel != null and  tel != ''">
                 and tel like concat('%',#{tel},'%')
             </if>
+            <if test="clueType != null and  clueType != ''">
+                and clue_type=#{clueType}
+            </if>
+            <if test="clueState != null and  clueState != ''">
+                and clue_state=#{clueState}
+            </if>
             <if test="onshelfStartTime != null and  onshelfStartTime != ''">
                 and b.onshelf_time >= #{onshelfStartTime}
             </if>
             <if test="onshelfEndTime != null and  onshelfEndTime != ''">
-                and DATE_ADD(date_format(#{onshelfEndTime,jdbcType=VARCHAR},"%Y-%m-%d %H:%i:%s"),interval 1 day) >= b.onshelf_time
+                and DATE_ADD(date_format(#{onshelfEndTime,jdbcType=VARCHAR},"%Y-%m-%d %H:%i:%s"),interval 1 day) >=
+                b.onshelf_time
             </if>
             <if test="offshelfStartTime != null and  offshelfStartTime != ''">
                 and b.offshelf_time>=#{offshelfStartTime}
@@ -88,6 +95,16 @@
         create_time DESC
         <include refid="global.paginationEnd_mysql"/>
     </select>
+    <select id="clueClientListByPage" parameterType="com.shengsu.any.clue.vo.ClueListByPageVo" resultType="Clue">
+        <include refid="global.paginationStart_mysql"/>
+        select
+        <include refid="Base_Column_List"/>
+        from clue b
+        <include refid="clue_where_clause"/>
+        order by
+        onshelf_time DESC
+        <include refid="global.paginationEnd_mysql"/>
+    </select>
     <select id="getClueState" parameterType="String" resultType="String">
         select
         clue_state
@@ -108,14 +125,14 @@
       clue_price = #{cluePrice,jdbcType=DECIMAL},
       modify_time = current_Timestamp()
     where clue_id = #{clueId,jdbcType=VARCHAR}
-  </update>
+    </update>
     <update id="onShelf" parameterType="String">
     update clue
     set
       onshelf_time = current_timestamp(),
       clue_state = #{clueState,jdbcType=DECIMAL}
     where clue_id = #{clueId,jdbcType=VARCHAR}
-  </update>
+    </update>
 
     <update id="offShelf" parameterType="String">
     update clue
@@ -123,7 +140,7 @@
       offshelf_time = current_timestamp(),
       clue_state = #{clueState,jdbcType=DECIMAL}
     where clue_id = #{clueId,jdbcType=VARCHAR}
-  </update>
+    </update>
 
     <select id="countAll" parameterType="com.shengsu.any.clue.vo.ClueListByPageVo" resultType="int">
         select
@@ -131,7 +148,7 @@
         from
         clue b
         <include refid="clue_where_clause"/>
-    </select>
+     </select>
     <update id="softDelete" parameterType="String">
 		update
 			clue
