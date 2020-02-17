@@ -169,6 +169,8 @@
         <foreach collection="list" item="item" open="(" close=") " separator=",">
             #{item}
         </foreach>
+        order by
+        create_time DESC
     </select>
 
 </mapper>

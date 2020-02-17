@@ -3,8 +3,6 @@ package com.shengsu.any.clue.service.impl;
 import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.mapper.CluePersonalMapper;
 import com.shengsu.any.clue.service.CluePersonalService;
-import com.shengsu.any.clue.util.CluePersonalUtils;
-import com.shengsu.any.clue.vo.CluePersonVo;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
@@ -38,18 +36,18 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
         cluePersonal.setUserId(userId);
         save(cluePersonal);
     }
+
     /**
+     * @return java.util.List<java.lang.String>
      * @Author Bell
      * @Description 查询线索ID
-     * @Date  2020/2/15
+     * @Date 2020/2/15
      * @Param [userId]
-     * @return java.util.List<java.lang.String>
      **/
     @Override
-    public CluePersonVo listByUserId(String userId){
+    public List<CluePersonal> listByUserId(String userId) {
         List<CluePersonal> cluePersonals = cluePersonalMapper.listByUserId(userId);
-        CluePersonVo cluePersonVo = CluePersonalUtils.toClueId(cluePersonals);
-        return cluePersonVo;
+        return cluePersonals;
     }
 
 }

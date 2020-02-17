@@ -103,7 +103,7 @@ public class ClueUtils {
             clueWebPagePo.setTel(clue.getTel());
             clueWebPagePo.setClueCode(clue.getClueCode());
             clueWebPagePo.setClueId(clue.getClueId());
-            clueWebPagePo.setCreateTime(clue.getCreateTime());
+            clueWebPagePo.setBuyTime(clue.getCreateTime());
             list.add(clueWebPagePo);}
         return list;
     }

@@ -6,6 +6,7 @@ import com.shengsu.any.clue.Po.ClueClientPo;
 import com.shengsu.any.clue.Po.CluePo;
 import com.shengsu.any.clue.Po.ClueWebPagePo;
 import com.shengsu.any.clue.entity.Clue;
+import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.mapper.ClueMapper;
 import com.shengsu.any.clue.service.CluePersonalService;
 import com.shengsu.any.clue.service.ClueService;
@@ -22,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -204,18 +206,23 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
      * @return com.shengsu.result.ResultBean
      **/
     @Override
-    public ResultBean listMyClue(String userId){
-        CluePersonVo cluePersonVo = cluePersonalService.listByUserId(userId);
-        if(cluePersonVo.getClueId().isEmpty()){
-            return  ResultUtil.formResult(true, ResultCode.SUCCESS);
+    public ResultBean listMyClue(String userId) {
+        List<CluePersonal> cluePersonals = cluePersonalService.listByUserId(userId);
+        List<String> list = new ArrayList<>();
+        for (CluePersonal cluePersonal : cluePersonals) {
+            String clueId = cluePersonal.getClueId();
+            list.add(clueId);
         }
-        List<Clue> clues = clueMapper.getMany(cluePersonVo.getClueId());
-        for (Clue clue : clues){
-            for (int i = 0; i <  cluePersonVo.getCreateTime().size(); i++) {
-                if(clue.getClueId().equals(cluePersonVo.getClueId().get(i))){
-                clue.setCreateTime(cluePersonVo.getCreateTime().get(i));}
+        if (list.isEmpty()) {
+            return ResultUtil.formResult(true, ResultCode.SUCCESS);
+        }
+        List<Clue> clues = clueMapper.getMany(list);
+        for (Clue clue : clues) {
+            for (CluePersonal cluePersonal : cluePersonals) {
+                if (cluePersonal.getClueId().equals(clue.getClueId())) {
+                    clue.setCreateTime(cluePersonal.getCreateTime());
+                }
             }
-
         }
         List<String> clueTypes = ClueUtils.toClueType(clues);
 
