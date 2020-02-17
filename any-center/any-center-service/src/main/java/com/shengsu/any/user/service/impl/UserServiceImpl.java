@@ -1,6 +1,7 @@
 package com.shengsu.any.user.service.impl;
 
 import com.shengsu.any.account.vo.AccounListByPageVo;
+import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.RedisUtil;
@@ -401,5 +402,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Override
     public List<User> listAccountByPage(AccounListByPageVo accounListByPageVo) {
         return userMapper.listAccountByPage(accounListByPageVo);
+    }
+
+    @Override
+    public int countRichesAll(String tel) {
+        return userMapper.countRichesAll(tel);
+    }
+
+    @Override
+    public List<User> listRichesByPage(RichesListByPageVo richesListByPageVo) {
+        return userMapper.listRichesByPage(richesListByPageVo);
     }
 }

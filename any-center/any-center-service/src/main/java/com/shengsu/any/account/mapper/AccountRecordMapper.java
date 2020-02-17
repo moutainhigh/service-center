@@ -8,6 +8,7 @@ import com.shengsu.base.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -22,7 +23,7 @@ public interface AccountRecordMapper extends BaseMapper<AccountRecord,String> {
     int countAll(AccountDetailListByPageVo accountDetailListByPageVo);
     List<AccountRecord> listByPage(AccountDetailListByPageVo accountDetailListByPageVo);
 
-    List<TotalIncomePo> totalIncome(String userId);
+    List<TotalIncomePo> totalIncome(Map<String,String> userId);
 
-    List<TotalExpendPo> totalExpend(String userId);
+    List<TotalExpendPo> totalExpend(Map<String,String> userId);
 }

@@ -38,7 +38,7 @@
 		from account_record
 		<include refid="account_record_where_clause" />
 	</select>
-	<select id="totalIncome" parameterType="string" resultType="com.shengsu.any.account.po.TotalIncomePo">
+	<select id="totalIncome" parameterType = "java.util.HashMap" resultType="com.shengsu.any.account.po.TotalIncomePo">
 		select user_id,SUM(amount) AS totalIncome
 		from account_record
 		where del_flag = 0
@@ -46,7 +46,7 @@
 		and action_type='recharge'
 		group by user_id
 	</select>
-	<select id="totalExpend" parameterType="string" resultType="com.shengsu.any.account.po.TotalExpendPo">
+	<select id="totalExpend" parameterType = "java.util.HashMap" resultType="com.shengsu.any.account.po.TotalExpendPo">
 		select user_id ,SUM(amount) AS totalExpend
 		from account_record
 		where del_flag = 0

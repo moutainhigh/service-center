@@ -3,6 +3,7 @@ package com.shengsu.any.account.service.impl;
 import com.shengsu.any.account.entity.Account;
 import com.shengsu.any.account.mapper.AccountMapper;
 import com.shengsu.any.account.po.AccountListPo;
+import com.shengsu.any.account.po.RichesListPo;
 import com.shengsu.any.account.po.TotalExpendPo;
 import com.shengsu.any.account.po.TotalIncomePo;
 import com.shengsu.any.account.service.AccountRecordService;
@@ -10,6 +11,7 @@ import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
 import com.shengsu.any.account.util.AccountUtils;
 import com.shengsu.any.account.vo.AccounListByPageVo;
+import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.user.entity.User;
@@ -70,12 +72,14 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         if (StringUtils.isNotBlank(accounListByPageVo.getTel())){
             userId = userService.getUserIdByTel(accounListByPageVo.getTel());
         }
+        Map<String,String> param = new HashMap<>();
+        param.put("userId",userId);
         // 统计用户总收入
-        List<TotalIncomePo> totalIncomePos = accountRecordService.totalIncome(userId);
+        List<TotalIncomePo> totalIncomePos = accountRecordService.totalIncome(param);
         // 统计用户总支出
-        List<TotalExpendPo> totalExpendPos = accountRecordService.totalExpend(userId);
+        List<TotalExpendPo> totalExpendPos = accountRecordService.totalExpend(param);
         // 获取用户余额
-        List<Account> accounts = accountMapper.getAllAccountBalance(userId);
+        List<Account> accounts = accountMapper.getAllAccountBalance(param);
         Map<String, TotalIncomePo> totalIncomePoMap = AccountUtils.toTotalIncomeMap(totalIncomePos);
         Map<String, TotalExpendPo> totalExpendPoMap = AccountUtils.toTotalExpendMap(totalExpendPos);
         Map<String, Account> accountMap = AccountUtils.toAccountMap(accounts);
@@ -93,5 +97,32 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
     }
 
+    @Override
+    public ResultBean listRichesByPage(RichesListByPageVo richesListByPageVo) {
+        String userId = null;
+        if (StringUtils.isNotBlank(richesListByPageVo.getTel())){
+            userId = userService.getUserIdByTel(richesListByPageVo.getTel());
+        }
+        Map<String,String> param = new HashMap<>();
+        param.put("userId",userId);
+        // 统计用户总收入
+        List<TotalIncomePo> totalIncomePos = accountRecordService.totalIncome(param);
+        // 获取用户余额
+        List<Account> accounts = accountMapper.getAllAccountBalance(param);
+        Map<String, TotalIncomePo> totalIncomePoMap = AccountUtils.toTotalIncomeMap(totalIncomePos);
+        Map<String, Account> accountMap = AccountUtils.toAccountMap(accounts);
+
+        Map<String, Object> map = new HashMap<>();
+        int totalCount = userService.countRichesAll(richesListByPageVo.getTel());
+        if (totalCount > 0) {
+            List<User> users = userService.listRichesByPage(richesListByPageVo);
+            Map<String, User> userMap = UserUtils.toUserMap(users);
+            List<RichesListPo> richesListPos = AccountUtils.toRichesListPos(users,totalIncomePoMap,accountMap);
+            map.put("root", richesListPos);
+            map.put("totalCount", totalCount);
+        }
+
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+    }
 
 }

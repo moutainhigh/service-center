@@ -130,12 +130,12 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     }
 
     @Override
-    public List<TotalIncomePo> totalIncome(String userId) {
+    public List<TotalIncomePo> totalIncome(Map<String,String> userId) {
         return accountRecordMapper.totalIncome(userId);
     }
 
     @Override
-    public List<TotalExpendPo> totalExpend(String userId) {
+    public List<TotalExpendPo> totalExpend(Map<String,String> userId) {
         return accountRecordMapper.totalExpend(userId);
     }
 }

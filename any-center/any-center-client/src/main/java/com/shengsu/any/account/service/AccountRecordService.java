@@ -8,6 +8,7 @@ import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -18,6 +19,6 @@ public interface AccountRecordService extends BaseService<AccountRecord,String> 
     ResultBean listIncome(String token);
     ResultBean listExpend(String token);
     ResultBean listAccountDetailByPage(AccountDetailListByPageVo accountDetailListByPageVo);
-    List<TotalIncomePo> totalIncome(String userId);
-    List<TotalExpendPo> totalExpend(String userId);
+    List<TotalIncomePo> totalIncome(Map<String,String> userId);
+    List<TotalExpendPo> totalExpend(Map<String,String> userId);
 }

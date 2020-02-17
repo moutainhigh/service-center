@@ -164,4 +164,20 @@
 		order by create_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
+	<select id="countRichesAll" parameterType="string" resultType="int">
+		select count(1) from user
+		where del_flag = 0
+		<if test="tel != null and  tel != ''"> and tel= #{tel}</if>
+		and auth_state = 2
+	</select>
+	<!-- 获取用户信息列表 -->
+	<select id="listRichesByPage" parameterType="com.shengsu.any.account.vo.RichesListByPageVo" resultType="user">
+		<include refid="global.paginationStart_mysql" />
+		select * from user
+		where del_flag = 0
+		<if test="tel != null and  tel != ''"> and tel= #{tel}</if>
+		and auth_state = 2
+		order by create_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
 </mapper>

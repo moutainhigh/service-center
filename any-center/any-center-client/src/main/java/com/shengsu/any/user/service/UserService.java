@@ -1,6 +1,7 @@
 package com.shengsu.any.user.service;
 
 import com.shengsu.any.account.vo.AccounListByPageVo;
+import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.vo.*;
@@ -32,4 +33,6 @@ public interface UserService extends BaseService<User,String> {
     String getUserIdByTel(String tel);
     int countAccountAll(String tel);
     List<User> listAccountByPage(AccounListByPageVo accounListByPageVo);
+    int countRichesAll(String tel);
+    List<User> listRichesByPage(RichesListByPageVo richesListByPageVo);
 }
