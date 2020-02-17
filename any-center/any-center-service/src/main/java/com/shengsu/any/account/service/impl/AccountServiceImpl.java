@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,6 +47,11 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("accountBalance", accountBalance==null?new BigDecimal(0):accountBalance);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
+    }
+
+    @Override
+    public List<Account> getAllAccountBalance(String userId) {
+        return accountMapper.getAllAccountBalance(userId);
     }
 
 

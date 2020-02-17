@@ -9,6 +9,13 @@
 	</resultMap>
 
 	<select id="getAccountBalance" parameterType="string" resultType="Decimal">
-		select balance from account where user_id=#{userId}
+		select balance from account where del_flag = 0 and  user_id=#{userId}
+	</select>
+	<select id="getAllAccountBalance" parameterType="string"  resultType="account">
+		select user_id,balance
+		from account
+		where del_flag = 0
+		<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
+		group by user_id
 	</select>
 </mapper>

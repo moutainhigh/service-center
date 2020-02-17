@@ -1,9 +1,9 @@
 package com.shengsu.any.account.mapper;
 
 import com.shengsu.any.account.entity.AccountRecord;
+import com.shengsu.any.account.po.TotalExpendPo;
+import com.shengsu.any.account.po.TotalIncomePo;
 import com.shengsu.any.account.vo.AccountDetailListByPageVo;
-import com.shengsu.any.clue.entity.Clue;
-import com.shengsu.any.clue.vo.ClueListByPageVo;
 import com.shengsu.base.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,4 +21,12 @@ public interface AccountRecordMapper extends BaseMapper<AccountRecord,String> {
     List<AccountRecord> listExpend(String userId);
     int countAll(AccountDetailListByPageVo accountDetailListByPageVo);
     List<AccountRecord> listByPage(AccountDetailListByPageVo accountDetailListByPageVo);
+
+    int countAccountAll(AccountDetailListByPageVo accountVo);
+
+    List<AccountRecord> listAccountByPage(AccountDetailListByPageVo accountVo);
+
+    List<TotalIncomePo> totalIncome(AccountDetailListByPageVo accountVo);
+
+    List<TotalExpendPo> totalExpend(AccountDetailListByPageVo accountVo);
 }

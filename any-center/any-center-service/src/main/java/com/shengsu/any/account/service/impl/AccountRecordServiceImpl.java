@@ -1,12 +1,13 @@
 package com.shengsu.any.account.service.impl;
 
+import com.shengsu.any.account.entity.Account;
 import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.mapper.AccountRecordMapper;
-import com.shengsu.any.account.po.AccountRecordDetailsPo;
-import com.shengsu.any.account.po.ExpendListPo;
-import com.shengsu.any.account.po.IncomeListPo;
+import com.shengsu.any.account.po.*;
 import com.shengsu.any.account.service.AccountRecordService;
+import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
+import com.shengsu.any.account.util.AccountUtils;
 import com.shengsu.any.account.vo.AccountDetailListByPageVo;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
@@ -21,12 +22,10 @@ import com.shengsu.any.user.util.UserUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.result.ResultBean;
-import com.shengsu.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +44,8 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     private ClueService clueService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AccountServcie accountServcie;
     @Autowired
     private AccountRecordMapper accountRecordMapper;
     @Override
@@ -102,7 +103,7 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     }
 
     @Override
-    public ResultBean listPage(AccountDetailListByPageVo accountDetailVo) {
+    public ResultBean listAccountDetailByPage(AccountDetailListByPageVo accountDetailVo) {
         String userId = null;
         if (StringUtils.isNotBlank(accountDetailVo.getTel())){
             userId = userService.getUserIdByTel(accountDetailVo.getTel());
@@ -122,6 +123,43 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
 
             List<AccountRecordDetailsPo> accountRecordDetailsPos = AccountRecordUtils.toAccountRecordDetailsPos(root,userMap);
             map.put("root", accountRecordDetailsPos);
+            map.put("totalCount", totalCount);
+        }
+
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+    }
+
+    @Override
+    public ResultBean listAccountByPage(AccountDetailListByPageVo accountVo) {
+        String userId = null;
+        if (StringUtils.isNotBlank(accountVo.getTel())){
+            userId = userService.getUserIdByTel(accountVo.getTel());
+        }
+        accountVo.setUserId(userId);
+
+        // 统计用户总收入
+        List<TotalIncomePo> totalIncomePos = accountRecordMapper.totalIncome(accountVo);
+        // 统计用户总支出
+        List<TotalExpendPo> totalExpendPos = accountRecordMapper.totalExpend(accountVo);
+        // 获取用户余额
+        List<Account> accounts = accountServcie.getAllAccountBalance(userId);
+
+        Map<String, TotalIncomePo> totalIncomePoMap = AccountRecordUtils.toTotalIncomeMap(totalIncomePos);
+        Map<String, TotalExpendPo> totalExpendPoMap = AccountRecordUtils.toTotalExpendMap(totalExpendPos);
+        Map<String, Account> accountMap = AccountUtils.toAccountMap(accounts);
+
+        Map<String, Object> map = new HashMap<>();
+        int totalCount = accountRecordMapper.countAccountAll(accountVo);
+        if (totalCount > 0) {
+            List<AccountRecord> accountRecords = accountRecordMapper.listAccountByPage(accountVo);
+            List<String> userIds = new ArrayList<>();
+            for (AccountRecord accountRecord : accountRecords) {
+                userIds.add(accountRecord.getUserId());
+            }
+            List<User> users = userService.getMany(userIds);
+            Map<String, User> userMap = UserUtils.toUserMap(users);
+            List<AccountRecordPo> accountRecordPos = AccountRecordUtils.toAccountRecordsPos(accountRecords,userMap,totalIncomePoMap,totalExpendPoMap,accountMap);
+            map.put("root", accountRecordPos);
             map.put("totalCount", totalCount);
         }
 

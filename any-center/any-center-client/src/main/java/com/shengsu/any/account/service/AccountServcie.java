@@ -4,6 +4,9 @@ import com.shengsu.any.account.entity.Account;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
+import java.util.List;
+
+
 /**
  * @description:
  * @author: lipiao
@@ -11,4 +14,6 @@ import com.shengsu.result.ResultBean;
  **/
 public interface AccountServcie extends BaseService<Account,String> {
     ResultBean getAccountBalance(String token);
+
+    List<Account> getAllAccountBalance(String userId);
 }
