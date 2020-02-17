@@ -7,6 +7,7 @@ import com.shengsu.base.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -29,11 +30,11 @@ public interface UserMapper extends BaseMapper<User,String> {
 
     String getUserIdByTel(String tel);
 
-    int countAccountAll(String tel);
+    int countAccountAll(Map<String,String> tel);
 
     List<User> listAccountByPage(AccounListByPageVo accounListByPageVo);
 
-    int countRichesAll(String tel);
+    int countRichesAll(Map<String,String> tel);
 
     List<User> listRichesByPage(RichesListByPageVo richesListByPageVo);
 }

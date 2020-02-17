@@ -72,20 +72,23 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         if (StringUtils.isNotBlank(accounListByPageVo.getTel())){
             userId = userService.getUserIdByTel(accounListByPageVo.getTel());
         }
-        Map<String,String> param = new HashMap<>();
-        param.put("userId",userId);
+        Map<String,String> userIdMap = new HashMap<>();
+        userIdMap.put("userId",userId);
         // 统计用户总收入
-        List<TotalIncomePo> totalIncomePos = accountRecordService.totalIncome(param);
+        List<TotalIncomePo> totalIncomePos = accountRecordService.totalIncome(userIdMap);
         // 统计用户总支出
-        List<TotalExpendPo> totalExpendPos = accountRecordService.totalExpend(param);
+        List<TotalExpendPo> totalExpendPos = accountRecordService.totalExpend(userIdMap);
         // 获取用户余额
-        List<Account> accounts = accountMapper.getAllAccountBalance(param);
+        List<Account> accounts = accountMapper.getAllAccountBalance(userIdMap);
         Map<String, TotalIncomePo> totalIncomePoMap = AccountUtils.toTotalIncomeMap(totalIncomePos);
         Map<String, TotalExpendPo> totalExpendPoMap = AccountUtils.toTotalExpendMap(totalExpendPos);
         Map<String, Account> accountMap = AccountUtils.toAccountMap(accounts);
 
+        Map<String,String> telMap = new HashMap<>();
+        telMap.put("tel",accounListByPageVo.getTel());
+        int totalCount = userService.countAccountAll(telMap);
+
         Map<String, Object> map = new HashMap<>();
-        int totalCount = userService.countAccountAll(accounListByPageVo.getTel());
         if (totalCount > 0) {
             List<User> users = userService.listAccountByPage(accounListByPageVo);
             Map<String, User> userMap = UserUtils.toUserMap(users);
@@ -112,8 +115,10 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         Map<String, TotalIncomePo> totalIncomePoMap = AccountUtils.toTotalIncomeMap(totalIncomePos);
         Map<String, Account> accountMap = AccountUtils.toAccountMap(accounts);
 
+        Map<String,String> telMap = new HashMap<>();
+        telMap.put("tel",richesListByPageVo.getTel());
+        int totalCount = userService.countRichesAll(telMap);
         Map<String, Object> map = new HashMap<>();
-        int totalCount = userService.countRichesAll(richesListByPageVo.getTel());
         if (totalCount > 0) {
             List<User> users = userService.listRichesByPage(richesListByPageVo);
             Map<String, User> userMap = UserUtils.toUserMap(users);

@@ -10,6 +10,7 @@ import com.shengsu.result.ResultBean;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -31,8 +32,8 @@ public interface UserService extends BaseService<User,String> {
     ResultBean reject(UserAuthStateVo userAuthStateVo);
     ResultBean uploadHeadImage(UploadHeadImageVo uploadHeadImageVo);
     String getUserIdByTel(String tel);
-    int countAccountAll(String tel);
+    int countAccountAll(Map<String,String> tel);
     List<User> listAccountByPage(AccounListByPageVo accounListByPageVo);
-    int countRichesAll(String tel);
+    int countRichesAll(Map<String,String> tel);
     List<User> listRichesByPage(RichesListByPageVo richesListByPageVo);
 }

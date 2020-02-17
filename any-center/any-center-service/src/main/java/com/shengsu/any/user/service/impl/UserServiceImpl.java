@@ -395,7 +395,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public int countAccountAll(String tel) {
+    public int countAccountAll(Map<String,String> tel) {
         return userMapper.countAccountAll(tel);
     }
 
@@ -405,7 +405,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public int countRichesAll(String tel) {
+    public int countRichesAll(Map<String,String> tel) {
         return userMapper.countRichesAll(tel);
     }
 
