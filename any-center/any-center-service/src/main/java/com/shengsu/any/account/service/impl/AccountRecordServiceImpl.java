@@ -130,39 +130,12 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     }
 
     @Override
-    public ResultBean listAccountByPage(AccountDetailListByPageVo accountVo) {
-        String userId = null;
-        if (StringUtils.isNotBlank(accountVo.getTel())){
-            userId = userService.getUserIdByTel(accountVo.getTel());
-        }
-        accountVo.setUserId(userId);
+    public List<TotalIncomePo> totalIncome(Map<String,String> userId) {
+        return accountRecordMapper.totalIncome(userId);
+    }
 
-        // 统计用户总收入
-        List<TotalIncomePo> totalIncomePos = accountRecordMapper.totalIncome(accountVo);
-        // 统计用户总支出
-        List<TotalExpendPo> totalExpendPos = accountRecordMapper.totalExpend(accountVo);
-        // 获取用户余额
-        List<Account> accounts = accountServcie.getAllAccountBalance(userId);
-
-        Map<String, TotalIncomePo> totalIncomePoMap = AccountRecordUtils.toTotalIncomeMap(totalIncomePos);
-        Map<String, TotalExpendPo> totalExpendPoMap = AccountRecordUtils.toTotalExpendMap(totalExpendPos);
-        Map<String, Account> accountMap = AccountUtils.toAccountMap(accounts);
-
-        Map<String, Object> map = new HashMap<>();
-        int totalCount = accountRecordMapper.countAccountAll(accountVo);
-        if (totalCount > 0) {
-            List<AccountRecord> accountRecords = accountRecordMapper.listAccountByPage(accountVo);
-            List<String> userIds = new ArrayList<>();
-            for (AccountRecord accountRecord : accountRecords) {
-                userIds.add(accountRecord.getUserId());
-            }
-            List<User> users = userService.getMany(userIds);
-            Map<String, User> userMap = UserUtils.toUserMap(users);
-            List<AccountRecordPo> accountRecordPos = AccountRecordUtils.toAccountRecordsPos(accountRecords,userMap,totalIncomePoMap,totalExpendPoMap,accountMap);
-            map.put("root", accountRecordPos);
-            map.put("totalCount", totalCount);
-        }
-
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+    @Override
+    public List<TotalExpendPo> totalExpend(Map<String,String> userId) {
+        return accountRecordMapper.totalExpend(userId);
     }
 }

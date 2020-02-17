@@ -1,10 +1,11 @@
 package com.shengsu.any.account.service;
 
 import com.shengsu.any.account.entity.Account;
+import com.shengsu.any.account.vo.AccounListByPageVo;
+import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
-import java.util.List;
 
 
 /**
@@ -15,5 +16,7 @@ import java.util.List;
 public interface AccountServcie extends BaseService<Account,String> {
     ResultBean getAccountBalance(String token);
 
-    List<Account> getAllAccountBalance(String userId);
+    ResultBean listAccountByPage(AccounListByPageVo accounListByPageVo);
+
+    ResultBean listRichesByPage(RichesListByPageVo richesListByPageVo);
 }

@@ -13,7 +13,7 @@ import java.util.Date;
  * @create: 2020-02-16 14:28
  **/
 @Data
-public class AccountRecordPo implements Serializable {
+public class AccountListPo implements Serializable {
     private String userId;
     private String tel;// 手机号
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")

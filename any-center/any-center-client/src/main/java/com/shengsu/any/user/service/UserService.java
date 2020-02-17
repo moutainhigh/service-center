@@ -1,5 +1,7 @@
 package com.shengsu.any.user.service;
 
+import com.shengsu.any.account.vo.AccounListByPageVo;
+import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.vo.*;
@@ -8,6 +10,7 @@ import com.shengsu.result.ResultBean;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -29,4 +32,8 @@ public interface UserService extends BaseService<User,String> {
     ResultBean reject(UserAuthStateVo userAuthStateVo);
     ResultBean uploadHeadImage(UploadHeadImageVo uploadHeadImageVo);
     String getUserIdByTel(String tel);
+    int countAccountAll(Map<String,String> tel);
+    List<User> listAccountByPage(AccounListByPageVo accounListByPageVo);
+    int countRichesAll(Map<String,String> tel);
+    List<User> listRichesByPage(RichesListByPageVo richesListByPageVo);
 }
