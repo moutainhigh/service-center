@@ -7,6 +7,7 @@ import com.shengsu.any.account.vo.AccountDetailListByPageVo;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -21,4 +22,5 @@ public interface AccountRecordService extends BaseService<AccountRecord,String> 
     ResultBean listAccountDetailByPage(AccountDetailListByPageVo accountDetailListByPageVo);
     List<TotalIncomePo> totalIncome(Map<String,String> userId);
     List<TotalExpendPo> totalExpend(Map<String,String> userId);
+    void create(String userId, BigDecimal beforeBalance, BigDecimal amount);
 }

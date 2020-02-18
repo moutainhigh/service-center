@@ -1,6 +1,7 @@
 package com.shengsu.any.account.service.impl;
 
 import com.shengsu.any.account.entity.Account;
+import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.mapper.AccountMapper;
 import com.shengsu.any.account.po.AccountListPo;
 import com.shengsu.any.account.po.RichesListPo;
@@ -11,7 +12,9 @@ import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
 import com.shengsu.any.account.util.AccountUtils;
 import com.shengsu.any.account.vo.AccounListByPageVo;
+import com.shengsu.any.account.vo.CashOutVo;
 import com.shengsu.any.account.vo.RichesListByPageVo;
+import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.user.entity.User;
@@ -37,7 +40,7 @@ import java.util.Map;
  * @create: 2020-01-08 10:02
  **/
 @Service("accountService")
-public class AccountServiceImpl extends BaseServiceImpl<Account, String> implements AccountServcie {
+public class AccountServiceImpl extends BaseServiceImpl<Account, String> implements AccountServcie,BizConst {
     @Autowired
     private AuthorizedService authorizedService;
     @Autowired
@@ -128,6 +131,25 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         }
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+    }
+
+    @Override
+    public ResultBean cashOut(CashOutVo cashOutVo) {
+        // 校验余额是否充足
+        String userId = cashOutVo.getUserId();
+        BigDecimal beforeBalance = cashOutVo.getBeforeBalance();
+        BigDecimal amount = cashOutVo.getAmount();
+        if (beforeBalance.compareTo(amount)<0){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
+        }
+        // 保存账户提现记录
+        accountRecordService.create(userId,beforeBalance,amount);
+        // 修改账户余额
+        Account account = new Account();
+        account.setUserId(userId);
+        account.setBalance(beforeBalance.subtract(amount));
+        accountMapper.update(account);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
 }

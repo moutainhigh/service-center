@@ -18,4 +18,11 @@
 		<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
 		group by user_id
 	</select>
+	<update id="update" parameterType="account">
+		update account
+		set
+		  balance = #{balance,jdbcType=VARCHAR},
+		  modify_time = current_Timestamp()
+		where user_id = #{userId}
+    </update>
 </mapper>

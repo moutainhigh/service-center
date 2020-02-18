@@ -9,6 +9,7 @@ import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
 import com.shengsu.any.account.util.AccountUtils;
 import com.shengsu.any.account.vo.AccountDetailListByPageVo;
+import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.clue.entity.Clue;
@@ -26,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +39,7 @@ import java.util.Map;
  * @create: 2020-01-08 10:25
  **/
 @Service("accountRecordService")
-public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, String> implements AccountRecordService{
+public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, String> implements AccountRecordService,BizConst {
     @Autowired
     private AuthorizedService authorizedService;
     @Autowired
@@ -137,5 +139,13 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     @Override
     public List<TotalExpendPo> totalExpend(Map<String,String> userId) {
         return accountRecordMapper.totalExpend(userId);
+    }
+
+    @Override
+    public void create(String userId, BigDecimal beforeBalance, BigDecimal amount) {
+        AccountRecord accountRecord=AccountRecordUtils.toAccountRecord(userId,beforeBalance,amount);
+        accountRecord.setSource(ACCOUNT_BALANCE_SOURCE);
+        accountRecord.setActionType(ACCOUNT_ACTION_TYPE_CASH_OUT);
+        save(accountRecord);
     }
 }

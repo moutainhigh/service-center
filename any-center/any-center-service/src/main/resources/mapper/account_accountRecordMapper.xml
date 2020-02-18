@@ -54,4 +54,34 @@
 		and action_type in ('buy_clue','cash_out')
 		group by user_id
 	</select>
+	<insert id="save" parameterType="accountRecord">
+		insert into account_record
+		(
+			record_id,
+			clue_id,
+			user_id,
+			amount,
+			source,
+			before_balance,
+			after_balance,
+			action_type,
+			creator,
+			create_time,
+			modify_time
+			  )
+			values
+			(
+			#{recordId,jdbcType=VARCHAR},
+			#{clueId,jdbcType=VARCHAR},
+			#{userId,jdbcType=VARCHAR},
+			#{amount,jdbcType=DECIMAL},
+			#{source,jdbcType=VARCHAR},
+			#{beforeBalance,jdbcType=DECIMAL},
+			#{afterBalance,jdbcType=DECIMAL},
+			#{actionType,jdbcType=VARCHAR},
+			#{creator,jdbcType=VARCHAR},
+			current_Timestamp(),
+			current_Timestamp()
+		  )
+	</insert>
 </mapper>
