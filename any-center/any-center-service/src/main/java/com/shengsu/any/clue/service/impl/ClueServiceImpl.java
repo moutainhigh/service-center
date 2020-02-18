@@ -217,13 +217,6 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             return ResultUtil.formResult(true, ResultCode.SUCCESS);
         }
         List<Clue> clues = clueMapper.getMany(list);
-        for (Clue clue : clues) {
-            for (CluePersonal cluePersonal : cluePersonals) {
-                if (cluePersonal.getClueId().equals(clue.getClueId())) {
-                    clue.setCreateTime(cluePersonal.getCreateTime());
-                }
-            }
-        }
         List<String> clueTypes = ClueUtils.toClueType(clues);
 
         Map<String, Object> disPlayName = new HashMap<>();
@@ -237,7 +230,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
                 }
             }
         }
-        List<ClueWebPagePo> clueWebPagePos = ClueUtils.toClueWebPagePo(clues);
+        List<ClueWebPagePo> clueWebPagePos = ClueUtils.toClueWebPagePo(clues, cluePersonals);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, clueWebPagePos);
     }
     /**

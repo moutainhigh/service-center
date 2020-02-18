@@ -4,6 +4,7 @@ import com.shengsu.any.clue.Po.ClueClientPo;
 import com.shengsu.any.clue.Po.CluePo;
 import com.shengsu.any.clue.Po.ClueWebPagePo;
 import com.shengsu.any.clue.entity.Clue;
+import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.vo.ClueEditVo;
 import com.shengsu.any.clue.vo.ClueShelfVo;
 import com.shengsu.any.clue.vo.ClueVo;
@@ -84,27 +85,34 @@ public class ClueUtils {
             clueClientPo.setClueCode(clue.getClueCode());
             clueClientPo.setOnshelfTime(clue.getOnshelfTime());
             clueClientPo.setClueId(clue.getClueId());
-            list.add(clueClientPo);}
+            list.add(clueClientPo);
+        }
         return list;
     }
-    public static List<ClueWebPagePo> toClueWebPagePo(List<Clue> clues){
+
+    public static List<ClueWebPagePo> toClueWebPagePo(List<Clue> clues, List<CluePersonal> cluePersonals) {
         List<ClueWebPagePo> list = new ArrayList<>();
-        for(Clue clue : clues){
-            ClueWebPagePo clueWebPagePo = new ClueWebPagePo();
-            clueWebPagePo.setClueState(clue.getClueState());
-            clueWebPagePo.setAppellation(clue.getAppellation());
-            clueWebPagePo.setCityCode(clue.getCityCode());
-            clueWebPagePo.setClueCode(clue.getClueCode());
-            clueWebPagePo.setProvinceCode(clue.getProvinceCode());
-            clueWebPagePo.setCluePrice(clue.getCluePrice());
-            clueWebPagePo.setClueType(clue.getClueType());
-            clueWebPagePo.setDistrictCode(clue.getDistrictCode());
-            clueWebPagePo.setCustomerDemands(clue.getCustomerDemands());
-            clueWebPagePo.setTel(clue.getTel());
-            clueWebPagePo.setClueCode(clue.getClueCode());
-            clueWebPagePo.setClueId(clue.getClueId());
-            clueWebPagePo.setBuyTime(clue.getCreateTime());
-            list.add(clueWebPagePo);}
+        for (CluePersonal cluePersonal : cluePersonals) {
+            for (Clue clue : clues) {
+                if (clue.getClueId().equals(cluePersonal.getClueId())) {
+                    ClueWebPagePo clueWebPagePo = new ClueWebPagePo();
+                    clueWebPagePo.setClueState(clue.getClueState());
+                    clueWebPagePo.setAppellation(clue.getAppellation());
+                    clueWebPagePo.setCityCode(clue.getCityCode());
+                    clueWebPagePo.setClueCode(clue.getClueCode());
+                    clueWebPagePo.setProvinceCode(clue.getProvinceCode());
+                    clueWebPagePo.setCluePrice(clue.getCluePrice());
+                    clueWebPagePo.setClueType(clue.getClueType());
+                    clueWebPagePo.setDistrictCode(clue.getDistrictCode());
+                    clueWebPagePo.setCustomerDemands(clue.getCustomerDemands());
+                    clueWebPagePo.setTel(clue.getTel());
+                    clueWebPagePo.setClueCode(clue.getClueCode());
+                    clueWebPagePo.setClueId(clue.getClueId());
+                    clueWebPagePo.setBuyTime(cluePersonal.getCreateTime());
+                    list.add(clueWebPagePo);
+                }
+            }
+        }
         return list;
     }
 
