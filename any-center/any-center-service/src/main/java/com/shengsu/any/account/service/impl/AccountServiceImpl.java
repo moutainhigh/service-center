@@ -1,7 +1,6 @@
 package com.shengsu.any.account.service.impl;
 
 import com.shengsu.any.account.entity.Account;
-import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.mapper.AccountMapper;
 import com.shengsu.any.account.po.AccountListPo;
 import com.shengsu.any.account.po.RichesListPo;
@@ -9,10 +8,9 @@ import com.shengsu.any.account.po.TotalExpendPo;
 import com.shengsu.any.account.po.TotalIncomePo;
 import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
-import com.shengsu.any.account.util.AccountRecordUtils;
 import com.shengsu.any.account.util.AccountUtils;
 import com.shengsu.any.account.vo.AccounListByPageVo;
-import com.shengsu.any.account.vo.CashOutVo;
+import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
@@ -134,22 +132,27 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     }
 
     @Override
-    public ResultBean cashOut(CashOutVo cashOutVo) {
-        // 校验余额是否充足
-        String userId = cashOutVo.getUserId();
-        BigDecimal beforeBalance = cashOutVo.getBeforeBalance();
-        BigDecimal amount = cashOutVo.getAmount();
-        if (beforeBalance.compareTo(amount)<0){
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
+    public ResultBean changeBalance(BalanceChangeVo balanceChangeVo) {
+        String userId = balanceChangeVo.getUserId();
+        BigDecimal beforeBalance = balanceChangeVo.getBeforeBalance();
+        BigDecimal afterBalance = balanceChangeVo.getAfterBalance();
+        BigDecimal amount = new BigDecimal(0);
+        String actionType = balanceChangeVo.getActionType();
+        if(ACCOUNT_ACTION_TYPE_RECHARGE.equals(balanceChangeVo.getActionType())){
+            amount = beforeBalance.add(afterBalance);
+        }
+        if (ACCOUNT_ACTION_TYPE_CASH_OUT.equals(balanceChangeVo.getActionType())){
+            amount =  beforeBalance.subtract(afterBalance);
         }
         // 保存账户提现记录
-        accountRecordService.create(userId,beforeBalance,amount);
+        accountRecordService.create(userId,beforeBalance,afterBalance,amount,actionType);
         // 修改账户余额
         Account account = new Account();
         account.setUserId(userId);
-        account.setBalance(beforeBalance.subtract(amount));
+        account.setBalance(amount);
         accountMapper.update(account);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
+
 
 }

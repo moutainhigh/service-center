@@ -1,14 +1,13 @@
 package com.shengsu.any.account.service.impl;
 
-import com.shengsu.any.account.entity.Account;
 import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.mapper.AccountRecordMapper;
 import com.shengsu.any.account.po.*;
 import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
-import com.shengsu.any.account.util.AccountUtils;
 import com.shengsu.any.account.vo.AccountDetailListByPageVo;
+import com.shengsu.any.account.vo.BalanceChangeRecordVo;
 import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
@@ -142,10 +141,17 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     }
 
     @Override
-    public void create(String userId, BigDecimal beforeBalance, BigDecimal amount) {
-        AccountRecord accountRecord=AccountRecordUtils.toAccountRecord(userId,beforeBalance,amount);
+    public void create(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount,String actionType) {
+        AccountRecord accountRecord=AccountRecordUtils.toAccountRecord(userId,beforeBalance,afterBalance,amount);
         accountRecord.setSource(ACCOUNT_BALANCE_SOURCE);
-        accountRecord.setActionType(ACCOUNT_ACTION_TYPE_CASH_OUT);
+        accountRecord.setActionType(actionType);
         save(accountRecord);
+    }
+    @Override
+    public ResultBean getBalanceChangeRecord(BalanceChangeRecordVo balanceChangeRecordVo) {
+        String recordId = balanceChangeRecordVo.getRecordId();
+        AccountRecord accountRecord = accountRecordMapper.get(recordId);
+        BalanceChangeRecordPo balanceChangeRecordPo = AccountRecordUtils.toCashOutRecordPo(accountRecord);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, balanceChangeRecordPo);
     }
 }

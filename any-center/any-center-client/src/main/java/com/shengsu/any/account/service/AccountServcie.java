@@ -2,7 +2,7 @@ package com.shengsu.any.account.service;
 
 import com.shengsu.any.account.entity.Account;
 import com.shengsu.any.account.vo.AccounListByPageVo;
-import com.shengsu.any.account.vo.CashOutVo;
+import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
@@ -21,5 +21,6 @@ public interface AccountServcie extends BaseService<Account,String> {
 
     ResultBean listRichesByPage(RichesListByPageVo richesListByPageVo);
 
-    ResultBean cashOut(CashOutVo cashOutVo);
+    ResultBean changeBalance(BalanceChangeVo balanceChangeVo);
+
 }

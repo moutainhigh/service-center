@@ -35,8 +35,10 @@ public interface BizConst {
     String MESSAGE_CONTENT_PASS = "您的账号认证已通过";
     //发送用户未通过认证消息
     String MESSAGE_CONTENT_REJECT = "您的账号认证未通过";
-    //账户余额来源-提现
+    //账户余额来源-账户余额
     String ACCOUNT_BALANCE_SOURCE = "account_balance";
+    //账户操作类型-提现
+    String ACCOUNT_ACTION_TYPE_RECHARGE = "recharge";
     //账户操作类型-提现
     String ACCOUNT_ACTION_TYPE_CASH_OUT = "cash_out";
 }

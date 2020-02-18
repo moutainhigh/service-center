@@ -61,14 +61,26 @@ public class AccountRecordUtils {
     }
 
 
-    public static AccountRecord toAccountRecord(String userId, BigDecimal beforeBalance, BigDecimal amount) {
+    public static AccountRecord toAccountRecord(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount) {
         AccountRecord accountRecord = new AccountRecord();
         accountRecord.setRecordId(UUID.randomUUID().toString());
         accountRecord.setUserId(userId);
         accountRecord.setAmount(amount);
         accountRecord.setBeforeBalance(beforeBalance);
-        accountRecord.setAfterBalance(beforeBalance.subtract(amount));
+        accountRecord.setAfterBalance(afterBalance);
         accountRecord.setActionType(accountRecord.getActionType());
         return accountRecord;
+    }
+
+    public static BalanceChangeRecordPo toCashOutRecordPo(AccountRecord accountRecord) {
+        if (accountRecord != null) {
+            BalanceChangeRecordPo cashOutRecordPo = new BalanceChangeRecordPo();
+            cashOutRecordPo.setBeforeBalance(accountRecord.getBeforeBalance());
+            cashOutRecordPo.setAfterBalance(accountRecord.getAfterBalance());
+            cashOutRecordPo.setCreateTime(accountRecord.getCreateTime());
+            cashOutRecordPo.setCreator(accountRecord.getCreator());
+            return cashOutRecordPo;
+        }
+        return null;
     }
 }

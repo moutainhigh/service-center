@@ -84,4 +84,7 @@
 			current_Timestamp()
 		  )
 	</insert>
+	<select id="get" parameterType="string" resultType="accountRecord">
+		select * from account_record where record_id = #{recordId}
+	</select>
 </mapper>

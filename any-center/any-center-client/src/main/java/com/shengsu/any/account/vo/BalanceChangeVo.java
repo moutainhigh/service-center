@@ -11,8 +11,9 @@ import java.math.BigDecimal;
  * @create: 2020-02-18 13:32
  **/
 @Data
-public class CashOutVo implements Serializable {
+public class BalanceChangeVo implements Serializable {
     private String userId;
     private BigDecimal beforeBalance;
-    private BigDecimal amount;
+    private BigDecimal afterBalance;
+    private String actionType;
 }
