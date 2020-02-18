@@ -36,7 +36,7 @@ public class ClueRecordUtils {
     }
     public static ClueRecord toClueRecord(ClueRecordUpdateVo clueRecordUpdateVo){
         ClueRecord clueRecord = new ClueRecord();
-        clueRecord.setRecordId(UUID.randomUUID().toString());
+        clueRecord.setRecordId(clueRecordUpdateVo.getRecordId());
         clueRecord.setContent(clueRecordUpdateVo.getContent());
         clueRecord.setClueId(clueRecordUpdateVo.getClueId());
         clueRecord.setUserId(clueRecordUpdateVo.getUserId());
