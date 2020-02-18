@@ -48,7 +48,9 @@ public enum ResultCode {
     // 用户认证状态
     EXCEPTION_USER_AUTH_STATE_UNREVIEW(1002,"未提交或已审核"),
     EXCEPTION_USER_AUTH_STATE_IN_REVIEW(1002,"用户正在认证中，不可再提交认证"),
-    EXCEPTION_USER_AUTH_STATE_REVIEW_PASS(1002,"用户已认证通过，不可再提交认证");
+    EXCEPTION_USER_AUTH_STATE_REVIEW_PASS(1002,"用户已认证通过，不可再提交认证"),
+    // 账户
+    EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE(1002,"账户余额不足");
 
 
 

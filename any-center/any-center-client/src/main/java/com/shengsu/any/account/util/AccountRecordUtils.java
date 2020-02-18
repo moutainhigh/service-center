@@ -1,6 +1,5 @@
 package com.shengsu.any.account.util;
 
-import com.shengsu.any.account.entity.Account;
 import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.po.*;
 import com.shengsu.any.user.entity.User;
@@ -9,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @description:
@@ -61,4 +61,14 @@ public class AccountRecordUtils {
     }
 
 
+    public static AccountRecord toAccountRecord(String userId, BigDecimal beforeBalance, BigDecimal amount) {
+        AccountRecord accountRecord = new AccountRecord();
+        accountRecord.setRecordId(UUID.randomUUID().toString());
+        accountRecord.setUserId(userId);
+        accountRecord.setAmount(amount);
+        accountRecord.setBeforeBalance(beforeBalance);
+        accountRecord.setAfterBalance(beforeBalance.subtract(amount));
+        accountRecord.setActionType(accountRecord.getActionType());
+        return accountRecord;
+    }
 }
