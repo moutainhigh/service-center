@@ -85,6 +85,13 @@
 		  )
 	</insert>
 	<select id="get" parameterType="string" resultType="accountRecord">
-		select * from account_record where record_id = #{recordId}
+		select * from account_record where del_flag = 0 and record_id = #{recordId}
+	</select>
+	<select id="getManyByUserId" parameterType = "string" resultType="accountRecord">
+		select * from account_record
+		where del_flag = 0 and
+		action_type in ('recharge','cash_out') and
+		user_id = #{userId}
+		order by create_time desc
 	</select>
 </mapper>

@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Data
 public class BalanceChangeVo implements Serializable {
     private String userId;
-    private BigDecimal beforeBalance;
-    private BigDecimal afterBalance;
+    private BigDecimal amount;
     private String actionType;
+    private String creator;
 }

@@ -15,6 +15,10 @@ import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
+import com.shengsu.any.message.constant.MessageConst;
+import com.shengsu.any.message.entity.Message;
+import com.shengsu.any.message.service.MessageService;
+import com.shengsu.any.message.util.MessageUtils;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.service.AuthorizedService;
@@ -28,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,13 +43,15 @@ import java.util.Map;
  * @create: 2020-01-08 10:02
  **/
 @Service("accountService")
-public class AccountServiceImpl extends BaseServiceImpl<Account, String> implements AccountServcie,BizConst {
+public class AccountServiceImpl extends BaseServiceImpl<Account, String> implements AccountServcie,BizConst,MessageConst {
     @Autowired
     private AuthorizedService authorizedService;
     @Autowired
     private UserService userService;
     @Autowired
     private AccountRecordService accountRecordService;
+    @Autowired
+    private MessageService messageService;
     @Autowired
     private AccountMapper accountMapper;
     @Override
@@ -134,23 +141,36 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     @Override
     public ResultBean changeBalance(BalanceChangeVo balanceChangeVo) {
         String userId = balanceChangeVo.getUserId();
-        BigDecimal beforeBalance = balanceChangeVo.getBeforeBalance();
-        BigDecimal afterBalance = balanceChangeVo.getAfterBalance();
-        BigDecimal amount = new BigDecimal(0);
+        BigDecimal beforeBalance = accountMapper.getAccountBalance(userId);
+        BigDecimal amount = balanceChangeVo.getAmount();
+        BigDecimal afterBalance = new BigDecimal(0);
         String actionType = balanceChangeVo.getActionType();
+        String messageContent = "";
         if(ACCOUNT_ACTION_TYPE_RECHARGE.equals(balanceChangeVo.getActionType())){
-            amount = beforeBalance.add(afterBalance);
+            afterBalance = beforeBalance.add(afterBalance);
+             messageContent = MessageFormat.format(MESSAGE_CONTENT_ACCOUNT_BALANCE_RECHARGE, amount);
         }
         if (ACCOUNT_ACTION_TYPE_CASH_OUT.equals(balanceChangeVo.getActionType())){
-            amount =  beforeBalance.subtract(afterBalance);
+            if (beforeBalance.compareTo(amount)<0){
+                return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
+            }
+             messageContent = MessageFormat.format(MESSAGE_CONTENT_ACCOUNT_BALANCE_CASH_OUT, amount);
+            afterBalance =  beforeBalance.subtract(amount);
         }
         // 保存账户提现记录
-        accountRecordService.create(userId,beforeBalance,afterBalance,amount,actionType);
+        String creator = balanceChangeVo.getCreator();
+        accountRecordService.create(userId,beforeBalance,afterBalance,amount,actionType,creator);
         // 修改账户余额
         Account account = new Account();
         account.setUserId(userId);
-        account.setBalance(amount);
+        account.setBalance(afterBalance);
         accountMapper.update(account);
+
+        // 发送消息
+        Message message = MessageUtils.toMessage(userId);
+        message.setMessageContent(messageContent);
+        messageService.save(message);
+
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 

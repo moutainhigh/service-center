@@ -26,4 +26,6 @@ public interface AccountRecordMapper extends BaseMapper<AccountRecord,String> {
     List<TotalIncomePo> totalIncome(Map<String,String> userId);
 
     List<TotalExpendPo> totalExpend(Map<String,String> userId);
+
+    List<AccountRecord> getManyByUserId(String userId);
 }

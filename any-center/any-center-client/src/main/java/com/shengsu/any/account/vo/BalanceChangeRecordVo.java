@@ -11,5 +11,5 @@ import java.io.Serializable;
  **/
 @Data
 public class BalanceChangeRecordVo implements Serializable {
-    private String recordId;
+    private String userId;
 }

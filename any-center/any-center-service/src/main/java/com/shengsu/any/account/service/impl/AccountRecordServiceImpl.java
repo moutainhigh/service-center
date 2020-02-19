@@ -119,7 +119,10 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
             for (AccountRecord accountRecord : root) {
                 userIds.add(accountRecord.getUserId());
             }
-            List<User> users = userService.getMany(userIds);
+            List<User> users = new ArrayList<>();
+            if (null != userIds && userIds.size()>0){
+                users = userService.getMany(userIds);
+            }
             Map<String, User> userMap = UserUtils.toUserMap(users);
 
             List<AccountRecordDetailsPo> accountRecordDetailsPos = AccountRecordUtils.toAccountRecordDetailsPos(root,userMap);
@@ -141,17 +144,26 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     }
 
     @Override
-    public void create(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount,String actionType) {
-        AccountRecord accountRecord=AccountRecordUtils.toAccountRecord(userId,beforeBalance,afterBalance,amount);
+    public void create(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount,String actionType,String creator) {
+        AccountRecord accountRecord=AccountRecordUtils.toAccountRecord(userId,beforeBalance,afterBalance,amount,creator);
         accountRecord.setSource(ACCOUNT_BALANCE_SOURCE);
         accountRecord.setActionType(actionType);
         save(accountRecord);
     }
     @Override
     public ResultBean getBalanceChangeRecord(BalanceChangeRecordVo balanceChangeRecordVo) {
-        String recordId = balanceChangeRecordVo.getRecordId();
-        AccountRecord accountRecord = accountRecordMapper.get(recordId);
-        BalanceChangeRecordPo balanceChangeRecordPo = AccountRecordUtils.toCashOutRecordPo(accountRecord);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, balanceChangeRecordPo);
+        String userId = balanceChangeRecordVo.getUserId();
+        List<AccountRecord> accountRecords = accountRecordMapper.getManyByUserId(userId);
+        List<String> userIds = new ArrayList<>();
+        for (AccountRecord accountRecord : accountRecords) {
+            userIds.add(accountRecord.getUserId());
+        }
+        List<User> users = new ArrayList<>();
+        if (null != userIds && userIds.size()>0){
+            users = userService.getMany(userIds);
+        }
+        Map<String, User> userMap = UserUtils.toUserMap(users);
+        List<BalanceChangeRecordPo> balanceChangeRecordPos = AccountRecordUtils.toBalanceChangeRecordPos(accountRecords,userMap);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, balanceChangeRecordPos);
     }
 }

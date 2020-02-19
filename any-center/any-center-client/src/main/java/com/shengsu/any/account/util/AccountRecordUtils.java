@@ -61,25 +61,36 @@ public class AccountRecordUtils {
     }
 
 
-    public static AccountRecord toAccountRecord(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount) {
+    public static AccountRecord toAccountRecord(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount,String creator) {
         AccountRecord accountRecord = new AccountRecord();
         accountRecord.setRecordId(UUID.randomUUID().toString());
         accountRecord.setUserId(userId);
         accountRecord.setAmount(amount);
         accountRecord.setBeforeBalance(beforeBalance);
         accountRecord.setAfterBalance(afterBalance);
-        accountRecord.setActionType(accountRecord.getActionType());
+        accountRecord.setCreator(creator);
         return accountRecord;
     }
 
-    public static BalanceChangeRecordPo toCashOutRecordPo(AccountRecord accountRecord) {
+    public static BalanceChangeRecordPo toBalanceChangeRecordPo(AccountRecord accountRecord,Map<String, User> userMap) {
         if (accountRecord != null) {
             BalanceChangeRecordPo cashOutRecordPo = new BalanceChangeRecordPo();
             cashOutRecordPo.setBeforeBalance(accountRecord.getBeforeBalance());
             cashOutRecordPo.setAfterBalance(accountRecord.getAfterBalance());
             cashOutRecordPo.setCreateTime(accountRecord.getCreateTime());
-            cashOutRecordPo.setCreator(accountRecord.getCreator());
+            cashOutRecordPo.setCreator(userMap.get(accountRecord.getCreator()).getRealName());
             return cashOutRecordPo;
+        }
+        return null;
+    }
+
+    public static List<BalanceChangeRecordPo> toBalanceChangeRecordPos(List<AccountRecord> accountRecords,Map<String, User> userMap) {
+        if (accountRecords != null) {
+            List<BalanceChangeRecordPo> balanceChangeRecordPos = new ArrayList<>();
+            for (AccountRecord accountRecord : accountRecords) {
+                balanceChangeRecordPos.add(toBalanceChangeRecordPo(accountRecord,userMap));
+            }
+            return balanceChangeRecordPos;
         }
         return null;
     }
