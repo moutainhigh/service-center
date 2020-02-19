@@ -8,6 +8,7 @@ import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
 import com.shengsu.any.account.vo.AccountDetailListByPageVo;
 import com.shengsu.any.account.vo.BalanceChangeRecordVo;
+import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
@@ -144,10 +145,8 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     }
 
     @Override
-    public void create(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount,String actionType,String creator,String remark) {
-        AccountRecord accountRecord=AccountRecordUtils.toAccountRecord(userId,beforeBalance,afterBalance,amount,creator,remark);
-        accountRecord.setSource(ACCOUNT_BALANCE_SOURCE);
-        accountRecord.setActionType(actionType);
+    public void create(BigDecimal beforeBalance, BigDecimal afterBalance,String source,BalanceChangeVo balanceChangeVo) {
+        AccountRecord accountRecord=AccountRecordUtils.toAccountRecord(beforeBalance,afterBalance,source,balanceChangeVo);
         save(accountRecord);
     }
     @Override

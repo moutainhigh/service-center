@@ -141,26 +141,29 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     @Override
     public ResultBean changeBalance(BalanceChangeVo balanceChangeVo) {
         String userId = balanceChangeVo.getUserId();
-        BigDecimal beforeBalance = accountMapper.getAccountBalance(userId);
+        BigDecimal beforeBalance = accountMapper.getAccountBalance(userId)==null?new BigDecimal(0):accountMapper.getAccountBalance(userId);
         BigDecimal amount = balanceChangeVo.getAmount();
         BigDecimal afterBalance = new BigDecimal(0);
         String actionType = balanceChangeVo.getActionType();
         String messageContent = "";
-        if(ACCOUNT_ACTION_TYPE_RECHARGE.equals(balanceChangeVo.getActionType())){
-            afterBalance = beforeBalance.add(afterBalance);
-             messageContent = MessageFormat.format(MESSAGE_CONTENT_ACCOUNT_BALANCE_RECHARGE, amount);
+        String source = "";
+        if(ACCOUNT_ACTION_TYPE_RECHARGE.equals(actionType)){
+            afterBalance = beforeBalance.add(amount);
+            messageContent = MessageFormat.format(MESSAGE_CONTENT_ACCOUNT_BALANCE_RECHARGE, amount);
+            source = ACCOUNT_BALANCE_SOURCE_RECHANGE;
         }
-        if (ACCOUNT_ACTION_TYPE_CASH_OUT.equals(balanceChangeVo.getActionType())){
+        if (ACCOUNT_ACTION_TYPE_CASH_OUT.equals(actionType)){
             if (beforeBalance.compareTo(amount)<0){
                 return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
             }
-             messageContent = MessageFormat.format(MESSAGE_CONTENT_ACCOUNT_BALANCE_CASH_OUT, amount);
             afterBalance =  beforeBalance.subtract(amount);
+            messageContent = MessageFormat.format(MESSAGE_CONTENT_ACCOUNT_BALANCE_CASH_OUT, amount);
+            source = ACCOUNT_BALANCE_SOURCE_CASH_OUT;
         }
         // 保存账户提现记录
         String creator = balanceChangeVo.getCreator();
         String remark = balanceChangeVo.getRemark();
-        accountRecordService.create(userId,beforeBalance,afterBalance,amount,actionType,creator,remark);
+        accountRecordService.create(beforeBalance,afterBalance,source,balanceChangeVo);
         // 修改账户余额
         Account account = new Account();
         account.setUserId(userId);

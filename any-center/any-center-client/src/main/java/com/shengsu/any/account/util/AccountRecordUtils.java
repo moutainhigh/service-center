@@ -2,6 +2,7 @@ package com.shengsu.any.account.util;
 
 import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.po.*;
+import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.user.entity.User;
 
 import java.math.BigDecimal;
@@ -61,15 +62,17 @@ public class AccountRecordUtils {
     }
 
 
-    public static AccountRecord toAccountRecord(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount,String creator,String remark) {
+    public static AccountRecord toAccountRecord(BigDecimal beforeBalance, BigDecimal afterBalance,String source,BalanceChangeVo balanceChangeVo) {
         AccountRecord accountRecord = new AccountRecord();
         accountRecord.setRecordId(UUID.randomUUID().toString());
-        accountRecord.setUserId(userId);
-        accountRecord.setAmount(amount);
+        accountRecord.setUserId(balanceChangeVo.getUserId());
+        accountRecord.setAmount(balanceChangeVo.getAmount());
         accountRecord.setBeforeBalance(beforeBalance);
         accountRecord.setAfterBalance(afterBalance);
-        accountRecord.setCreator(creator);
-        accountRecord.setRemark(remark);
+        accountRecord.setCreator(balanceChangeVo.getCreator());
+        accountRecord.setRemark(balanceChangeVo.getRemark());
+        accountRecord.setSource(source);
+        accountRecord.setActionType(balanceChangeVo.getActionType());
         return accountRecord;
     }
 
@@ -79,7 +82,7 @@ public class AccountRecordUtils {
             cashOutRecordPo.setBeforeBalance(accountRecord.getBeforeBalance());
             cashOutRecordPo.setAfterBalance(accountRecord.getAfterBalance());
             cashOutRecordPo.setCreateTime(accountRecord.getCreateTime());
-            cashOutRecordPo.setCreator(userMap.get(accountRecord.getCreator()).getRealName());
+            cashOutRecordPo.setCreator(userMap.get(accountRecord.getCreator())==null?"":userMap.get(accountRecord.getCreator()).getRealName());
             cashOutRecordPo.setRemark(accountRecord.getRemark());
             return cashOutRecordPo;
         }

@@ -31,6 +31,10 @@ public interface BizConst {
     String USER_AUTH_STATE_AUTHENTICATED = "2";
     //用户状态-已拒绝
     String USER_AUTH_STATE_REJECTED = "3";
+    //账户余额来源-账户余额-充值
+    String ACCOUNT_BALANCE_SOURCE_RECHANGE = "other";
+    //账户余额来源-账户余额-提现
+    String ACCOUNT_BALANCE_SOURCE_CASH_OUT = "account_balance";
     //账户余额来源-账户余额
     String ACCOUNT_BALANCE_SOURCE = "account_balance";
     //账户操作类型-提现
