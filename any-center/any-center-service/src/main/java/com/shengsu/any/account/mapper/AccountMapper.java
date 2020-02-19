@@ -18,4 +18,6 @@ public interface AccountMapper extends BaseMapper<Account,String> {
     BigDecimal getAccountBalance(String userId);
 
     List<Account> getAllAccountBalance(Map<String,String> userId);
+
+    Account getByUserId(String userId);
 }

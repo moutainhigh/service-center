@@ -7,7 +7,24 @@
 	<!-- Result Map-->
 	<resultMap id="account_result_map" type="account">
 	</resultMap>
-
+	<insert id="save" parameterType="account">
+		insert into account
+		(
+			account_id,
+			user_id,
+			balance,
+			create_time,
+			modify_time
+			  )
+			values
+			(
+			#{accountId,jdbcType=VARCHAR},
+			#{userId,jdbcType=VARCHAR},
+			#{balance,jdbcType=DECIMAL},
+			current_Timestamp(),
+			current_Timestamp()
+		  )
+	</insert>
 	<select id="getAccountBalance" parameterType="string" resultType="Decimal">
 		select balance from account where del_flag = 0 and  user_id=#{userId}
 	</select>
@@ -25,4 +42,7 @@
 		  modify_time = current_Timestamp()
 		where user_id = #{userId}
     </update>
+	<select id="getByUserId" parameterType="string" resultType="account">
+		select * from account where del_flag = 0 and  user_id=#{userId}
+	</select>
 </mapper>

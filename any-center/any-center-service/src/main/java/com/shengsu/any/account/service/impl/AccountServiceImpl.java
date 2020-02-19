@@ -36,6 +36,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @description:
@@ -164,12 +165,23 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         String creator = balanceChangeVo.getCreator();
         String remark = balanceChangeVo.getRemark();
         accountRecordService.create(beforeBalance,afterBalance,source,balanceChangeVo);
-        // 修改账户余额
-        Account account = new Account();
-        account.setUserId(userId);
-        account.setBalance(afterBalance);
-        accountMapper.update(account);
 
+        // 账户操作- 如果没有这个账户 则添加 否则修改
+        Account oldAccount = accountMapper.getByUserId(userId);
+        if (oldAccount== null){
+            // 添加账户余额
+            Account newAccount = new Account();
+            newAccount.setAccountId(UUID.randomUUID().toString());
+            newAccount.setUserId(userId);
+            newAccount.setBalance(afterBalance);
+            save(newAccount);
+        }else{
+            // 修改账户余额
+            Account account = new Account();
+            account.setUserId(userId);
+            account.setBalance(afterBalance);
+            accountMapper.update(account);
+        }
         // 发送消息
         Message message = MessageUtils.toMessage(userId);
         message.setMessageContent(messageContent);
