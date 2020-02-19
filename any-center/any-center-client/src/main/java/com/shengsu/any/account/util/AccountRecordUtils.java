@@ -80,6 +80,7 @@ public class AccountRecordUtils {
             cashOutRecordPo.setAfterBalance(accountRecord.getAfterBalance());
             cashOutRecordPo.setCreateTime(accountRecord.getCreateTime());
             cashOutRecordPo.setCreator(userMap.get(accountRecord.getCreator()).getRealName());
+            cashOutRecordPo.setRemark(accountRecord.getRemark());
             return cashOutRecordPo;
         }
         return null;
