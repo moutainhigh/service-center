@@ -23,6 +23,6 @@ public interface AccountRecordService extends BaseService<AccountRecord,String> 
     ResultBean listAccountDetailByPage(AccountDetailListByPageVo accountDetailListByPageVo);
     List<TotalIncomePo> totalIncome(Map<String,String> userId);
     List<TotalExpendPo> totalExpend(Map<String,String> userId);
-    void create(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount,String actionType,String creator);
+    void create(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount,String actionType,String creator,String remark);
     ResultBean getBalanceChangeRecord(BalanceChangeRecordVo balanceChangeRecordVo);
 }

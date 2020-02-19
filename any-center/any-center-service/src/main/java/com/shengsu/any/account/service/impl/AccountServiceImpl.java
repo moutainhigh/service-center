@@ -159,7 +159,8 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         }
         // 保存账户提现记录
         String creator = balanceChangeVo.getCreator();
-        accountRecordService.create(userId,beforeBalance,afterBalance,amount,actionType,creator);
+        String remark = balanceChangeVo.getRemark();
+        accountRecordService.create(userId,beforeBalance,afterBalance,amount,actionType,creator,remark);
         // 修改账户余额
         Account account = new Account();
         account.setUserId(userId);

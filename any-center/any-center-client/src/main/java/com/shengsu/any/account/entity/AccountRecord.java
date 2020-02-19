@@ -22,4 +22,5 @@ public class AccountRecord extends BaseEntity {
     private BigDecimal afterBalance;// 变更后余额
     private String actionType;// 动作类型
     private String creator;// 创建者
+    private String remark;// 备注
 }

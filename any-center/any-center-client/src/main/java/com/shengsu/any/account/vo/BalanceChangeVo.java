@@ -16,4 +16,5 @@ public class BalanceChangeVo implements Serializable {
     private BigDecimal amount;
     private String actionType;
     private String creator;
+    private String remark;
 }

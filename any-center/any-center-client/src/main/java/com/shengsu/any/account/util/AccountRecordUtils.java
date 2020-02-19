@@ -61,7 +61,7 @@ public class AccountRecordUtils {
     }
 
 
-    public static AccountRecord toAccountRecord(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount,String creator) {
+    public static AccountRecord toAccountRecord(String userId, BigDecimal beforeBalance, BigDecimal afterBalance,BigDecimal amount,String creator,String remark) {
         AccountRecord accountRecord = new AccountRecord();
         accountRecord.setRecordId(UUID.randomUUID().toString());
         accountRecord.setUserId(userId);
@@ -69,6 +69,7 @@ public class AccountRecordUtils {
         accountRecord.setBeforeBalance(beforeBalance);
         accountRecord.setAfterBalance(afterBalance);
         accountRecord.setCreator(creator);
+        accountRecord.setRemark(remark);
         return accountRecord;
     }
 
