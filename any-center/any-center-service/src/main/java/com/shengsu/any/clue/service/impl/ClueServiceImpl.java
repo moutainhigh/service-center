@@ -1,5 +1,6 @@
 package com.shengsu.any.clue.service.impl;
 
+import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.clue.Po.ClueClientPo;
@@ -23,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +49,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private CluePersonalService cluePersonalService;
     @Autowired
     private AuthorizedService authorizedService;
+    @Autowired
+    private AccountServcie accountServcie;
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
         return clueMapper;
@@ -182,6 +186,12 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
+    /**
+    * @Description: 线索购买
+    * @Param: * @Param clueBuyVo: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
     @Override
     public ResultBean buy(ClueBuyVo clueBuyVo) {
         String clueId = clueBuyVo.getClueId();
@@ -194,7 +204,13 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         if (StringUtils.isNoneBlank(token)) {
             userId =  authorizedService.getUserByToken(token).getUserId();
         }
-        // TODO 后期校验账户余额
+        // 获取该用户的账户余额
+        BigDecimal balance = accountServcie.getAccountBalanceByUserId(userId);
+        if (balance.compareTo(clue.getCluePrice())<0){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
+        }
+        // 修改线索状态-已购买
+        clueMapper.updateClueSold(clueId);
         cluePersonalService.create(clueId,userId);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }

@@ -172,5 +172,7 @@
         order by
         create_time DESC
     </select>
-
+    <update id="updateClueSold" parameterType="string">
+        update clue set clue_state = 'sold' where clue_id = #{clueId}
+    </update>
 </mapper>

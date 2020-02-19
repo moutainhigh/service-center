@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class ClueEditVo implements Serializable {
@@ -23,5 +24,5 @@ public class ClueEditVo implements Serializable {
     @NotBlank
     private String tel;// 联系电话
     @NotBlank
-    private String cluePrice;// 线索价格
+    private BigDecimal cluePrice;// 线索价格
 }

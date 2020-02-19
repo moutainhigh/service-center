@@ -7,6 +7,7 @@ import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
+import java.math.BigDecimal;
 
 
 /**
@@ -23,4 +24,5 @@ public interface AccountServcie extends BaseService<Account,String> {
 
     ResultBean changeBalance(BalanceChangeVo balanceChangeVo);
 
+    BigDecimal getAccountBalanceByUserId(String userId);
 }

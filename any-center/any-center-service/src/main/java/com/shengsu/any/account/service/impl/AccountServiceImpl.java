@@ -175,5 +175,10 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
+    @Override
+    public BigDecimal getAccountBalanceByUserId(String userId) {
+        return accountMapper.getAccountBalance(userId);
+    }
+
 
 }
