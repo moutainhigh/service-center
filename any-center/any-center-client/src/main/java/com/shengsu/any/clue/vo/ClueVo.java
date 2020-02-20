@@ -3,6 +3,7 @@ package com.shengsu.any.clue.vo;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -23,6 +24,6 @@ public class ClueVo implements Serializable {
     private String customerDemands;// 客户诉求
     @NotBlank
     private String tel;// 联系电话
-    @NotBlank
+    @NotNull
     private BigDecimal cluePrice;// 线索价格
 }
