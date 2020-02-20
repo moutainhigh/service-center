@@ -219,6 +219,9 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         if (CLUE_STATE_SOLD.equals(clue.getClueState())) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_RESALE);
         }
+        if (CLUE_STATE_OFFSHELF.equals(clue.getClueState())) {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_FFSHELF_NOT_RESALE);
+        }
         String token = clueBuyVo.getToken();
         String userId="";
         if (StringUtils.isNoneBlank(token)) {
