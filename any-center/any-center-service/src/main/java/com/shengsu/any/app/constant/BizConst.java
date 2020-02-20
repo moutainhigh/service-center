@@ -35,8 +35,11 @@ public interface BizConst {
     String ACCOUNT_BALANCE_SOURCE_RECHANGE = "other";
     //账户余额来源-账户余额-提现
     String ACCOUNT_BALANCE_SOURCE_CASH_OUT = "account_balance";
-    //账户操作类型-提现
+    //账户操作类型-充值
     String ACCOUNT_ACTION_TYPE_RECHARGE = "recharge";
     //账户操作类型-提现
     String ACCOUNT_ACTION_TYPE_CASH_OUT = "cash_out";
+    //账户操作类型-购买线索
+    String ACCOUNT_ACTION_TYPE_BUY_CLUE= "buy_clue";
+
 }

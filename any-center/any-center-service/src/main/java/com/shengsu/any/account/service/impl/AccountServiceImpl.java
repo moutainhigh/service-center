@@ -96,7 +96,6 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         Map<String,String> telMap = new HashMap<>();
         telMap.put("tel",accounListByPageVo.getTel());
         int totalCount = userService.countAccountAll(telMap);
-
         Map<String, Object> map = new HashMap<>();
         if (totalCount > 0) {
             List<User> users = userService.listAccountByPage(accounListByPageVo);
@@ -162,26 +161,9 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
             source = ACCOUNT_BALANCE_SOURCE_CASH_OUT;
         }
         // 保存账户提现记录
-        String creator = balanceChangeVo.getCreator();
-        String remark = balanceChangeVo.getRemark();
         accountRecordService.create(beforeBalance,afterBalance,source,balanceChangeVo);
-
-        // 账户操作- 如果没有这个账户 则添加 否则修改
-        Account oldAccount = accountMapper.getByUserId(userId);
-        if (oldAccount== null){
-            // 添加账户余额
-            Account newAccount = new Account();
-            newAccount.setAccountId(UUID.randomUUID().toString());
-            newAccount.setUserId(userId);
-            newAccount.setBalance(afterBalance);
-            save(newAccount);
-        }else{
-            // 修改账户余额
-            Account account = new Account();
-            account.setUserId(userId);
-            account.setBalance(afterBalance);
-            accountMapper.update(account);
-        }
+        // 修改账户余额
+        updateAccountBalance(userId,afterBalance);
         // 发送消息
         Message message = MessageUtils.toMessage(userId);
         message.setMessageContent(messageContent);
@@ -193,6 +175,14 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     @Override
     public BigDecimal getAccountBalanceByUserId(String userId) {
         return accountMapper.getAccountBalance(userId);
+    }
+
+    @Override
+    public void updateAccountBalance(String userId, BigDecimal balance) {
+        Account account = new Account();
+        account.setUserId(userId);
+        account.setBalance(balance);
+        accountMapper.update(account);
     }
 
 

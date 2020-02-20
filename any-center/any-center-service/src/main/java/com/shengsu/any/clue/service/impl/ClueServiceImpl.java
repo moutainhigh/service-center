@@ -1,6 +1,11 @@
 package com.shengsu.any.clue.service.impl;
 
+import com.shengsu.any.account.entity.Account;
+import com.shengsu.any.account.entity.AccountRecord;
+import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
+import com.shengsu.any.account.vo.BalanceChangeRecordVo;
+import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.clue.Po.ClueClientPo;
@@ -13,6 +18,10 @@ import com.shengsu.any.clue.service.CluePersonalService;
 import com.shengsu.any.clue.service.ClueService;
 import com.shengsu.any.clue.util.ClueUtils;
 import com.shengsu.any.clue.vo.*;
+import com.shengsu.any.message.constant.MessageConst;
+import com.shengsu.any.message.entity.Message;
+import com.shengsu.any.message.service.MessageService;
+import com.shengsu.any.message.util.MessageUtils;
 import com.shengsu.any.system.entity.SystemDict;
 import com.shengsu.any.system.mapper.SystemDictMapper;
 import com.shengsu.any.user.service.AuthorizedService;
@@ -38,7 +47,7 @@ import static com.shengsu.any.app.constant.BizConst.*;
  * @create: 2020-01-08 10:48
  **/
 @Service("clueService")
-public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements ClueService {
+public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements ClueService,MessageConst {
     @Autowired
     private ClueMapper clueMapper;
     @Autowired
@@ -51,6 +60,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private AuthorizedService authorizedService;
     @Autowired
     private AccountServcie accountServcie;
+    @Autowired
+    private AccountRecordService accountRecordService;
+    @Autowired
+    private MessageService messageService;
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
         return clueMapper;
@@ -206,12 +219,27 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         }
         // 获取该用户的账户余额
         BigDecimal balance = accountServcie.getAccountBalanceByUserId(userId);
+        if (balance==null) balance = new BigDecimal(0);
         if (balance.compareTo(clue.getCluePrice())<0){
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
         }
         // 修改线索状态-已购买
         clueMapper.updateClueSold(clueId);
+        // 创建我的线索
         cluePersonalService.create(clueId,userId);
+        // 修改账户余额
+        accountServcie.updateAccountBalance(userId,balance.subtract(clue.getCluePrice()));
+        // 增加账户记录
+        BalanceChangeVo balanceChangeVo = new BalanceChangeVo();
+        balanceChangeVo.setUserId(userId);
+        balanceChangeVo.setAmount(clue.getCluePrice());
+        balanceChangeVo.setActionType(ACCOUNT_ACTION_TYPE_BUY_CLUE);
+        accountRecordService.create(balance,balance.subtract(clue.getCluePrice()),ACCOUNT_BALANCE_SOURCE_CASH_OUT,balanceChangeVo);
+        // 发送消息
+        Message message = MessageUtils.toMessage(userId);
+        message.setMessageContent(MESSAGE_CONTENT_CLUE_BUY_SUCCESS);
+        messageService.save(message);
+
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     /**

@@ -25,4 +25,6 @@ public interface AccountServcie extends BaseService<Account,String> {
     ResultBean changeBalance(BalanceChangeVo balanceChangeVo);
 
     BigDecimal getAccountBalanceByUserId(String userId);
+
+    void updateAccountBalance(String userId, BigDecimal subtract);
 }

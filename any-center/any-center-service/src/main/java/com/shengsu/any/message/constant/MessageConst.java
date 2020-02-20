@@ -9,4 +9,6 @@ public interface MessageConst {
     String MESSAGE_CONTENT_PASS = "您的账号认证已通过";
     //发送用户未通过认证消息
     String MESSAGE_CONTENT_REJECT = "您的账号认证未通过";
+    //发送用户通过认证消息
+    String MESSAGE_CONTENT_CLUE_BUY_SUCCESS = "您已成功购买线索";
 }

@@ -28,10 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @description:
@@ -165,4 +162,5 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
         List<BalanceChangeRecordPo> balanceChangeRecordPos = AccountRecordUtils.toBalanceChangeRecordPos(accountRecords,userMap);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, balanceChangeRecordPos);
     }
+
 }
