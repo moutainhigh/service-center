@@ -32,8 +32,4 @@ public interface UserService extends BaseService<User,String> {
     ResultBean reject(UserAuthStateVo userAuthStateVo);
     ResultBean uploadHeadImage(UploadHeadImageVo uploadHeadImageVo);
     String getUserIdByTel(String tel);
-    int countAccountAll(Map<String,String> tel);
-    List<User> listAccountByPage(AccounListByPageVo accounListByPageVo);
-    int countRichesAll(Map<String,String> tel);
-    List<User> listRichesByPage(RichesListByPageVo richesListByPageVo);
 }

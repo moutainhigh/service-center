@@ -12,6 +12,7 @@ import java.math.BigDecimal;
  **/
 @Data
 public class BalanceChangeVo implements Serializable {
+    private String clueId;
     private String userId;
     private BigDecimal amount;
     private String actionType;

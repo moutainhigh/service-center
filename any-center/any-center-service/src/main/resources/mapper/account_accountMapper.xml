@@ -28,13 +28,6 @@
 	<select id="getAccountBalance" parameterType="string" resultType="Decimal">
 		select balance from account where del_flag = 0 and  user_id=#{userId}
 	</select>
-	<select id="getAllAccountBalance" parameterType="java.util.HashMap"  resultType="account">
-		select user_id,balance
-		from account
-		where del_flag = 0
-		<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
-		group by user_id
-	</select>
 	<update id="update" parameterType="account">
 		update account
 		set
@@ -44,5 +37,35 @@
     </update>
 	<select id="getByUserId" parameterType="string" resultType="account">
 		select * from account where del_flag = 0 and  user_id=#{userId}
+	</select>
+	<select id="countAccountAll" parameterType="com.shengsu.any.account.vo.AccounListByPageVo" resultType="int">
+		select count(1) from account
+		where del_flag = 0
+		<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
+	</select>
+	<!-- 获取用户信息列表 -->
+	<select id="listAccountByPage" parameterType="com.shengsu.any.account.vo.AccounListByPageVo" resultType="account">
+		<include refid="global.paginationStart_mysql" />
+		select *
+		from account
+		where del_flag = 0
+		<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
+		order by create_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
+	<select id="countRichesAll" parameterType="com.shengsu.any.account.vo.RichesListByPageVo" resultType="int">
+		select count(1) from account
+		where del_flag = 0
+		<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
+	</select>
+	<!-- 获取用户信息列表 -->
+	<select id="listRichesByPage" parameterType="com.shengsu.any.account.vo.RichesListByPageVo" resultType="account">
+		<include refid="global.paginationStart_mysql" />
+		select *
+		from account
+		where del_flag = 0
+		<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
+		order by create_time desc
+		<include refid="global.paginationEnd_mysql" />
 	</select>
 </mapper>

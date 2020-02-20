@@ -11,4 +11,5 @@ import lombok.Data;
 @Data
 public class RichesListByPageVo extends BaseEntity {
     private String tel;// 联系电话
+    private String userId;
 }

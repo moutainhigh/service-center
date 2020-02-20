@@ -349,6 +349,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         Message message = MessageUtils.toMessage(userId);
         message.setMessageContent(MESSAGE_CONTENT_PASS);
         messageService.save(message);
+        // 保存账户默认账户余额为0
+
+
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     /**
@@ -395,23 +398,4 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         return userMapper.getUserIdByTel(tel);
     }
 
-    @Override
-    public int countAccountAll(Map<String,String> tel) {
-        return userMapper.countAccountAll(tel);
-    }
-
-    @Override
-    public List<User> listAccountByPage(AccounListByPageVo accounListByPageVo) {
-        return userMapper.listAccountByPage(accounListByPageVo);
-    }
-
-    @Override
-    public int countRichesAll(Map<String,String> tel) {
-        return userMapper.countRichesAll(tel);
-    }
-
-    @Override
-    public List<User> listRichesByPage(RichesListByPageVo richesListByPageVo) {
-        return userMapper.listRichesByPage(richesListByPageVo);
-    }
 }

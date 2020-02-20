@@ -3,9 +3,7 @@ package com.shengsu.any.account.service;
 import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.po.TotalExpendPo;
 import com.shengsu.any.account.po.TotalIncomePo;
-import com.shengsu.any.account.vo.AccountDetailListByPageVo;
-import com.shengsu.any.account.vo.BalanceChangeRecordVo;
-import com.shengsu.any.account.vo.BalanceChangeVo;
+import com.shengsu.any.account.vo.*;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
@@ -22,8 +20,9 @@ public interface AccountRecordService extends BaseService<AccountRecord,String> 
     ResultBean listIncome(String token);
     ResultBean listExpend(String token);
     ResultBean listAccountDetailByPage(AccountDetailListByPageVo accountDetailListByPageVo);
-    List<TotalIncomePo> totalIncome(Map<String,String> userId);
-    List<TotalExpendPo> totalExpend(Map<String,String> userId);
+    List<TotalIncomePo> totalIncome(AccounListByPageVo accounListByPageVo);
+    List<TotalExpendPo> totalExpend(AccounListByPageVo accounListByPageVo);
     void create(BigDecimal beforeBalance, BigDecimal afterBalance,String source,BalanceChangeVo balanceChangeVo);
     ResultBean getBalanceChangeRecord(BalanceChangeRecordVo balanceChangeRecordVo);
+    List<TotalIncomePo> historyRecharge(RichesListByPageVo richesListByPageVo);
 }

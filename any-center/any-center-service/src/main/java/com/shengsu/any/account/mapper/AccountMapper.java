@@ -1,6 +1,8 @@
 package com.shengsu.any.account.mapper;
 
 import com.shengsu.any.account.entity.Account;
+import com.shengsu.any.account.vo.AccounListByPageVo;
+import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.base.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,7 +19,13 @@ import java.util.Map;
 public interface AccountMapper extends BaseMapper<Account,String> {
     BigDecimal getAccountBalance(String userId);
 
-    List<Account> getAllAccountBalance(Map<String,String> userId);
-
     Account getByUserId(String userId);
+
+    int countAccountAll(AccounListByPageVo accounListByPageVo);
+
+    List<Account> listAccountByPage(AccounListByPageVo accounListByPageVo);
+
+    int countRichesAll(RichesListByPageVo richesListByPageVo);
+
+    List<Account> listRichesByPage(RichesListByPageVo richesListByPageVo);
 }

@@ -52,54 +52,54 @@ public class AccountUtils {
         return null;
     }
 
-    public static List<AccountListPo> toAccountListPos(List<User> users, Map<String,TotalIncomePo> totalIncomePoMap, Map<String,TotalExpendPo> totalExpendPoMap, Map<String,Account> accountMap) {
-        if (users != null) {
+    public static List<AccountListPo> toAccountListPos(List<Account> accounts, Map<String,TotalIncomePo> totalIncomePoMap, Map<String,TotalExpendPo> totalExpendPoMap, Map<String, User> userMap) {
+        if (accounts != null) {
             List<AccountListPo> accountListPos = new ArrayList<>();
-            for (User user : users) {
-                accountListPos.add(toAccountListPo(user,totalIncomePoMap,totalExpendPoMap,accountMap));
+            for (Account account : accounts) {
+                accountListPos.add(toAccountListPo(account,totalIncomePoMap,totalExpendPoMap,userMap));
             }
             return accountListPos;
         }
         return null;
     }
 
-    private static AccountListPo toAccountListPo(User user, Map<String,TotalIncomePo> totalIncomePoMap, Map<String,TotalExpendPo> totalExpendPoMap, Map<String,Account> accountMap) {
-        if (user != null) {
+    private static AccountListPo toAccountListPo(Account account, Map<String,TotalIncomePo> totalIncomePoMap, Map<String,TotalExpendPo> totalExpendPoMap, Map<String, User> userMap) {
+        if (account != null) {
             AccountListPo accountRecordPo = new AccountListPo();
-            accountRecordPo.setUserId(user.getUserId());
-            accountRecordPo.setTel(user.getTel());
-            accountRecordPo.setCreateTime(user.getCreateTime());
-            accountRecordPo.setIncome(totalIncomePoMap.get(user.getUserId())==null?new BigDecimal(0):totalIncomePoMap.get(user.getUserId()).getTotalIncome());
-            accountRecordPo.setExpend(totalExpendPoMap.get(user.getUserId())==null?new BigDecimal(0):totalExpendPoMap.get(user.getUserId()).getTotalExpend());
-            accountRecordPo.setAccountBalance(accountMap.get(user.getUserId())==null?new BigDecimal(0):accountMap.get(user.getUserId()).getBalance());
+            accountRecordPo.setUserId(account.getUserId());
+            accountRecordPo.setTel(userMap.get(account.getUserId())==null?"":userMap.get(account.getUserId()).getTel());
+            accountRecordPo.setCreateTime(account.getCreateTime());
+            accountRecordPo.setIncome(totalIncomePoMap.get(account.getUserId())==null?new BigDecimal(0):totalIncomePoMap.get(account.getUserId()).getTotalIncome());
+            accountRecordPo.setExpend(totalExpendPoMap.get(account.getUserId())==null?new BigDecimal(0):totalExpendPoMap.get(account.getUserId()).getTotalExpend());
+            accountRecordPo.setAccountBalance(account.getBalance());
             return accountRecordPo;
         }
         return null;
     }
 
-    public static List<RichesListPo> toRichesListPos(List<User> users, Map<String,TotalIncomePo> totalIncomePoMap, Map<String,Account> accountMap) {
-        if (users != null) {
+    public static List<RichesListPo> toRichesListPos(List<Account> accounts, Map<String,TotalIncomePo> totalIncomePoMap, Map<String, User> userMap) {
+        if (accounts != null) {
             List<RichesListPo> richesListPos = new ArrayList<>();
-            for (User user : users) {
-                richesListPos.add(toRichesListPo(user,totalIncomePoMap,accountMap));
+            for (Account account : accounts) {
+                richesListPos.add(toRichesListPo(account,totalIncomePoMap,userMap));
             }
             return richesListPos;
         }
         return null;
     }
 
-    private static RichesListPo toRichesListPo(User user, Map<String,TotalIncomePo> totalIncomePoMap, Map<String,Account> accountMap) {
-        if (user != null) {
+    private static RichesListPo toRichesListPo(Account account, Map<String,TotalIncomePo> totalIncomePoMap, Map<String, User> userMap) {
+        if (account != null) {
             RichesListPo richesListPo = new RichesListPo();
-            richesListPo.setUserId(user.getUserId());
-            richesListPo.setTel(user.getTel());
-            richesListPo.setRealName(user.getRealName());
-            richesListPo.setProvinceCode(user.getProvinceCode());
-            richesListPo.setCityCode(user.getCityCode());
-            richesListPo.setDistrictCode(user.getDistrictCode());
-            richesListPo.setCreateTime(user.getCreateTime());
-            richesListPo.setIncome(totalIncomePoMap.get(user.getUserId())==null?new BigDecimal(0):totalIncomePoMap.get(user.getUserId()).getTotalIncome());
-            richesListPo.setAccountBalance(accountMap.get(user.getUserId())==null?new BigDecimal(0):accountMap.get(user.getUserId()).getBalance());
+            richesListPo.setUserId(account.getUserId());
+            richesListPo.setTel(userMap.get(account.getUserId())==null?"":userMap.get(account.getUserId()).getTel());
+            richesListPo.setRealName(userMap.get(account.getUserId())==null?"":userMap.get(account.getUserId()).getRealName());
+            richesListPo.setProvinceCode(userMap.get(account.getUserId())==null?"":userMap.get(account.getUserId()).getProvinceCode());
+            richesListPo.setCityCode(userMap.get(account.getUserId())==null?"":userMap.get(account.getUserId()).getCityCode());
+            richesListPo.setDistrictCode(userMap.get(account.getUserId())==null?"":userMap.get(account.getUserId()).getDistrictCode());
+            richesListPo.setCreateTime(account.getCreateTime());
+            richesListPo.setIncome(totalIncomePoMap.get(account.getUserId())==null?new BigDecimal(0):totalIncomePoMap.get(account.getUserId()).getTotalIncome());
+            richesListPo.setAccountBalance(account.getBalance());
             return richesListPo;
         }
         return null;

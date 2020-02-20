@@ -1,6 +1,7 @@
 package com.shengsu.any.account.service.impl;
 
 import com.shengsu.any.account.entity.Account;
+import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.mapper.AccountMapper;
 import com.shengsu.any.account.po.AccountListPo;
 import com.shengsu.any.account.po.RichesListPo;
@@ -33,10 +34,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @description:
@@ -81,26 +79,30 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         if (StringUtils.isNotBlank(accounListByPageVo.getTel())){
             userId = userService.getUserIdByTel(accounListByPageVo.getTel());
         }
-        Map<String,String> userIdMap = new HashMap<>();
-        userIdMap.put("userId",userId);
+        accounListByPageVo.setUserId(userId);
         // 统计用户总收入
-        List<TotalIncomePo> totalIncomePos = accountRecordService.totalIncome(userIdMap);
+        List<TotalIncomePo> totalIncomePos = accountRecordService.totalIncome(accounListByPageVo);
         // 统计用户总支出
-        List<TotalExpendPo> totalExpendPos = accountRecordService.totalExpend(userIdMap);
-        // 获取用户余额
-        List<Account> accounts = accountMapper.getAllAccountBalance(userIdMap);
+        List<TotalExpendPo> totalExpendPos = accountRecordService.totalExpend(accounListByPageVo);
         Map<String, TotalIncomePo> totalIncomePoMap = AccountUtils.toTotalIncomeMap(totalIncomePos);
         Map<String, TotalExpendPo> totalExpendPoMap = AccountUtils.toTotalExpendMap(totalExpendPos);
-        Map<String, Account> accountMap = AccountUtils.toAccountMap(accounts);
 
-        Map<String,String> telMap = new HashMap<>();
-        telMap.put("tel",accounListByPageVo.getTel());
-        int totalCount = userService.countAccountAll(telMap);
+        int totalCount = accountMapper.countAccountAll(accounListByPageVo);
         Map<String, Object> map = new HashMap<>();
         if (totalCount > 0) {
-            List<User> users = userService.listAccountByPage(accounListByPageVo);
+            List<Account> accounts = accountMapper.listAccountByPage(accounListByPageVo);
+
+            List<String> userIds = new ArrayList<>();
+            for (Account account : accounts) {
+                userIds.add(account.getUserId());
+            }
+            List<User> users = new ArrayList<>();
+            if (null != userIds && userIds.size()>0){
+                users = userService.getMany(userIds);
+            }
             Map<String, User> userMap = UserUtils.toUserMap(users);
-            List<AccountListPo> accountListPos = AccountUtils.toAccountListPos(users,totalIncomePoMap,totalExpendPoMap,accountMap);
+
+            List<AccountListPo> accountListPos = AccountUtils.toAccountListPos(accounts,totalIncomePoMap,totalExpendPoMap,userMap);
             map.put("root", accountListPos);
             map.put("totalCount", totalCount);
         }
@@ -114,23 +116,26 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         if (StringUtils.isNotBlank(richesListByPageVo.getTel())){
             userId = userService.getUserIdByTel(richesListByPageVo.getTel());
         }
-        Map<String,String> param = new HashMap<>();
-        param.put("userId",userId);
+        richesListByPageVo.setUserId(userId);
         // 统计用户总收入
-        List<TotalIncomePo> totalIncomePos = accountRecordService.totalIncome(param);
-        // 获取用户余额
-        List<Account> accounts = accountMapper.getAllAccountBalance(param);
+        List<TotalIncomePo> totalIncomePos = accountRecordService.historyRecharge(richesListByPageVo);
         Map<String, TotalIncomePo> totalIncomePoMap = AccountUtils.toTotalIncomeMap(totalIncomePos);
-        Map<String, Account> accountMap = AccountUtils.toAccountMap(accounts);
-
-        Map<String,String> telMap = new HashMap<>();
-        telMap.put("tel",richesListByPageVo.getTel());
-        int totalCount = userService.countRichesAll(telMap);
+        int totalCount = accountMapper.countRichesAll(richesListByPageVo);
         Map<String, Object> map = new HashMap<>();
         if (totalCount > 0) {
-            List<User> users = userService.listRichesByPage(richesListByPageVo);
+            List<Account> accounts = accountMapper.listRichesByPage(richesListByPageVo);
+
+            List<String> userIds = new ArrayList<>();
+            for (Account account : accounts) {
+                userIds.add(account.getUserId());
+            }
+            List<User> users = new ArrayList<>();
+            if (null != userIds && userIds.size()>0){
+                users = userService.getMany(userIds);
+            }
             Map<String, User> userMap = UserUtils.toUserMap(users);
-            List<RichesListPo> richesListPos = AccountUtils.toRichesListPos(users,totalIncomePoMap,accountMap);
+
+            List<RichesListPo> richesListPos = AccountUtils.toRichesListPos(accounts,totalIncomePoMap,userMap);
             map.put("root", richesListPos);
             map.put("totalCount", totalCount);
         }

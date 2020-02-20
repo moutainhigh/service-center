@@ -41,7 +41,7 @@ public class AccountRecordUtils {
     public static AccountRecordDetailsPo toAccountRecordDetailsPo(AccountRecord accountRecord,Map<String, User> userMap) {
         if (accountRecord != null) {
             AccountRecordDetailsPo detailsPo = new AccountRecordDetailsPo();
-            detailsPo.setTel(userMap.get(accountRecord.getUserId()).getTel());
+            detailsPo.setTel(userMap.get(accountRecord.getUserId())==null?"":userMap.get(accountRecord.getUserId()).getTel());
             detailsPo.setActionType(accountRecord.getActionType());
             detailsPo.setAmount(accountRecord.getAmount());
             detailsPo.setSource(accountRecord.getSource());
@@ -65,6 +65,7 @@ public class AccountRecordUtils {
     public static AccountRecord toAccountRecord(BigDecimal beforeBalance, BigDecimal afterBalance,String source,BalanceChangeVo balanceChangeVo) {
         AccountRecord accountRecord = new AccountRecord();
         accountRecord.setRecordId(UUID.randomUUID().toString());
+        accountRecord.setClueId(balanceChangeVo.getClueId());
         accountRecord.setUserId(balanceChangeVo.getUserId());
         accountRecord.setAmount(balanceChangeVo.getAmount());
         accountRecord.setBeforeBalance(beforeBalance);

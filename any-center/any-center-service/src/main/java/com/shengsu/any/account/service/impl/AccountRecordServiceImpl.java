@@ -6,9 +6,7 @@ import com.shengsu.any.account.po.*;
 import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
-import com.shengsu.any.account.vo.AccountDetailListByPageVo;
-import com.shengsu.any.account.vo.BalanceChangeRecordVo;
-import com.shengsu.any.account.vo.BalanceChangeVo;
+import com.shengsu.any.account.vo.*;
 import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
@@ -132,13 +130,13 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     }
 
     @Override
-    public List<TotalIncomePo> totalIncome(Map<String,String> userId) {
-        return accountRecordMapper.totalIncome(userId);
+    public List<TotalIncomePo> totalIncome(AccounListByPageVo accounListByPageVo) {
+        return accountRecordMapper.totalIncome(accounListByPageVo);
     }
 
     @Override
-    public List<TotalExpendPo> totalExpend(Map<String,String> userId) {
-        return accountRecordMapper.totalExpend(userId);
+    public List<TotalExpendPo> totalExpend(AccounListByPageVo accounListByPageVo) {
+        return accountRecordMapper.totalExpend(accounListByPageVo);
     }
 
     @Override
@@ -161,6 +159,11 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
         Map<String, User> userMap = UserUtils.toUserMap(users);
         List<BalanceChangeRecordPo> balanceChangeRecordPos = AccountRecordUtils.toBalanceChangeRecordPos(accountRecords,userMap);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, balanceChangeRecordPos);
+    }
+
+    @Override
+    public List<TotalIncomePo> historyRecharge(RichesListByPageVo richesListByPageVo) {
+        return accountRecordMapper.historyRecharge(richesListByPageVo);
     }
 
 }

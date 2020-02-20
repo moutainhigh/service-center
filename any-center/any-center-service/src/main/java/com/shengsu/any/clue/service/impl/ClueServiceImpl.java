@@ -231,6 +231,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         accountServcie.updateAccountBalance(userId,balance.subtract(clue.getCluePrice()));
         // 增加账户记录
         BalanceChangeVo balanceChangeVo = new BalanceChangeVo();
+        balanceChangeVo.setClueId(clueId);
         balanceChangeVo.setUserId(userId);
         balanceChangeVo.setAmount(clue.getCluePrice());
         balanceChangeVo.setActionType(ACCOUNT_ACTION_TYPE_BUY_CLUE);

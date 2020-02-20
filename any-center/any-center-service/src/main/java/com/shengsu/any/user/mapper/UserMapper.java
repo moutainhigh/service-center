@@ -30,11 +30,4 @@ public interface UserMapper extends BaseMapper<User,String> {
 
     String getUserIdByTel(String tel);
 
-    int countAccountAll(Map<String,String> tel);
-
-    List<User> listAccountByPage(AccounListByPageVo accounListByPageVo);
-
-    int countRichesAll(Map<String,String> tel);
-
-    List<User> listRichesByPage(RichesListByPageVo richesListByPageVo);
 }
