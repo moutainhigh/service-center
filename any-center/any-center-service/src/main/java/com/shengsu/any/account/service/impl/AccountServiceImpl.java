@@ -190,5 +190,19 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         accountMapper.update(account);
     }
 
+    @Override
+    public void create(String userId, BigDecimal balance) {
+        Account account = new Account();
+        account.setAccountId(UUID.randomUUID().toString());
+        account.setUserId(userId);
+        account.setBalance(balance);
+        accountMapper.save(account);
+    }
+
+    @Override
+    public Account getByUserId(String userId) {
+       return accountMapper.getByUserId(userId);
+    }
+
 
 }

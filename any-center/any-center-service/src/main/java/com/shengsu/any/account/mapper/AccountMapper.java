@@ -28,4 +28,5 @@ public interface AccountMapper extends BaseMapper<Account,String> {
     int countRichesAll(RichesListByPageVo richesListByPageVo);
 
     List<Account> listRichesByPage(RichesListByPageVo richesListByPageVo);
+
 }

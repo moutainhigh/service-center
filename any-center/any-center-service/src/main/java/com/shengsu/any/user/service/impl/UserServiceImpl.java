@@ -1,5 +1,7 @@
 package com.shengsu.any.user.service.impl;
 
+import com.shengsu.any.account.entity.Account;
+import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.vo.AccounListByPageVo;
 import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.app.constant.BizConst;
@@ -34,6 +36,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static com.shengsu.any.user.util.UserUtils.toUserDetailsPo;
@@ -55,6 +58,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     private SystemDictService systemDictService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private AccountServcie accountServcie;
     @Resource
     private RedisUtil redisUtil;
     @Value("${sms.expireTimeSecond}")
@@ -350,8 +355,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         message.setMessageContent(MESSAGE_CONTENT_PASS);
         messageService.save(message);
         // 保存账户默认账户余额为0
-
-
+        Account account = accountServcie.getByUserId(userId);
+        if (null == account){
+            accountServcie.create(userId,new BigDecimal(0));
+        }
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     /**
