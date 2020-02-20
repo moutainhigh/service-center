@@ -24,10 +24,13 @@ import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
 import com.shengsu.any.system.entity.SystemDict;
 import com.shengsu.any.system.mapper.SystemDictMapper;
+import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.service.AuthorizedService;
+import com.shengsu.any.user.service.UserService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.service.CodeGeneratorService;
+import com.shengsu.helper.service.SmsService;
 import com.shengsu.result.ResultBean;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +67,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private AccountRecordService accountRecordService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private SmsService smsService;
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
         return clueMapper;
@@ -240,6 +247,12 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         Message message = MessageUtils.toMessage(userId);
         message.setMessageContent(MESSAGE_CONTENT_CLUE_BUY_SUCCESS);
         messageService.save(message);
+        // 发送短信给客户和律师
+        User user =userService.get(userId);
+        // 发短信给律师
+        smsService.sendSms(user.getTel(), user.getRealName());
+        // 发短信给客户
+        smsService.sendSms(user.getTel(), user.getRealName());
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
