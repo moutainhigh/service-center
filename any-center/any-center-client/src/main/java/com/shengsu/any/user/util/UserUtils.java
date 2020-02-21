@@ -4,8 +4,8 @@ import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.vo.UserBandVo;
 import com.shengsu.any.user.vo.UserEditVo;
+import com.shengsu.user.entity.AliasUser;
 import org.apache.commons.lang3.StringUtils;
-
 import java.util.*;
 
 public class UserUtils {
@@ -97,6 +97,18 @@ public class UserUtils {
             user.setCityCode(userEditVo.getCityCode());
             user.setDistrictCode(userEditVo.getDistrictCode());
             return user;
+        }
+        return null;
+    }
+
+
+    public static Map<String,AliasUser> toAliasUserMap(List<AliasUser> aliasUsers) {
+        if (aliasUsers != null) {
+            Map<String, AliasUser> aliasUserMap = new HashMap<>();
+            for (AliasUser aliasUser : aliasUsers) {
+                aliasUserMap.put(aliasUser.getUserId(), aliasUser);
+            }
+            return aliasUserMap;
         }
         return null;
     }

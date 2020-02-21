@@ -4,6 +4,7 @@ import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.po.*;
 import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.user.entity.User;
+import com.shengsu.user.entity.AliasUser;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -77,24 +78,25 @@ public class AccountRecordUtils {
         return accountRecord;
     }
 
-    public static BalanceChangeRecordPo toBalanceChangeRecordPo(AccountRecord accountRecord,Map<String, User> userMap) {
+    public static BalanceChangeRecordPo toBalanceChangeRecordPo(AccountRecord accountRecord,Map<String, AliasUser> aliasUserMap) {
         if (accountRecord != null) {
             BalanceChangeRecordPo cashOutRecordPo = new BalanceChangeRecordPo();
             cashOutRecordPo.setBeforeBalance(accountRecord.getBeforeBalance());
             cashOutRecordPo.setAfterBalance(accountRecord.getAfterBalance());
             cashOutRecordPo.setCreateTime(accountRecord.getCreateTime());
-            cashOutRecordPo.setCreator(userMap.get(accountRecord.getCreator())==null?"":userMap.get(accountRecord.getCreator()).getRealName());
+            cashOutRecordPo.setActionType(accountRecord.getActionType());
+            cashOutRecordPo.setCreator(aliasUserMap.get(accountRecord.getCreator())==null?"":aliasUserMap.get(accountRecord.getCreator()).getRealName());
             cashOutRecordPo.setRemark(accountRecord.getRemark());
             return cashOutRecordPo;
         }
         return null;
     }
 
-    public static List<BalanceChangeRecordPo> toBalanceChangeRecordPos(List<AccountRecord> accountRecords,Map<String, User> userMap) {
+    public static List<BalanceChangeRecordPo> toBalanceChangeRecordPos(List<AccountRecord> accountRecords, Map<String, AliasUser> aliasUserMap) {
         if (accountRecords != null) {
             List<BalanceChangeRecordPo> balanceChangeRecordPos = new ArrayList<>();
             for (AccountRecord accountRecord : accountRecords) {
-                balanceChangeRecordPos.add(toBalanceChangeRecordPo(accountRecord,userMap));
+                balanceChangeRecordPos.add(toBalanceChangeRecordPo(accountRecord,aliasUserMap));
             }
             return balanceChangeRecordPos;
         }

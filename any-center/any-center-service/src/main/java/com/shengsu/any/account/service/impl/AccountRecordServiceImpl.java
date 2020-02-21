@@ -21,6 +21,8 @@ import com.shengsu.any.user.util.UserUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.result.ResultBean;
+import com.shengsu.user.entity.AliasUser;
+import com.shengsu.user.service.AliasUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,8 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     private AccountServcie accountServcie;
     @Autowired
     private AccountRecordMapper accountRecordMapper;
+    @Autowired
+    private AliasUserService aliasUserService;
     @Override
     public BaseMapper<AccountRecord, String> getBaseMapper() {
         return accountRecordMapper;
@@ -148,16 +152,17 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     public ResultBean getBalanceChangeRecord(BalanceChangeRecordVo balanceChangeRecordVo) {
         String userId = balanceChangeRecordVo.getUserId();
         List<AccountRecord> accountRecords = accountRecordMapper.getManyByUserId(userId);
+
         List<String> userIds = new ArrayList<>();
         for (AccountRecord accountRecord : accountRecords) {
-            userIds.add(accountRecord.getUserId());
+            userIds.add(accountRecord.getCreator());
         }
-        List<User> users = new ArrayList<>();
+        List<AliasUser> aliasUsers= new ArrayList<>();
         if (null != userIds && userIds.size()>0){
-            users = userService.getMany(userIds);
+            aliasUsers = aliasUserService.getAliasUsers(userIds);
         }
-        Map<String, User> userMap = UserUtils.toUserMap(users);
-        List<BalanceChangeRecordPo> balanceChangeRecordPos = AccountRecordUtils.toBalanceChangeRecordPos(accountRecords,userMap);
+        Map<String, AliasUser> aliasUserMap = UserUtils.toAliasUserMap(aliasUsers);
+        List<BalanceChangeRecordPo> balanceChangeRecordPos = AccountRecordUtils.toBalanceChangeRecordPos(accountRecords,aliasUserMap);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, balanceChangeRecordPos);
     }
 

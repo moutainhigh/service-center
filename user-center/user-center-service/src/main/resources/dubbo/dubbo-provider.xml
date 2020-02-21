@@ -11,5 +11,5 @@
     <!--使用 dubbo 协议实现定义好的接口-->
     <dubbo:service interface="com.shengsu.user.service.UserService" ref="userService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.user.service.AuthorizedService" ref="authorizedService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
-
+    <dubbo:service interface="com.shengsu.user.service.AliasUserService" ref="aliasUserService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>

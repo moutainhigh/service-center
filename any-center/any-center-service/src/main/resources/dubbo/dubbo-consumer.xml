@@ -12,4 +12,5 @@
 	<dubbo:reference id="smsService" interface="com.shengsu.helper.service.SmsService" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:reference id="ossService" interface="com.shengsu.helper.service.OssService" timeout="3000" version="${dubbo.version}"/>
     <dubbo:reference id="codeGeneratorService" interface="com.shengsu.helper.service.CodeGeneratorService" timeout="3000" version="${dubbo.version}"/>
+	<dubbo:reference id="aliasUserService" interface="com.shengsu.user.service.AliasUserService" timeout="3000" version="${dubbo.version}"/>
 </beans>
