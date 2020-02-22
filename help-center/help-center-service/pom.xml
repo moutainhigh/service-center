@@ -39,6 +39,11 @@
             <version>1.1.0</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.4</version>
+        </dependency>
+        <dependency>
             <groupId>com.shengsu</groupId>
             <artifactId>help-center-client</artifactId>
             <version>1.0-SNAPSHOT</version>
