@@ -1,5 +1,6 @@
 package com.shengsu.any.user.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.shengsu.any.account.entity.Account;
 import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.vo.AccounListByPageVo;
@@ -25,6 +26,9 @@ import com.shengsu.any.user.vo.*;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.OssConstant;
+import com.shengsu.helper.constant.SmsTemplateEnum;
+import com.shengsu.helper.entity.SmsParam180053728;
+import com.shengsu.helper.entity.SmsParam184105294;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.helper.service.SmsService;
 import com.shengsu.result.ResultBean;
@@ -78,7 +82,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         // 将短信验证码存储到redis,时效是1分钟
         redisUtil.set(tel, smsSendVo.getSmsCode(), smsExpireTime);
         // 发送手机验证码
-        return smsService.sendSms(tel, smsSendVo.getSmsCode());
+        SmsParam180053728 param = new SmsParam180053728(smsSendVo.getSmsCode());
+        return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(param));
     }
     /**
     * @Description: 获取6位手机验证码

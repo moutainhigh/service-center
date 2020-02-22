@@ -1,16 +1,13 @@
 package com.shengsu.any.clue.service.impl;
 
-import com.shengsu.any.account.entity.Account;
-import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
-import com.shengsu.any.account.vo.BalanceChangeRecordVo;
 import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
-import com.shengsu.any.clue.Po.ClueClientPo;
-import com.shengsu.any.clue.Po.CluePo;
-import com.shengsu.any.clue.Po.ClueWebPagePo;
+import com.shengsu.any.clue.po.ClueClientPo;
+import com.shengsu.any.clue.po.CluePo;
+import com.shengsu.any.clue.po.ClueWebPagePo;
 import com.shengsu.any.clue.entity.Clue;
 import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.mapper.ClueMapper;
@@ -252,10 +249,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         messageService.save(message);
         // 发送短信给客户和律师
         User user =userService.get(userId);
-        // 发短信给律师
-        smsService.sendSms(user.getTel(), user.getRealName());
-        // 发短信给客户
-        smsService.sendSms(user.getTel(), user.getRealName());
+        //TODO 发短信给律师
+        //smsService.sendSms(user.getTel(), user.getRealName());
+        //TODO 发短信给客户
+        //smsService.sendSms(user.getTel(), user.getRealName());
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }

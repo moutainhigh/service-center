@@ -11,6 +11,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.app.util.ResultUtil;
+import com.shengsu.helper.constant.SmsTemplateEnum;
 import com.shengsu.helper.service.SmsService;
 import com.shengsu.result.ResultBean;
 import lombok.extern.slf4j.Slf4j;
@@ -35,10 +36,9 @@ public class SmsServiceImpl implements SmsService {
     private String accessKeySecret;
     @Value("${sms.signName}")
     private String signName;
-    @Value("${sms.templateCode}")
-    private String templateCode;
+
     @Override
-    public ResultBean sendSms(String mobile, String code) {
+    public ResultBean sendSms(String mobile, SmsTemplateEnum template, String param) {
         if (mobile == null || mobile == "") {
             log.error("手机号为空");
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_MOBILE_EMPTY);
@@ -61,9 +61,9 @@ public class SmsServiceImpl implements SmsService {
         // 必填:短信签名
         request.setSignName(signName);
         // 必填:短信模板
-        request.setTemplateCode(templateCode);
+        request.setTemplateCode(template.getTemplateCode());
         // 可选:模板中的变量替换JSON串
-        request.setTemplateParam("{ \"code\":\""+code+"\"}");
+        request.setTemplateParam(param);
         SendSmsResponse sendSmsResponse;
         try {
             sendSmsResponse = acsClient.getAcsResponse(request);
