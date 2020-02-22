@@ -22,4 +22,5 @@
     <dubbo:service interface="com.shengsu.helper.service.DingTalkService" ref="dingTalkService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.helper.service.CodeGeneratorService" ref="codeGeneratorService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.helper.service.SmsService" ref="smsService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.PnsClientService" ref="pnsClientService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>

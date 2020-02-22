@@ -77,6 +77,9 @@ sms:
   accessKeyId: LTAI4Fdwm4oZHtE6SJdTJnDx
   accessKeySecret: It3EmApg1qSRoKoJuMItWtzoZAPIcY
   signName: 浙江援手律师事务所
+pns:
+  accessKeyId: b719d4aa71dd463db053af0e522c9e34
+  accessKeySecret: 423ee45dac0e4991b396f3b867e0abcc
 
 
 
