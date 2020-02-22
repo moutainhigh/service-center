@@ -1,25 +1,12 @@
 package com.shengsu.helper.entity;
 
+import lombok.Data;
+
 /**
  * Created on 2019/12/3
  */
+@Data
 public class BindResult {
     private String bindId;
     private String telX;
-
-    public String getBindId() {
-        return bindId;
-    }
-
-    public String getTelX() {
-        return telX;
-    }
-
-    public void setBindId(String bindId) {
-        this.bindId = bindId;
-    }
-
-    public void setTelX(String telX) {
-        this.telX = telX;
-    }
 }
