@@ -2,6 +2,9 @@ package com.shengsu.helper.entity;
 
 import lombok.Data;
 
+/**
+ * 验证码
+ */
 @Data
 public class SmsParam180053728 {
     String code;

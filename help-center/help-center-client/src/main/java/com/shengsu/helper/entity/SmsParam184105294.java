@@ -3,7 +3,7 @@ package com.shengsu.helper.entity;
 import lombok.Data;
 
 /**
- * 验证码
+ * 发送给律师
  */
 @Data
 public class SmsParam184105294 {
