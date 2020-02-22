@@ -1,4 +1,4 @@
-package com.shengsu.any.clue.Po;
+package com.shengsu.any.clue.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

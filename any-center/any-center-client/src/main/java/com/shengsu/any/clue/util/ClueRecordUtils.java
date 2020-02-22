@@ -1,6 +1,6 @@
 package com.shengsu.any.clue.util;
 
-import com.shengsu.any.clue.Po.ClueRecordPo;
+import com.shengsu.any.clue.po.ClueRecordPo;
 import com.shengsu.any.clue.entity.ClueRecord;
 import com.shengsu.any.clue.vo.ClueRecordUpdateVo;
 import com.shengsu.any.clue.vo.ClueRecordVo;
