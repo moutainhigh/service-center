@@ -3,6 +3,7 @@ package com.shengsu.helper.service.impl;
 import com.baidubce.BceClientConfiguration;
 import com.baidubce.Protocol;
 import com.baidubce.auth.DefaultBceCredentials;
+import com.baidubce.services.client.PnsClient;
 import com.shengsu.helper.entity.AxBindRequest;
 import com.shengsu.helper.entity.AxbBindRequest;
 import com.shengsu.helper.entity.BindResponse;

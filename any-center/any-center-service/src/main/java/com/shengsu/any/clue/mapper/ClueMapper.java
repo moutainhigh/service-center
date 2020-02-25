@@ -24,4 +24,5 @@ public interface ClueMapper extends BaseMapper<Clue,String> {
     List<Clue> listByPage(ClueListByPageVo clueListByPageVo);
     List<Clue> clueClientListByPage(ClueListByPageVo clueListByPageVo);
     void updateClueSold(String clueId);
+    void updateClueTelX(Clue clue);
 }

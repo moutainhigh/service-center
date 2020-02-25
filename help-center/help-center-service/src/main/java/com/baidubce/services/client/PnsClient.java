@@ -1,4 +1,4 @@
-package com.shengsu.helper.service.impl;
+package com.baidubce.services.client;
 
 import com.baidubce.AbstractBceClient;
 import com.baidubce.BceClientConfiguration;

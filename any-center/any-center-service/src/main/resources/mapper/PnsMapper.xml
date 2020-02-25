@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsu.any.clue.mapper.PnsMapper">
+    <sql id="Base_Column_List">
+    id, bind_id, bind_time, telA, telB, telX, expire_time
+  </sql>
+
+    <insert id="save" parameterType="pns">
+    insert into pns
+     (
+    bind_id,
+    bind_time,
+    telA,
+    telB,
+    telX,
+    expiration
+      )
+    values (
+    #{bindId,jdbcType=VARCHAR},
+    current_timestamp(),
+    #{tela,jdbcType=VARCHAR},
+    #{telb,jdbcType=VARCHAR},
+    #{telx,jdbcType=VARCHAR},
+    #{expiration,jdbcType=TIMESTAMP}
+      )
+  </insert>
+</mapper>

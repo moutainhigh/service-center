@@ -5,28 +5,34 @@ import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
+import com.shengsu.any.clue.entity.Clue;
+import com.shengsu.any.clue.entity.CluePersonal;
+import com.shengsu.any.clue.entity.Pns;
+import com.shengsu.any.clue.mapper.ClueMapper;
 import com.shengsu.any.clue.po.ClueClientPo;
 import com.shengsu.any.clue.po.CluePo;
 import com.shengsu.any.clue.po.ClueWebPagePo;
-import com.shengsu.any.clue.entity.Clue;
-import com.shengsu.any.clue.entity.CluePersonal;
-import com.shengsu.any.clue.mapper.ClueMapper;
 import com.shengsu.any.clue.service.CluePersonalService;
 import com.shengsu.any.clue.service.ClueService;
+import com.shengsu.any.clue.service.PnsService;
 import com.shengsu.any.clue.util.ClueUtils;
+import com.shengsu.any.clue.util.PnsUtils;
 import com.shengsu.any.clue.vo.*;
 import com.shengsu.any.message.constant.MessageConst;
 import com.shengsu.any.message.entity.Message;
 import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
 import com.shengsu.any.system.entity.SystemDict;
-import com.shengsu.any.system.mapper.SystemDictMapper;
+import com.shengsu.any.system.service.SystemDictService;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.helper.entity.AxbBindRequest;
+import com.shengsu.helper.entity.BindResponse;
 import com.shengsu.helper.service.CodeGeneratorService;
+import com.shengsu.helper.service.PnsClientService;
 import com.shengsu.helper.service.SmsService;
 import com.shengsu.result.ResultBean;
 import org.apache.commons.lang3.StringUtils;
@@ -51,7 +57,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Autowired
     private ClueMapper clueMapper;
     @Autowired
-    private SystemDictMapper systemDictMapper;
+    private SystemDictService systemDictService;
     @Autowired
     private CodeGeneratorService codeGeneratorService;
     @Autowired
@@ -68,6 +74,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private UserService userService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private PnsClientService pnsClientService;
+    @Autowired
+    private PnsService pnsService;
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
         return clueMapper;
@@ -109,7 +119,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         Map<String, Object> disPlayName = new HashMap<>();
         disPlayName.put("dictCode", "clue_type");
         disPlayName.put("displayValue", clueTypes);
-        List<SystemDict> systemDicts = systemDictMapper.getManyByDisplayValue(disPlayName);
+        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(disPlayName);
         for (SystemDict systemDict : systemDicts) {
             for (Clue clue : clues) {
                 if (systemDict.getDisplayValue().equals(clue.getClueType())) {
@@ -231,7 +241,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
         }
         // 修改线索状态-已购买
-        clueMapper.updateClueSold(clueId);
+//        clueMapper.updateClueSold(clueId);
         // 创建我的线索
         cluePersonalService.create(clueId,userId);
         // 修改账户余额
@@ -253,7 +263,20 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         //smsService.sendSms(user.getTel(), user.getRealName());
         //TODO 发短信给客户
         //smsService.sendSms(user.getTel(), user.getRealName());
-
+        //绑定隐私号码
+        AxbBindRequest axbBindRequest = new AxbBindRequest();
+        axbBindRequest.setTelA(clue.getTel());
+        axbBindRequest.setTelB(user.getTel());
+        axbBindRequest.setAreaCode("10");
+        axbBindRequest.setExpiration(100);
+        axbBindRequest.setRecord(0);
+        BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
+        //存储虚拟号码到线索表
+        clue.setTelX(bindResponse.getData().getTelX());
+        clueMapper.updateClueTelX(clue);
+        //存储隐私号码相关信息
+        Pns pns = PnsUtils.toPns(bindResponse,axbBindRequest);
+        pnsService.save(pns);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     /**
@@ -280,7 +303,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         Map<String, Object> disPlayName = new HashMap<>();
         disPlayName.put("dictCode", "clue_type");
         disPlayName.put("displayValue", clueTypes);
-        List<SystemDict> systemDicts = systemDictMapper.getManyByDisplayValue(disPlayName);
+        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(disPlayName);
         for (SystemDict systemDict : systemDicts) {
             for (Clue clue : clues) {
                 if (systemDict.getDisplayValue().equals(clue.getClueType())) {
@@ -311,7 +334,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         Map<String, Object> disPlayName = new HashMap<>();
         disPlayName.put("dictCode", "clue_type");
         disPlayName.put("displayValue", clueTypes);
-        List<SystemDict> systemDicts = systemDictMapper.getManyByDisplayValue(disPlayName);
+        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(disPlayName);
         for (SystemDict systemDict : systemDicts) {
             for (Clue clue : clues) {
                 if (systemDict.getDisplayValue().equals(clue.getClueType())) {

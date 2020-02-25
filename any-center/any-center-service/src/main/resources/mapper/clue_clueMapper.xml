@@ -175,4 +175,7 @@
     <update id="updateClueSold" parameterType="string">
         update clue set clue_state = 'sold' where clue_id = #{clueId}
     </update>
+    <update id="updateClueTelX" parameterType="clue">
+         update clue set telX = #{telX} where clue_id = #{clueId}
+    </update>
 </mapper>
