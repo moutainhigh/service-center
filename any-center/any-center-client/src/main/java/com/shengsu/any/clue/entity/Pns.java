@@ -11,6 +11,8 @@ import java.util.Date;
  */
 @Data
 public class Pns implements Serializable {
+    private String clueId;
+
     private String bindId;
 
     private Date bindTime;
@@ -22,6 +24,6 @@ public class Pns implements Serializable {
     private String telx;
 
     private Integer expiration;
-    
+
     private static final long serialVersionUID = 1L;
 }

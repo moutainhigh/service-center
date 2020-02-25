@@ -50,6 +50,9 @@ wechat:
     pcAppsecret: 241ad8d3138af34e6b5879645eb25a45
   code:
     expireTimeSecond: 3600
+pns:
+  expiration: 600
+
 
 
 

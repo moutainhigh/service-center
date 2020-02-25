@@ -1,5 +1,6 @@
 package com.shengsu.any.clue.util;
 
+import com.shengsu.any.clue.entity.Pns;
 import com.shengsu.any.clue.po.ClueClientPo;
 import com.shengsu.any.clue.po.CluePo;
 import com.shengsu.any.clue.po.ClueWebPagePo;
@@ -47,9 +48,11 @@ public class ClueUtils {
         clue.setTel(clueVo.getTel());
         return clue;
     }
-    public static List<CluePo> toClue(List<Clue> clues){
+    public static List<CluePo> toClue(List<Clue> clues,List<Pns> pnss){
         List<CluePo> list = new ArrayList<>();
         for(Clue clue : clues){
+            for(Pns pns : pnss){
+                if(clue.getClueId().equals(pns.getClueId())){
         CluePo cluePo = new CluePo();
         cluePo.setClueState(clue.getClueState());
         cluePo.setAppellation(clue.getAppellation());
@@ -66,7 +69,10 @@ public class ClueUtils {
         cluePo.setOnshelfTime(clue.getOnshelfTime());
         cluePo.setClueId(clue.getClueId());
         cluePo.setCreateTime(clue.getCreateTime());
-        list.add(cluePo);}
+        cluePo.setExpiration(pns.getExpiration());
+        cluePo.setBindTime(pns.getBindTime());
+        cluePo.setTelX(pns.getTelx());
+        list.add(cluePo);}}}
         return list;
     }
     public static List<ClueClientPo> toClueClientPo(List<Clue> clues){
@@ -90,11 +96,12 @@ public class ClueUtils {
         return list;
     }
 
-    public static List<ClueWebPagePo> toClueWebPagePo(List<Clue> clues, List<CluePersonal> cluePersonals) {
+    public static List<ClueWebPagePo> toClueWebPagePo(List<Clue> clues, List<CluePersonal> cluePersonals,List<Pns> pnss) {
         List<ClueWebPagePo> list = new ArrayList<>();
         for (CluePersonal cluePersonal : cluePersonals) {
             for (Clue clue : clues) {
-                if (clue.getClueId().equals(cluePersonal.getClueId())) {
+                for(Pns pns : pnss){
+                if (clue.getClueId().equals(cluePersonal.getClueId()) && clue.getClueId().equals(pns.getClueId())) {
                     ClueWebPagePo clueWebPagePo = new ClueWebPagePo();
                     clueWebPagePo.setClueState(clue.getClueState());
                     clueWebPagePo.setAppellation(clue.getAppellation());
@@ -109,7 +116,9 @@ public class ClueUtils {
                     clueWebPagePo.setClueCode(clue.getClueCode());
                     clueWebPagePo.setClueId(clue.getClueId());
                     clueWebPagePo.setBuyTime(cluePersonal.getCreateTime());
+                    clueWebPagePo.setTelx(pns.getTelx());
                     list.add(clueWebPagePo);
+                }
                 }
             }
         }
@@ -121,6 +130,14 @@ public class ClueUtils {
         for(Clue clue : clues){
             String clueType = clue.getClueType();
             list.add(clueType);
+        }
+        return list;
+    }
+    public static List<String> toClueId(List<Clue> clues){
+        List<String> list = new ArrayList<> ();
+        for(Clue clue : clues){
+            String clueId = clue.getClueId();
+            list.add(clueId);
         }
         return list;
     }

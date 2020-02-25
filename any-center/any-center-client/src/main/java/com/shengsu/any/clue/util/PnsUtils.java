@@ -10,8 +10,9 @@ import com.shengsu.helper.entity.BindResponse;
  * @create: 2020-02-25 09:19
  **/
 public class PnsUtils {
-    public static Pns toPns(BindResponse bindResponse, AxbBindRequest axbBindRequest){
+    public static Pns toPns(BindResponse bindResponse, AxbBindRequest axbBindRequest,String clueId){
         Pns pns = new Pns();
+        pns.setClueId(clueId);
         pns.setBindId(bindResponse.getData().getBindId());
         pns.setTela(axbBindRequest.getTelA());
         pns.setTelb(axbBindRequest.getTelB());

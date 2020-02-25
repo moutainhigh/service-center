@@ -8,6 +8,7 @@
     <insert id="save" parameterType="pns">
     insert into pns
      (
+    clue_id,
     bind_id,
     bind_time,
     telA,
@@ -16,6 +17,7 @@
     expiration
       )
     values (
+    #{clueId,jdbcType=VARCHAR},
     #{bindId,jdbcType=VARCHAR},
     current_timestamp(),
     #{tela,jdbcType=VARCHAR},
@@ -24,4 +26,14 @@
     #{expiration,jdbcType=TIMESTAMP}
       )
   </insert>
+    <select id="getMany" parameterType="list" resultType="pns">
+        select
+        *
+        from
+        pns
+        where clue_id in
+        <foreach collection="list" item="item" open="(" close=") " separator=",">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

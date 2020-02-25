@@ -20,6 +20,10 @@ public class CluePo implements Serializable {
     private String tel;// 联系电话
     private BigDecimal cluePrice;// 线索价格
     private String clueState;// 线索状态
+    private String telX;//虚拟号码
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Date bindTime;//虚拟号绑定时间
+    private Integer expiration;//虚拟号时效
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date createTime;//创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
