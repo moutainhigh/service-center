@@ -37,6 +37,7 @@ import com.shengsu.helper.service.SmsService;
 import com.shengsu.result.ResultBean;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -78,6 +79,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private PnsClientService pnsClientService;
     @Autowired
     private PnsService pnsService;
+    @Value("${pns.expiration}")
+    private Integer expiration;
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
         return clueMapper;
@@ -115,7 +118,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_FOUND);
         }
         List<String> clueTypes = ClueUtils.toClueType(clues);
-
+        List<String> clueIds = ClueUtils.toClueId(clues);
         Map<String, Object> disPlayName = new HashMap<>();
         disPlayName.put("dictCode", "clue_type");
         disPlayName.put("displayValue", clueTypes);
@@ -127,7 +130,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
                 }
             }
         }
-        List<CluePo> cluePos = ClueUtils.toClue(clues);
+        List<Pns> pns = pnsService.getMany(clueIds);
+        List<CluePo> cluePos = ClueUtils.toClue(clues,pns);
         if (totalCount > 0) {
             map.put("root", cluePos);
             map.put("totalCount", totalCount);
@@ -268,14 +272,14 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         axbBindRequest.setTelA(clue.getTel());
         axbBindRequest.setTelB(user.getTel());
         axbBindRequest.setAreaCode("10");
-        axbBindRequest.setExpiration(600);
+        axbBindRequest.setExpiration(expiration);
         axbBindRequest.setRecord(0);
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
         //存储虚拟号码到线索表
         clue.setTelX(bindResponse.getData().getTelX());
         clueMapper.updateClueTelX(clue);
         //存储隐私号码相关信息
-        Pns pns = PnsUtils.toPns(bindResponse,axbBindRequest);
+        Pns pns = PnsUtils.toPns(bindResponse,axbBindRequest,clueId);
         pnsService.save(pns);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
@@ -311,7 +315,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
                 }
             }
         }
-        List<ClueWebPagePo> clueWebPagePos = ClueUtils.toClueWebPagePo(clues, cluePersonals);
+        List<Pns> pns = pnsService.getMany(list);
+        List<ClueWebPagePo> clueWebPagePos = ClueUtils.toClueWebPagePo(clues, cluePersonals, pns);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, clueWebPagePos);
     }
     /**
