@@ -266,7 +266,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         //绑定隐私号码
         AxbBindRequest axbBindRequest = new AxbBindRequest();
         axbBindRequest.setTelA(clue.getTel());
-        axbBindRequest.setTelB(user.getTel());
+        axbBindRequest.setTelB(lawyer.getTel());
         axbBindRequest.setAreaCode("10");
         axbBindRequest.setExpiration(600);
         axbBindRequest.setRecord(0);
