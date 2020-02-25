@@ -1,5 +1,6 @@
 package com.shengsu.any.clue.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.vo.BalanceChangeVo;
@@ -24,6 +25,8 @@ import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
 import com.shengsu.any.system.entity.SystemDict;
 import com.shengsu.any.system.service.SystemDictService;
+import com.shengsu.any.system.mapper.SystemDictMapper;
+import com.shengsu.any.system.service.SystemDictService;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
@@ -31,6 +34,9 @@ import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.entity.AxbBindRequest;
 import com.shengsu.helper.entity.BindResponse;
+import com.shengsu.helper.constant.SmsTemplateEnum;
+import com.shengsu.helper.entity.SmsParam184105294;
+import com.shengsu.helper.entity.SmsParam184115275;
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.helper.service.PnsClientService;
 import com.shengsu.helper.service.SmsService;
@@ -58,8 +64,6 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Autowired
     private ClueMapper clueMapper;
     @Autowired
-    private SystemDictService systemDictService;
-    @Autowired
     private CodeGeneratorService codeGeneratorService;
     @Autowired
     private CluePersonalService cluePersonalService;
@@ -75,6 +79,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private UserService userService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private SystemDictService systemDictService;
     @Autowired
     private PnsClientService pnsClientService;
     @Autowired
@@ -262,15 +268,18 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         message.setMessageContent(MESSAGE_CONTENT_CLUE_BUY_SUCCESS);
         messageService.save(message);
         // 发送短信给客户和律师
-        User user =userService.get(userId);
-        //TODO 发短信给律师
-        //smsService.sendSms(user.getTel(), user.getRealName());
-        //TODO 发短信给客户
-        //smsService.sendSms(user.getTel(), user.getRealName());
+        User lawyer =userService.get(userId);
+        SystemDict systemDict = systemDictService.getOneByDisplayValue(DICT_CODE_CLUE_TYPE,clue.getClueType());
+        // 发短信给律师
+        SmsParam184105294 smsParam184105294 =  new SmsParam184105294(lawyer.getRealName(),systemDict.getDisplayName());
+        smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_184105294, JSON.toJSONString(smsParam184105294));
+        // 发短信给客户
+        SmsParam184115275 smsParam184115275 =  new SmsParam184115275(clue.getAppellation(),lawyer.getRealName());
+        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_184115275, JSON.toJSONString(smsParam184115275));
         //绑定隐私号码
         AxbBindRequest axbBindRequest = new AxbBindRequest();
         axbBindRequest.setTelA(clue.getTel());
-        axbBindRequest.setTelB(user.getTel());
+        axbBindRequest.setTelB(lawyer.getTel());
         axbBindRequest.setAreaCode("10");
         axbBindRequest.setExpiration(expiration);
         axbBindRequest.setRecord(0);
