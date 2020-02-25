@@ -241,7 +241,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
         }
         // 修改线索状态-已购买
-//        clueMapper.updateClueSold(clueId);
+        clueMapper.updateClueSold(clueId);
         // 创建我的线索
         cluePersonalService.create(clueId,userId);
         // 修改账户余额
