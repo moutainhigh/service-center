@@ -14,4 +14,5 @@ public class SmsParam184105294 {
         this.lawyer = lawyer;
         this.clueType = clueType;
     }
+
 }

@@ -41,5 +41,7 @@ public interface BizConst {
     String ACCOUNT_ACTION_TYPE_CASH_OUT = "cash_out";
     //账户操作类型-购买线索
     String ACCOUNT_ACTION_TYPE_BUY_CLUE= "buy_clue";
+    //线索类型
+    String DICT_CODE_CLUE_TYPE = "clue_type";
 
 }
