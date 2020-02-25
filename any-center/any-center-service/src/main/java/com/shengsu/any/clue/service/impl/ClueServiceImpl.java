@@ -43,6 +43,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -227,6 +228,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     * @date: 
     */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultBean buy(ClueBuyVo clueBuyVo) {
         String clueId = clueBuyVo.getClueId();
         Clue clue = get(clueId);
