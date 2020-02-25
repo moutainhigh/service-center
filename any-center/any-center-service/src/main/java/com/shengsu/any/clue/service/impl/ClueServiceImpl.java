@@ -268,7 +268,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         axbBindRequest.setTelA(clue.getTel());
         axbBindRequest.setTelB(user.getTel());
         axbBindRequest.setAreaCode("10");
-        axbBindRequest.setExpiration(100);
+        axbBindRequest.setExpiration(600);
         axbBindRequest.setRecord(0);
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
         //存储虚拟号码到线索表
