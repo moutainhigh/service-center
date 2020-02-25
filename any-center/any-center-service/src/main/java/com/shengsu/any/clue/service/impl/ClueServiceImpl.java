@@ -25,16 +25,14 @@ import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
 import com.shengsu.any.system.entity.SystemDict;
 import com.shengsu.any.system.service.SystemDictService;
-import com.shengsu.any.system.mapper.SystemDictMapper;
-import com.shengsu.any.system.service.SystemDictService;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.helper.constant.SmsTemplateEnum;
 import com.shengsu.helper.entity.AxbBindRequest;
 import com.shengsu.helper.entity.BindResponse;
-import com.shengsu.helper.constant.SmsTemplateEnum;
 import com.shengsu.helper.entity.SmsParam184105294;
 import com.shengsu.helper.entity.SmsParam184115275;
 import com.shengsu.helper.service.CodeGeneratorService;
@@ -140,9 +138,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         List<CluePo> cluePos = ClueUtils.toClue(clues,pns);
         if (totalCount > 0) {
             map.put("root", cluePos);
-            map.put("totalCount", totalCount);
         }
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, map,totalCount);
     }
 
     /**
@@ -282,7 +279,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         axbBindRequest.setTelB(lawyer.getTel());
         axbBindRequest.setAreaCode("10");
         axbBindRequest.setExpiration(expiration);
-        axbBindRequest.setRecord(0);
+        axbBindRequest.setRecord(1);
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
         //存储虚拟号码到线索表
         clue.setTelX(bindResponse.getData().getTelX());
@@ -359,8 +356,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         List<ClueClientPo> clueClientPos = ClueUtils.toClueClientPo(clues);
         if (totalCount > 0) {
             map.put("root", clueClientPos);
-            map.put("totalCount", totalCount);
         }
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, map,totalCount);
     }
 }
