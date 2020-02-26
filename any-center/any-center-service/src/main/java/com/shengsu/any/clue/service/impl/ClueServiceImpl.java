@@ -84,8 +84,9 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private PnsClientService pnsClientService;
     @Autowired
     private PnsService pnsService;
-    @Value("${pns.expiration}")
-    private Integer expiration;
+    @Value("${pns.expireTimeSecond}")
+    private Integer expireTimeSecond;
+
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
         return clueMapper;
@@ -280,7 +281,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         axbBindRequest.setTelA(clue.getTel());
         axbBindRequest.setTelB(lawyer.getTel());
         axbBindRequest.setAreaCode("10");
-        axbBindRequest.setExpiration(expiration);
+        axbBindRequest.setExpiration(expireTimeSecond);
         axbBindRequest.setRecord(1);
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
         //存储虚拟号码到线索表

@@ -51,7 +51,7 @@ wechat:
   code:
     expireTimeSecond: 3600
 pns:
-  expiration: 600
+  expireTimeSecond: 600
 
 
 
