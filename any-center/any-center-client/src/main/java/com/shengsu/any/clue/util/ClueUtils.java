@@ -1,11 +1,11 @@
 package com.shengsu.any.clue.util;
 
+import com.shengsu.any.clue.entity.Clue;
+import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.entity.Pns;
 import com.shengsu.any.clue.po.ClueClientPo;
 import com.shengsu.any.clue.po.CluePo;
 import com.shengsu.any.clue.po.ClueWebPagePo;
-import com.shengsu.any.clue.entity.Clue;
-import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.vo.ClueEditVo;
 import com.shengsu.any.clue.vo.ClueShelfVo;
 import com.shengsu.any.clue.vo.ClueVo;
@@ -51,28 +51,33 @@ public class ClueUtils {
     public static List<CluePo> toClue(List<Clue> clues,List<Pns> pnss){
         List<CluePo> list = new ArrayList<>();
         for(Clue clue : clues){
-            for(Pns pns : pnss){
-                if(clue.getClueId().equals(pns.getClueId())){
-        CluePo cluePo = new CluePo();
-        cluePo.setClueState(clue.getClueState());
-        cluePo.setAppellation(clue.getAppellation());
-        cluePo.setCityCode(clue.getCityCode());
-        cluePo.setClueCode(clue.getClueCode());
-        cluePo.setProvinceCode(clue.getProvinceCode());
-        cluePo.setCluePrice(clue.getCluePrice());
-        cluePo.setClueType(clue.getClueType());
-        cluePo.setDistrictCode(clue.getDistrictCode());
-        cluePo.setCustomerDemands(clue.getCustomerDemands());
-        cluePo.setTel(clue.getTel());
-        cluePo.setClueCode(clue.getClueCode());
-        cluePo.setOffshelfTime(clue.getOffshelfTime());
-        cluePo.setOnshelfTime(clue.getOnshelfTime());
-        cluePo.setClueId(clue.getClueId());
-        cluePo.setCreateTime(clue.getCreateTime());
-        cluePo.setExpiration(pns.getExpiration());
-        cluePo.setBindTime(pns.getBindTime());
-        cluePo.setTelX(pns.getTelx());
-        list.add(cluePo);}}}
+            CluePo cluePo = new CluePo();
+            cluePo.setClueState(clue.getClueState());
+            cluePo.setAppellation(clue.getAppellation());
+            cluePo.setCityCode(clue.getCityCode());
+            cluePo.setClueCode(clue.getClueCode());
+            cluePo.setProvinceCode(clue.getProvinceCode());
+            cluePo.setCluePrice(clue.getCluePrice());
+            cluePo.setClueType(clue.getClueType());
+            cluePo.setDistrictCode(clue.getDistrictCode());
+            cluePo.setCustomerDemands(clue.getCustomerDemands());
+            cluePo.setTel(clue.getTel());
+            cluePo.setClueCode(clue.getClueCode());
+            cluePo.setOffshelfTime(clue.getOffshelfTime());
+            cluePo.setOnshelfTime(clue.getOnshelfTime());
+            cluePo.setClueId(clue.getClueId());
+            cluePo.setCreateTime(clue.getCreateTime());
+            list.add(cluePo);
+        }
+        for (CluePo cluePo : list) {
+            for (Pns pns : pnss) {
+                if (cluePo.getClueId().equals(pns.getClueId())) {
+                    cluePo.setTelX(pns.getTelx());
+                    cluePo.setBindTime(pns.getBindTime());
+                    cluePo.setExpiration(pns.getExpiration());
+                }
+            }
+        }
         return list;
     }
     public static List<ClueClientPo> toClueClientPo(List<Clue> clues){
