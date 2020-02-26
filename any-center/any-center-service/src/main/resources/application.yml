@@ -52,7 +52,7 @@ wechat:
     expireTimeSecond: 3600
 pns:
   expireTimeSecond: 600
-
+  areaCode: 10
 
 
 

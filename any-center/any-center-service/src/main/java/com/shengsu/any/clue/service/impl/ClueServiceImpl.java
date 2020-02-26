@@ -86,6 +86,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private PnsService pnsService;
     @Value("${pns.expireTimeSecond}")
     private Integer expireTimeSecond;
+    @Value("${pns.areaCode}")
+    private String areaCode;
 
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
@@ -280,7 +282,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         AxbBindRequest axbBindRequest = new AxbBindRequest();
         axbBindRequest.setTelA(clue.getTel());
         axbBindRequest.setTelB(lawyer.getTel());
-        axbBindRequest.setAreaCode("10");
+        axbBindRequest.setAreaCode(areaCode);
         axbBindRequest.setExpiration(expireTimeSecond);
         axbBindRequest.setRecord(1);
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
