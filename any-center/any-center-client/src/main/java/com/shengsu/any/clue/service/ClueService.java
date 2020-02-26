@@ -21,4 +21,6 @@ public interface ClueService extends BaseService<Clue,String> {
      ResultBean buy(ClueBuyVo clueBuyVo);
      ResultBean listMyClue(String userId);
      ResultBean clueClientListByPage(ClueListByPageVo clueListByPageVo);
+
+    ResultBean sendAxbUnBindRequest(AxbUnBindRequestVo axbUnBindRequestVo);
 }

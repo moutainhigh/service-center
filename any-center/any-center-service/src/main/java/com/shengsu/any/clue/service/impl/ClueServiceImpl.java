@@ -16,6 +16,7 @@ import com.shengsu.any.clue.po.ClueWebPagePo;
 import com.shengsu.any.clue.service.CluePersonalService;
 import com.shengsu.any.clue.service.ClueService;
 import com.shengsu.any.clue.service.PnsService;
+import com.shengsu.any.clue.util.AxbUnBindRequestUtils;
 import com.shengsu.any.clue.util.ClueUtils;
 import com.shengsu.any.clue.util.PnsUtils;
 import com.shengsu.any.clue.vo.*;
@@ -31,10 +32,7 @@ import com.shengsu.any.user.service.UserService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.SmsTemplateEnum;
-import com.shengsu.helper.entity.AxbBindRequest;
-import com.shengsu.helper.entity.BindResponse;
-import com.shengsu.helper.entity.SmsParam184105294;
-import com.shengsu.helper.entity.SmsParam184115275;
+import com.shengsu.helper.entity.*;
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.helper.service.PnsClientService;
 import com.shengsu.helper.service.SmsService;
@@ -257,21 +255,21 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         // 创建我的线索
         cluePersonalService.create(clueId,userId);
         // 修改账户余额
-        accountServcie.updateAccountBalance(userId,balance.subtract(clue.getCluePrice()));
+        accountServcie.updateAccountBalance(userId, balance.subtract(clue.getCluePrice()));
         // 增加账户记录
         BalanceChangeVo balanceChangeVo = new BalanceChangeVo();
         balanceChangeVo.setClueId(clueId);
         balanceChangeVo.setUserId(userId);
         balanceChangeVo.setAmount(clue.getCluePrice());
         balanceChangeVo.setActionType(ACCOUNT_ACTION_TYPE_BUY_CLUE);
-        accountRecordService.create(balance,balance.subtract(clue.getCluePrice()),ACCOUNT_BALANCE_SOURCE_CASH_OUT,balanceChangeVo);
+        accountRecordService.create(balance, balance.subtract(clue.getCluePrice()), ACCOUNT_BALANCE_SOURCE_CASH_OUT, balanceChangeVo);
         // 发送消息
         Message message = MessageUtils.toMessage(userId);
         message.setMessageContent(MESSAGE_CONTENT_CLUE_BUY_SUCCESS);
         messageService.save(message);
         // 发送短信给客户和律师
-        User lawyer =userService.get(userId);
-        SystemDict systemDict = systemDictService.getOneByDisplayValue(DICT_CODE_CLUE_TYPE,clue.getClueType());
+        User lawyer = userService.get(userId);
+        SystemDict systemDict = systemDictService.getOneByDisplayValue(DICT_CODE_CLUE_TYPE, clue.getClueType());
         // 发短信给律师
         SmsParam184105294 smsParam184105294 =  new SmsParam184105294(lawyer.getRealName(),systemDict.getDisplayName());
         smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_184105294, JSON.toJSONString(smsParam184105294));
@@ -290,16 +288,31 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         clue.setTelX(bindResponse.getData().getTelX());
         clueMapper.updateClueTelX(clue);
         //存储隐私号码相关信息
-        Pns pns = PnsUtils.toPns(bindResponse,axbBindRequest,clueId);
+        Pns pns = PnsUtils.toPns(bindResponse, axbBindRequest, clueId);
         pnsService.save(pns);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
+
     /**
+     * @return com.shengsu.result.ResultBean
+     * @Author Bell
+     * @Description 解绑隐私号码
+     * @Date 2020/2/26
+     * @Param [bindId]
+     **/
+    @Override
+    public ResultBean sendAxbUnBindRequest(AxbUnBindRequestVo axbUnBindRequestVo) {
+        AxbUnBindRequest axbUnBindRequest = AxbUnBindRequestUtils.toAxbUnBindRequest(axbUnBindRequestVo);
+        BindResponse BindResponse = pnsClientService.sendAxbUnBindRequest(axbUnBindRequest);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, BindResponse.getMsg());
+    }
+
+    /**
+     * @return com.shengsu.result.ResultBean
      * @Author Bell
      * @Description 查询线索
-     * @Date  2020/2/15
+     * @Date 2020/2/15
      * @Param [userId]
-     * @return com.shengsu.result.ResultBean
      **/
     @Override
     public ResultBean listMyClue(String userId) {

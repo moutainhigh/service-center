@@ -14,9 +14,7 @@ import com.baidubce.internal.RestartableInputStream;
 import com.baidubce.model.AbstractBceRequest;
 import com.baidubce.util.HttpUtils;
 import com.baidubce.util.JsonUtils;
-import com.shengsu.helper.entity.AxBindRequest;
-import com.shengsu.helper.entity.AxbBindRequest;
-import com.shengsu.helper.entity.BindResponse;
+import com.shengsu.helper.entity.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -66,7 +64,6 @@ public class PnsClient extends AbstractBceClient {
         }
 
     }
-
     /**
      * 构造请求
      * @param bceRequest
@@ -104,12 +101,28 @@ public class PnsClient extends AbstractBceClient {
     public BindResponse createAxbBindRequest(AxbBindRequest axbBindRequest) {
         InternalRequest internalRequest = this.createRequest(axbBindRequest, HttpMethodName.POST, "/cloud/api/v1/axb/binding");
         fillPayload(internalRequest, axbBindRequest);
-        return (BindResponse)this.invokeHttpClient(internalRequest, BindResponse.class);
+        return (BindResponse) this.invokeHttpClient(internalRequest, BindResponse.class);
     }
 
     public BindResponse createAxBindRequest(AxBindRequest axBindRequest) {
         InternalRequest internalRequest = this.createRequest(axBindRequest, HttpMethodName.POST, "/cloud/api/v1/ax/binding");
         fillPayload(internalRequest, axBindRequest);
-        return (BindResponse)this.invokeHttpClient(internalRequest, BindResponse.class);
+        return (BindResponse) this.invokeHttpClient(internalRequest, BindResponse.class);
+    }
+
+    /**
+     * @return com.shengsu.helper.entity.UnBindResponse
+     * @Author Bell
+     * @Description AXB解绑接口
+     * @Date 2020/2/26
+     * @Param []
+     **/
+    public BindResponse createAxbUnBindRequest(AxbUnBindRequest axbUnBindRequest) {
+        StringBuilder stringBuilder = new StringBuilder("/cloud/api/v1/axb/unbinding/");
+        stringBuilder.append(axbUnBindRequest.getBindId());
+        String pathVariables = stringBuilder.toString();
+        InternalRequest internalRequest = this.createRequest(axbUnBindRequest, HttpMethodName.POST, pathVariables);
+        fillPayload(internalRequest, axbUnBindRequest);
+        return (BindResponse) this.invokeHttpClient(internalRequest, BindResponse.class);
     }
 }

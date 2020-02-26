@@ -4,9 +4,7 @@ import com.baidubce.BceClientConfiguration;
 import com.baidubce.Protocol;
 import com.baidubce.auth.DefaultBceCredentials;
 import com.baidubce.services.client.PnsClient;
-import com.shengsu.helper.entity.AxBindRequest;
-import com.shengsu.helper.entity.AxbBindRequest;
-import com.shengsu.helper.entity.BindResponse;
+import com.shengsu.helper.entity.*;
 import com.shengsu.helper.service.PnsClientService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,6 +40,7 @@ public class PnsClientServiceImpl implements PnsClientService {
     @Value("${pns.accessKeySecret}")
     String accessKeySecret; // 用户的Secret Access Key
 
+    @Override
     public BindResponse sendAxbBindRequest(AxbBindRequest axbBindRequest) {
         BceClientConfiguration bceClientConfiguration = new BceClientConfiguration();
         bceClientConfiguration.setProtocol(Protocol.HTTP); // 推荐使用HTTPS
@@ -63,4 +62,14 @@ public class PnsClientServiceImpl implements PnsClientService {
         return pnsClient.createAxBindRequest(axBindRequest);
     }
 
+    @Override
+    public BindResponse sendAxbUnBindRequest(AxbUnBindRequest axbUnBindRequest) {
+        BceClientConfiguration bceClientConfiguration = new BceClientConfiguration();
+        bceClientConfiguration.setProtocol(Protocol.HTTP); // 推荐使用HTTPS
+        bceClientConfiguration.setEndpoint(ENDPOINT_HOST);
+        bceClientConfiguration.setCredentials(new DefaultBceCredentials(accessKeyId, accessKeySecret));
+        PnsClient pnsClient = new PnsClient(bceClientConfiguration);
+
+        return pnsClient.createAxbUnBindRequest(axbUnBindRequest);
+    }
 }
