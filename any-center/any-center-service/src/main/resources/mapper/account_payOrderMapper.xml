@@ -31,4 +31,10 @@
 			current_Timestamp()
 		  )
 	</insert>
+	<update id="updateOrder" parameterType="payOrder">
+		update pay_order set status = #{status} where order_no=#{orderNo}
+	</update>
+	<select id="getByOrderNo" parameterType="string" resultType="payOrder">
+		select * from pay_order where del_flag = 0 and order_no=#{orderNo}
+	</select>
 </mapper>

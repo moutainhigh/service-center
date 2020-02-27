@@ -28,7 +28,7 @@
 	<select id="getAccountBalance" parameterType="string" resultType="Decimal">
 		select balance from account where del_flag = 0 and  user_id=#{userId}
 	</select>
-	<update id="update" parameterType="account">
+	<update id="updateBalanceByUserId" parameterType="account">
 		update account
 		set
 		  balance = #{balance,jdbcType=VARCHAR},
@@ -68,4 +68,11 @@
 		order by create_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
+	<update id="updateBalanceByAccountId" parameterType="account">
+		update account
+		set
+		  balance = #{balance,jdbcType=VARCHAR},
+		  modify_time = current_Timestamp()
+		where account_id = #{accountId}
+    </update>
 </mapper>

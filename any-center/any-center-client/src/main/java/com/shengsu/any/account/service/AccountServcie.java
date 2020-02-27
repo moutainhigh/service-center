@@ -26,9 +26,11 @@ public interface AccountServcie extends BaseService<Account,String> {
 
     BigDecimal getAccountBalanceByUserId(String userId);
 
-    void updateAccountBalance(String userId, BigDecimal subtract);
+    void updateBalanceByUserId(String userId, BigDecimal balance);
 
     void create(String userId, BigDecimal bigDecimal);
 
     Account getByUserId(String userId);
+
+    void updateBalanceByOrderNo(String orderNo, String amount);
 }

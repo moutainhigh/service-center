@@ -272,7 +272,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         // 创建我的线索
         cluePersonalService.create(clueId, userId);
         // 修改账户余额
-        accountServcie.updateAccountBalance(userId, balance.subtract(clue.getCluePrice()));
+        accountServcie.updateBalanceByUserId(userId, balance.subtract(clue.getCluePrice()));
         // 增加账户记录
         BalanceChangeVo balanceChangeVo = new BalanceChangeVo();
         balanceChangeVo.setClueId(clueId);

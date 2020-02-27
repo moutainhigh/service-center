@@ -29,4 +29,7 @@ public interface AccountMapper extends BaseMapper<Account,String> {
 
     List<Account> listRichesByPage(RichesListByPageVo richesListByPageVo);
 
+    void updateBalanceByAccountId(Account account);
+
+    void updateBalanceByUserId(Account account);
 }

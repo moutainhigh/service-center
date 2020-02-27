@@ -2,6 +2,7 @@ package com.shengsu.any.account.service.impl;
 
 import com.shengsu.any.account.entity.Account;
 import com.shengsu.any.account.entity.AccountRecord;
+import com.shengsu.any.account.entity.PayOrder;
 import com.shengsu.any.account.mapper.AccountMapper;
 import com.shengsu.any.account.po.AccountListPo;
 import com.shengsu.any.account.po.RichesListPo;
@@ -9,6 +10,7 @@ import com.shengsu.any.account.po.TotalExpendPo;
 import com.shengsu.any.account.po.TotalIncomePo;
 import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
+import com.shengsu.any.account.service.PayOrderService;
 import com.shengsu.any.account.util.AccountUtils;
 import com.shengsu.any.account.vo.AccounListByPageVo;
 import com.shengsu.any.account.vo.BalanceChangeVo;
@@ -51,6 +53,8 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     private AccountRecordService accountRecordService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private PayOrderService payOrderService;
     @Autowired
     private AccountMapper accountMapper;
     @Override
@@ -168,7 +172,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         // 保存账户提现记录
         accountRecordService.create(beforeBalance,afterBalance,source,balanceChangeVo);
         // 修改账户余额
-        updateAccountBalance(userId,afterBalance);
+        updateBalanceByUserId(userId,afterBalance);
         // 发送消息
         Message message = MessageUtils.toMessage(userId);
         message.setMessageContent(messageContent);
@@ -183,11 +187,11 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     }
 
     @Override
-    public void updateAccountBalance(String userId, BigDecimal balance) {
+    public void updateBalanceByUserId(String userId, BigDecimal balance) {
         Account account = new Account();
         account.setUserId(userId);
         account.setBalance(balance);
-        accountMapper.update(account);
+        accountMapper.updateBalanceByUserId(account);
     }
 
     @Override
@@ -202,6 +206,15 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     @Override
     public Account getByUserId(String userId) {
        return accountMapper.getByUserId(userId);
+    }
+
+    @Override
+    public void updateBalanceByOrderNo(String orderNo, String amount) {
+        PayOrder payOrder = payOrderService.getByOrderNo(orderNo);
+        Account account = new Account();
+        account.setAccountId(payOrder.getAccountId());
+        account.setBalance(new BigDecimal(amount));
+        accountMapper.updateBalanceByAccountId(account);
     }
 
 
