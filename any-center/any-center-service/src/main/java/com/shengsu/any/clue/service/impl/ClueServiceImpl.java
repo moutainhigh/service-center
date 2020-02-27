@@ -37,6 +37,7 @@ import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.helper.service.PnsClientService;
 import com.shengsu.helper.service.SmsService;
 import com.shengsu.result.ResultBean;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,6 +57,7 @@ import static com.shengsu.any.app.constant.BizConst.*;
  * @author: lipiao
  * @create: 2020-01-08 10:48
  **/
+@Slf4j
 @Service("clueService")
 public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements ClueService,MessageConst {
     @Autowired
@@ -242,18 +244,37 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         String token = clueBuyVo.getToken();
         String userId="";
         if (StringUtils.isNoneBlank(token)) {
-            userId =  authorizedService.getUserByToken(token).getUserId();
+            userId = authorizedService.getUserByToken(token).getUserId();
         }
+        User lawyer = userService.get(userId);
         // 获取该用户的账户余额
         BigDecimal balance = accountServcie.getAccountBalanceByUserId(userId);
-        if (balance==null) balance = new BigDecimal(0);
-        if (balance.compareTo(clue.getCluePrice())<0){
+        if (balance == null) balance = new BigDecimal(0);
+        if (balance.compareTo(clue.getCluePrice()) < 0) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
         }
+        //绑定隐私号码
+        AxbBindRequest axbBindRequest = new AxbBindRequest();
+        axbBindRequest.setTelA(clue.getTel());
+        axbBindRequest.setTelB(lawyer.getTel());
+        axbBindRequest.setAreaCode(areaCode);
+        axbBindRequest.setExpiration(expireTimeSecond);
+        axbBindRequest.setRecord(1);
+        BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
+        if (!bindResponse.getCode().equals(0)) {
+            log.error(bindResponse.getMsg());
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_INSUFFICIENT_NUMBER_POOL_RESOURCES);
+        }
+        //存储虚拟号码到线索表
+        clue.setTelX(bindResponse.getData().getTelX());
+        clueMapper.updateClueTelX(clue);
+        //存储隐私号码相关信息
+        Pns pns = PnsUtils.toPns(bindResponse, axbBindRequest, clueId);
+        pnsService.save(pns);
         // 修改线索状态-已购买
         clueMapper.updateClueSold(clueId);
         // 创建我的线索
-        cluePersonalService.create(clueId,userId);
+        cluePersonalService.create(clueId, userId);
         // 修改账户余额
         accountServcie.updateAccountBalance(userId, balance.subtract(clue.getCluePrice()));
         // 增加账户记录
@@ -268,7 +289,6 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         message.setMessageContent(MESSAGE_CONTENT_CLUE_BUY_SUCCESS);
         messageService.save(message);
         // 发送短信给客户和律师
-        User lawyer = userService.get(userId);
         SystemDict systemDict = systemDictService.getOneByDisplayValue(DICT_CODE_CLUE_TYPE, clue.getClueType());
         // 发短信给律师
         SmsParam184105294 smsParam184105294 =  new SmsParam184105294(lawyer.getRealName(),systemDict.getDisplayName());
@@ -276,23 +296,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         // 发短信给客户
         SmsParam184115275 smsParam184115275 = new SmsParam184115275(clue.getAppellation(), lawyer.getRealName());
         smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_184115275, JSON.toJSONString(smsParam184115275));
-        //绑定隐私号码
-        AxbBindRequest axbBindRequest = new AxbBindRequest();
-        axbBindRequest.setTelA(clue.getTel());
-        axbBindRequest.setTelB(lawyer.getTel());
-        axbBindRequest.setAreaCode(areaCode);
-        axbBindRequest.setExpiration(expireTimeSecond);
-        axbBindRequest.setRecord(1);
-        BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
-        if (!bindResponse.getCode().equals(0)) {
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION, bindResponse.getMsg());
-        }
-        //存储虚拟号码到线索表
-        clue.setTelX(bindResponse.getData().getTelX());
-        clueMapper.updateClueTelX(clue);
-        //存储隐私号码相关信息
-        Pns pns = PnsUtils.toPns(bindResponse, axbBindRequest, clueId);
-        pnsService.save(pns);
+
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
