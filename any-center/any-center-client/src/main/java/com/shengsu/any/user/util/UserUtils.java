@@ -37,6 +37,9 @@ public class UserUtils {
             detailsPo.setField(user.getField());
             detailsPo.setAuthState(StringUtils.isBlank(user.getAuthState())?"0":user.getAuthState());
             detailsPo.setCreateTime(user.getCreateTime());
+            detailsPo.setIdCardFrontOssResourceId(user.getIdCardFrontOssResourceId());
+            detailsPo.setIdCardBackOssResourceId(user.getIdCardBackOssResourceId());
+            detailsPo.setLicenseOssResourceId(user.getLicenseOssResourceId());
             return detailsPo;
         }
         return null;

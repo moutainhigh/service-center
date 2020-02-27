@@ -24,9 +24,12 @@ public class UserDetailsPo implements Serializable{
     private String districtCode;// 区级编码
     private String lawFirm;// 律所
     private String lawyerLicenseNo;// 执照号
-    private String idCardFrontUrl;// 身份证正面图片资源
-    private String idCardBackUrl;// 身份证反面面图片资源
-    private String licenseUrl;// 执照图片资源
+    private String idCardFrontOssResourceId;// 身份证正面图片资源 Id
+    private String idCardBackOssResourceId;// 身份证反面面图片资源 Id
+    private String licenseOssResourceId;// 执照图片资源 Id
+    private String idCardFrontUrl;// 身份证正面图片资源 url
+    private String idCardBackUrl;// 身份证反面面图片资源 url
+    private String licenseUrl;// 执照图片资源 url
     private String field;// 擅长领域
     private String fieldStr;// 擅长领域
     private String authState;// 用户状态:未认证,认证中,已认证,已拒绝
