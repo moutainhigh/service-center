@@ -274,7 +274,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         SmsParam184105294 smsParam184105294 =  new SmsParam184105294(lawyer.getRealName(),systemDict.getDisplayName());
         smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_184105294, JSON.toJSONString(smsParam184105294));
         // 发短信给客户
-        SmsParam184115275 smsParam184115275 =  new SmsParam184115275(clue.getAppellation(),lawyer.getRealName());
+        SmsParam184115275 smsParam184115275 = new SmsParam184115275(clue.getAppellation(), lawyer.getRealName());
         smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_184115275, JSON.toJSONString(smsParam184115275));
         //绑定隐私号码
         AxbBindRequest axbBindRequest = new AxbBindRequest();
@@ -284,6 +284,9 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         axbBindRequest.setExpiration(expireTimeSecond);
         axbBindRequest.setRecord(1);
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
+        if (!bindResponse.getCode().equals(0)) {
+            return ResultUtil.formResult(false, ResultCode.FAIL, bindResponse.getMsg());
+        }
         //存储虚拟号码到线索表
         clue.setTelX(bindResponse.getData().getTelX());
         clueMapper.updateClueTelX(clue);
