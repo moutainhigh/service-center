@@ -16,6 +16,7 @@ import com.shengsu.any.clue.po.ClueWebPagePo;
 import com.shengsu.any.clue.service.CluePersonalService;
 import com.shengsu.any.clue.service.ClueService;
 import com.shengsu.any.clue.service.PnsService;
+import com.shengsu.any.clue.util.AxbBindRequestUtils;
 import com.shengsu.any.clue.util.AxbUnBindRequestUtils;
 import com.shengsu.any.clue.util.ClueUtils;
 import com.shengsu.any.clue.util.PnsUtils;
@@ -254,12 +255,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
         }
         //绑定隐私号码
-        AxbBindRequest axbBindRequest = new AxbBindRequest();
-        axbBindRequest.setTelA(clue.getTel());
-        axbBindRequest.setTelB(lawyer.getTel());
-        axbBindRequest.setAreaCode(areaCode);
-        axbBindRequest.setExpiration(expireTimeSecond);
-        axbBindRequest.setRecord(1);
+        AxbBindRequest axbBindRequest = AxbBindRequestUtils.toAxbBindRequest(clue, lawyer, areaCode, expireTimeSecond);
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
         log.info(JSON.toJSONString(bindResponse));
         if (!bindResponse.getCode().equals(0)) {
