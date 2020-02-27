@@ -262,7 +262,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         axbBindRequest.setRecord(1);
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
         if (!bindResponse.getCode().equals(0)) {
-            log.error(String.valueOf(bindResponse));
+            log.error(bindResponse.toString());
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_INSUFFICIENT_NUMBER_POOL_RESOURCES);
         }
         //存储虚拟号码到线索表
