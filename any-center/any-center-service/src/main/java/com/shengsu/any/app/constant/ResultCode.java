@@ -41,24 +41,23 @@ public enum ResultCode {
     SMS_AUTHENTICATION_CODE_OVERTIME(1002,"短信验证码不存在或已过期"),
     SMS_AUTHENTICATION_CODE_ERROR(1002,"短信验证码错误"),
     //数据校验
-    EXCEPTION_DATA_EXISTENCE(1002,"数据已存在"),
-    EXCEPTION_NOT_NATA_EXISTENCE(1002,"数据不存在"),
-    EXCEPTION_DUPLICATE_ACTION(1002,"重复操作"),
+    EXCEPTION_DATA_EXISTENCE(1002, "数据已存在"),
+    EXCEPTION_NOT_NATA_EXISTENCE(1002, "数据不存在"),
+    EXCEPTION_DUPLICATE_ACTION(1002, "重复操作"),
     // 微信公众号
-    EXCEPTION_WECHAT_USER_TEL_BANDED(1002,"当前账户已绑定过手机号"),
+    EXCEPTION_WECHAT_USER_TEL_BANDED(1002, "当前账户已绑定过手机号"),
     // 用户认证状态
-    EXCEPTION_USER_AUTH_STATE_UNREVIEW(1002,"未提交或已审核"),
-    EXCEPTION_USER_AUTH_STATE_IN_REVIEW(1002,"用户正在认证中，不可再提交认证"),
-    EXCEPTION_USER_AUTH_STATE_REVIEW_PASS(1002,"用户已认证通过，不可再提交认证"),
+    EXCEPTION_USER_AUTH_STATE_UNREVIEW(1002, "未提交或已审核"),
+    EXCEPTION_USER_AUTH_STATE_IN_REVIEW(1002, "用户正在认证中，不可再提交认证"),
+    EXCEPTION_USER_AUTH_STATE_REVIEW_PASS(1002, "用户已认证通过，不可再提交认证"),
     // 账户
-    EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE(1002,"账户余额不足");
-
+    EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE(1002, "账户余额不足"),
+    //隐私号码
+    EXCEPTION_INSUFFICIENT_NUMBER_POOL_RESOURCES(1002, "号码池资源不足，请联系客服");
 
 
     private Integer code;
-    private String  resultMessage;
-
-
+    private String resultMessage;
 
 
     ResultCode(Integer code, String resultMessage) {
