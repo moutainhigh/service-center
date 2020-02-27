@@ -261,8 +261,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         axbBindRequest.setExpiration(expireTimeSecond);
         axbBindRequest.setRecord(1);
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
+        log.info(JSON.toJSONString(bindResponse));
         if (!bindResponse.getCode().equals(0)) {
-            log.error(bindResponse.toString());
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_INSUFFICIENT_NUMBER_POOL_RESOURCES);
         }
         //存储虚拟号码到线索表
