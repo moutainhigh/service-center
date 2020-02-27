@@ -285,7 +285,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         axbBindRequest.setRecord(1);
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
         if (!bindResponse.getCode().equals(0)) {
-            return ResultUtil.formResult(false, ResultCode.FAIL, bindResponse.getMsg());
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION, bindResponse.getMsg());
         }
         //存储虚拟号码到线索表
         clue.setTelX(bindResponse.getData().getTelX());
