@@ -1,9 +1,11 @@
 package com.shengsu.any.account.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @description:
@@ -19,4 +21,8 @@ public class PayOrder extends BaseEntity {
     private BigDecimal amount;
     private String payType;
     private String status;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date orderTime;// 下单时间
+    private String transactionId;// 微信支付订单号
+    private String completeTime;// 订单完成时间
 }

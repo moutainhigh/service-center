@@ -1,6 +1,5 @@
 package com.shengsu.any.account.service.impl;
 
-import com.shengsu.any.account.entity.Account;
 import com.shengsu.any.account.entity.PayOrder;
 import com.shengsu.any.account.mapper.PayOrderMapper;
 import com.shengsu.any.account.service.PayOrderService;

@@ -71,9 +71,10 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         if (user == null) {
             return ResultUtil.formResult(false, ResultCode.FAIL, null);
         }
-        BigDecimal accountBalance = accountMapper.getAccountBalance(user.getUserId());
+        Account account = accountMapper.getByUserId(user.getUserId());
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("accountBalance", accountBalance==null?new BigDecimal(0):accountBalance);
+        resultMap.put("accountBalance", account==null||account.getBalance()==null?new BigDecimal(0):account.getBalance());
+        resultMap.put("accountId", account==null||account.getAccountId()==null?"":account.getAccountId());
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
     }
 
@@ -211,10 +212,21 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     @Override
     public void updateBalanceByOrderNo(String orderNo, String amount) {
         PayOrder payOrder = payOrderService.getByOrderNo(orderNo);
-        Account account = new Account();
-        account.setAccountId(payOrder.getAccountId());
-        account.setBalance(new BigDecimal(amount));
-        accountMapper.updateBalanceByAccountId(account);
+        // 获取账户
+        Account account = accountMapper.get(payOrder.getAccountId());
+        BigDecimal balance = new BigDecimal(amount).add(account.getBalance());
+        if (null!=account && null!=payOrder) {
+            // 修改账户余额
+            account.setAccountId(payOrder.getAccountId());
+            account.setBalance(balance);
+            accountMapper.updateBalanceByAccountId(account);
+            // 添加账户余额记录
+            BalanceChangeVo balanceChangeVo = new BalanceChangeVo();
+            balanceChangeVo.setUserId(account.getUserId());
+            balanceChangeVo.setAmount(new BigDecimal(amount));
+            balanceChangeVo.setActionType(ACCOUNT_ACTION_TYPE_H5_RECHARGE);
+            accountRecordService.create(account.getBalance(),balance,ACCOUNT_BALANCE_SOURCE_WECHAT_RECHANGE,balanceChangeVo);
+        }
     }
 
 

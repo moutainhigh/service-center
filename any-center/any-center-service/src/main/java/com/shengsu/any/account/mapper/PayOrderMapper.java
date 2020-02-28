@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface PayOrderMapper extends BaseMapper<PayOrder,String> {
-    void updateOrder(PayOrder payOrder);
+    int updateOrder(PayOrder payOrder);
 
     PayOrder getByOrderNo(String orderNo);
 }

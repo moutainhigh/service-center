@@ -75,4 +75,7 @@
 		  modify_time = current_Timestamp()
 		where account_id = #{accountId}
     </update>
+	<select id="get" parameterType="string" resultType="account">
+		select * from account where del_flag = 0 and  account_id=#{accountId}
+	</select>
 </mapper>

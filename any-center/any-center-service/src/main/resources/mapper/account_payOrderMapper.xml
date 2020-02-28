@@ -16,6 +16,7 @@
 			amount,
 			pay_type,
 			status,
+			order_time,
 			create_time,
 			modify_time
 			  )
@@ -28,11 +29,12 @@
 			#{payType,jdbcType=VARCHAR},
 			#{status,jdbcType=VARCHAR},
 			current_Timestamp(),
+			current_Timestamp(),
 			current_Timestamp()
 		  )
 	</insert>
 	<update id="updateOrder" parameterType="payOrder">
-		update pay_order set status = #{status} where order_no=#{orderNo}
+		update pay_order set status = #{status},transaction_id = #{transactionId},complete_time = #{completeTime} where order_no=#{orderNo}
 	</update>
 	<select id="getByOrderNo" parameterType="string" resultType="payOrder">
 		select * from pay_order where del_flag = 0 and order_no=#{orderNo}
