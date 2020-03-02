@@ -33,5 +33,5 @@ public interface AccountServcie extends BaseService<Account,String> {
 
     Account getByUserId(String userId);
 
-    void updateBalanceByOrderNo(String orderNo, String amount);
+    void updateBalanceByOrderNo(String orderNo, BigDecimal amount);
 }

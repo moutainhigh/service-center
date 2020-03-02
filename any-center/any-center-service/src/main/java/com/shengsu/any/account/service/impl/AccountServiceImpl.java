@@ -1,7 +1,6 @@
 package com.shengsu.any.account.service.impl;
 
 import com.shengsu.any.account.entity.Account;
-import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.entity.PayOrder;
 import com.shengsu.any.account.mapper.AccountMapper;
 import com.shengsu.any.account.po.AccountListPo;
@@ -210,22 +209,29 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     }
 
     @Override
-    public void updateBalanceByOrderNo(String orderNo, String amount) {
+    public void updateBalanceByOrderNo(String orderNo, BigDecimal amount) {
         PayOrder payOrder = payOrderService.getByOrderNo(orderNo);
         // 获取账户
         Account account = accountMapper.get(payOrder.getAccountId());
-        BigDecimal balance = new BigDecimal(amount).add(account.getBalance());
+        // 获取账户余额
+        BigDecimal beforeBalance = account.getBalance();
+        // 充值后余额
+        BigDecimal afterBalance = amount.add(account.getBalance());
         if (null!=account && null!=payOrder) {
             // 修改账户余额
             account.setAccountId(payOrder.getAccountId());
-            account.setBalance(balance);
+            account.setBalance(afterBalance);
             accountMapper.updateBalanceByAccountId(account);
             // 添加账户余额记录
             BalanceChangeVo balanceChangeVo = new BalanceChangeVo();
             balanceChangeVo.setUserId(account.getUserId());
-            balanceChangeVo.setAmount(new BigDecimal(amount));
+            balanceChangeVo.setAmount(amount);
             balanceChangeVo.setActionType(ACCOUNT_ACTION_TYPE_H5_RECHARGE);
-            accountRecordService.create(account.getBalance(),balance,ACCOUNT_BALANCE_SOURCE_WECHAT_RECHANGE,balanceChangeVo);
+            accountRecordService.create(beforeBalance,afterBalance,ACCOUNT_BALANCE_SOURCE_WECHAT_RECHANGE,balanceChangeVo);
+            // 发送消息
+            Message message = MessageUtils.toMessage(account.getUserId());
+            message.setMessageContent(MessageFormat.format(MESSAGE_CONTENT_ACCOUNT_BALANCE_RECHARGE, amount));
+            messageService.save(message);
         }
     }
 
