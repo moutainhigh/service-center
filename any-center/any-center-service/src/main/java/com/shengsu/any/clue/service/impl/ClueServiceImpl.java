@@ -123,7 +123,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         int totalCount = clueMapper.countAll(clueListByPageVo);
         List<Clue> clues = clueMapper.listByPage(clueListByPageVo);
         if (clues.isEmpty()) {
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_FOUND);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, clues);
         }
         List<String> clueTypes = ClueUtils.toClueType(clues);
         List<String> clueIds = ClueUtils.toClueId(clues);
