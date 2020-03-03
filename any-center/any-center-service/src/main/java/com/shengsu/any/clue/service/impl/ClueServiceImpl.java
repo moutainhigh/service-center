@@ -256,8 +256,9 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         }
         //绑定隐私号码
         AxbBindRequest axbBindRequest = AxbBindRequestUtils.toAxbBindRequest(clue, lawyer, areaCode, expireTimeSecond);
+        log.info("pns请求参数："+JSON.toJSONString(axbBindRequest));
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
-        log.info(JSON.toJSONString(bindResponse));
+        log.info("pns响应参数："+JSON.toJSONString(bindResponse));
         if (!bindResponse.getCode().equals(0)) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_INSUFFICIENT_NUMBER_POOL_RESOURCES);
         }
