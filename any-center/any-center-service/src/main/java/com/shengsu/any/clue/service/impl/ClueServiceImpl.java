@@ -260,7 +260,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
         log.info("pns响应参数："+JSON.toJSONString(bindResponse));
         if (!bindResponse.getCode().equals(0)) {
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_INSUFFICIENT_NUMBER_POOL_RESOURCES);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_PNS);
         }
         //存储虚拟号码到线索表
         clue.setTelX(bindResponse.getData().getTelX());
