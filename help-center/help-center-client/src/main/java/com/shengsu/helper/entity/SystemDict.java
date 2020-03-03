@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2018-7-6
  */
 @Data
-public class SystemDictionary extends BaseEntity {
+public class SystemDict extends BaseEntity {
     private static final long serialVersionUID = -1962148635528521842L;
     /**
      * 字典id
