@@ -27,6 +27,7 @@ import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
 import com.shengsu.any.system.entity.SystemDict;
 import com.shengsu.any.system.service.SystemDictService;
+import com.shengsu.any.system.util.SystemDictUtils;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
@@ -131,13 +132,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         disPlayName.put("dictCode", "clue_type");
         disPlayName.put("displayValue", clueTypes);
         List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(disPlayName);
-        for (SystemDict systemDict : systemDicts) {
-            for (Clue clue : clues) {
-                if (systemDict.getDisplayValue().equals(clue.getClueType())) {
-                    clue.setClueType(systemDict.getDisplayName());
-                }
-            }
-        }
+        SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<Pns> pns = pnsService.getMany(clueIds);
         List<CluePo> cluePos = ClueUtils.toClue(clues,pns);
         if (totalCount > 0) {
@@ -337,13 +332,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         disPlayName.put("dictCode", "clue_type");
         disPlayName.put("displayValue", clueTypes);
         List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(disPlayName);
-        for (SystemDict systemDict : systemDicts) {
-            for (Clue clue : clues) {
-                if (systemDict.getDisplayValue().equals(clue.getClueType())) {
-                    clue.setClueType(systemDict.getDisplayName());
-                }
-            }
-        }
+        SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<Pns> pns = pnsService.getMany(list);
         List<ClueWebPagePo> clueWebPagePos = ClueUtils.toClueWebPagePo(clues, cluePersonals, pns);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, clueWebPagePos);
@@ -369,13 +358,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         disPlayName.put("dictCode", "clue_type");
         disPlayName.put("displayValue", clueTypes);
         List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(disPlayName);
-        for (SystemDict systemDict : systemDicts) {
-            for (Clue clue : clues) {
-                if (systemDict.getDisplayValue().equals(clue.getClueType())) {
-                    clue.setClueType(systemDict.getDisplayName());
-                }
-            }
-        }
+        SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<ClueClientPo> clueClientPos = ClueUtils.toClueClientPo(clues);
         if (totalCount > 0) {
             map.put("root", clueClientPos);
