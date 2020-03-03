@@ -3,6 +3,7 @@ package com.shengsu.any.clue.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
+import com.shengsu.any.account.util.AccountRecordUtils;
 import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
@@ -135,10 +136,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<Pns> pns = pnsService.getMany(clueIds);
         List<CluePo> cluePos = ClueUtils.toClue(clues,pns);
-        if (totalCount > 0) {
-            map.put("root", cluePos);
-        }
-        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, map,totalCount);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, cluePos, totalCount);
     }
 
     /**
@@ -271,11 +269,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         // 修改账户余额
         accountServcie.updateBalanceByUserId(userId, balance.subtract(clue.getCluePrice()));
         // 增加账户记录
-        BalanceChangeVo balanceChangeVo = new BalanceChangeVo();
-        balanceChangeVo.setClueId(clueId);
-        balanceChangeVo.setUserId(userId);
-        balanceChangeVo.setAmount(clue.getCluePrice());
-        balanceChangeVo.setActionType(ACCOUNT_ACTION_TYPE_BUY_CLUE);
+        BalanceChangeVo balanceChangeVo = AccountRecordUtils.toBalanceChangeVo(clue, clueId, userId, ACCOUNT_ACTION_TYPE_BUY_CLUE);
         accountRecordService.create(balance, balance.subtract(clue.getCluePrice()), ACCOUNT_BALANCE_SOURCE_CASH_OUT, balanceChangeVo);
         // 发送消息
         Message message = MessageUtils.toMessage(userId);
@@ -360,9 +354,6 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(disPlayName);
         SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<ClueClientPo> clueClientPos = ClueUtils.toClueClientPo(clues);
-        if (totalCount > 0) {
-            map.put("root", clueClientPos);
-        }
-        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, map,totalCount);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, clueClientPos, totalCount);
     }
 }

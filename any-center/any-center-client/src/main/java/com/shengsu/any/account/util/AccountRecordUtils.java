@@ -3,6 +3,7 @@ package com.shengsu.any.account.util;
 import com.shengsu.any.account.entity.AccountRecord;
 import com.shengsu.any.account.po.*;
 import com.shengsu.any.account.vo.BalanceChangeVo;
+import com.shengsu.any.clue.entity.Clue;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.user.entity.AliasUser;
 
@@ -96,10 +97,19 @@ public class AccountRecordUtils {
         if (accountRecords != null) {
             List<BalanceChangeRecordPo> balanceChangeRecordPos = new ArrayList<>();
             for (AccountRecord accountRecord : accountRecords) {
-                balanceChangeRecordPos.add(toBalanceChangeRecordPo(accountRecord,aliasUserMap));
+                balanceChangeRecordPos.add(toBalanceChangeRecordPo(accountRecord, aliasUserMap));
             }
             return balanceChangeRecordPos;
         }
         return null;
+    }
+
+    public static BalanceChangeVo toBalanceChangeVo(Clue clue, String clueId, String userId, String buy_clue) {
+        BalanceChangeVo balanceChangeVo = new BalanceChangeVo();
+        balanceChangeVo.setClueId(clueId);
+        balanceChangeVo.setUserId(userId);
+        balanceChangeVo.setAmount(clue.getCluePrice());
+        balanceChangeVo.setActionType(buy_clue);
+        return balanceChangeVo;
     }
 }
