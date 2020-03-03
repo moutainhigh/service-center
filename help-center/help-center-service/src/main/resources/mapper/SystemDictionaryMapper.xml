@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.shengsu.helper.mapper.DictionaryMapper">
-    <resultMap id="Dictionary_result_map" type="Dictionary">
+<mapper namespace="com.shengsu.helper.mapper.SystemDictionaryMapper">
+    <resultMap id="Dictionary_result_map" type="SystemDictionary">
     </resultMap>
     <!-- 查询条件 -->
     <sql id="Dictionary_where_clause">
@@ -31,7 +31,7 @@
         modify_time desc
     </select>
     <!-- 判断字典是否存在 -->
-    <select id="dictExistCheck" parameterType="Dictionary" resultType="int">
+    <select id="dictExistCheck" parameterType="SystemDictionary" resultType="int">
 		select
 			count(1)
 		from
@@ -40,7 +40,7 @@
 			dict_code=#{dictCode} and
 			display_value=#{displayValue}
 	</select>
-    <insert id="save" parameterType="Dictionary">
+    <insert id="save" parameterType="SystemDictionary">
 		insert into system_dict
 		(
 			dict_id,
@@ -69,7 +69,7 @@
 		)
 	</insert>
     <!-- 判断字典是否存在 修改时可直接点击编辑 -->
-    <select id="dictExistCheckExceptSelf" parameterType="Dictionary" resultType="int">
+    <select id="dictExistCheckExceptSelf" parameterType="SystemDictionary" resultType="int">
 		select
 			count(1)
 		from
@@ -78,9 +78,10 @@
 			dict_code=#{dictCode} and
 			display_value=#{displayValue} and
 			<![CDATA[ dict_id <> #{dictId}
+
         ]]>
     </select>
-    <update id="update" parameterType="Dictionary">
+    <update id="update" parameterType="SystemDictionary">
 		update
 			system_dict
 		set
@@ -102,7 +103,7 @@
             #{ids}
         </foreach>
     </delete>
-    <select id="listByModel" parameterType="Dictionary" resultMap="Dictionary_result_map">
+    <select id="listByModel" parameterType="SystemDictionary" resultMap="Dictionary_result_map">
         select
         *
         from
@@ -138,7 +139,7 @@
         system_dict s
         <include refid="Dictionary_where_clause"/>
     </select>
-    <select id="listByPage" parameterType="Dictionary" resultMap="Dictionary_result_map">
+    <select id="listByPage" parameterType="SystemDictionary" resultMap="Dictionary_result_map">
         <include refid="global.paginationStart_mysql"/>
         select
         *
