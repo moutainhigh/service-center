@@ -53,7 +53,7 @@ public enum ResultCode {
     // 账户
     EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE(1002, "账户余额不足"),
     //隐私号码
-    EXCEPTION_INSUFFICIENT_NUMBER_POOL_RESOURCES(1002, "号码池资源不足，请联系客服");
+    EXCEPTION_PNS(1002, "PSN异常！");
 
 
     private Integer code;

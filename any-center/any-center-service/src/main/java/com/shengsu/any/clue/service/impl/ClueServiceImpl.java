@@ -46,10 +46,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.shengsu.any.app.constant.BizConst.*;
 
@@ -87,8 +84,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private PnsService pnsService;
     @Value("${pns.expireTimeSecond}")
     private Integer expireTimeSecond;
-    @Value("${pns.areaCode}")
-    private String areaCode;
+    @Value("${pns.areaCodes}")
+    private String areaCodes;
+
+    private static Random random = new Random();
 
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
@@ -255,11 +254,14 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
         }
         //绑定隐私号码
+        List<String> codes = Arrays.asList(areaCodes.split(","));
+        String areaCode = codes.get(random.nextInt(codes.size()));
         AxbBindRequest axbBindRequest = AxbBindRequestUtils.toAxbBindRequest(clue, lawyer, areaCode, expireTimeSecond);
+        log.info("pns请求参数："+JSON.toJSONString(axbBindRequest));
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
-        log.info(JSON.toJSONString(bindResponse));
+        log.info("pns响应参数："+JSON.toJSONString(bindResponse));
         if (!bindResponse.getCode().equals(0)) {
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_INSUFFICIENT_NUMBER_POOL_RESOURCES);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_PNS);
         }
         //存储虚拟号码到线索表
         clue.setTelX(bindResponse.getData().getTelX());
