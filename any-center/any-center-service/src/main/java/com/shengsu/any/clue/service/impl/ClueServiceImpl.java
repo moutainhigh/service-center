@@ -326,7 +326,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             list.add(clueId);
         }
         if (list.isEmpty()) {
-            return ResultUtil.formResult(true, ResultCode.SUCCESS);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, list);
         }
         List<Clue> clues = clueMapper.getMany(list);
         List<String> clueTypes = ClueUtils.toClueType(clues);
@@ -359,7 +359,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         int totalCount = clueMapper.countAll(clueListByPageVo);
         List<Clue> clues = clueMapper.clueClientListByPage(clueListByPageVo);
         if (clues.isEmpty()) {
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_FOUND);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, clues);
         }
         List<String> clueTypes = ClueUtils.toClueType(clues);
 
