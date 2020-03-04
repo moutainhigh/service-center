@@ -53,7 +53,9 @@ public enum ResultCode {
     // 账户
     EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE(1002, "账户余额不足"),
     //隐私号码
-    EXCEPTION_PNS(1002, "PSN异常！");
+    EXCEPTION_PNS(1002, "PSN异常！"),
+    // 微信支付
+    EXCEPTION_WECHAT_NOTIFY_SIGN_FAIL(1002, "签名失败");
 
 
     private Integer code;

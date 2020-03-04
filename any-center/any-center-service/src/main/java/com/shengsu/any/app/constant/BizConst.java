@@ -48,4 +48,15 @@ public interface BizConst {
     //线索类型
     String DICT_CODE_CLUE_TYPE = "clue_type";
 
+    //支付类型-微信
+    String PAY_TYPE_WECHAT = "wechat";
+    //支付类型-支付宝
+    String PAY_TYPE_ALIPAY = "alipay";
+    //订单状态-未支付
+    String ORDER_STATUS_UNPAID= "0";
+    //订单状态-已支付
+    String ORDER_STATUS_PAID= "1";
+    //订单状态-已关闭
+    String ORDER_STATUS_CLOSED= "2";
+
 }
