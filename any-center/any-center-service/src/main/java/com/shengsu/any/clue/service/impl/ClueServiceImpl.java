@@ -120,7 +120,6 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
      **/
     @Override
     public ResultBean clueListByPage(ClueListByPageVo clueListByPageVo) {
-        Map<String, Object> map = new HashMap();
         int totalCount = clueMapper.countAll(clueListByPageVo);
         List<Clue> clues = clueMapper.listByPage(clueListByPageVo);
         if (clues.isEmpty()) {
@@ -339,7 +338,6 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
      **/
     @Override
     public ResultBean clueClientListByPage(ClueListByPageVo clueListByPageVo) {
-        Map<String, Object> map = new HashMap();
         int totalCount = clueMapper.countAll(clueListByPageVo);
         List<Clue> clues = clueMapper.clueClientListByPage(clueListByPageVo);
         if (clues.isEmpty()) {
