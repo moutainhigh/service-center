@@ -40,6 +40,7 @@ public class UserUtils {
             detailsPo.setIdCardFrontOssResourceId(user.getIdCardFrontOssResourceId());
             detailsPo.setIdCardBackOssResourceId(user.getIdCardBackOssResourceId());
             detailsPo.setLicenseOssResourceId(user.getLicenseOssResourceId());
+            detailsPo.setWechatOpenid(user.getWechatOpenid());
             return detailsPo;
         }
         return null;
