@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shengsu.helper.mapper.SystemDictMapper">
-    <resultMap id="Dictionary_result_map" type="SystemDict">
+    <resultMap id="systemDict_result_map" type="SystemDict">
     </resultMap>
     <!-- 查询条件 -->
     <sql id="Dictionary_where_clause">
@@ -14,7 +14,7 @@
             <if test="displayName != null and displayName != ''">and s.display_name = #{displayName}</if>
         </where>
     </sql>
-    <select id="getManyByDictCodes" parameterType="java.util.List" resultMap="Dictionary_result_map">
+    <select id="getManyByDictCodes" parameterType="java.util.List" resultMap="systemDict_result_map">
         select
         *
         from
@@ -104,7 +104,7 @@
             #{ids}
         </foreach>
     </delete>
-    <select id="listByModel" parameterType="SystemDict" resultMap="Dictionary_result_map">
+    <select id="listByModel" parameterType="SystemDict" resultMap="systemDict_result_map">
         select
         *
         from
@@ -115,7 +115,7 @@
         display_value,
         modify_time desc
     </select>
-    <select id="getMany" parameterType="java.util.List" resultMap="Dictionary_result_map">
+    <select id="getMany" parameterType="java.util.List" resultMap="systemDict_result_map">
         select
         *
         from
@@ -140,7 +140,7 @@
         system_dict s
         <include refid="Dictionary_where_clause"/>
     </select>
-    <select id="listByPage" parameterType="SystemDict" resultMap="Dictionary_result_map">
+    <select id="listByPage" parameterType="SystemDict" resultMap="systemDict_result_map">
         <include refid="global.paginationStart_mysql"/>
         select
         *
@@ -152,5 +152,43 @@
         display_value,
         modify_time desc
         <include refid="global.paginationEnd_mysql"/>
+    </select>
+    <!-- 根据案件类型值获取字典表中的名称 返回单个-->
+    <select id="getOneByDisplayValue" parameterType="java.util.Map" resultMap="systemDict_result_map">
+		select
+			display_name ,display_value
+		from
+			system_dict
+		where
+			del_flag = 0 and
+			dict_code = #{dictCode} and
+			display_value = #{displayValue} limit 1
+	</select>
+    <select id="listByDictCode" parameterType="String" resultMap="systemDict_result_map">
+		select
+			*
+		from
+			system_dict
+		where
+			del_flag = 0 and
+			dict_code=#{dictCode}
+		order by
+			display_value
+	</select>
+    <!-- 根据案件类型值获取字典表中的名称 返回多个-->
+    <select id="getManyByDisplayValue" parameterType="java.util.Map" resultMap="systemDict_result_map">
+        select
+        display_name ,display_value
+        from
+        system_dict
+        where
+        del_flag = 0 and
+        dict_code =
+        #{dictCode}
+        and
+        display_value in
+        <foreach collection="displayValue" item="displayValue" open="(" separator="," close=")">
+            #{displayValue}
+        </foreach>
     </select>
 </mapper>

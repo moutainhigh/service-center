@@ -2,7 +2,7 @@ package com.shengsu.any.system.util;
 
 
 import com.shengsu.any.clue.entity.Clue;
-import com.shengsu.any.system.entity.SystemDict;
+import com.shengsu.helper.entity.SystemDict;
 
 import java.util.HashMap;
 import java.util.List;

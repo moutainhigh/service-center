@@ -2,6 +2,7 @@ package com.shengsu.helper.service;
 
 import com.shengsu.base.service.BaseService;
 import com.shengsu.helper.entity.SystemDict;
+import com.shengsu.result.ResultBean;
 
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,14 @@ public interface SystemDictService extends BaseService<SystemDict, String> {
 
     int dictExistCheckExceptSelf(SystemDict SystemDict);
 
-    List<SystemDict> listDicts(List<SystemDict> systemDictionaries);
+    ResultBean listDicts(List<SystemDict> systemDictionaries);
 
     Map<String, List<SystemDict>> makeSystemDict(List<SystemDict> systemDicts, List<SystemDict> systemDictList);
+
+    List<SystemDict> getManyByDisplayValue(Map<String, Object> map);
+
+    SystemDict getOneByDisplayValue(String dictCode, String displayValue);
+
+    List<SystemDict> listByDictCode(String dictCode);
 
 }

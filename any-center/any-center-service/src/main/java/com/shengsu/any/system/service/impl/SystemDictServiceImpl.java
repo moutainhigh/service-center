@@ -9,7 +9,6 @@ import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.result.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +20,6 @@ import java.util.Map;
  * @author: lipiao
  * @create: 2020-01-13 09:59
  **/
-@Service("systemDictService")
 public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> implements SystemDictService {
     @Autowired
     private SystemDictMapper systemDictMapper;
