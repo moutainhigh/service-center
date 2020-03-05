@@ -18,10 +18,10 @@
 		</where>
 	</sql>
 	<select id="listIncome" parameterType="string" resultType="accountRecord">
-		select * from account_record where user_id=#{userId} and action_type = 'recharge' and del_flag='0' order by modify_time desc
+		select * from account_record where user_id=#{userId} and del_flag=0 and action_type in ('recharge','H5_recharge') order by modify_time desc
 	</select>
 	<select id="listExpend" parameterType="string" resultType="accountRecord">
-		select * from account_record where user_id=#{userId} and del_flag='0' and action_type in ('buy_clue','cash_out') order by modify_time desc
+		select * from account_record where user_id=#{userId} and del_flag=0 and action_type in ('buy_clue','cash_out') order by modify_time desc
 	</select>
 	<select id="listByPage" parameterType="com.shengsu.any.account.vo.AccountDetailListByPageVo" resultType="accountRecord">
 		<include refid="global.paginationStart_mysql" />

@@ -32,6 +32,7 @@ import com.shengsu.result.ResultBean;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -194,6 +195,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         accountMapper.updateBalanceByUserId(account);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void create(String userId, BigDecimal balance) {
         Account account = new Account();
@@ -209,7 +211,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     }
 
     @Override
-    public void updateBalanceByOrderNo(String orderNo, BigDecimal amount) {
+    public void updateBalanceByOrderNo(String payType,String orderNo, BigDecimal amount) {
         PayOrder payOrder = payOrderService.getByOrderNo(orderNo);
         // 获取账户
         Account account = accountMapper.get(payOrder.getAccountId());
@@ -227,7 +229,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
             balanceChangeVo.setUserId(account.getUserId());
             balanceChangeVo.setAmount(amount);
             balanceChangeVo.setActionType(ACCOUNT_ACTION_TYPE_H5_RECHARGE);
-            accountRecordService.create(beforeBalance,afterBalance,ACCOUNT_BALANCE_SOURCE_WECHAT_RECHANGE,balanceChangeVo);
+            accountRecordService.create(beforeBalance,afterBalance,payType,balanceChangeVo);
             // 发送消息
             Message message = MessageUtils.toMessage(account.getUserId());
             message.setMessageContent(MessageFormat.format(MESSAGE_CONTENT_ACCOUNT_BALANCE_RECHARGE, amount));
