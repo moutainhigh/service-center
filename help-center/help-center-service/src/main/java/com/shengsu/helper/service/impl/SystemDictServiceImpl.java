@@ -8,10 +8,13 @@ import com.shengsu.helper.entity.SystemDict;
 import com.shengsu.helper.mapper.SystemDictMapper;
 import com.shengsu.helper.service.SystemDictService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.util.SystemDictUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service("systemDictService")
 public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> implements SystemDictService {
@@ -52,42 +55,13 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
      * @Param [Dictionaries]
      **/
     @Override
-    public ResultBean listDicts(List<SystemDict> Dictionaries) {
-        if (Dictionaries.isEmpty())
-            return null;
-        List<String> dictCodes = new ArrayList<>();
-        for (SystemDict systemDict : Dictionaries) {
-            dictCodes.add(systemDict.getDictCode());
-        }
+    public ResultBean listDicts(List<SystemDict> dictionaries) {
+        List<String> dictCodes = SystemDictUtil.toDictCodes(dictionaries);
         List<SystemDict> systemDictList = systemDictMapper.getMany(dictCodes);
-        Map<String, Object> map = new HashMap<String, Object>();
-        //遍历包装
-        Map<String, List<SystemDict>> systemDictMap = makeSystemDict(systemDictList, systemDictList);
-        map.put("root", systemDictMap);
+        Map<String, Object> map = SystemDictUtil.toSystemDictListMap(systemDictList);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
     }
 
-    /**
-     * 包装字典
-     *
-     * @param Dicts
-     * @param DictList
-     * @return
-     */
-    @Override
-    public Map<String, List<SystemDict>> makeSystemDict(List<SystemDict> dicts, List<SystemDict> dictList) {
-        Map<String, List<SystemDict>> listMap = new HashMap<String, List<SystemDict>>();
-        for (SystemDict systemDict : dicts) {
-            List<SystemDict> systemDictsList = new ArrayList<>();
-            for (SystemDict dict : dictList) {
-                if (systemDict.getDictCode().equals(dict.getDictCode())) {
-                    systemDictsList.add(dict);
-                }
-            }
-            listMap.put(systemDict.getDictCode(), systemDictsList);
-        }
-        return listMap;
-    }
 
     /**
      * @return java.util.List<com.shengsu.helper.entity.SystemDict>
@@ -110,9 +84,7 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
      **/
     @Override
     public SystemDict getOneByDisplayValue(String dictCode, String displayValue) {
-        Map<String, Object> systeMap = new HashMap<>();
-        systeMap.put("dictCode", dictCode);
-        systeMap.put("displayValue", displayValue);
+        Map<String, Object> systeMap = SystemDictUtil.toSysteMap(dictCode, displayValue);
         return systemDictMapper.getOneByDisplayValue(systeMap);
     }
 
