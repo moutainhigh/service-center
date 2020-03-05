@@ -252,7 +252,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
         log.info("pns响应参数："+JSON.toJSONString(bindResponse));
         if (!bindResponse.getCode().equals(0)) {
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_PNS);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_PNS, bindResponse.getMsg());
         }
         //存储虚拟号码到线索表
         clue.setTelX(bindResponse.getData().getTelX());
@@ -295,8 +295,11 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Override
     public ResultBean sendAxbUnBindRequest(AxbUnBindRequestVo axbUnBindRequestVo) {
         AxbUnBindRequest axbUnBindRequest = AxbUnBindRequestUtils.toAxbUnBindRequest(axbUnBindRequestVo);
-        BindResponse BindResponse = pnsClientService.sendAxbUnBindRequest(axbUnBindRequest);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, BindResponse.getMsg());
+        BindResponse bindResponse = pnsClientService.sendAxbUnBindRequest(axbUnBindRequest);
+        if (!bindResponse.getCode().equals(0)) {
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_PNS, bindResponse.getMsg());
+        }
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, bindResponse.getMsg());
     }
 
     /**
