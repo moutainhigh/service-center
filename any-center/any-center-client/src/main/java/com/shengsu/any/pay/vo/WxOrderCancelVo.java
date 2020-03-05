@@ -8,7 +8,4 @@ import java.io.Serializable;
 public class WxOrderCancelVo implements Serializable {
     // 内部支付订单号
     String orderNo;
-
-    //预支付单号
-    String prepayId;
 }

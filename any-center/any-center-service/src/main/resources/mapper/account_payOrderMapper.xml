@@ -7,6 +7,21 @@
 	<!-- Result Map-->
 	<resultMap id="pay_order_result_map" type="payOrder">
 	</resultMap>
+	<!-- 查询条件 -->
+	<sql id="pay_order_where_clause">
+		<where>
+			del_flag = 0
+			<if test="orderNo != null and  orderNo != ''"> and order_no= #{orderNo}</if>
+			<if test="payType != null and  payType != ''"> and pay_type= #{payType}</if>
+			<if test="status != null and  status != ''"> and status= #{status}</if>
+			<if test="startTime != null and  startTime != ''">and order_time >= #{startTime,jdbcType=VARCHAR}</if>
+			<if test="endTime != null and  endTime != ''">and  DATE_ADD(date_format(#{endTime,jdbcType=VARCHAR},"%Y-%m-%d"),interval 1 day) >=order_time</if>
+			<if test="search != null and  search != ''">
+				<bind name="pattern" value="search" />
+				and concat(ifnull(order_no,'')) like concat('%',#{pattern},'%') escape'/'
+			</if>
+		</where>
+	</sql>
 	<insert id="save" parameterType="payOrder">
 		insert into pay_order
 		(
@@ -38,5 +53,17 @@
 	</update>
 	<select id="getByOrderNo" parameterType="string" resultType="payOrder">
 		select * from pay_order where del_flag = 0 and order_no=#{orderNo}
+	</select>
+	<!-- 获取所有订单数 -->
+	<select id="countAll" resultType="int">
+		select count(1) from pay_order
+		<include refid="pay_order_where_clause" />
+	</select>
+	<select id="listByPage" parameterType="payOrder" resultType="payOrder">
+		<include refid="global.paginationStart_mysql" />
+		select * from pay_order
+		<include refid="pay_order_where_clause" />
+		order by create_time desc
+		<include refid="global.paginationEnd_mysql" />
 	</select>
 </mapper>

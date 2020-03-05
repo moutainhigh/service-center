@@ -12,6 +12,6 @@ import com.shengsu.result.ResultBean;
 public interface PayOrderService extends BaseService<PayOrder,String> {
     ResultBean create(PayOrder payOrder);
     ResultBean updateOrder(PayOrder payOrder);
-
     PayOrder getByOrderNo(String orderNo);
+    ResultBean listPage(PayOrder payOrder);
 }
