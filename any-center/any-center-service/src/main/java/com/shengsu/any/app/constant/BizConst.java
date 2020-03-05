@@ -2,13 +2,13 @@ package com.shengsu.any.app.constant;
 
 
 /**
- * 
+ * @author zxh
  * @ClassName: BizConst
  * @Description: 业务常量
- * @author zxh
- * 
  */
 public interface BizConst {
+    //Pns响应编码
+    Integer PNS_CODE_SUCCESS = 0;
     //编码前缀-线索
     String PREFIX_CLUE_CODE = "XS";
     //线索状态-待上架

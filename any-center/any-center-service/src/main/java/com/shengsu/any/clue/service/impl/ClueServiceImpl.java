@@ -87,7 +87,6 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private Integer expireTimeSecond;
     @Value("${pns.areaCodes}")
     private String areaCodes;
-    private Integer code = 0;
     private static Random random = new Random();
 
     @Override
@@ -251,7 +250,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         log.info("pns请求参数："+JSON.toJSONString(axbBindRequest));
         BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
         log.info("pns响应参数："+JSON.toJSONString(bindResponse));
-        if (!code.equals(bindResponse.getCode())) {
+        if (!PNS_CODE_SUCCESS.equals(bindResponse.getCode())) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_PNS, bindResponse.getMsg());
         }
         //存储虚拟号码到线索表
@@ -296,7 +295,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     public ResultBean sendAxbUnBindRequest(AxbUnBindRequestVo axbUnBindRequestVo) {
         AxbUnBindRequest axbUnBindRequest = AxbUnBindRequestUtils.toAxbUnBindRequest(axbUnBindRequestVo);
         BindResponse bindResponse = pnsClientService.sendAxbUnBindRequest(axbUnBindRequest);
-        if (!code.equals(bindResponse.getCode())) {
+        if (!PNS_CODE_SUCCESS.equals(bindResponse.getCode())) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_PNS, bindResponse.getMsg());
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS, bindResponse.getMsg());
