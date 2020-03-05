@@ -7,14 +7,18 @@ import com.shengsu.any.account.service.PayOrderService;
 import com.shengsu.any.account.util.PayOrderUtils;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
+import com.shengsu.any.system.util.SystemDictUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.helper.entity.SystemDict;
+import com.shengsu.helper.service.SystemDictService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,8 @@ import java.util.Map;
  **/
 @Service("payOrderService")
 public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> implements PayOrderService {
+    @Autowired
+    private SystemDictService systemDictService;
     @Autowired
     private PayOrderMapper payOrderMapper;
     @Override
@@ -58,7 +64,16 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> imple
         int totalCount = payOrderMapper.countAll(payOrder);
         if (totalCount > 0) {
             List<PayOrder> payOrders = payOrderMapper.listByPage(payOrder);
-            List<PayOrderListPo> payOrderListPos = PayOrderUtils.toPayOrderListPos(payOrders);
+            List<String> statusList = new ArrayList<>();
+            for (PayOrder param : payOrders){
+                statusList.add(param.getStatus());
+            }
+            Map<String, Object> statusMap = new HashMap<>();
+            statusMap.put("dictCode", "order_status");
+            statusMap.put("displayValue", statusList);
+            List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(statusMap);
+            Map<String, SystemDict> systemDictMap = SystemDictUtils.toSystemDictMap(systemDicts);
+            List<PayOrderListPo> payOrderListPos = PayOrderUtils.toPayOrderListPos(payOrders,systemDictMap);
             map.put("root", payOrderListPos);
             map.put("totalCount", totalCount);
         }
