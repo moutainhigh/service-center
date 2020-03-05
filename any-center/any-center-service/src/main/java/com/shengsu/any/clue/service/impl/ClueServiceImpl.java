@@ -126,10 +126,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         }
         List<String> clueTypes = ClueUtils.toClueType(clues);
         List<String> clueIds = ClueUtils.toClueId(clues);
-        Map<String, Object> disPlayName = new HashMap<>();
-        disPlayName.put("dictCode", "clue_type");
-        disPlayName.put("displayValue", clueTypes);
-        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(disPlayName);
+        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
         SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<Pns> pns = pnsService.getMany(clueIds);
         List<CluePo> cluePos = ClueUtils.toClue(clues,pns);
@@ -322,10 +319,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         List<Clue> clues = clueMapper.getMany(list);
         List<String> clueTypes = ClueUtils.toClueType(clues);
 
-        Map<String, Object> disPlayName = new HashMap<>();
-        disPlayName.put("dictCode", "clue_type");
-        disPlayName.put("displayValue", clueTypes);
-        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(disPlayName);
+        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
         SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<Pns> pns = pnsService.getMany(list);
         List<ClueWebPagePo> clueWebPagePos = ClueUtils.toClueWebPagePo(clues, cluePersonals, pns);
@@ -347,10 +341,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         }
         List<String> clueTypes = ClueUtils.toClueType(clues);
 
-        Map<String, Object> disPlayName = new HashMap<>();
-        disPlayName.put("dictCode", "clue_type");
-        disPlayName.put("displayValue", clueTypes);
-        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(disPlayName);
+        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
         SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<ClueClientPo> clueClientPos = ClueUtils.toClueClientPo(clues);
         return ResultUtil.formPageResult(true, ResultCode.SUCCESS, clueClientPos, totalCount);

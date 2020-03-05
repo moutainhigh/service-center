@@ -12,6 +12,7 @@ import com.shengsu.util.SystemDictUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -71,8 +72,11 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
      * @Param [map]
      **/
     @Override
-    public List<SystemDict> getManyByDisplayValue(Map<String, Object> map) {
-        return systemDictMapper.getManyByDisplayValue(map);
+    public List<SystemDict> getManyByDisplayValue(String dictCode, List<String> displayValues) {
+        Map<String, Object> disPlayName = new HashMap<>();
+        disPlayName.put("dictCode", dictCode);
+        disPlayName.put("displayValue", displayValues);
+        return systemDictMapper.getManyByDisplayValue(disPlayName);
     }
 
     /**

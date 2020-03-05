@@ -68,10 +68,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> imple
             for (PayOrder param : payOrders){
                 statusList.add(param.getStatus());
             }
-            Map<String, Object> statusMap = new HashMap<>();
-            statusMap.put("dictCode", "order_status");
-            statusMap.put("displayValue", statusList);
-            List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue(statusMap);
+            List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("order_status", statusList);
             Map<String, SystemDict> systemDictMap = SystemDictUtils.toSystemDictMap(systemDicts);
             List<PayOrderListPo> payOrderListPos = PayOrderUtils.toPayOrderListPos(payOrders,systemDictMap);
             map.put("root", payOrderListPos);
