@@ -23,11 +23,11 @@ public class SystemDictUtil {
         return dictCodes;
     }
 
-    public static Map<String, Object> toSystemMap(String dictCode, String displayValue) {
-        Map<String, Object> systemMap = new HashMap<>();
-        systemMap.put("dictCode", dictCode);
-        systemMap.put("displayValue", displayValue);
-        return systemMap;
+    public static Map<String, Object> toParamMap(String dictCode, String displayValue) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("dictCode", dictCode);
+        paramMap.put("displayValue", displayValue);
+        return paramMap;
     }
 
     public static Map<String, Object> toSystemDictListMap(List<SystemDict> systemDictList) {

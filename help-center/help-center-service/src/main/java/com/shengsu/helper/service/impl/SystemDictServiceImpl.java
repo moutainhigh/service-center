@@ -85,7 +85,7 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
      **/
     @Override
     public SystemDict getOneByDisplayValue(String dictCode, String displayValue) {
-        Map<String, Object> systeMap = SystemDictUtil.toSystemMap(dictCode, displayValue);
+        Map<String, Object> systeMap = SystemDictUtil.toParamMap(dictCode, displayValue);
         return systemDictMapper.getOneByDisplayValue(systeMap);
     }
 
