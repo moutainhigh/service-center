@@ -7,7 +7,6 @@ import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
 import com.shengsu.any.account.vo.*;
-import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.clue.entity.Clue;
@@ -28,7 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -36,7 +38,7 @@ import java.util.*;
  * @create: 2020-01-08 10:25
  **/
 @Service("accountRecordService")
-public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, String> implements AccountRecordService,BizConst {
+public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, String> implements AccountRecordService {
     @Autowired
     private AuthorizedService authorizedService;
     @Autowired

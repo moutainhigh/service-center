@@ -37,7 +37,7 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
             dictCodes.add(systemDict.getDictCode());
         }
         List<SystemDict> systemDictList = systemDictMapper.getMany(dictCodes);
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         //遍历包装
         Map<String, List<SystemDict>> systemDictMap = makeSystemDict(systemDicts, systemDictList);
         map.put("root", systemDictMap);
@@ -51,7 +51,7 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
     * @date: 
     */
     public Map<String, List<SystemDict>> makeSystemDict(List<SystemDict> systemDicts, List<SystemDict> systemDictList) {
-        Map<String, List<SystemDict>> listMap = new HashMap<String, List<SystemDict>>();
+        Map<String, List<SystemDict>> listMap = new HashMap<>();
         for (SystemDict systemDict : systemDicts) {
             List<SystemDict> systemDictsList = new ArrayList<>();
             for (SystemDict dict : systemDictList) {
@@ -63,15 +63,21 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
         }
         return listMap;
     }
+
+    @Override
     public List<SystemDict> getManyByDisplayValue(Map<String, Object> map) {
         return systemDictMapper.getManyByDisplayValue(map);
     }
-    public SystemDict getOneByDisplayValue(String dictCode,String displayValue){
+
+    @Override
+    public SystemDict getOneByDisplayValue(String dictCode, String displayValue) {
         Map<String, Object> systeMap = new HashMap<>();
         systeMap.put("dictCode", dictCode);
         systeMap.put("displayValue", displayValue);
         return systemDictMapper.getOneByDisplayValue(systeMap);
     }
+
+    @Override
     public List<SystemDict> listByDictCode(String dictCode) {
         return systemDictMapper.listByDictCode(dictCode);
     }
