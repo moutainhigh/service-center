@@ -5,8 +5,12 @@ import com.shengsu.any.account.mapper.PayOrderMapper;
 import com.shengsu.any.account.po.PayOrderListPo;
 import com.shengsu.any.account.service.PayOrderService;
 import com.shengsu.any.account.util.PayOrderUtils;
+import com.shengsu.any.account.vo.PayOrderQueryVo;
+import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
+import com.shengsu.any.pay.service.AlipayService;
+import com.shengsu.any.pay.service.WxpayService;
 import com.shengsu.any.system.util.SystemDictUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
@@ -29,11 +33,15 @@ import java.util.Map;
  * @create: 2020-02-27 11:06
  **/
 @Service("payOrderService")
-public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> implements PayOrderService {
+public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> implements PayOrderService,BizConst {
     @Autowired
     private SystemDictService systemDictService;
     @Autowired
     private PayOrderMapper payOrderMapper;
+    @Autowired
+    private AlipayService alipayService;
+    @Autowired
+    private WxpayService wxpayService;
     @Override
     public BaseMapper<PayOrder, String> getBaseMapper() {
         return payOrderMapper;
@@ -75,5 +83,12 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> imple
             map.put("totalCount", totalCount);
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+    }
+
+    @Override
+    public ResultBean orderQuery(PayOrderQueryVo payOrderQueryVo)throws Exception{
+        if(PAY_TYPE_ALIPAY.equals(payOrderQueryVo.getPayType()))
+            return alipayService.orderQuery(payOrderQueryVo.getOrderNo());
+            return wxpayService.orderQuery(payOrderQueryVo.getOrderNo());
     }
 }
