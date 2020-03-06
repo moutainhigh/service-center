@@ -133,7 +133,7 @@ public class WxpayServiceImpl implements WxpayService {
             payOrder.setStatus(ORDER_STATUS_CLOSED);
             payOrderService.updateOrder(payOrder);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("异常",e);
         }
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resp);
@@ -152,8 +152,7 @@ public class WxpayServiceImpl implements WxpayService {
         try {
             resp = wxpay.orderQuery(data);
         } catch (Exception e) {
-            log.info(e.getMessage());
-            e.printStackTrace();
+            log.error("异常：",e);
         }
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resp);
