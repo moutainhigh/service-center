@@ -13,7 +13,7 @@ import java.util.Date;
  * @create: 2020-02-16 15:09
  **/
 @Data
-public class ClueWebPagePo implements Serializable {
+public class MyCluePo implements Serializable {
     private String clueId;// 线索id
     private String clueCode;//线索号
     private String provinceCode;// 省级编码

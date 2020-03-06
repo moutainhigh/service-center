@@ -11,9 +11,9 @@ import com.shengsu.any.clue.entity.Clue;
 import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.entity.Pns;
 import com.shengsu.any.clue.mapper.ClueMapper;
-import com.shengsu.any.clue.po.ClueClientPo;
-import com.shengsu.any.clue.po.CluePo;
-import com.shengsu.any.clue.po.ClueWebPagePo;
+import com.shengsu.any.clue.po.ClueListPo;
+import com.shengsu.any.clue.po.ClueLibPo;
+import com.shengsu.any.clue.po.MyCluePo;
 import com.shengsu.any.clue.service.CluePersonalService;
 import com.shengsu.any.clue.service.ClueService;
 import com.shengsu.any.clue.service.PnsService;
@@ -129,8 +129,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
         SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<Pns> pns = pnsService.getMany(clueIds);
-        List<CluePo> cluePos = ClueUtils.toClue(clues,pns);
-        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, cluePos, totalCount);
+        List<ClueLibPo> clueLibPos = ClueUtils.toClue(clues, pns);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, clueLibPos, totalCount);
     }
 
     /**
@@ -322,8 +322,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
         SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<Pns> pns = pnsService.getMany(list);
-        List<ClueWebPagePo> clueWebPagePos = ClueUtils.toClueWebPagePo(clues, cluePersonals, pns);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, clueWebPagePos);
+        List<MyCluePo> myCluePos = ClueUtils.toClueWebPagePo(clues, cluePersonals, pns);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, myCluePos);
     }
     /**
      * @Author Bell
@@ -343,7 +343,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
 
         List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
         SystemDictUtils.toSystemDicts(systemDicts, clues);
-        List<ClueClientPo> clueClientPos = ClueUtils.toClueClientPo(clues);
-        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, clueClientPos, totalCount);
+        List<ClueListPo> clueListPos = ClueUtils.toClueClientPo(clues);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, clueListPos, totalCount);
     }
 }
