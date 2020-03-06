@@ -52,10 +52,10 @@ public class SystemDictUtil {
         return listMap;
     }
 
-    public static Map<String, Object> toDisPlayNameMap(String dictCode, List<String> displayValues) {
-        Map<String, Object> disPlayName = new HashMap<>();
-        disPlayName.put("dictCode", dictCode);
-        disPlayName.put("displayValue", displayValues);
-        return disPlayName;
+    public static Map<String, Object> toParamMap(String dictCode, List<String> displayValues) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("dictCode", dictCode);
+        paramMap.put("displayValue", displayValues);
+        return paramMap;
     }
 }
