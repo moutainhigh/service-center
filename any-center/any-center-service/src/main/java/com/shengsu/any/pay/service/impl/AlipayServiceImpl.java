@@ -4,11 +4,14 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeCloseModel;
+import com.alipay.api.domain.AlipayTradeQueryModel;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeCloseRequest;
+import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeCloseResponse;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.shengsu.any.account.entity.PayOrder;
 import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.service.PayOrderService;
@@ -18,6 +21,7 @@ import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.pay.service.AlipayService;
 import com.shengsu.any.pay.vo.AliOrderCancelVo;
+import com.shengsu.any.pay.vo.AliOrderQueryVo;
 import com.shengsu.any.pay.vo.AliOrderVo;
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.result.ResultBean;
@@ -103,6 +107,20 @@ public class AlipayServiceImpl implements AlipayService,BizConst {
         payOrder.setStatus(ORDER_STATUS_CLOSED);
         payOrderService.updateOrder(payOrder);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
+
+    @Override
+    public ResultBean orderQuery(AliOrderQueryVo aliOrderQueryVo) throws AlipayApiException {
+        String outTradeNo = aliOrderQueryVo.getOrderNo();
+        // SDK 公共请求类，包含公共请求参数，以及封装了签名与验签，开发者无需关注签名与验签
+        AlipayClient client = new DefaultAlipayClient(gatewayUrl, appID, rsaPrivateKey, "json", "UTF-8", alipayPublicKey,signType);
+        AlipayTradeQueryRequest alipayRequest=new AlipayTradeQueryRequest();
+        AlipayTradeQueryModel model =new AlipayTradeQueryModel();
+        model.setOutTradeNo(outTradeNo);
+        alipayRequest.setBizModel(model);
+        AlipayTradeQueryResponse alipayResponse = client.execute(alipayRequest);
+        log.info(alipayResponse.getBody());
+        return ResultUtil.formResult(true, ResultCode.SUCCESS,alipayResponse);
     }
 
     @Override

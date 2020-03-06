@@ -3,6 +3,7 @@ package com.shengsu.any.account.util;
 import com.shengsu.any.account.entity.PayOrder;
 import com.shengsu.any.account.po.PayOrderListPo;
 import com.shengsu.helper.entity.SystemDict;
+import com.shengsu.util.DateUtil;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class PayOrderUtils {
         return null;
     }
 
-    private static PayOrderListPo toPayOrderListPo(PayOrder payOrder,Map<String, SystemDict> systemDictMap) {
+    private static PayOrderListPo toPayOrderListPo(PayOrder payOrder,Map<String, SystemDict> systemDictMap){
         if (payOrder != null) {
             PayOrderListPo payOrderListPo = new PayOrderListPo();
             payOrderListPo.setAccountId(payOrder.getAccountId());
@@ -56,7 +57,7 @@ public class PayOrderUtils {
             payOrderListPo.setAmount(payOrder.getAmount());
             payOrderListPo.setPayType(payOrder.getPayType());
             payOrderListPo.setOrderTime(payOrder.getOrderTime());
-            payOrderListPo.setCompleteTime(payOrder.getCompleteTime());
+            payOrderListPo.setCompleteTime(payOrder.getCompleteTime()==null?null:DateUtil.getDateDetailTime(payOrder.getCompleteTime()));
             payOrderListPo.setStatus(systemDictMap.get(payOrder.getStatus())==null?"":systemDictMap.get(payOrder.getStatus()).getDisplayName());
             payOrderListPo.setTransactionId(payOrder.getTransactionId());
             return payOrderListPo;
