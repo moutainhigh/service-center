@@ -10,7 +10,6 @@ import com.shengsu.any.app.util.HttpClientUtil;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.pay.service.WxpayService;
 import com.shengsu.any.pay.vo.WxOrderCancelVo;
-import com.shengsu.any.pay.vo.WxOrderQueryVo;
 import com.shengsu.any.pay.vo.WxOrderVo;
 import com.shengsu.any.pay.wxsdk.MyConfig;
 import com.shengsu.any.pay.wxsdk.WXPay;
@@ -141,14 +140,14 @@ public class WxpayServiceImpl implements WxpayService {
     }
 
     @Override
-    public ResultBean orderQuery(WxOrderQueryVo wxOrderQueryVo)throws Exception{
+    public ResultBean orderQuery(String outTradeNo)throws Exception{
         MyConfig config = new MyConfig();
         config.setAppID(appID);
         config.setMchID(mchID);
         config.setKey(isSandbox?getSignKey():apiKey);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         Map<String, String> data = new HashMap<>();
-        data.put("out_trade_no", wxOrderQueryVo.getOrderNo());
+        data.put("out_trade_no", outTradeNo);
         Map<String, String> resp = null;
         try {
             resp = wxpay.orderQuery(data);

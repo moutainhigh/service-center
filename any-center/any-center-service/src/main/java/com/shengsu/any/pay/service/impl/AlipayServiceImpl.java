@@ -1,5 +1,6 @@
 package com.shengsu.any.pay.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -20,7 +21,6 @@ import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.pay.service.AlipayService;
 import com.shengsu.any.pay.vo.AliOrderCancelVo;
-import com.shengsu.any.pay.vo.AliOrderQueryVo;
 import com.shengsu.any.pay.vo.AliOrderVo;
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.result.ResultBean;
@@ -111,16 +111,20 @@ public class AlipayServiceImpl implements AlipayService {
     }
 
     @Override
-    public ResultBean orderQuery(AliOrderQueryVo aliOrderQueryVo) throws AlipayApiException {
-        String outTradeNo = aliOrderQueryVo.getOrderNo();
+    public ResultBean orderQuery(String outTradeNo){
         // SDK 公共请求类，包含公共请求参数，以及封装了签名与验签，开发者无需关注签名与验签
         AlipayClient client = new DefaultAlipayClient(gatewayUrl, appID, rsaPrivateKey, "json", "UTF-8", alipayPublicKey,signType);
         AlipayTradeQueryRequest alipayRequest=new AlipayTradeQueryRequest();
         AlipayTradeQueryModel model =new AlipayTradeQueryModel();
         model.setOutTradeNo(outTradeNo);
         alipayRequest.setBizModel(model);
-        AlipayTradeQueryResponse alipayResponse = client.execute(alipayRequest);
-        log.info(alipayResponse.getBody());
+        AlipayTradeQueryResponse alipayResponse = null;
+        try {
+            alipayResponse = client.execute(alipayRequest);
+        } catch (AlipayApiException e) {
+            log.info(JSON.toJSONString(e.getMessage()));
+            e.printStackTrace();
+        }
         return ResultUtil.formResult(true, ResultCode.SUCCESS,alipayResponse);
     }
 
