@@ -11,8 +11,8 @@ import com.shengsu.any.clue.entity.Clue;
 import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.entity.Pns;
 import com.shengsu.any.clue.mapper.ClueMapper;
-import com.shengsu.any.clue.po.ClueListPo;
 import com.shengsu.any.clue.po.ClueLibPo;
+import com.shengsu.any.clue.po.ClueListPo;
 import com.shengsu.any.clue.po.MyCluePo;
 import com.shengsu.any.clue.service.CluePersonalService;
 import com.shengsu.any.clue.service.ClueService;
@@ -22,7 +22,6 @@ import com.shengsu.any.clue.util.AxbUnBindRequestUtils;
 import com.shengsu.any.clue.util.ClueUtils;
 import com.shengsu.any.clue.util.PnsUtils;
 import com.shengsu.any.clue.vo.*;
-import com.shengsu.any.message.constant.MessageConst;
 import com.shengsu.any.message.entity.Message;
 import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
@@ -47,9 +46,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import static com.shengsu.any.app.constant.BizConst.*;
+import static com.shengsu.any.message.constant.MessageConst.*;
 
 /**
  * @description:
@@ -58,7 +61,7 @@ import static com.shengsu.any.app.constant.BizConst.*;
  **/
 @Slf4j
 @Service("clueService")
-public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements ClueService,MessageConst {
+public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements ClueService {
     @Autowired
     private ClueMapper clueMapper;
     @Autowired
@@ -143,7 +146,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Override
     public ResultBean edit(ClueEditVo clueVo) {
         String clueState = clueMapper.getClueState(clueVo.getClueId());
-        if (clueState.equals(CLUE_STATE_PEND) || clueState.equals(CLUE_STATE_OFFSHELF)) {
+        if (CLUE_STATE_PEND.equals(clueState) || CLUE_STATE_OFFSHELF.equals(clueState)) {
             Clue clue = ClueUtils.toClue(clueVo);
             clueMapper.update(clue);
             return ResultUtil.formResult(true, ResultCode.SUCCESS);
@@ -162,10 +165,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Override
     public ResultBean onShelf(ClueShelfVo clueShelfVo) {
         String clueState = clueMapper.getClueState(clueShelfVo.getClueId());
-        if (clueState.equals(CLUE_STATE_ONSHELF)) {
+        if (CLUE_STATE_ONSHELF.equals(clueState)) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_ONSHELF);
         }
-        if (clueState.equals(CLUE_STATE_SOLD)) {
+        if (CLUE_STATE_SOLD.equals(clueState)) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_SOLD);
         }
         clueShelfVo.setClueState(CLUE_STATE_ONSHELF);
@@ -183,10 +186,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Override
     public ResultBean offShelf(ClueShelfVo clueShelfVo) {
         String clueState = clueMapper.getClueState(clueShelfVo.getClueId());
-        if (clueState.equals(CLUE_STATE_OFFSHELF)) {
+        if (CLUE_STATE_OFFSHELF.equals(clueState)) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_OFFSHELF);
         }
-        if (clueState.equals(CLUE_STATE_SOLD) || clueState.equals(CLUE_STATE_PEND)) {
+        if (CLUE_STATE_SOLD.equals(clueState) || CLUE_STATE_PEND.equals(clueState)) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_FORBID);
         }
         clueShelfVo.setClueState(CLUE_STATE_OFFSHELF);
@@ -204,7 +207,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Override
     public ResultBean clueDelete(ClueShelfVo clueShelfVo) {
         String clueState = clueMapper.getClueState(clueShelfVo.getClueId());
-        if (clueState.equals(CLUE_STATE_SOLD) || clueState.equals(CLUE_STATE_ONSHELF)) {
+        if (CLUE_STATE_SOLD.equals(clueState) || CLUE_STATE_ONSHELF.equals(clueState)) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_STATE_FORBID_DELETE);
         }
         clueMapper.softDelete(clueShelfVo);

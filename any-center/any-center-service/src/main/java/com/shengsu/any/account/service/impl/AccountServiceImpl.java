@@ -16,7 +16,6 @@ import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
-import com.shengsu.any.message.constant.MessageConst;
 import com.shengsu.any.message.entity.Message;
 import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
@@ -38,6 +37,7 @@ import java.text.MessageFormat;
 import java.util.*;
 
 import static com.shengsu.any.app.constant.BizConst.*;
+import static com.shengsu.any.message.constant.MessageConst.*;
 
 /**
  * @description:
@@ -45,7 +45,7 @@ import static com.shengsu.any.app.constant.BizConst.*;
  * @create: 2020-01-08 10:02
  **/
 @Service("accountService")
-public class AccountServiceImpl extends BaseServiceImpl<Account, String> implements AccountServcie, MessageConst {
+public class AccountServiceImpl extends BaseServiceImpl<Account, String> implements AccountServcie {
     @Autowired
     private AuthorizedService authorizedService;
     @Autowired

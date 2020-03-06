@@ -6,7 +6,6 @@ import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.app.util.ResultUtil;
-import com.shengsu.any.message.constant.MessageConst;
 import com.shengsu.any.message.entity.Message;
 import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
@@ -40,6 +39,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static com.shengsu.any.app.constant.BizConst.*;
+import static com.shengsu.any.message.constant.MessageConst.*;
 import static com.shengsu.any.user.util.UserUtils.toUserDetailsPo;
 
 /**
@@ -48,7 +48,7 @@ import static com.shengsu.any.user.util.UserUtils.toUserDetailsPo;
  * @create: 2020-01-07 17:20
  **/
 @Service("anyUserService")
-public class UserServiceImpl extends BaseServiceImpl<User, String> implements UserService, MessageConst {
+public class UserServiceImpl extends BaseServiceImpl<User, String> implements UserService {
     @Autowired
     private SmsService smsService;
     @Autowired
