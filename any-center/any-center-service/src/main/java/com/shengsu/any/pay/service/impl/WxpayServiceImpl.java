@@ -4,7 +4,7 @@ import com.shengsu.any.account.entity.PayOrder;
 import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.service.PayOrderService;
 import com.shengsu.any.account.util.PayOrderUtils;
-import com.shengsu.any.app.constant.BizConst;
+
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.HttpClientUtil;
 import com.shengsu.any.app.util.ResultUtil;
@@ -28,9 +28,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.shengsu.any.app.constant.BizConst.*;
+
 @Slf4j
 @Service("wxpayService")
-public class WxpayServiceImpl implements WxpayService,BizConst {
+public class WxpayServiceImpl implements WxpayService {
     @Value("${wxpay.appid}")
     private String appID;
     @Value("${wxpay.mchid}")
@@ -83,7 +85,7 @@ public class WxpayServiceImpl implements WxpayService,BizConst {
         data.put("trade_type", "JSAPI");// 公众号支付
         data.put("openid",wxOrderVo.getOpenId());
         Map<String, String> resp = null;
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         try {
             // 请求微信返回预结果
             resp = wxpay.unifiedOrder(data);
@@ -169,7 +171,7 @@ public class WxpayServiceImpl implements WxpayService,BizConst {
 
     private String getSignKey() throws Exception {
         String nonce_str = WXPayUtil.generateNonceStr();//生成随机字符
-        Map<String, String> param = new HashMap<String, String>();
+        Map<String, String> param = new HashMap<>();
         param.put("mch_id", mchID);//需要真实商户号
         param.put("nonce_str", nonce_str);//随机字符
         String sign = WXPayUtil.generateSignature(param,apiKey,WXPayConstants.SignType.MD5);//通过SDK生成签名其中API_KEY为商户对应的真实密钥
@@ -177,7 +179,7 @@ public class WxpayServiceImpl implements WxpayService,BizConst {
         String xml = WXPayUtil.mapToXml(param);//将map转换为xml格式
         String url = "https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey";//沙箱密钥获取api
         String SignKey = HttpClientUtil.sendPost(url, xml);
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         result = WXPayUtil.xmlToMap(SignKey);
 
         return result.get("sandbox_signkey");

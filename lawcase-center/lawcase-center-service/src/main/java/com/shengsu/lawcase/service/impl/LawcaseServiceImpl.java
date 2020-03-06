@@ -2,7 +2,6 @@ package com.shengsu.lawcase.service.impl;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
-import com.shengsu.app.contant.BizConst;
 import com.shengsu.lawcase.entity.*;
 import com.shengsu.lawcase.mapper.LawcaseMapper;
 import com.shengsu.lawcase.service.*;
@@ -17,12 +16,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.shengsu.app.contant.BizConst.*;
+
 /**
  * Created by zxh on 2019/5/8.
  */
 @Service("lawcaseService")
 @Slf4j
-public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase,String> implements LawcaseService,BizConst {
+public class LawcaseServiceImpl extends BaseServiceImpl<Lawcase, String> implements LawcaseService {
     @Autowired
     LawcaseMapper lawcaseMapper;
 

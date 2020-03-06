@@ -16,7 +16,6 @@ import com.shengsu.any.account.entity.PayOrder;
 import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.service.PayOrderService;
 import com.shengsu.any.account.util.PayOrderUtils;
-import com.shengsu.any.app.constant.BizConst;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.pay.service.AlipayService;
@@ -33,9 +32,11 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import static com.shengsu.any.app.constant.BizConst.*;
+
 @Slf4j
 @Service("alipayService")
-public class AlipayServiceImpl implements AlipayService,BizConst {
+public class AlipayServiceImpl implements AlipayService {
     @Value("${alipay.appid}")
     private String appID;
     @Value("${alipay.rsaPrivateKey}")
