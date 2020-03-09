@@ -126,7 +126,7 @@ public class ClueUtils {
                         myCluePo.setClueId(clue.getClueId());
                         myCluePo.setBuyTime(cluePersonal.getCreateTime());
                         myCluePo.setTelx(pns.getTelx());
-                        if (now.getTime() - date.getTime() > expireTimeSecond) {
+                        if (now.getTime() - date.getTime() > expireTimeSecond * 1000) {
                             myCluePo.setPnsStatus("Expired");
                         } else {
                             myCluePo.setPnsStatus("Valid");
