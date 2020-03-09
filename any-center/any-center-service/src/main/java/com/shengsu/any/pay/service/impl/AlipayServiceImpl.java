@@ -122,7 +122,7 @@ public class AlipayServiceImpl implements AlipayService {
         try {
             alipayResponse = client.execute(alipayRequest);
         } catch (AlipayApiException e) {
-            log.info(JSON.toJSONString(e.getMessage()));
+            log.error("异常",e);
             e.printStackTrace();
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS,alipayResponse);
