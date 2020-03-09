@@ -24,4 +24,5 @@ public class RichesListPo implements Serializable {
     private String districtCode;// 区级编码
     private BigDecimal income;// 收入
     private BigDecimal accountBalance;
+    private String lawFirm;// 律所
 }

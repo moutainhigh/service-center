@@ -79,11 +79,15 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
 
     @Override
     public ResultBean listAccountByPage(AccounListByPageVo accounListByPageVo) {
-        String userId = null;
-        if (StringUtils.isNotBlank(accounListByPageVo.getTel())){
-            userId = userService.getUserIdByTel(accounListByPageVo.getTel());
+        if (StringUtils.isBlank(accounListByPageVo.getTel())){
+            accounListByPageVo.setUserId("");
+        }else{
+            String userId = userService.getUserIdByTel(accounListByPageVo.getTel());
+            if (StringUtils.isBlank(userId)){
+                return ResultUtil.formNullResult();
+            }
+            accounListByPageVo.setUserId(userId);
         }
-        accounListByPageVo.setUserId(userId);
         // 统计用户总收入
         List<TotalIncomePo> totalIncomePos = accountRecordService.totalIncome(accounListByPageVo);
         // 统计用户总支出
@@ -116,11 +120,15 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
 
     @Override
     public ResultBean listRichesByPage(RichesListByPageVo richesListByPageVo) {
-        String userId = null;
-        if (StringUtils.isNotBlank(richesListByPageVo.getTel())){
-            userId = userService.getUserIdByTel(richesListByPageVo.getTel());
+        if (StringUtils.isBlank(richesListByPageVo.getTel())){
+            richesListByPageVo.setUserId("");
+        }else{
+            String userId = userService.getUserIdByTel(richesListByPageVo.getTel());
+            if (StringUtils.isBlank(userId)){
+                return ResultUtil.formNullResult();
+            }
+            richesListByPageVo.setUserId(userId);
         }
-        richesListByPageVo.setUserId(userId);
         // 统计用户总收入
         List<TotalIncomePo> totalIncomePos = accountRecordService.historyRecharge(richesListByPageVo);
         Map<String, TotalIncomePo> totalIncomePoMap = AccountUtils.toTotalIncomeMap(totalIncomePos);

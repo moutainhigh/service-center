@@ -134,7 +134,7 @@
 		update user set icon_oss_resource_id = #{iconOssResourceId} where user_id=#{userId}
 	</update>
 	<select id="getUserIdByTel" parameterType="string" resultType="string">
-		select user_id from user where tel=#{tel}
+		select user_id from user where tel=#{tel} and del_flag=0
 	</select>
 	<select id="getMany" parameterType="java.util.List" resultType="user">
 		select

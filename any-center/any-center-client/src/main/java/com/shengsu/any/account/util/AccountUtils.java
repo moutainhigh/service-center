@@ -72,6 +72,7 @@ public class AccountUtils {
             accountRecordPo.setIncome(totalIncomePoMap.get(account.getUserId())==null?new BigDecimal(0):totalIncomePoMap.get(account.getUserId()).getTotalIncome());
             accountRecordPo.setExpend(totalExpendPoMap.get(account.getUserId())==null?new BigDecimal(0):totalExpendPoMap.get(account.getUserId()).getTotalExpend());
             accountRecordPo.setAccountBalance(account.getBalance());
+            accountRecordPo.setRealName(userMap.get(account.getUserId())==null?"":userMap.get(account.getUserId()).getRealName());
             return accountRecordPo;
         }
         return null;
@@ -100,6 +101,7 @@ public class AccountUtils {
             richesListPo.setCreateTime(account.getCreateTime());
             richesListPo.setIncome(totalIncomePoMap.get(account.getUserId())==null?new BigDecimal(0):totalIncomePoMap.get(account.getUserId()).getTotalIncome());
             richesListPo.setAccountBalance(account.getBalance());
+            richesListPo.setLawFirm(userMap.get(account.getUserId())==null?"":userMap.get(account.getUserId()).getLawFirm());
             return richesListPo;
         }
         return null;

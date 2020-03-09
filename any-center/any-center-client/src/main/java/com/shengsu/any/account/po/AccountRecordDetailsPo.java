@@ -20,4 +20,5 @@ public class AccountRecordDetailsPo implements Serializable {
     private String actionType;// 动作类型
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
+    private String realName;
 }

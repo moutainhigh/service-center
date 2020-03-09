@@ -21,4 +21,5 @@ public class AccountListPo implements Serializable {
     private BigDecimal income;// 收入
     private BigDecimal expend;// 支出
     private BigDecimal accountBalance;
+    private String realName;
 }

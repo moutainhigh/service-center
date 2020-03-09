@@ -107,11 +107,15 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
 
     @Override
     public ResultBean listAccountDetailByPage(AccountDetailListByPageVo accountDetailVo) {
-        String userId = null;
-        if (StringUtils.isNotBlank(accountDetailVo.getTel())){
-            userId = userService.getUserIdByTel(accountDetailVo.getTel());
+        if (StringUtils.isBlank(accountDetailVo.getTel())){
+            accountDetailVo.setUserId("");
+        }else{
+            String userId = userService.getUserIdByTel(accountDetailVo.getTel());
+            if (StringUtils.isBlank(userId)){
+                return ResultUtil.formNullResult();
+            }
+            accountDetailVo.setUserId(userId);
         }
-        accountDetailVo.setUserId(userId);
        Map<String, Object> map = new HashMap<>();
        int totalCount = accountRecordMapper.countAll(accountDetailVo);
         if (totalCount > 0) {

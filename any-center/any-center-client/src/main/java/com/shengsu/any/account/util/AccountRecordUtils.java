@@ -48,6 +48,7 @@ public class AccountRecordUtils {
             detailsPo.setAmount(accountRecord.getAmount());
             detailsPo.setSource(accountRecord.getSource());
             detailsPo.setCreateTime(accountRecord.getCreateTime());
+            detailsPo.setRealName(userMap.get(accountRecord.getUserId())==null?"":userMap.get(accountRecord.getUserId()).getRealName());
             return detailsPo;
         }
         return null;

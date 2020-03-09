@@ -43,7 +43,7 @@
 		from account_record
 		where del_flag = 0
 		<if test="userId != null and  userId != ''"> and user_id= #{userId}</if>
-		and action_type='recharge'
+		and action_type in ('recharge','H5_recharge')
 		group by user_id
 	</select>
 	<select id="totalExpend" parameterType = "com.shengsu.any.account.vo.AccounListByPageVo" resultType="com.shengsu.any.account.po.TotalExpendPo">
