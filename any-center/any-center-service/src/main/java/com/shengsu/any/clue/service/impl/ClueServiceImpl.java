@@ -46,13 +46,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.shengsu.any.app.constant.BizConst.*;
-import static com.shengsu.any.message.constant.MessageConst.*;
+import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_CLUE_BUY_SUCCESS;
 
 /**
  * @description:
@@ -316,16 +313,18 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             String clueId = cluePersonal.getClueId();
             list.add(clueId);
         }
+
         if (list.isEmpty()) {
             return ResultUtil.formResult(true, ResultCode.SUCCESS, list);
         }
+
         List<Clue> clues = clueMapper.getMany(list);
         List<String> clueTypes = ClueUtils.toClueType(clues);
 
         List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
         SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<Pns> pns = pnsService.getMany(list);
-        List<MyCluePo> myCluePos = ClueUtils.toClueWebPagePo(clues, cluePersonals, pns);
+        List<MyCluePo> myCluePos = ClueUtils.toClueWebPagePo(clues, cluePersonals, pns, expireTimeSecond);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, myCluePos);
     }
     /**

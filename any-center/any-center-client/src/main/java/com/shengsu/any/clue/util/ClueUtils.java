@@ -103,12 +103,14 @@ public class ClueUtils {
         return list;
     }
 
-    public static List<MyCluePo> toClueWebPagePo(List<Clue> clues, List<CluePersonal> cluePersonals, List<Pns> pnss) {
+    public static List<MyCluePo> toClueWebPagePo(List<Clue> clues, List<CluePersonal> cluePersonals, List<Pns> pnss, Integer expireTimeSecond) {
         List<MyCluePo> list = new ArrayList<>();
         for (CluePersonal cluePersonal : cluePersonals) {
             for (Clue clue : clues) {
                 for (Pns pns : pnss) {
                     if (clue.getClueId().equals(cluePersonal.getClueId()) && clue.getClueId().equals(pns.getClueId())) {
+                        Date now = new Date();
+                        Date date = cluePersonal.getCreateTime();
                         MyCluePo myCluePo = new MyCluePo();
                         myCluePo.setClueState(clue.getClueState());
                         myCluePo.setAppellation(clue.getAppellation());
@@ -124,6 +126,11 @@ public class ClueUtils {
                         myCluePo.setClueId(clue.getClueId());
                         myCluePo.setBuyTime(cluePersonal.getCreateTime());
                         myCluePo.setTelx(pns.getTelx());
+                        if (now.getTime() - date.getTime() > expireTimeSecond) {
+                            myCluePo.setPnsStatus("Expired");
+                        } else {
+                            myCluePo.setPnsStatus("Valid");
+                        }
                         list.add(myCluePo);
                     }
                 }
@@ -132,9 +139,13 @@ public class ClueUtils {
         return list;
     }
 
-    public static List<String> toClueType(List<Clue> clues){
-        List<String> list = new ArrayList<> ();
-        for(Clue clue : clues){
+    public static void checkPnsStatus() {
+
+    }
+
+    public static List<String> toClueType(List<Clue> clues) {
+        List<String> list = new ArrayList<>();
+        for (Clue clue : clues) {
             String clueType = clue.getClueType();
             list.add(clueType);
         }
