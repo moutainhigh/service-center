@@ -26,11 +26,12 @@
             <groupId>com.shengsu</groupId>
             <artifactId>log-center-client</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.shengsu</groupId>
-            <artifactId>common-web</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>
