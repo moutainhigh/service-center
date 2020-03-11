@@ -9,7 +9,6 @@
        	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <!--使用 dubbo 协议实现定义好的接口-->
     <dubbo:service interface="com.shengsu.lawcase.service.LawcaseService" ref="lawcaseService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
-	<dubbo:service interface="com.shengsu.system.service.LawcaseDictionaryService" ref="lawcaseDictionaryService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:service interface="com.shengsu.consult.service.ConsultService" ref="consultService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:service interface="com.shengsu.bench.service.BenchJournalismService" ref="benchJournalismService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:service interface="com.shengsu.bench.service.BenchLawyerService" ref="benchLawyerService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
