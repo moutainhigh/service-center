@@ -51,7 +51,7 @@ public enum ResultCode {
     EXCEPTION_USER_AUTH_STATE_IN_REVIEW(1002, "用户正在认证中，不可再提交认证"),
     EXCEPTION_USER_AUTH_STATE_REVIEW_PASS(1002, "用户已认证通过，不可再提交认证"),
     // 账户
-    EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE(1002, "账户余额不足"),
+    EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE(1000, "账户余额不足"),
     //隐私号码
     EXCEPTION_PNS(1002, "PSN异常！"),
     // 微信支付

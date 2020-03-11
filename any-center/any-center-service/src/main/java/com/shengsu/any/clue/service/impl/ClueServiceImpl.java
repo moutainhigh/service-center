@@ -238,7 +238,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         BigDecimal balance = accountServcie.getAccountBalanceByUserId(userId);
         if (balance == null) balance = new BigDecimal(0);
         if (balance.compareTo(clue.getCluePrice()) < 0) {
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_ACCOUNT_INSUFFICIENT_BALANCE);
         }
         //绑定隐私号码
         List<String> codes = Arrays.asList(areaCodes.split(","));
