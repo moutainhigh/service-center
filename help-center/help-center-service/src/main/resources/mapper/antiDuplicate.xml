@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shengsu.helper.mapper.AntiDuplicateMapper">
+
+    <!-- Result Map-->
+    <resultMap id="antiDuplicate_result_map" type="antiDuplicate">
+        <result property="duplicateId" column="duplicate_id"/>
+    </resultMap>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="antiDuplicate">
+		insert into anti_duplicate
+		(
+			duplicate_id,
+			create_time,
+			duplicate_type
+		)
+		values
+		(
+			#{duplicateId,jdbcType=VARCHAR},
+			current_timestamp(),
+			#{duplicateType,jdbcType=VARCHAR}
+		)
+	</insert>
+
+    <!-- 批量新增 -->
+    <insert id="batchSave" parameterType="antiDuplicate">
+        insert into anti_duplicate
+        (
+        duplicate_id,
+        create_time,
+        duplicate_type
+        )
+        <foreach collection="list" item="item" index="index" separator="union all">
+            (
+            select
+            #{item.duplicateId,jdbcType=VARCHAR},
+            current_timestamp(),
+            #{item.duplicateType,jdbcType=VARCHAR}
+            from
+            dual
+            )
+        </foreach>
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="antiDuplicate">
+		delete from
+			anti_duplicate
+		where
+			duplicate_id=#{duplicateId} and duplicate_type=#{duplicateType,jdbcType=VARCHAR}
+	</delete>
+
+    <!-- 批量删除-->
+    <delete id="batchDeleteAntiDuplicate" parameterType="antiDuplicate">
+        delete from
+        anti_duplicate
+        where
+        duplicate_id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id.duplicateId}
+        </foreach>
+        and
+        duplicate_type in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id.duplicateType}
+        </foreach>
+    </delete>
+
+</mapper>
