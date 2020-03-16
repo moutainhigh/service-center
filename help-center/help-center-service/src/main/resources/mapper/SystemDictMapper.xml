@@ -11,9 +11,7 @@
             del_flag=0
             <if test="dictName != null and  dictName != ''">and s.dict_name like concat('%',#{dictName},'%')</if>
             <if test="dictCode != null and dictCode != ''">and s.dict_code like concat('%',#{dictCode},'%')</if>
-            <if test="displayName != null and displayName != ''">and s.display_name like
-                concat('%',#{displayName},'%')
-            </if>
+            <if test="displayName != null and displayName != ''">and s.display_name like concat('%',#{displayName},'%')</if>
         </where>
     </sql>
     <select id="getManyByDictCodes" parameterType="java.util.List" resultMap="systemDict_result_map">
@@ -80,6 +78,7 @@
 			dict_code=#{dictCode} and
 			display_value=#{displayValue} and
 			<![CDATA[ dict_id <> #{dictId}
+
 
 
         ]]>
