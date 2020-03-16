@@ -59,4 +59,9 @@ public interface BizConst {
     //订单状态-已关闭
     String ORDER_STATUS_CLOSED= "2";
 
+    //收支类型-收入
+    String IN_OR_OUT_TYPE_INCOME = "income";
+    //收支类型-支出
+    String IN_OR_OUT_TYPE_EXPEND= "expend";
+
 }

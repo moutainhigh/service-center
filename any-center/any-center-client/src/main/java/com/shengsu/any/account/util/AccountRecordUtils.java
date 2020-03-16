@@ -40,7 +40,7 @@ public class AccountRecordUtils {
         }
         return null;
     }
-    public static AccountRecordDetailsPo toAccountRecordDetailsPo(AccountRecord accountRecord,Map<String, User> userMap) {
+    public static AccountRecordDetailsPo toAccountRecordDetailsPo(AccountRecord accountRecord,Map<String, User> userMap,Map<String, String> inOrOutMap) {
         if (accountRecord != null) {
             AccountRecordDetailsPo detailsPo = new AccountRecordDetailsPo();
             detailsPo.setTel(userMap.get(accountRecord.getUserId())==null?"":userMap.get(accountRecord.getUserId()).getTel());
@@ -49,15 +49,16 @@ public class AccountRecordUtils {
             detailsPo.setSource(accountRecord.getSource());
             detailsPo.setCreateTime(accountRecord.getCreateTime());
             detailsPo.setRealName(userMap.get(accountRecord.getUserId())==null?"":userMap.get(accountRecord.getUserId()).getRealName());
+            detailsPo.setInOrOutType(inOrOutMap.get(accountRecord.getActionType()));
             return detailsPo;
         }
         return null;
     }
-    public static List<AccountRecordDetailsPo> toAccountRecordDetailsPos(List<AccountRecord> accountRecords,Map<String, User> userMap) {
+    public static List<AccountRecordDetailsPo> toAccountRecordDetailsPos(List<AccountRecord> accountRecords,Map<String, User> userMap, Map<String, String> inOrOutMap) {
         if (accountRecords != null) {
             List<AccountRecordDetailsPo> accountRecordDetailsPos = new ArrayList<>();
             for (AccountRecord accountRecord : accountRecords) {
-                accountRecordDetailsPos.add(toAccountRecordDetailsPo(accountRecord,userMap));
+                accountRecordDetailsPos.add(toAccountRecordDetailsPo(accountRecord,userMap,inOrOutMap));
             }
             return accountRecordDetailsPos;
         }

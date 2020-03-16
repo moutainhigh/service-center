@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.shengsu.any.app.constant.BizConst.*;
+
 /**
  * @description:
  * @author: lipiao
@@ -130,13 +132,23 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
                 users = userService.getMany(userIds);
             }
             Map<String, User> userMap = UserUtils.toUserMap(users);
+            Map<String, String> inOrOutMap = assembleInOrOutMap();
 
-            List<AccountRecordDetailsPo> accountRecordDetailsPos = AccountRecordUtils.toAccountRecordDetailsPos(root,userMap);
+            List<AccountRecordDetailsPo> accountRecordDetailsPos = AccountRecordUtils.toAccountRecordDetailsPos(root,userMap,inOrOutMap);
             map.put("root", accountRecordDetailsPos);
             map.put("totalCount", totalCount);
         }
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+    }
+
+    private Map<String,String> assembleInOrOutMap() {
+        Map<String, String> inOrOutMap = new HashMap<>();
+        inOrOutMap.put(ACCOUNT_ACTION_TYPE_RECHARGE,IN_OR_OUT_TYPE_INCOME);
+        inOrOutMap.put(ACCOUNT_ACTION_TYPE_H5_RECHARGE,IN_OR_OUT_TYPE_INCOME);
+        inOrOutMap.put(ACCOUNT_ACTION_TYPE_CASH_OUT,IN_OR_OUT_TYPE_EXPEND);
+        inOrOutMap.put(ACCOUNT_ACTION_TYPE_BUY_CLUE,IN_OR_OUT_TYPE_EXPEND);
+        return inOrOutMap;
     }
 
     @Override
