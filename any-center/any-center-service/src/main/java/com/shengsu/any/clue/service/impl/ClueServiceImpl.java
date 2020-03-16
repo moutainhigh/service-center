@@ -6,6 +6,8 @@ import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
 import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.app.constant.ResultCode;
+import com.shengsu.any.app.exception.BizException;
+import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.clue.entity.Clue;
 import com.shengsu.any.clue.entity.CluePersonal;
@@ -45,6 +47,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -88,6 +91,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Value("${pns.areaCodes}")
     private String areaCodes;
     private static Random random = new Random();
+    @Resource
+    private RedisUtil redisUtil;
 
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
@@ -221,6 +226,13 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Transactional(rollbackFor = Exception.class)
     public ResultBean buy(ClueBuyVo clueBuyVo) {
         String clueId = clueBuyVo.getClueId();
+        // 加锁
+        long time = System.currentTimeMillis() + 1000*10;  //超时时间：10秒
+        boolean isLock = redisUtil.lock(String.valueOf(clueId), String.valueOf(time));
+        if(!isLock){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_RESALE);
+        }
+
         Clue clue = get(clueId);
         if (CLUE_STATE_SOLD.equals(clue.getClueState())) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_RESALE);
@@ -278,6 +290,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         SmsParam184115275 smsParam184115275 = new SmsParam184115275(clue.getAppellation(), lawyer.getRealName());
         smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_184115275, JSON.toJSONString(smsParam184115275));
 
+        //解锁
+        redisUtil.unlock(String.valueOf(clueId),String.valueOf(time));
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 

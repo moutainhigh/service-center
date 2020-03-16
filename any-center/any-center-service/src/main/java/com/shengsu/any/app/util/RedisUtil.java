@@ -1,5 +1,6 @@
 package com.shengsu.any.app.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -84,4 +85,45 @@ public class RedisUtil {
     public Serializable get(final String key) {
         return redisTemplate.opsForValue().get(key);
     }
+
+    /**
+     * Redis加锁
+     * @param key
+     * @param value
+     * @return
+     */
+    public boolean lock(String key, String value) {
+        if (redisTemplate.opsForValue().setIfAbsent(key, value)) {     //这个其实就是setnx命令，只不过在java这边稍有变化，返回的是boolea
+            return true;
+        }
+        //避免死锁，且只让一个线程拿到锁
+        String currentValue = (String) redisTemplate.opsForValue().get(key);
+        //如果锁过期了
+        if (!StringUtils.isEmpty(currentValue) && Long.parseLong(currentValue) < System.currentTimeMillis()) {
+            //获取上一个锁的时间
+            String oldValues = (String) redisTemplate.opsForValue().getAndSet(key, value);
+            if (!StringUtils.isEmpty(oldValues) && oldValues.equals(currentValue)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * Redis解锁
+     * @param key
+     * @param value
+     */
+    public void unlock(String key, String value) {
+        try {
+            String currentValue = (String) redisTemplate.opsForValue().get(key);
+            if (!StringUtils.isEmpty(currentValue) && currentValue.equals(value)) {
+                redisTemplate.opsForValue().getOperations().delete(key);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
