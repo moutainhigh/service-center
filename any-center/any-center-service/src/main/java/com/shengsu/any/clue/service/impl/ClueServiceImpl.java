@@ -286,10 +286,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         SystemDict systemDict = systemDictService.getOneByDisplayValue(DICT_CODE_CLUE_TYPE, clue.getClueType());
         // 发短信给律师
         SmsParam184105294 smsParam184105294 =  new SmsParam184105294(lawyer.getRealName(),systemDict.getDisplayName());
-        smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_186395184, JSON.toJSONString(smsParam184105294),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_186395184, JSON.toJSONString(smsParam184105294),SmsSignEnum.SMS_SIGN_CODE_YS);
         // 发短信给客户
         SmsParam184115275 smsParam184115275 = new SmsParam184115275(clue.getAppellation(), lawyer.getRealName());
-        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_184115275, JSON.toJSONString(smsParam184115275),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_184115275, JSON.toJSONString(smsParam184115275),SmsSignEnum.SMS_SIGN_CODE_YS);
 
         //解锁
         redisUtil.unlock(String.valueOf(clueId),String.valueOf(time));
