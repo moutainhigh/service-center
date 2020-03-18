@@ -20,5 +20,6 @@
         <module>invest-center</module>
         <module>help-center</module>
         <module>any-center</module>
+        <module>schedule-center</module>
     </modules>
 </project>
