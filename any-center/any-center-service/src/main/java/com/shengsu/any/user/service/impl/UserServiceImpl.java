@@ -20,6 +20,7 @@ import com.shengsu.any.user.vo.*;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.OssConstant;
+import com.shengsu.helper.constant.SmsSignEnum;
 import com.shengsu.helper.constant.SmsTemplateEnum;
 import com.shengsu.helper.entity.SmsParam180053728;
 import com.shengsu.helper.entity.SystemDict;
@@ -80,7 +81,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         redisUtil.set(tel, smsSendVo.getSmsCode(), smsExpireTime);
         // 发送手机验证码
         SmsParam180053728 param = new SmsParam180053728(smsSendVo.getSmsCode());
-        return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(param));
+        return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(param),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
     }
     /**
     * @Description: 获取6位手机验证码
