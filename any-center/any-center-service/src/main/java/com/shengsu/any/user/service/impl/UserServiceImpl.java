@@ -81,7 +81,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         redisUtil.set(tel, smsSendVo.getSmsCode(), smsExpireTime);
         // 发送手机验证码
         SmsParam180053728 param = new SmsParam180053728(smsSendVo.getSmsCode());
-        return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(param),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(param),SmsSignEnum.SMS_SIGN_CODE_YS);
     }
     /**
     * @Description: 获取6位手机验证码
