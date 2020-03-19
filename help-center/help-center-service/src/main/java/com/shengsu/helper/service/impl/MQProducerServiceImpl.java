@@ -46,7 +46,6 @@ public class MQProducerServiceImpl implements MQProducerService {
 
     @PostConstruct
     public void init() {
-
         logRocketMqProducer = new DefaultMQProducer(logGroup);
         logRocketMqProducer.setNamesrvAddr(namesrvAddr);
         logRocketMqProducer.setMaxMessageSize(maxMessageSize);
@@ -61,33 +60,27 @@ public class MQProducerServiceImpl implements MQProducerService {
         try {
             logRocketMqProducer.start();
             jpushRocketMqProducer.start();
-            log.info("rocketMQ is start !!groupName : {},nameserAddr:{}", logGroup, namesrvAddr);
+            log.info("rocketMQ is start !!");
         } catch (MQClientException e) {
-            log.error(String.format("rocketMQ start error,{}", e));
+            log.error("rocketMQ start error,{}", e);
         }
     }
 
-    public ResultBean send(MQProducerEnum producer, String body) throws UnsupportedEncodingException, InterruptedException, RemotingException, MQClientException, MQBrokerException {
+    public ResultBean send(MQProducerEnum producer, String body){
         if (producer == null || StringUtils.isBlank(body)) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_PARAM_ERROR);
         }
-
-        Message message = new Message(producer.getTopic(), producer.getTag(), body.getBytes(RemotingHelper.DEFAULT_CHARSET));
-        StopWatch stop = new StopWatch();
-        stop.start();
-        SendResult result = null;
-        if(MQProducerEnum.JPUSHSCHEDULE.getTopic().equals(producer.getTag())){
-             result = jpushRocketMqProducer.send(message);
-        }else {
-             result = logRocketMqProducer.send(message);
+        try {
+            Message message = new Message(producer.getTopic(), producer.getTag(), body.getBytes(RemotingHelper.DEFAULT_CHARSET));
+            SendResult result = null;
+            if(MQProducerEnum.JPUSHSCHEDULE.getTopic().equals(producer.getTag())){
+                result = jpushRocketMqProducer.send(message);
+            }else {
+                result = logRocketMqProducer.send(message);
+            }
+        } catch (Exception e) {
+            log.error("消息发送异常:", e);
         }
-
-        log.info("发送响应：MsgId:" + result.getMsgId() + "，发送状态:" + result.getSendStatus());
-        stop.stop();
-
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
-
-
-
 }

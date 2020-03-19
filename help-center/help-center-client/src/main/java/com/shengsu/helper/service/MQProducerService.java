@@ -9,6 +9,5 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
 import java.io.UnsupportedEncodingException;
 
 public interface MQProducerService {
-
-    ResultBean send(MQProducerEnum producer, String body) throws UnsupportedEncodingException, InterruptedException, RemotingException, MQClientException, MQBrokerException;
+    ResultBean send(MQProducerEnum producer, String body);
 }
