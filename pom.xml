@@ -21,5 +21,6 @@
         <module>help-center</module>
         <module>any-center</module>
         <module>schedule-center</module>
+        <module>website-center</module>
     </modules>
 </project>
