@@ -22,6 +22,7 @@ public enum ResultCode {
     EXCEPTION_CLUE_STATE_FORBID(1002,"当前状态下不允许下架"),
     EXCEPTION_CLUE_STATE_FORBID_DELETE(1002,"当前状态下不允许删除"),
     EXCEPTION_CLUE_NOT_RESALE(1002,"线索不可重复出售"),
+    EXCEPTION_CLUE_IS_LOCKED(1002,"该线索被锁定，请稍后重试"),
     EXCEPTION_CLUE_FFSHELF_NOT_RESALE(1002,"线索已下架，不可出售"),
     //登录
     EXCEPTION_LOGIN_USERNAME_PASSWROD_ERROR(1002,"用户名或密码错误"),

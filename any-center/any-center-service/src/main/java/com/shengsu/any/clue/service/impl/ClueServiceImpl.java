@@ -230,7 +230,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         long time = System.currentTimeMillis() + 1000*1;  //超时时间：1秒
         boolean isLock = redisUtil.lock(clueId, String.valueOf(time));
         if(!isLock){
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_RESALE);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_IS_LOCKED);
         }
 
         Clue clue = get(clueId);
