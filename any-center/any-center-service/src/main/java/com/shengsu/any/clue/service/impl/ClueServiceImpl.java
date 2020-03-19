@@ -227,8 +227,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     public ResultBean buy(ClueBuyVo clueBuyVo) {
         String clueId = clueBuyVo.getClueId();
         // 加锁
-        long time = System.currentTimeMillis() + 1000*10;  //超时时间：10秒
-        boolean isLock = redisUtil.lock(String.valueOf(clueId), String.valueOf(time));
+        long time = System.currentTimeMillis() + 1000*1;  //超时时间：1秒
+        boolean isLock = redisUtil.lock(clueId, String.valueOf(time));
         if(!isLock){
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_NOT_RESALE);
         }
@@ -291,7 +291,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_184115275, JSON.toJSONString(smsParam184115275),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
 
         //解锁
-        redisUtil.unlock(String.valueOf(clueId),String.valueOf(time));
+        redisUtil.unlock(clueId,String.valueOf(time));
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
