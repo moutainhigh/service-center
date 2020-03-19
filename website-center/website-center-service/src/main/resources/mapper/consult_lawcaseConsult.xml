@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shengsu.website.consult.mapper.LawcaseConsultMapper">
+	<!-- Result Map-->
+	<resultMap id="lawcase_consult_result_map" type="lawcaseConsult">
+	</resultMap>
+
+	<!-- 查询条件 -->
+	<sql id="lawcase_consult_where_clause">
+		<where>
+			del_flag = 0
+			<if test="consultId != null and  consultId != ''"> and consult_id= #{consultId}</if>
+			<if test="consultor != null and  consultor != ''"> and consultor= #{consultor}</if>
+			<if test="consultContent != null and  consultContent != ''"> and consult_content= #{consultContent}</if>
+			<if test="contact != null and  contact != ''"> and contact= #{contact}</if>
+			<if test="startTime != null and  startTime != ''">and create_time >= #{startTime,jdbcType=VARCHAR}</if>
+			<if test="endTime != null and  endTime != ''">and  DATE_ADD(date_format(#{endTime,jdbcType=VARCHAR},"%Y-%m-%d"),interval 1 day) >=create_time</if>
+			<if test="search != null and  search != ''"> 
+			 <bind name="pattern" value="search" />
+			and concat(consultor,consult_content,contact) like concat('%',#{pattern},'%') escape'/'
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 新增咨询内容信息 -->
+	<insert id="save" parameterType="LawcaseConsult">
+		insert into
+		lawcase_consult
+		(
+			consult_id,
+			consult_content,
+			consultor,
+			create_time,
+			modify_time,
+			contact,
+			target,
+			del_flag
+		)
+		values
+		(
+			#{consultId,jdbcType=VARCHAR},
+			#{consultContent,jdbcType=VARCHAR},
+			#{consultor,jdbcType=VARCHAR},
+			current_timestamp(),
+			current_timestamp(),
+			#{contact,jdbcType=VARCHAR},
+			#{target,jdbcType=VARCHAR},
+			0
+		)
+	</insert>
+	<!-- 获取所有咨询数 -->
+	<select id="countAll" resultType="int">
+		select 
+			count(1)
+		from 
+			lawcase_consult
+		<include refid="lawcase_consult_where_clause" />
+	</select>
+	<!-- 获取咨询信息列表 -->
+	<select id="listByPage" parameterType="lawcaseConsult" resultMap="lawcase_consult_result_map">
+		<include refid="global.paginationStart_mysql" />
+		select
+			*
+		from lawcase_consult
+		<include refid="lawcase_consult_where_clause" />
+		order by modify_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
+	
+	<!-- 根据条件获取咨询信息列表 -->
+	<select id="listByModel" parameterType="lawcaseConsult" resultMap="lawcase_consult_result_map">
+		select
+			*
+		from lawcase_consult
+		<include refid="lawcase_consult_where_clause" />
+	</select>
+</mapper>

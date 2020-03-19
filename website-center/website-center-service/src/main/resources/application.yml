@@ -29,6 +29,9 @@ dubbo:
   group: website-center
   port: 20887
   version: 1.0
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml
 logging:
   file: logs/website-center.log
 

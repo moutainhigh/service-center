@@ -17,5 +17,6 @@
     </settings>
 
     <typeAliases>
+        <package name="com.shengsu.website.consult.entity"/>
     </typeAliases>
 </configuration>
