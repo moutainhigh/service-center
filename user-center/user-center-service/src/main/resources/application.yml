@@ -8,12 +8,12 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://rm-bp1o00hl21xvv5eq7no.mysql.rds.aliyuncs.com:3306/user-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: dev
-    password: 'ss123456!@'
+    password: ss123456!@
   aop:
     proxy-target-class: true
   redis:
-    #host: 127.0.0.1
-    host: 192.168.1.52
+    host: 127.0.0.1
+    #host: 192.168.1.52
     port: 6379
     timeout: 2000
     password: 123456
@@ -29,8 +29,8 @@ spring:
         # 连接池中的最小空闲连接
         min-idle: 0
 zookeeper:
-  address: 192.168.1.52:2181
-  #address: 127.0.0.1:2181
+  #address: 192.168.1.52:2181
+  address: 127.0.0.1:2181
 dubbo:
   group: user-center
   port: 20882
