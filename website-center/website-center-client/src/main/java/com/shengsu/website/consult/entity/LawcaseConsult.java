@@ -14,4 +14,6 @@ public class LawcaseConsult extends BaseEntity {
     private String reply;
     private String lawyer;
     private String source;
+    private String startTime;
+	private String endTime;
 }
