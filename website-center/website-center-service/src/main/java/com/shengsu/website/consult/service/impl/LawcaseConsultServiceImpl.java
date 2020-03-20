@@ -12,9 +12,7 @@ import com.shengsu.website.consult.service.LawcaseConsultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service(value = "lawcaseConsultService")
@@ -53,10 +51,7 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
         lawcaseConsult.setSearch(search);
         List<LawcaseConsult> root = lawcaseConsultMapper.listByPage(lawcaseConsult);
         int totalCount = lawcaseConsultMapper.countAll(lawcaseConsult);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("root", root);
-        map.put("totalCount", totalCount);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS,root,totalCount);
     }
 
     /**
@@ -69,8 +64,6 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
     @Override
     public ResultBean listByModel(LawcaseConsult lawcaseConsult) {
         List<LawcaseConsult> root = lawcaseConsultMapper.listByModel(lawcaseConsult);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("root", root);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+        return ResultUtil.formRootResult(true, ResultCode.SUCCESS, root);
     }
 }
