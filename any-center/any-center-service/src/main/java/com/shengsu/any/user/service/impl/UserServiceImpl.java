@@ -6,6 +6,7 @@ import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.app.util.ResultUtil;
+import com.shengsu.any.constant.TemplateMessageEnum;
 import com.shengsu.any.message.entity.Message;
 import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
@@ -17,6 +18,9 @@ import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.any.user.util.UserUtils;
 import com.shengsu.any.user.vo.*;
+import com.shengsu.any.wechat.entity.TempMessageContent;
+import com.shengsu.any.wechat.entity.TempMessageData410928703;
+import com.shengsu.any.wechat.service.TemplateMessageService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.OssConstant;
@@ -30,6 +34,7 @@ import com.shengsu.helper.service.SystemDictService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
+import static com.shengsu.any.message.constant.TemplateMessageConst.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,6 +42,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.shengsu.any.app.constant.BizConst.*;
@@ -62,6 +69,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     private MessageService messageService;
     @Autowired
     private AccountServcie accountServcie;
+    @Autowired
+    private TemplateMessageService templateMessageService;
     @Resource
     private RedisUtil redisUtil;
     @Value("${sms.expireTimeSecond}")
@@ -362,8 +371,37 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         if (null == account){
             accountServcie.create(userId,new BigDecimal(0));
         }
-        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+        // 认证通过给公众号推送模板消息
+        // 设置模板
+        TempMessageData410928703 data = assembleTemplateDate(user.getRealName());
+       return templateMessageService.pushTemplateMessage(user.getWechatOpenid(),TemplateMessageEnum.MESSAGE_TEMPLATE_AUTHROTION_PASS,data);
+
     }
+    /**
+    * @Description: 组装要发送的模板数据
+    * @Param: 
+    * @date:
+    */
+    private TempMessageData410928703 assembleTemplateDate(String realName) {
+        //设置模板标题
+        TempMessageContent first=new TempMessageContent(MessageFormat.format(TEMPLATE_MESSAGE_AUTH_PASS_FIRST_VALUE, realName),TEMPLATE_MESSAGE_COLOR_D5D5D5);
+        //设置模板内容
+        TempMessageContent keyword1=new TempMessageContent(TEMPLATE_MESSAGE_AUTH_PASS_KEYWORD1_VALUE,TEMPLATE_MESSAGE_COLOR_0000FF);
+        //设置时间
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+        String format = simpleDateFormat.format(new Date());
+        TempMessageContent keyword2=new TempMessageContent(format,TEMPLATE_MESSAGE_COLOR_0000FF);
+        //设置备注
+        TempMessageContent remark=new TempMessageContent(TEMPLATE_MESSAGE_AUTH_PASS_REMARK_VALUE,TEMPLATE_MESSAGE_COLOR_0000FF);
+        //创建模板信息数据对象
+        TempMessageData410928703 data=new TempMessageData410928703();
+        data.setFirst(first);
+        data.setKeyword1(keyword1);
+        data.setKeyword2(keyword2);
+        data.setRemark(remark);
+        return data;
+    }
+
     /**
     * @Description: 认证拒绝
     * @Param: * @Param userAuthStateVo:
