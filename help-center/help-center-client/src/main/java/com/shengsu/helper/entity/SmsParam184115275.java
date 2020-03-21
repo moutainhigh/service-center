@@ -9,9 +9,10 @@ import lombok.Data;
 public class SmsParam184115275 {
     String client;
     String lawyer;
-
-    public SmsParam184115275(String client, String lawyer) {
+    String tel;
+    public SmsParam184115275(String client, String lawyer,String tel) {
         this.client = client;
         this.lawyer = lawyer;
+        this.tel = tel;
     }
 }
