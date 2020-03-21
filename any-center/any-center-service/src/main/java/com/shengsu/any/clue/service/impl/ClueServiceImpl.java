@@ -287,8 +287,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         SmsParam186381003 smsParam186381003 =  new SmsParam186381003(lawyer.getRealName(),systemDict.getDisplayName());
         smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_186381003, JSON.toJSONString(smsParam186381003),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
         // 发短信给客户
-        SMS_186615861 sms_186615861 = new SMS_186615861(clue.getAppellation(), lawyer.getRealName(),lawyer.getTel());
-        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_186615861, JSON.toJSONString(sms_186615861),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        SMSParam186615861 smsParam186615861 = new SMSParam186615861(clue.getAppellation(), lawyer.getRealName(),lawyer.getTel());
+        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_186615861, JSON.toJSONString(smsParam186615861),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
 
         //解锁
         redisUtil.unlock(clueId,String.valueOf(time));
