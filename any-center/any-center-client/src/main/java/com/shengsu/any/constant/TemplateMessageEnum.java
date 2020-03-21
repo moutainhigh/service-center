@@ -4,29 +4,19 @@ package com.shengsu.any.constant;
  * 消息模板
  */
 public enum TemplateMessageEnum {
-    MESSAGE_TEMPLATE_AUTHROTION_PASS("yRdcwKhNFdwfl85el7cjSiej6NSKS9bmT-rAcVZq_0w","www.baidu.com");
+    MESSAGE_TEMPLATE_AUTHROTION_PASS("yRdcwKhNFdwfl85el7cjSiej6NSKS9bmT-rAcVZq_0w");
 
-    private String key;
-    private String value;
+    private String templateCode;
 
-    TemplateMessageEnum(String key, String value){
-        this.key = key;
-        this.value = value;
+    TemplateMessageEnum(String templateCode) {
+        this.templateCode = templateCode;
     }
 
-    public String getKey() {
-        return key;
+    public String getTemplateCode() {
+        return templateCode;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    public void setTemplateCode(String templateCode) {
+        this.templateCode = templateCode;
     }
 }

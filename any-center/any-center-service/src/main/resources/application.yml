@@ -50,12 +50,11 @@ wechat:
     pcAppsecret: 241ad8d3138af34e6b5879645eb25a45
   code:
     expireTimeSecond: 3600
-  templatemessage:
+  templateMessage:
       appID: wx6f29705e50768a15
-      appsecret: 3e50f0b50ed8ff3c0cc6183bd66a6502
+      appSecret: 3e50f0b50ed8ff3c0cc6183bd66a6502
       accessTokenUrl: https://api.weixin.qq.com/cgi-bin/token
       templateMessageUrl: https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN
-      templateid: yRdcwKhNFdwfl85el7cjSiej6NSKS9bmT-rAcVZq_0w
 pns:
   expireTimeSecond: 600
   areaCodes: 10

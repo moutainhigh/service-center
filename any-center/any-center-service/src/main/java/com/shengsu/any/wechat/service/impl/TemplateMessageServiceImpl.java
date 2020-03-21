@@ -23,25 +23,22 @@ import java.util.Map;
  **/
 @Service("templateMessageService")
 public class TemplateMessageServiceImpl implements TemplateMessageService {
-    @Value("${wechat.templatemessage.templateMessageUrl}")
-    private String templateMessageUrl;
-    @Value("${wechat.templatemessage.templateid}")
-    private String templateId;
     // 模板推送消息
-    @Value("${wechat.templatemessage.appID}")
+    @Value("${wechat.templateMessage.appID}")
     private String appID;
-    @Value("${wechat.templatemessage.appsecret}")
-    private String appsecret;
-    @Value("${wechat.templatemessage.accessTokenUrl}")
+    @Value("${wechat.templateMessage.templateMessageUrl}")
+    private String templateMessageUrl;
+    @Value("${wechat.templateMessage.appSecret}")
+    private String appSecret;
+    @Value("${wechat.templateMessage.accessTokenUrl}")
     private String msgAccessTokenUrl;
 
     @Override
     public ResultBean pushTemplateMessage(String openId, TemplateMessageEnum templateMessageEnum, TempMessageData410928703 data) {
         //创建消息发送实体对象
         TemplateMessage templateMessage=new TemplateMessage();
-        templateMessage.setTemplate_id(templateMessageEnum.getKey());
+        templateMessage.setTemplate_id(templateMessageEnum.getTemplateCode());
         templateMessage.setTouser(openId);
-        templateMessage.setUrl(templateMessageEnum.getValue());
 
         templateMessage.setData(data);
         //将封装的数据转成JSON
@@ -76,7 +73,7 @@ public class TemplateMessageServiceImpl implements TemplateMessageService {
         HashMap<String, String> resultMap = new HashMap<>();
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid",appID);
-        params.put("secret",appsecret);
+        params.put("secret",appSecret);
         params.put("grant_type","client_credential");
         String httpResultStr = HttpClientUtil.doGet(msgAccessTokenUrl, params);
         JSONObject jSONObject = JSON.parseObject(httpResultStr);

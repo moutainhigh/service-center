@@ -374,8 +374,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         // 认证通过给公众号推送模板消息
         // 设置模板
         TempMessageData410928703 data = assembleTemplateDate(user.getRealName());
-       return templateMessageService.pushTemplateMessage(user.getWechatOpenid(),TemplateMessageEnum.MESSAGE_TEMPLATE_AUTHROTION_PASS,data);
+        // 推送消息
+        templateMessageService.pushTemplateMessage(user.getWechatOpenid(),TemplateMessageEnum.MESSAGE_TEMPLATE_AUTHROTION_PASS,data);
 
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     /**
     * @Description: 组装要发送的模板数据
