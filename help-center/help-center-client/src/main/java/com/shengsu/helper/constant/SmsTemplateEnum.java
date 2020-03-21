@@ -7,6 +7,7 @@ public enum SmsTemplateEnum {
 
     SMS_180053728("SMS_180053728"),//注册验证码
     SMS_184115275("SMS_184115275"), //发送客户
+    SMS_186615861("SMS_186615861"),//律师号码发送客户
     SMS_186381003("SMS_186381003");//发送律师
 
     private String templateCode;
