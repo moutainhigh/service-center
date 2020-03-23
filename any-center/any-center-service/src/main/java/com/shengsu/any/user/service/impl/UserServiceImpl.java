@@ -373,9 +373,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         }
         // 认证通过给公众号推送模板消息
         // 设置模板
-        TempMessageData410928703 data = assembleTemplateDate(user.getRealName());
+        TempMessageData410928703 data = assembleTemplateDate(MessageFormat.format(TEMPLATE_MESSAGE_AUTH_PASS_FIRST_VALUE, user.getRealName()),TEMPLATE_MESSAGE_AUTH_PASS_KEYWORD1_VALUE,TEMPLATE_MESSAGE_AUTH_PASS_REMARK_VALUE);
         // 推送消息
-        templateMessageService.pushTemplateMessage(user.getWechatOpenid(),TemplateMessageEnum.MESSAGE_TEMPLATE_AUTHROTION_PASS,data);
+        templateMessageService.pushTemplateMessage(user.getWechatOpenid(),TemplateMessageEnum.MESSAGE_TEMPLATE_USER_AUTHROTION,data);
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
@@ -384,17 +384,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     * @Param: 
     * @date:
     */
-    private TempMessageData410928703 assembleTemplateDate(String realName) {
+    private TempMessageData410928703 assembleTemplateDate(String firstValue,String keyWord1Value,String remarkValue) {
         //设置模板标题
-        TempMessageContent first=new TempMessageContent(MessageFormat.format(TEMPLATE_MESSAGE_AUTH_PASS_FIRST_VALUE, realName),TEMPLATE_MESSAGE_COLOR_D5D5D5);
+        TempMessageContent first=new TempMessageContent(firstValue,TEMPLATE_MESSAGE_COLOR_D5D5D5);
         //设置模板内容
-        TempMessageContent keyword1=new TempMessageContent(TEMPLATE_MESSAGE_AUTH_PASS_KEYWORD1_VALUE,TEMPLATE_MESSAGE_COLOR_0000FF);
+        TempMessageContent keyword1=new TempMessageContent(keyWord1Value,TEMPLATE_MESSAGE_COLOR_0000FF);
         //设置时间
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
         String format = simpleDateFormat.format(new Date());
         TempMessageContent keyword2=new TempMessageContent(format,TEMPLATE_MESSAGE_COLOR_0000FF);
         //设置备注
-        TempMessageContent remark=new TempMessageContent(TEMPLATE_MESSAGE_AUTH_PASS_REMARK_VALUE,TEMPLATE_MESSAGE_COLOR_0000FF);
+        TempMessageContent remark=new TempMessageContent(remarkValue,TEMPLATE_MESSAGE_COLOR_0000FF);
         //创建模板信息数据对象
         TempMessageData410928703 data=new TempMessageData410928703();
         data.setFirst(first);
@@ -421,6 +421,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         Message message = MessageUtils.toMessage(userId);
         message.setMessageContent(MESSAGE_CONTENT_REJECT);
         messageService.save(message);
+        // 认证拒绝给公众号推送模板消息
+        // 设置模板
+        TempMessageData410928703 data = assembleTemplateDate(MessageFormat.format(TEMPLATE_MESSAGE_AUTH_PASS_REJECT_VALUE, user.getRealName()),TEMPLATE_MESSAGE_AUTH_REJECT_KEYWORD1_VALUE,TEMPLATE_MESSAGE_AUTH_REJECT_REMARK_VALUE);
+        // 推送消息
+        templateMessageService.pushTemplateMessage(user.getWechatOpenid(),TemplateMessageEnum.MESSAGE_TEMPLATE_USER_AUTHROTION,data);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 
