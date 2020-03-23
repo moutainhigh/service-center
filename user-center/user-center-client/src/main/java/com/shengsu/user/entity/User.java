@@ -1,6 +1,5 @@
 package com.shengsu.user.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
 
@@ -11,7 +10,7 @@ public class User extends BaseEntity {
 	private String userId;
 	private String userName;
 	private String realName;
-	private Short userType;
+	private String userType;
 	private String pwd;
 	private String descri;
 	private String creator;

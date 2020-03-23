@@ -17,7 +17,7 @@ public class UserCreateVo implements Serializable {
     @NotBlank
     private String realName;
     @NotNull
-    private Short userType;
+    private String userType;
     @NotBlank
     private String pwd;
     private String descri;

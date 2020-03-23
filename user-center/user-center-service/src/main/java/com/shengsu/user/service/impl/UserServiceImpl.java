@@ -165,4 +165,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         result.put("token", token);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
     }
+
+    @Override
+    public ResultBean updateRole(UserEditVo userEditVo) throws IOException {
+        String userId = userEditVo.getUserId();
+        User user = userMapper.get(userId);
+        if (user == null) {
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION_REGISTER_USER_NOT_EXISTED);
+        }
+        user = UserUtils.toUser(userEditVo);
+        userMapper.updateRole(user);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
 }

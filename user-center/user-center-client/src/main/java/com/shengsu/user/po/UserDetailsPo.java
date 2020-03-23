@@ -15,7 +15,7 @@ public class UserDetailsPo implements Serializable{
     private String userId;
     private String userName;
     private String realName;
-    private Short userType;
+    private String userType;
     private String descri;
     private Short gender;
     private String tel;

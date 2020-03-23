@@ -212,4 +212,12 @@
             #{userId}
         </foreach>
     </update>
+    <update id="updateRole" parameterType="user">
+        update
+			user
+		set
+			user_type = #{userType}
+		where
+			user_id=#{userId}
+    </update>
 </mapper>

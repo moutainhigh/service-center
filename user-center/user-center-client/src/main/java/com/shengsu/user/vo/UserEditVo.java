@@ -18,7 +18,7 @@ public class UserEditVo implements Serializable {
     @NotBlank
     private String realName;
     @NotNull
-    private Short userType;
+    private String userType;
     private String descri;
     private String creator;
     private String mobile;
