@@ -32,6 +32,8 @@ public class TemplateMessageServiceImpl implements TemplateMessageService {
     private String appSecret;
     @Value("${wechat.templateMessage.accessTokenUrl}")
     private String msgAccessTokenUrl;
+    @Value("${wechat.templateMessage.authDetailUrl}")
+    private String authDetailUrl;
 
     @Override
     public ResultBean pushTemplateMessage(String openId, TemplateMessageEnum templateMessageEnum, TempMessageData410928703 data) {
@@ -39,7 +41,7 @@ public class TemplateMessageServiceImpl implements TemplateMessageService {
         TemplateMessage templateMessage=new TemplateMessage();
         templateMessage.setTemplate_id(templateMessageEnum.getTemplateCode());
         templateMessage.setTouser(openId);
-
+        templateMessage.setUrl(authDetailUrl);
         templateMessage.setData(data);
         //将封装的数据转成JSON
         String jsonString = JSON.toJSONString(templateMessage);

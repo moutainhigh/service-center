@@ -4,7 +4,8 @@ package com.shengsu.any.constant;
  * 消息模板
  */
 public enum TemplateMessageEnum {
-    MESSAGE_TEMPLATE_AUTHROTION_PASS("yRdcwKhNFdwfl85el7cjSiej6NSKS9bmT-rAcVZq_0w");
+    // 用户认证模板code
+    MESSAGE_TEMPLATE_USER_AUTHROTION("yRdcwKhNFdwfl85el7cjSiej6NSKS9bmT-rAcVZq_0w");
 
     private String templateCode;
 
