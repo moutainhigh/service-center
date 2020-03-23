@@ -55,7 +55,7 @@ wechat:
     appSecret: 3e50f0b50ed8ff3c0cc6183bd66a6502
     accessTokenUrl: https://api.weixin.qq.com/cgi-bin/token
     templateMessageUrl: https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN
-    authDetailUrl: http://any-h5-test.shengsuvc.com/clue/library
+    authDetailUrl: https://any-h5-test.shengsuvc.com/clue/library
 pns:
   expireTimeSecond: 600
   areaCodes: 10
