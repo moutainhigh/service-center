@@ -9,7 +9,7 @@ import com.shengsu.website.app.util.ResultUtil;
 import com.shengsu.website.consult.entity.LawcaseConsult;
 import com.shengsu.website.consult.entity.LawcaseConsultAppendix;
 import com.shengsu.website.consult.mapper.LawcaseConsultMapper;
-import com.shengsu.website.consult.po.ConsultAppendixDetailsListPo;
+import com.shengsu.website.consult.po.ConsultDetailsListPo;
 import com.shengsu.website.consult.po.ConsultAppendixDetailsPo;
 import com.shengsu.website.consult.service.LawcaseConsultAppendixService;
 import com.shengsu.website.consult.service.LawcaseConsultService;
@@ -73,23 +73,23 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
             String refId = consult.getConsultId();
             refIds.add(refId);
         }
-        List<ConsultAppendixDetailsListPo> consultAppendixDetailsListPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsListPo(root);
+        List<ConsultDetailsListPo> consultDetailsListPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsListPo(root);
         int totalCount = lawcaseConsultMapper.countAll(lawcaseConsult);
         ResultBean<List<ConsultAppendixDetailsPo>> appendixResult = lawcaseConsultAppendixService.getDetailsListByPage(refIds);
         if (appendixResult.isSuccess()) {
             List<ConsultAppendixDetailsPo> appendixList = appendixResult.getBody();
-            for(ConsultAppendixDetailsListPo consultAppendixDetailsListPo : consultAppendixDetailsListPos){
+            for(ConsultDetailsListPo consultDetailsListPo : consultDetailsListPos){
                 List<ConsultAppendixDetailsPo> appendixDetailsList = new ArrayList<>();
                 for(ConsultAppendixDetailsPo consultAppendixDetailsPo : appendixList){
-                    if(consultAppendixDetailsListPo.getConsultId().equals(consultAppendixDetailsPo.getRefId())){
+                    if(consultDetailsListPo.getConsultId().equals(consultAppendixDetailsPo.getRefId())){
                         appendixDetailsList.add(consultAppendixDetailsPo);
-                        consultAppendixDetailsListPo.setAppendixList(appendixDetailsList);
+                        consultDetailsListPo.setAppendixList(appendixDetailsList);
                     }
                 }
-                consultAppendixDetailsListPo.setAppendixList(appendixDetailsList);
+                consultDetailsListPo.setAppendixList(appendixDetailsList);
             }
         }
-        return ResultUtil.formPageResult(true, ResultCode.SUCCESS,consultAppendixDetailsListPos,totalCount);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, consultDetailsListPos,totalCount);
     }
 
     /**
@@ -107,21 +107,21 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
             String refId = consult.getConsultId();
             refIds.add(refId);
         }
-        List<ConsultAppendixDetailsListPo> consultAppendixDetailsListPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsListPo(root);
+        List<ConsultDetailsListPo> consultDetailsListPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsListPo(root);
         ResultBean<List<ConsultAppendixDetailsPo>> appendixResult = lawcaseConsultAppendixService.getDetailsListByPage(refIds);
         if (appendixResult.isSuccess()) {
             List<ConsultAppendixDetailsPo> appendixList = appendixResult.getBody();
-            for(ConsultAppendixDetailsListPo consultAppendixDetailsListPo : consultAppendixDetailsListPos){
+            for(ConsultDetailsListPo consultDetailsListPo : consultDetailsListPos){
                 List<ConsultAppendixDetailsPo> appendixDetailsList = new ArrayList<>();
                 for(ConsultAppendixDetailsPo consultAppendixDetailsPo : appendixList){
-                    if(consultAppendixDetailsListPo.getConsultId().equals(consultAppendixDetailsPo.getRefId())){
+                    if(consultDetailsListPo.getConsultId().equals(consultAppendixDetailsPo.getRefId())){
                         appendixDetailsList.add(consultAppendixDetailsPo);
-                        consultAppendixDetailsListPo.setAppendixList(appendixDetailsList);
+                        consultDetailsListPo.setAppendixList(appendixDetailsList);
                     }
                 }
-                consultAppendixDetailsListPo.setAppendixList(appendixDetailsList);
+                consultDetailsListPo.setAppendixList(appendixDetailsList);
             }
         }
-        return ResultUtil.formRootResult(true, ResultCode.SUCCESS, consultAppendixDetailsListPos);
+        return ResultUtil.formRootResult(true, ResultCode.SUCCESS, consultDetailsListPos);
     }
 }

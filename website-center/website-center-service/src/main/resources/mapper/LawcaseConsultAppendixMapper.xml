@@ -5,10 +5,10 @@
 
 <mapper namespace="com.shengsu.website.consult.mapper.LawcaseConsultAppendixMapper">
     <!-- Result Map-->
-    <resultMap id="lawcase_finance_appendix_result_map" type="lawcaseConsultAppendix">
+    <resultMap id="lawcase_consult_appendix_result_map" type="lawcaseConsultAppendix">
     </resultMap>
     <sql id="finance_appendix_columns">
-        lawcase_finance_appendix.*
+        lawcase_consult_appendix.*
     </sql>
     <!-- 查询条件 -->
     <sql id="lawcase_finance_appendix_where_clause">
@@ -20,7 +20,7 @@
     </sql>
 
     <insert id="batchSave" parameterType="lawcaseConsultAppendix">
-        INSERT INTO lawcase_finance_appendix
+        INSERT INTO lawcase_consult_appendix
         (
         appendix_id,
         ref_id,
@@ -54,21 +54,21 @@
         </foreach>
     </insert>
     <update id="deleteByRefId" parameterType="string">
-        UPDATE lawcase_finance_appendix SET  del_flag=1 WHERE ref_id = #{refId}
+        UPDATE lawcase_consult_appendix SET  del_flag=1 WHERE ref_id = #{refId}
     </update>
     <update id="softDelete" parameterType="string">
-        UPDATE lawcase_finance_appendix SET  del_flag=1 WHERE appendix_id = #{appendixId}
+        UPDATE lawcase_consult_appendix SET  del_flag=1 WHERE appendix_id = #{appendixId}
     </update>
     <select id="selectByRefId" parameterType="string" resultType="lawcaseConsultAppendix">
         SELECT
         <include refid="finance_appendix_columns"/>
-        FROM lawcase_finance_appendix
+        FROM lawcase_consult_appendix
         WHERE ref_id = #{refId} AND del_flag = 0
     </select>
     <select id="selectByRefIdList" parameterType="list" resultType="lawcaseConsultAppendix">
         SELECT
         <include refid="finance_appendix_columns"/>
-        FROM lawcase_finance_appendix
+        FROM lawcase_consult_appendix
         where  ref_id in
         <foreach collection="list" item="item" open="(" close=") " separator=",">
             #{item}

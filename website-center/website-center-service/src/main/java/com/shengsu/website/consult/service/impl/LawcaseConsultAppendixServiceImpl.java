@@ -66,7 +66,7 @@ public class LawcaseConsultAppendixServiceImpl extends BaseServiceImpl implement
     private void getDetaIlsOssUrl(List<ConsultAppendixDetailsPo> appendixDetailsPos){
         for (ConsultAppendixDetailsPo appendix:
         appendixDetailsPos) {
-            String url = ossService.getUrl(OssConstant.OSS_LAWYER_PLATFORM_FFILEDIR, appendix.getOssResourceId());
+            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, appendix.getOssResourceId());
             appendix.setOssResourceUrl(url);
         }
     }

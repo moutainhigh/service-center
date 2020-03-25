@@ -3,7 +3,7 @@ package com.shengsu.website.consult.util;
 
 import com.shengsu.website.consult.entity.LawcaseConsult;
 import com.shengsu.website.consult.entity.LawcaseConsultAppendix;
-import com.shengsu.website.consult.po.ConsultAppendixDetailsListPo;
+import com.shengsu.website.consult.po.ConsultDetailsListPo;
 import com.shengsu.website.consult.po.ConsultAppendixDetailsPo;
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,21 +16,22 @@ import java.util.UUID;
  * Created by zyc on 2019/12/5.
  */
 public class LawcaseConsultAppendixUtils {
-    public static List<ConsultAppendixDetailsListPo> toConsultAppendixDetailsListPo(List<LawcaseConsult> root){
-        List<ConsultAppendixDetailsListPo> consultAppendixDetailsListPos = new ArrayList<>();
+    public static List<ConsultDetailsListPo> toConsultAppendixDetailsListPo(List<LawcaseConsult> root){
+        List<ConsultDetailsListPo> consultDetailsListPos = new ArrayList<>();
         for(LawcaseConsult lawcaseConsult : root){
-            ConsultAppendixDetailsListPo consultAppendixDetailsListPo = new ConsultAppendixDetailsListPo();
-            consultAppendixDetailsListPo.setConsultId(lawcaseConsult.getConsultId());
-            consultAppendixDetailsListPo.setConsultContent(lawcaseConsult.getConsultContent());
-            consultAppendixDetailsListPo.setConsultor(lawcaseConsult.getConsultor());
-            consultAppendixDetailsListPo.setContact(lawcaseConsult.getContact());
-            consultAppendixDetailsListPo.setTarget(lawcaseConsult.getTarget());
-            consultAppendixDetailsListPo.setReply(lawcaseConsult.getReply());
-            consultAppendixDetailsListPo.setLawyer(lawcaseConsult.getLawyer());
-            consultAppendixDetailsListPo.setSource(lawcaseConsult.getSource());
-            consultAppendixDetailsListPos.add(consultAppendixDetailsListPo);
+            ConsultDetailsListPo consultDetailsListPo = new ConsultDetailsListPo();
+            consultDetailsListPo.setOrigin(lawcaseConsult.getOrigin());
+            consultDetailsListPo.setConsultId(lawcaseConsult.getConsultId());
+            consultDetailsListPo.setConsultContent(lawcaseConsult.getConsultContent());
+            consultDetailsListPo.setConsultor(lawcaseConsult.getConsultor());
+            consultDetailsListPo.setContact(lawcaseConsult.getContact());
+            consultDetailsListPo.setTarget(lawcaseConsult.getTarget());
+            consultDetailsListPo.setReply(lawcaseConsult.getReply());
+            consultDetailsListPo.setLawyer(lawcaseConsult.getLawyer());
+            consultDetailsListPo.setSource(lawcaseConsult.getSource());
+            consultDetailsListPos.add(consultDetailsListPo);
         }
-        return consultAppendixDetailsListPos;
+        return consultDetailsListPos;
     }
 
     public static List<LawcaseConsultAppendix> toLawcaseFinanceAppendixs(String uuid, String uploaderUserId, String appendixType, List<LawcaseConsultAppendix> appendixList) {

@@ -11,9 +11,10 @@ import java.util.List;
  * @create: 2020-03-24 19:00
  **/
 @Data
-public class ConsultAppendixDetailsListPo implements Serializable {
+public class ConsultDetailsListPo implements Serializable {
     private static final long serialVersionUID = 1L;
     private String consultId;
+    private String origin;
     private String consultContent;
     private String consultor;
     private String contact;

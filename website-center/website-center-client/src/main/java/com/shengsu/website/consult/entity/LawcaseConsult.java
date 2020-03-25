@@ -10,6 +10,7 @@ public class LawcaseConsult extends BaseEntity {
     private static final long serialVersionUID = 1L;
     private String consultId;
     private String consultContent;
+    private String origin;
     private String consultor;
     private String contact;
     private String target;
