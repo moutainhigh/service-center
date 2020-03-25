@@ -6,20 +6,33 @@ package com.shengsu.helper.constant;
  */
 public enum MQProducerEnum {
     //成功日志常量
-    LOGBUSINESS("logBusinessTopic","logBusinessTag"),
+    LOGBUSINESS("logGroup","logBusinessTopic","logBusinessTag"),
     //失败日志常量
-    LOGERROR("logErrorTopic","logErrorTag"),
+    LOGERROR("logGroup","logErrorTopic","logErrorTag"),
     //极光推送常量
-    JPUSHNORMAL("jpushMessageTopic","jpushNormalTag"),
-    JPUSHSCHEDULE("jpushMessageTopic","jpushScheduleTag"),
-    JPUSHSCHEDULECANCEL("jpushMessageTopic","jpushScheduleCancelTag"),;
+    JPUSHNORMAL("jpushGroup","jpushMessageTopic","jpushNormalTag"),
+    JPUSHSCHEDULE("jpushGroup","jpushMessageTopic","jpushScheduleTag"),
+    JPUSHSCHEDULECANCEL("jpushGroup","jpushMessageTopic","jpushScheduleCancelTag"),
 
+    ANY_WECHAT("anyGroup","wechatMessageTopic","wechatMessageTag")
+    ;
+
+    private String group;
     private String topic;
     private String  tag;
 
-    MQProducerEnum(String topic, String tag) {
+    MQProducerEnum(String group,String topic, String tag) {
+        this.group = group;
         this.topic = topic;
         this.tag = tag;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public String getTopic() {

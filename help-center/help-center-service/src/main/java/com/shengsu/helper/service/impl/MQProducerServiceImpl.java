@@ -8,19 +8,18 @@ import com.shengsu.helper.service.MQProducerService;
 import com.shengsu.result.ResultBean;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.StopWatch;
-import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
-import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by zyc on 2019/10/12.
@@ -31,10 +30,8 @@ public class MQProducerServiceImpl implements MQProducerService {
 
     @Value("${rocketmq.producer.namesrvAddr}")
     private String namesrvAddr;
-    @Value("${rocketmq.producer.logGroup}")
-    private String logGroup;
-    @Value("${rocketmq.producer.jpushGroup}")
-    private String jpushGroup;
+    @Value("${rocketmq.producer.groups}")
+    private String groups;
     @Value("${rocketmq.producer.maxMessageSize}")
     private Integer maxMessageSize;
     @Value("${rocketmq.producer.sendMsgTimeout}")
@@ -42,42 +39,32 @@ public class MQProducerServiceImpl implements MQProducerService {
 
     private DefaultMQProducer logRocketMqProducer;
 
-    private DefaultMQProducer jpushRocketMqProducer;
+    private DefaultMQProducer mqProducer;
+
+    static Map<String,DefaultMQProducer> producers = new ConcurrentHashMap<>();
 
     @PostConstruct
     public void init() {
-        logRocketMqProducer = new DefaultMQProducer(logGroup);
-        logRocketMqProducer.setNamesrvAddr(namesrvAddr);
-        logRocketMqProducer.setMaxMessageSize(maxMessageSize);
-        logRocketMqProducer.setSendMsgTimeout(sendMsgTimeout);
-        logRocketMqProducer.setVipChannelEnabled(false);
-
-        jpushRocketMqProducer = new DefaultMQProducer(jpushGroup);
-        jpushRocketMqProducer.setNamesrvAddr(namesrvAddr);
-        jpushRocketMqProducer.setMaxMessageSize(maxMessageSize);
-        jpushRocketMqProducer.setSendMsgTimeout(sendMsgTimeout);
-        jpushRocketMqProducer.setVipChannelEnabled(false);
         try {
-            logRocketMqProducer.start();
-            jpushRocketMqProducer.start();
-            log.info("rocketMQ is start !!");
+            for(String group: Arrays.asList(groups.split(","))){
+                mqProducer = new DefaultMQProducer(group);
+                mqProducer.setNamesrvAddr(namesrvAddr);
+                mqProducer.setMaxMessageSize(maxMessageSize);
+                mqProducer.setSendMsgTimeout(sendMsgTimeout);
+                mqProducer.setVipChannelEnabled(false);
+                mqProducer.start();
+                producers.put(group,mqProducer);
+            }
         } catch (MQClientException e) {
             log.error("rocketMQ start error,{}", e);
         }
+        log.info("rocketMQ is started !!");
     }
 
     public ResultBean send(MQProducerEnum producer, String body){
-        if (producer == null || StringUtils.isBlank(body)) {
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_PARAM_ERROR);
-        }
         try {
             Message message = new Message(producer.getTopic(), producer.getTag(), body.getBytes(RemotingHelper.DEFAULT_CHARSET));
-            SendResult result = null;
-            if(MQProducerEnum.JPUSHSCHEDULE.getTopic().equals(producer.getTag())){
-                result = jpushRocketMqProducer.send(message);
-            }else {
-                result = logRocketMqProducer.send(message);
-            }
+            producers.get(producer.getGroup()).send(message);
         } catch (Exception e) {
             log.error("消息发送异常:", e);
         }
