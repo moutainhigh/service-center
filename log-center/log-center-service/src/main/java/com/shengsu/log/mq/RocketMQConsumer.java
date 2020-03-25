@@ -1,8 +1,8 @@
 package com.shengsu.log.mq;
 
-import com.shengsu.log.mq.message.MessageListen;
 import com.shengsu.log.service.impl.LogBusinessServiceImpl;
 import com.shengsu.log.service.impl.LogErrorServiceImpl;
+import com.shengsu.mq.MessageListen;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
