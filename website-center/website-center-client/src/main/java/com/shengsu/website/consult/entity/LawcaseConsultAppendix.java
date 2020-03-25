@@ -19,7 +19,6 @@ public class LawcaseConsultAppendix extends BaseEntity {
     private String appendixName;
     private String ossResourceId;
     private double fileSize;
-    private String uploaderUserId;
     private String fullName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date uploadTime;

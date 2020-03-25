@@ -40,7 +40,6 @@ public class LawcaseConsultAppendixUtils {
                     appendixList) {
                 consultAppendix.setAppendixId(UUID.randomUUID().toString());
                 consultAppendix.setRefId(uuid);
-                consultAppendix.setUploaderUserId(StringUtils.isBlank(consultAppendix.getUploaderUserId())?uploaderUserId:consultAppendix.getUploaderUserId());
                 consultAppendix.setUploadTime(consultAppendix.getUploadTime() == null ? new Date() : consultAppendix.getUploadTime());
                 consultAppendix.setAppendixType(appendixType);
             }
