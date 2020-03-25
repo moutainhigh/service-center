@@ -6,7 +6,7 @@ import com.shengsu.helper.entity.JpushSchedualRecord;
 import com.shengsu.helper.entity.JpushSchedule;
 import com.shengsu.helper.entity.JpushMessage;
 import com.shengsu.helper.mapper.JpushSchedualRecordMapper;
-import com.shengsu.mq.message.MessageProcessor;
+import com.shengsu.mq.MessageProcessor;
 import com.shengsu.util.JiPushUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

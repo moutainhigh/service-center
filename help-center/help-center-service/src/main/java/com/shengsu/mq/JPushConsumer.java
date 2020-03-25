@@ -4,7 +4,6 @@ import com.shengsu.helper.constant.MQConsumerEnum;
 import com.shengsu.helper.service.impl.JpushNormalServiceImpl;
 import com.shengsu.helper.service.impl.JpushScheduleCancelServiceImpl;
 import com.shengsu.helper.service.impl.JpushScheduleServiceImpl;
-import com.shengsu.mq.message.MessageListen;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
