@@ -30,7 +30,6 @@ spring:
           min-idle: 0
 zookeeper:
   address: 127.0.0.1:2181
-  #address: localhost:2181
 dubbo:
   group: help-center
   port: 20884
