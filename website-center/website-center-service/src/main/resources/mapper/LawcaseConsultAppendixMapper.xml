@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shengsu.website.consult.mapper.LawcaseConsultAppendixMapper">
+    <!-- Result Map-->
+    <resultMap id="lawcase_finance_appendix_result_map" type="lawcaseConsultAppendix">
+    </resultMap>
+    <sql id="finance_appendix_columns">
+        lawcase_finance_appendix.*
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="lawcase_finance_appendix_where_clause">
+        <where>
+            del_flag = 0
+            <if test="appendixId != null and  appendixId != ''">and appendix_id = #{appendixId}</if>
+            <if test="refId != null and  refId != ''">and ref_id = #{refId}</if>
+        </where>
+    </sql>
+
+    <insert id="batchSave" parameterType="lawcaseConsultAppendix">
+        INSERT INTO lawcase_finance_appendix
+        (
+        appendix_id,
+        ref_id,
+        appendix_name,
+        oss_resource_id,
+        file_size,
+        uploader_user_id,
+        full_name,
+        upload_time,
+        appendix_type,
+        create_time,
+        modify_time,
+        del_flag
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.appendixId},
+            #{item.refId},
+            #{item.appendixName},
+            #{item.ossResourceId},
+            #{item.fileSize},
+            #{item.uploaderUserId},
+            #{item.fullName},
+            #{item.uploadTime},
+            #{item.appendixType},
+            current_timestamp(),
+            current_timestamp(),
+            0
+            )
+        </foreach>
+    </insert>
+    <update id="deleteByRefId" parameterType="string">
+        UPDATE lawcase_finance_appendix SET  del_flag=1 WHERE ref_id = #{refId}
+    </update>
+    <update id="softDelete" parameterType="string">
+        UPDATE lawcase_finance_appendix SET  del_flag=1 WHERE appendix_id = #{appendixId}
+    </update>
+    <select id="selectByRefId" parameterType="string" resultType="lawcaseConsultAppendix">
+        SELECT
+        <include refid="finance_appendix_columns"/>
+        FROM lawcase_finance_appendix
+        WHERE ref_id = #{refId} AND del_flag = 0
+    </select>
+    <select id="selectByRefIdList" parameterType="list" resultType="lawcaseConsultAppendix">
+        SELECT
+        <include refid="finance_appendix_columns"/>
+        FROM lawcase_finance_appendix
+        where  ref_id in
+        <foreach collection="list" item="item" open="(" close=") " separator=",">
+            #{item}
+        </foreach>
+     AND del_flag = 0
+    </select>
+</mapper>
