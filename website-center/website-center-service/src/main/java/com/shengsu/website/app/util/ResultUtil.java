@@ -12,6 +12,9 @@ import java.util.HashMap;
  *
  */
 public class ResultUtil {
+    public static <T> ResultBean formResult(boolean success, ResultCode resultCode) {
+        return new ResultBean(success, resultCode.getCode(), resultCode.getResultMessage());
+    }
 
 	public static <T> ResultBean<T> formResult(boolean success, ResultCode resultCode, T body){
 		return new ResultBean(success, resultCode.getCode(), resultCode.getResultMessage(), body);

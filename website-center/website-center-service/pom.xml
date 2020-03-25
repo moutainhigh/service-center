@@ -13,8 +13,8 @@
 
     <dependencies>
         <dependency>
-            <artifactId>website-center-client</artifactId>
             <groupId>com.shengsu</groupId>
+            <artifactId>help-center-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

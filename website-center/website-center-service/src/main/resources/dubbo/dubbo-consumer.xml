@@ -7,6 +7,7 @@
     	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
     	http://code.alibabatech.com/schema/dubbo
        	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-    <!--使用 dubbo 协议实现定义好的接口-->
-    <dubbo:service interface="com.shengsu.website.consult.service.LawcaseConsultService" ref="lawcaseConsultService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+
+	<!--接口服务-->
+    <dubbo:reference id="ossService" interface="com.shengsu.helper.service.OssService" timeout="3000" version="${dubbo.version}"/>
 </beans>

@@ -40,6 +40,7 @@
 			reply,
 			lawyer,
 			source,
+			origin,
 			del_flag
 		)
 		values
@@ -54,6 +55,7 @@
 			#{reply,jdbcType=VARCHAR},
 			#{lawyer,jdbcType=VARCHAR},
             #{source,jdbcType=VARCHAR},
+            #{origin,jdbcType=VARCHAR},
 			0
 		)
 	</insert>

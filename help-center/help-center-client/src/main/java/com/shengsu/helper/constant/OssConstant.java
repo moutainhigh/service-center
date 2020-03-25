@@ -8,6 +8,7 @@ public class OssConstant {
     //获取ossurl的FILEDIR路径
     public static String OSS_LAW_NEWS_FILEDIR = "law-news/";
 
+    public static String OSS_WEBSITE_CENTER_FFILEDIR = "website-center/";
     public static String OSS_LAWYER_PLATFORM_FFILEDIR = "lawyer-platform/";
     //律师oss的file名称
     public static String OSS_LAWYER_FILEDIR = "bench-lawyer/";
