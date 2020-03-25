@@ -8,16 +8,16 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://rm-bp1o00hl21xvv5eq7no.mysql.rds.aliyuncs.com:3306/log-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: dev
-    password: 'ss123456!@'
+    password: ss123456!@
   aop:
     proxy-target-class: true
 zookeeper:
-  address: 192.168.1.52:2181
-  #address: 127.0.0.1:2181
+  #address: 192.168.1.52:2181
+  address: 127.0.0.1:2181
 dubbo:
   group: log-center
   port: 20883
-  version: 1.0
+  version: 2.0
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml

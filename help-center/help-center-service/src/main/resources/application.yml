@@ -29,11 +29,11 @@ spring:
           # 连接池中的最小空闲连接
           min-idle: 0
 zookeeper:
-  address: 192.168.1.52:2181
+  address: 127.0.0.1:2181
   #address: localhost:2181
 dubbo:
   group: help-center
-  port: 20885
+  port: 20884
   version: 2.0
 oss:
   endpoint: https://oss-cn-hangzhou.aliyuncs.com
@@ -54,13 +54,14 @@ logging:
 ###consumer
 rocketmq:
   producer:
-    namesrvAddr: 192.168.1.52:9876
-    groups: logGroup,jpushGroup,anyGroup
+    namesrvAddr: 127.0.0.1:9876
+    logGroup: logGroup
+    jpushGroup: jpushGroup
     maxMessageSize: 131072
     sendMsgTimeout: 10000
   consumer:
       jpushGroup: jpushGroup
-      namesrvAddr: 192.168.1.52:9876
+      namesrvAddr: 127.0.0.1:9876
       consumeThreadMin: 20
       consumeThreadMax: 64
       consumeMessageBatchMaxSize: 10
@@ -78,6 +79,7 @@ sms:
 pns:
   accessKeyId: b719d4aa71dd463db053af0e522c9e34
   accessKeySecret: 423ee45dac0e4991b396f3b867e0abcc
+
 
 
 
