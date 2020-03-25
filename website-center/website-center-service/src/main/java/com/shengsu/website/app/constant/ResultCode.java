@@ -14,7 +14,7 @@ public enum ResultCode {
     EXCEPTION_PARAM_VALID_FAIL(1002, "参数校验失败"),
 
     //咨询
-    EXCEPTION_FINANCE_APPENDIX_REFID_IS_NULL(1002, "关联id错误"),
+    EXCEPTION_CONSULT_APPENDIX_REFID_IS_NULL(1002, "关联id错误"),
     //登录
     FAIL_LOGIN_PARAM_ERROR(1001,"参数错误"),
     FAIL_LOGIN_USERNAME_EMPTY(1001,"用户名为空"),

@@ -51,7 +51,7 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
 
         //存储上传附件
         List<LawcaseConsultAppendix> appendixList = lawcaseConsult.getAppendixList();
-        LawcaseConsultAppendixUtils.toLawcaseFinanceAppendixs(lawcaseConsult.getConsultId(), lawcaseConsult.getConsultor(), LAWCASE_CONSULT_CLUE, appendixList);
+        LawcaseConsultAppendixUtils.toLawcaseConsultAppendixs(lawcaseConsult.getConsultId(), lawcaseConsult.getConsultor(), LAWCASE_CONSULT_CLUE, appendixList);
         lawcaseConsultAppendixService.batchSave(appendixList);
     }
 
