@@ -34,21 +34,21 @@ public class LawcaseConsultAppendixUtils {
         return consultDetailsListPos;
     }
 
-    public static List<LawcaseConsultAppendix> toLawcaseFinanceAppendixs(String uuid, String uploaderUserId, String appendixType, List<LawcaseConsultAppendix> appendixList) {
+    public static List<LawcaseConsultAppendix> toLawcaseConsultAppendixs(String uuid, String uploaderUserId, String appendixType, List<LawcaseConsultAppendix> appendixList) {
         if (StringUtils.isNotBlank(uuid) && appendixList != null) {
-            for (LawcaseConsultAppendix financeAppendix :
+            for (LawcaseConsultAppendix consultAppendix :
                     appendixList) {
-                financeAppendix.setAppendixId(UUID.randomUUID().toString());
-                financeAppendix.setRefId(uuid);
-                financeAppendix.setUploaderUserId(StringUtils.isBlank(financeAppendix.getUploaderUserId())?uploaderUserId:financeAppendix.getUploaderUserId());
-                financeAppendix.setUploadTime(financeAppendix.getUploadTime() == null ? new Date() : financeAppendix.getUploadTime());
-                financeAppendix.setAppendixType(appendixType);
+                consultAppendix.setAppendixId(UUID.randomUUID().toString());
+                consultAppendix.setRefId(uuid);
+                consultAppendix.setUploaderUserId(StringUtils.isBlank(consultAppendix.getUploaderUserId())?uploaderUserId:consultAppendix.getUploaderUserId());
+                consultAppendix.setUploadTime(consultAppendix.getUploadTime() == null ? new Date() : consultAppendix.getUploadTime());
+                consultAppendix.setAppendixType(appendixType);
             }
         }
         return null;
     }
 
-    public static List<ConsultAppendixDetailsPo> toFinanceAppendixDetailsPos(List<LawcaseConsultAppendix> appendixList) {
+    public static List<ConsultAppendixDetailsPo> toConsultAppendixDetailsPos(List<LawcaseConsultAppendix> appendixList) {
         if (appendixList != null) {
             List<ConsultAppendixDetailsPo> list = new ArrayList<>();
             ConsultAppendixDetailsPo appendixDetails = null;

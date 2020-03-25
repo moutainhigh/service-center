@@ -24,7 +24,7 @@ import java.util.List;
  * @author: lipiao
  * @create: 2019-12-05 09:26
  **/
-@Service(value = "lawcaseFinanceAppendixService")
+@Service(value = "lawcaseConsultAppendixService")
 public class LawcaseConsultAppendixServiceImpl extends BaseServiceImpl implements LawcaseConsultAppendixService {
     @Autowired
     private LawcaseConsultAppendixMapper lawcaseConsultAppendixMapper;
@@ -45,10 +45,10 @@ public class LawcaseConsultAppendixServiceImpl extends BaseServiceImpl implement
     public ResultBean<List<ConsultAppendixDetailsPo>> getDetails(String refId){
         List<LawcaseConsultAppendix> appendixList = lawcaseConsultAppendixMapper.selectByRefId(refId);
         if(appendixList==null||appendixList.isEmpty()){
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_FINANCE_APPENDIX_REFID_IS_NULL);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CONSULT_APPENDIX_REFID_IS_NULL);
         }
 
-        List<ConsultAppendixDetailsPo> appendixDetailsPos = LawcaseConsultAppendixUtils.toFinanceAppendixDetailsPos(appendixList);
+        List<ConsultAppendixDetailsPo> appendixDetailsPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsPos(appendixList);
         getDetaIlsOssUrl(appendixDetailsPos);
         return ResultUtil.formResult(true,ResultCode.SUCCESS,appendixDetailsPos);
     }
@@ -56,10 +56,10 @@ public class LawcaseConsultAppendixServiceImpl extends BaseServiceImpl implement
     public ResultBean<List<ConsultAppendixDetailsPo>> getDetailsListByPage(List<String> refIds){
         List<LawcaseConsultAppendix> appendixList = lawcaseConsultAppendixMapper.selectByRefIdList(refIds);
         if(appendixList==null||appendixList.isEmpty()){
-            return ResultUtil.formResult(false, ResultCode.EXCEPTION_FINANCE_APPENDIX_REFID_IS_NULL);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_CONSULT_APPENDIX_REFID_IS_NULL);
         }
 
-        List<ConsultAppendixDetailsPo> appendixDetailsPos = LawcaseConsultAppendixUtils.toFinanceAppendixDetailsPos(appendixList);
+        List<ConsultAppendixDetailsPo> appendixDetailsPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsPos(appendixList);
         getDetaIlsOssUrl(appendixDetailsPos);
         return ResultUtil.formResult(true,ResultCode.SUCCESS,appendixDetailsPos);
     }

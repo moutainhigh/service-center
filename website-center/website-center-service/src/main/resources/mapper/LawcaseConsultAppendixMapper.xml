@@ -7,11 +7,11 @@
     <!-- Result Map-->
     <resultMap id="lawcase_consult_appendix_result_map" type="lawcaseConsultAppendix">
     </resultMap>
-    <sql id="finance_appendix_columns">
+    <sql id="consult_appendix_columns">
         lawcase_consult_appendix.*
     </sql>
     <!-- 查询条件 -->
-    <sql id="lawcase_finance_appendix_where_clause">
+    <sql id="lawcase_cosult_appendix_where_clause">
         <where>
             del_flag = 0
             <if test="appendixId != null and  appendixId != ''">and appendix_id = #{appendixId}</if>
@@ -61,13 +61,13 @@
     </update>
     <select id="selectByRefId" parameterType="string" resultType="lawcaseConsultAppendix">
         SELECT
-        <include refid="finance_appendix_columns"/>
+        <include refid="consult_appendix_columns"/>
         FROM lawcase_consult_appendix
         WHERE ref_id = #{refId} AND del_flag = 0
     </select>
     <select id="selectByRefIdList" parameterType="list" resultType="lawcaseConsultAppendix">
         SELECT
-        <include refid="finance_appendix_columns"/>
+        <include refid="consult_appendix_columns"/>
         FROM lawcase_consult_appendix
         where  ref_id in
         <foreach collection="list" item="item" open="(" close=") " separator=",">
