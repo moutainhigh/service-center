@@ -18,9 +18,10 @@
 			<if test="contact != null and  contact != ''"> and contact= #{contact}</if>
 			<if test="startTime != null and  startTime != ''">and create_time >= #{startTime,jdbcType=VARCHAR}</if>
 			<if test="endTime != null and  endTime != ''">and  DATE_ADD(date_format(#{endTime,jdbcType=VARCHAR},"%Y-%m-%d"),interval 1 day) >=create_time</if>
-			<if test="search != null and  search != ''"> 
-			 <bind name="pattern" value="search" />
-			and concat(consultor,consult_content,contact) like concat('%',#{pattern},'%') escape'/'
+			<if test="search != null and  search != ''">
+			and ( consultor like concat('%',#{search},'%')
+			or consult_content like concat('%',#{search},'%')
+			or contact like concat('%',#{search},'%'))
 			</if>
 		</where>
 	</sql>
