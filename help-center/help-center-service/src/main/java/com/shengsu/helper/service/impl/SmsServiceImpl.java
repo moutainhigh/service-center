@@ -66,6 +66,7 @@ public class SmsServiceImpl implements SmsService {
         SendSmsResponse sendSmsResponse;
         try {
             sendSmsResponse = acsClient.getAcsResponse(request);
+            log.info(sendSmsResponse.getMessage());
             if (sendSmsResponse.getCode() != null
                     && sendSmsResponse.getCode().equals("OK")) {
                 log.info("短信发送成功！！！");
