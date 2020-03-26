@@ -1,8 +1,10 @@
 package com.shengsu.website.consult.po;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,5 +24,7 @@ public class ConsultDetailsListPo implements Serializable {
     private String reply;
     private String lawyer;
     private String source;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Date createTime;//创建时间
     private List<ConsultAppendixDetailsPo> appendixList;
 }
