@@ -66,26 +66,12 @@ public class SmsServiceImpl implements SmsService {
         SendSmsResponse sendSmsResponse;
         try {
             sendSmsResponse = acsClient.getAcsResponse(request);
-            log.info(sendSmsResponse.getMessage());
-            if (sendSmsResponse.getCode() != null
-                    && sendSmsResponse.getCode().equals("OK")) {
+            if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
                 log.info("短信发送成功！！！");
                 return ResultUtil.formResult(true, ResultCode.SUCCESS);
-            }
-            if (sendSmsResponse.getCode() != null
-                    && sendSmsResponse.getCode().equals("isv.MOBILE_NUMBER_ILLEGAL")){
-                log.info("非法手机号！！！");
-                return ResultUtil.formResult(false, ResultCode.EXCEPTION_MSG_MOBILE_NUMBER_ILLEGAL);
-            }
-            if (sendSmsResponse.getCode() != null
-                    && sendSmsResponse.getCode().equals("isv.BUSINESS_LIMIT_CONTROL")){
-                log.info("业务限流！！！");
-                return ResultUtil.formResult(false, ResultCode.EXCEPTION_MSG_BUSINESS_LIMIT_CONTROL);
-            }
-            if (sendSmsResponse.getCode() != null
-                    && sendSmsResponse.getCode().equals("isv.OUT_OF_SERVICE")){
-                log.info("业务停机！！！");
-                return ResultUtil.formResult(false, ResultCode.EXCEPTION_MSG_OUT_OF_SERVICE);
+            }else{
+                log.info(sendSmsResponse.getMessage());
+                return ResultUtil.formResult(false, ResultCode.EXCEPTION_MSG_SEND,sendSmsResponse.getMessage());
             }
         } catch (ServerException e) {
             log.error("由于系统维护，暂时无法注册！！！:",e);
