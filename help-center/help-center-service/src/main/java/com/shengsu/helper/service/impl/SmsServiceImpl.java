@@ -1,5 +1,6 @@
 package com.shengsu.helper.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
@@ -63,6 +64,7 @@ public class SmsServiceImpl implements SmsService {
         request.setTemplateCode(template.getTemplateCode());
         // 可选:模板中的变量替换JSON串
         request.setTemplateParam(param);
+        log.info("发送短信: "+JSON.toJSONString(request));
         SendSmsResponse sendSmsResponse;
         try {
             sendSmsResponse = acsClient.getAcsResponse(request);
