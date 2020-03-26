@@ -21,9 +21,7 @@ public enum ResultCode {
     EXCEPTION_NOT_NATA_EXISTENCE(1002,"数据不存在"),
 
     //短信异常信息
-    EXCEPTION_MSG_MOBILE_NUMBER_ILLEGAL(1002,"非法手机号"),
-    EXCEPTION_MSG_BUSINESS_LIMIT_CONTROL(1002,"业务限流"),
-    EXCEPTION_MSG_OUT_OF_SERVICE(1002,"业务停机");
+    EXCEPTION_MSG_SEND(1002,"短信发送异常");
 
     private Integer code;
     private String  resultMessage;
