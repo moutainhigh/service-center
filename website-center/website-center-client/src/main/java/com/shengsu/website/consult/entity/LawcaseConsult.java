@@ -1,8 +1,10 @@
 package com.shengsu.website.consult.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -19,5 +21,7 @@ public class LawcaseConsult extends BaseEntity {
     private String source;
     private String startTime;
 	private String endTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Date createTime;//创建时间
     private List<LawcaseConsultAppendix> appendixList;
 }
