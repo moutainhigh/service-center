@@ -1,6 +1,7 @@
 package com.shengsu.any.clue.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
@@ -49,7 +50,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import static com.shengsu.any.app.constant.BizConst.*;
 import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_CLUE_BUY_SUCCESS;
@@ -284,11 +288,16 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         // 发送短信给客户和律师
         SystemDict systemDict = systemDictService.getOneByDisplayValue(DICT_CODE_CLUE_TYPE, clue.getClueType());
         // 发短信给律师
-        SmsParam186613636 smsParam186613636 =  new SmsParam186613636(lawyer.getRealName(),systemDict.getDisplayName());
-        smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_186613636, JSON.toJSONString(smsParam186613636),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        JSONObject smsParam186613636Json = new JSONObject();
+        smsParam186613636Json.put("lawyer",lawyer.getRealName());
+        smsParam186613636Json.put("clueType",systemDict.getDisplayName());
+        smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_186613636, JSON.toJSONString(smsParam186613636Json),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
         // 发短信给客户
-        SmsParam186615861 smsParam186615861 = new SmsParam186615861(clue.getAppellation(), lawyer.getRealName(),lawyer.getTel());
-        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_186615861, JSON.toJSONString(smsParam186615861),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        JSONObject smsParam186615861Json = new JSONObject();
+        smsParam186615861Json.put("client",clue.getAppellation());
+        smsParam186615861Json.put("lawyer",lawyer.getRealName());
+        smsParam186615861Json.put("tel",lawyer.getTel());
+        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_186615861, JSON.toJSONString(smsParam186615861Json),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
 
         //解锁
         redisUtil.unlock(clueId,String.valueOf(time));
