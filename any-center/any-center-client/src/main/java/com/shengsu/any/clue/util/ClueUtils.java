@@ -110,7 +110,7 @@ public class ClueUtils {
                 for (Pns pns : pnss) {
                     if (clue.getClueId().equals(cluePersonal.getClueId()) && clue.getClueId().equals(pns.getClueId())) {
                         Date now = new Date();
-                        Date date = cluePersonal.getCreateTime();
+                        Date date = pns.getBindTime();
                         MyCluePo myCluePo = new MyCluePo();
                         myCluePo.setClueState(clue.getClueState());
                         myCluePo.setAppellation(clue.getAppellation());
