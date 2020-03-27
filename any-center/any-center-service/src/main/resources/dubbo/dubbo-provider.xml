@@ -31,4 +31,6 @@
                     timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.any.pay.service.AlipayService" ref="alipayService" protocol="dubbo"
                     timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.any.clue.service.PnsService" ref="pnsService" protocol="dubbo"
+                   timeout="3000" version="${dubbo.version}"/>
 </beans>

@@ -28,6 +28,12 @@
     #{expiration,jdbcType=TIMESTAMP}
       )
   </insert>
+    <update id="updateBindTime" parameterType="String">
+    update pns
+    set
+      bind_time = current_timestamp()
+    where clue_id = #{clueId,jdbcType=VARCHAR}
+    </update>
     <select id="getMany" parameterType="list" resultType="pns">
         select
         *
@@ -38,4 +44,12 @@
             #{item}
         </foreach>
     </select>
+    <select id="query" parameterType="String" resultType="pns">
+        select
+        *
+        from
+        pns
+        where clue_id = #{clueId}
+    </select>
+
 </mapper>

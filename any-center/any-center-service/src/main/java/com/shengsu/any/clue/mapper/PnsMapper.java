@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface PnsMapper extends BaseMapper<Pns,String> {
+    Pns query(String clueId);
+    void updateBindTime(String clueId);
 }
