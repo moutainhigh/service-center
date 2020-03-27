@@ -11,5 +11,5 @@ import com.shengsu.result.ResultBean;
  * @create: 2020-02-24 20:01
  **/
 public interface PnsService extends BaseService<Pns,String> {
-    ResultBean sendAxbReBindRequest(ClueBuyVo clueBuyVo);
+    ResultBean rebind(ClueBuyVo clueBuyVo);
 }

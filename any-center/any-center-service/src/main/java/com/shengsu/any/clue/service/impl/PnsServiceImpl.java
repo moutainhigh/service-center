@@ -37,7 +37,7 @@ public class PnsServiceImpl extends BaseServiceImpl<Pns, String> implements PnsS
         return pnsMapper;
     }
     @Override
-    public ResultBean sendAxbReBindRequest(ClueBuyVo clueBuyVo){
+    public ResultBean rebind(ClueBuyVo clueBuyVo){
         Pns pns = pnsMapper.query(clueBuyVo.getClueId());
         AxbBindRequest axbBindRequest = AxbBindRequestUtils.toAxbBindRequest(pns);
         log.info("pns请求参数："+ JSON.toJSONString(axbBindRequest));
