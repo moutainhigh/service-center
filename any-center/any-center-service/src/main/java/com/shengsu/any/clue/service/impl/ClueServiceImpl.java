@@ -57,10 +57,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.shengsu.any.app.constant.BizConst.*;
 import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_CLUE_BUY_SUCCESS;
@@ -268,11 +265,19 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         }
         //绑定隐私号码
         List<String> codes = Arrays.asList(areaCodes.split(","));
-        String areaCode = codes.get(random.nextInt(codes.size()));
-        AxbBindRequest axbBindRequest = AxbBindRequestUtils.toAxbBindRequest(clue, lawyer, areaCode, expireTimeSecond);
-        log.info("pns请求参数："+JSON.toJSONString(axbBindRequest));
-        BindResponse bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
-        log.info("pns响应参数："+JSON.toJSONString(bindResponse));
+        //打乱顺序
+        Collections.shuffle(codes);
+        AxbBindRequest axbBindRequest=null;
+        BindResponse bindResponse=null;
+        for (String areaCode:codes) {
+            axbBindRequest = AxbBindRequestUtils.toAxbBindRequest(clue, lawyer, areaCode, expireTimeSecond);
+            log.info("pns请求参数：" + JSON.toJSONString(axbBindRequest));
+            bindResponse = pnsClientService.sendAxbBindRequest(axbBindRequest);
+            log.info("pns响应参数：" + JSON.toJSONString(bindResponse));
+            if (PNS_CODE_SUCCESS.equals(bindResponse.getCode())) {
+                break;
+            }
+        }
         if (!PNS_CODE_SUCCESS.equals(bindResponse.getCode())) {
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_PNS, bindResponse.getMsg());
         }
