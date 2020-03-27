@@ -31,10 +31,14 @@ import com.shengsu.any.system.util.SystemDictUtils;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
+import com.shengsu.any.wechat.entity.TempMessageData;
+import com.shengsu.any.wechat.entity.TempMessageData410928703;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.helper.constant.MQProducerEnum;
 import com.shengsu.helper.constant.SmsSignEnum;
 import com.shengsu.helper.constant.SmsTemplateEnum;
+import com.shengsu.helper.service.*;
 import com.shengsu.helper.entity.AxbBindRequest;
 import com.shengsu.helper.entity.AxbUnBindRequest;
 import com.shengsu.helper.entity.BindResponse;
@@ -60,6 +64,7 @@ import java.util.Random;
 
 import static com.shengsu.any.app.constant.BizConst.*;
 import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_CLUE_BUY_SUCCESS;
+import static com.shengsu.any.wechat.constant.TemplateMessageConst.*;
 
 /**
  * @description:
@@ -68,7 +73,7 @@ import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_CLUE
  **/
 @Slf4j
 @Service("clueService")
-public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements ClueService {
+public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements ClueService{
     @Autowired
     private ClueMapper clueMapper;
     @Autowired
@@ -100,6 +105,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private static Random random = new Random();
     @Resource
     private RedisUtil redisUtil;
+    @Autowired
+    private MQProducerService mqProducerService;
 
     @Override
     public BaseMapper<Clue, String> getBaseMapper() {
@@ -374,4 +381,20 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         List<ClueListPo> clueListPos = ClueUtils.toClueClientPo(clues);
         return ResultUtil.formPageResult(true, ResultCode.SUCCESS, clueListPos, totalCount);
     }
+    @Override
+    public ResultBean pushAllTemplateMsg() {
+        // 获取所有律师用户的openId
+        List<String>openIds = userService.getAllOpenId();
+        // 设置模板
+        TempMessageData410928703 data = userService.assembleTemplateDate(TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE,TEMPLATE_MESSAGE_CLUE_UPDATE_KEYWORD1_VALUE,TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE);
+        for (String openId : openIds){
+            TempMessageData tempMessageData = new TempMessageData();
+            tempMessageData.setOpenId(openId);
+            tempMessageData.setData(data);
+            // 发送消息
+            mqProducerService.send(MQProducerEnum.ANY_WECHAT, JSON.toJSONString(tempMessageData));
+        }
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
+    }
+
 }

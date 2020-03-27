@@ -48,7 +48,7 @@ import java.util.*;
 import static com.shengsu.any.app.constant.BizConst.*;
 import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_PASS;
 import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_REJECT;
-import static com.shengsu.any.message.constant.TemplateMessageConst.*;
+import static com.shengsu.any.wechat.constant.TemplateMessageConst.*;
 import static com.shengsu.any.user.util.UserUtils.toUserDetailsPo;
 
 /**
@@ -386,7 +386,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     * @Param: 
     * @date:
     */
-    private TempMessageData410928703 assembleTemplateDate(String firstValue,String keyWord1Value,String remarkValue) {
+    @Override
+    public TempMessageData410928703 assembleTemplateDate(String firstValue,String keyWord1Value,String remarkValue) {
         //设置模板标题
         TempMessageContent first=new TempMessageContent(firstValue,TEMPLATE_MESSAGE_COLOR_D5D5D5);
         //设置模板内容
@@ -425,7 +426,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         messageService.save(message);
         // 认证拒绝给公众号推送模板消息
         // 设置模板
-        TempMessageData410928703 data = assembleTemplateDate(MessageFormat.format(TEMPLATE_MESSAGE_AUTH_PASS_REJECT_VALUE, user.getRealName()),TEMPLATE_MESSAGE_AUTH_REJECT_KEYWORD1_VALUE,TEMPLATE_MESSAGE_AUTH_REJECT_REMARK_VALUE);
+        TempMessageData410928703 data = assembleTemplateDate(MessageFormat.format(TEMPLATE_MESSAGE_AUTH_REJECT_FIRST_VALUE, user.getRealName()),TEMPLATE_MESSAGE_AUTH_REJECT_KEYWORD1_VALUE,TEMPLATE_MESSAGE_AUTH_REJECT_REMARK_VALUE);
         // 推送消息
         templateMessageService.pushTemplateMessage(user.getWechatOpenid(),TemplateMessageEnum.MESSAGE_TEMPLATE_USER_AUTHROTION,data);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
@@ -453,6 +454,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Override
     public String getUserIdByTel(String tel) {
         return userMapper.getUserIdByTel(tel);
+    }
+
+    @Override
+    public List<String> getAllOpenId() {
+        return userMapper.getAllOpenId();
     }
 
 }

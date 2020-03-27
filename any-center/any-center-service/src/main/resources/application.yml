@@ -75,3 +75,13 @@ alipay:
   signType: RSA2
   timeoutExpress: 2m
   productCode: QUICK_WAP_WAY
+rocketmq:
+  consumer:
+    anyGroup: anyGroup
+    namesrvAddr: 127.0.0.1:9876
+    wechatMessage:
+      topic: wechatMessageTopic
+      tag: wechatMessageTag
+    consumeThreadMin: 20
+    consumeThreadMax: 64
+    consumeMessageBatchMaxSize: 10

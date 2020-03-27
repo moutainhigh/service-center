@@ -30,4 +30,5 @@ public interface UserMapper extends BaseMapper<User,String> {
 
     String getUserIdByTel(String tel);
 
+    List<String> getAllOpenId();
 }

@@ -16,4 +16,5 @@
     <dubbo:reference id="pnsClientService" interface="com.shengsu.helper.service.PnsClientService" timeout="5000" retries="0" version="${dubbo.version}"/>
     <dubbo:reference id="systemDictService" interface="com.shengsu.helper.service.SystemDictService" timeout="3000"
                      version="${dubbo.version}"/>
+	<dubbo:reference id="mqProducerService" interface="com.shengsu.helper.service.MQProducerService" timeout="3000" version="${dubbo.version}"/>
 </beans>

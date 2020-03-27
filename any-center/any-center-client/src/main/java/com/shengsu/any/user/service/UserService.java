@@ -1,16 +1,14 @@
 package com.shengsu.any.user.service;
 
-import com.shengsu.any.account.vo.AccounListByPageVo;
-import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.vo.*;
+import com.shengsu.any.wechat.entity.TempMessageData410928703;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @description:
@@ -32,4 +30,6 @@ public interface UserService extends BaseService<User,String> {
     ResultBean reject(UserAuthStateVo userAuthStateVo);
     ResultBean uploadHeadImage(UploadHeadImageVo uploadHeadImageVo);
     String getUserIdByTel(String tel);
+    List<String> getAllOpenId();
+    TempMessageData410928703 assembleTemplateDate(String firstValue, String keyWord1Value, String remarkValue);
 }
