@@ -269,6 +269,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         Collections.shuffle(codes);
         AxbBindRequest axbBindRequest=null;
         BindResponse bindResponse=null;
+        // 多次尝试直至成功
         for (String areaCode:codes) {
             axbBindRequest = AxbBindRequestUtils.toAxbBindRequest(clue, lawyer, areaCode, expireTimeSecond);
             log.info("pns请求参数：" + JSON.toJSONString(axbBindRequest));
