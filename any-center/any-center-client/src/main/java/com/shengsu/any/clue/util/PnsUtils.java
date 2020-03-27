@@ -18,6 +18,7 @@ public class PnsUtils {
         pns.setTelb(axbBindRequest.getTelB());
         pns.setTelx(bindResponse.getData().getTelX());
         pns.setExpiration(axbBindRequest.getExpiration());
+        pns.setAreaCode(axbBindRequest.getAreaCode());
         return pns;
     }
 }

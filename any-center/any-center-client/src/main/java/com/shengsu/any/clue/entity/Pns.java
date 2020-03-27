@@ -25,5 +25,7 @@ public class Pns implements Serializable {
 
     private Integer expiration;
 
+    private String areaCode;
+
     private static final long serialVersionUID = 1L;
 }

@@ -14,6 +14,7 @@
     telA,
     telB,
     telX,
+    area_code,
     expiration
       )
     values (
@@ -23,6 +24,7 @@
     #{tela,jdbcType=VARCHAR},
     #{telb,jdbcType=VARCHAR},
     #{telx,jdbcType=VARCHAR},
+    #{areaCode,jdbcType=VARCHAR},
     #{expiration,jdbcType=TIMESTAMP}
       )
   </insert>
