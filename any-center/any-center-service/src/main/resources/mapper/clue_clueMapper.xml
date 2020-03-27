@@ -11,6 +11,12 @@
     <sql id="clue_where_clause">
         <where>
             del_flag = 0
+            <if test="customerDemands != null and  customerDemands != ''">
+                and customer_demands like concat('%',#{customerDemands},'%')
+            </if>
+            <if test="appellation != null and  appellation != ''">
+                and appellation like concat('%',#{appellation},'%')
+            </if>
             <if test="provinceCode != null and  provinceCode != ''">
                 and province_code=#{provinceCode}
             </if>

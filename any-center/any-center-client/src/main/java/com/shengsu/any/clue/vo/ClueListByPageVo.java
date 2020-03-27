@@ -17,4 +17,6 @@ public class ClueListByPageVo  extends BaseEntity {
     private String onshelfEndTime;// 上架结束时间
     private String offshelfStartTime;// 下架开始时间
     private String offshelfEndTime;// 下架结束时间
+    private String customerDemands;// 客户诉求
+    private String appellation;// 称谓
 }
