@@ -309,11 +309,11 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         smsParam186613636Json.put("clueType",systemDict.getDisplayName());
         smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_186613636, JSON.toJSONString(smsParam186613636Json),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
         // 发短信给客户
-        JSONObject smsParam186615861Json = new JSONObject();
-        smsParam186615861Json.put("client",clue.getAppellation());
-        smsParam186615861Json.put("lawyer",lawyer.getRealName());
-        smsParam186615861Json.put("tel",lawyer.getTel());
-        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_186615861, JSON.toJSONString(smsParam186615861Json),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        JSONObject smsParam186951639Json = new JSONObject();
+        smsParam186951639Json.put("client",clue.getAppellation());
+        smsParam186951639Json.put("lawyer",lawyer.getRealName());
+        smsParam186951639Json.put("tel",lawyer.getTel());
+        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_186951639, JSON.toJSONString(smsParam186951639Json),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
 
         //解锁
         redisUtil.unlock(clueId,String.valueOf(time));
