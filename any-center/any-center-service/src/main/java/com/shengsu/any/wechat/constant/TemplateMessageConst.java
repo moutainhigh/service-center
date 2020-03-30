@@ -24,9 +24,9 @@ public interface TemplateMessageConst {
 
     // 案源更新
     //推送案源更新消息-First
-    String TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE= "您好！大量案源已经更新，请及时联系！";
+    String TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE= "您有新的委托案源，请尽快联系！";
     //推送案源更新消息-keyword1
-    String TEMPLATE_MESSAGE_CLUE_UPDATE_KEYWORD1_VALUE = "大量新的精准案源上线提醒";
+    String TEMPLATE_MESSAGE_CLUE_UPDATE_KEYWORD1_VALUE = "XXX";
     //推送案源更新消息-备注
     String TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE= "大量案源已更新，马上获取本地及时精准案源！";
 

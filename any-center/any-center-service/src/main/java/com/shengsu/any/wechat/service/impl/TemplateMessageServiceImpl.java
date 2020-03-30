@@ -6,15 +6,20 @@ import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.HttpClientUtil;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.constant.TemplateMessageEnum;
-import com.shengsu.any.wechat.entity.TempMessageData410928703;
+import com.shengsu.any.wechat.entity.TempMessageContent;
+import com.shengsu.any.wechat.entity.TempMessageParamData;
 import com.shengsu.any.wechat.entity.TemplateMessage;
 import com.shengsu.any.wechat.service.TemplateMessageService;
 import com.shengsu.result.ResultBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.shengsu.any.wechat.constant.TemplateMessageConst.*;
 
 /**
  * @description:
@@ -36,7 +41,7 @@ public class TemplateMessageServiceImpl implements TemplateMessageService {
     private String authDetailUrl;
 
     @Override
-    public ResultBean pushTemplateMessage(String openId, TemplateMessageEnum templateMessageEnum, TempMessageData410928703 data) {
+    public ResultBean pushTemplateMessage(String openId, TemplateMessageEnum templateMessageEnum, TempMessageParamData data) {
         //创建消息发送实体对象
         TemplateMessage templateMessage=new TemplateMessage();
         templateMessage.setTemplate_id(templateMessageEnum.getTemplateCode());
@@ -86,5 +91,30 @@ public class TemplateMessageServiceImpl implements TemplateMessageService {
             resultMap.put("access_token", accessToken);
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resultMap);
+    }
+    /**
+     * @Description: 组装要发送的模板数据
+     * @Param:
+     * @date:
+     */
+    @Override
+    public TempMessageParamData assembleTemplateDate(String firstValue, String keyWord1Value, String remarkValue) {
+        //设置模板标题
+        TempMessageContent first=new TempMessageContent(firstValue,TEMPLATE_MESSAGE_COLOR_D5D5D5);
+        //设置模板内容
+        TempMessageContent keyword1=new TempMessageContent(keyWord1Value,TEMPLATE_MESSAGE_COLOR_0000FF);
+        //设置时间
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+        String format = simpleDateFormat.format(new Date());
+        TempMessageContent keyword2=new TempMessageContent(format,TEMPLATE_MESSAGE_COLOR_0000FF);
+        //设置备注
+        TempMessageContent remark=new TempMessageContent(remarkValue,TEMPLATE_MESSAGE_COLOR_0000FF);
+        //创建模板信息数据对象
+        TempMessageParamData data=new TempMessageParamData();
+        data.setFirst(first);
+        data.setKeyword1(keyword1);
+        data.setKeyword2(keyword2);
+        data.setRemark(remark);
+        return data;
     }
 }

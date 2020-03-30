@@ -12,5 +12,5 @@ import java.io.Serializable;
 @Data
 public class TempMessageData implements Serializable {
     private String openId;
-    private TempMessageData410928703 data;
+    private TempMessageParamData data;
 }

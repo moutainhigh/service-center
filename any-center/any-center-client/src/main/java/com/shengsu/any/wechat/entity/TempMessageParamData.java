@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class TempMessageData410928703 implements Serializable {
+public class TempMessageParamData implements Serializable {
     private TempMessageContent first;
     private TempMessageContent keyword1;
     private TempMessageContent keyword2;
