@@ -2,7 +2,7 @@ package com.shengsu.any.mq.service;
 
 import com.shengsu.any.constant.TemplateMessageEnum;
 import com.shengsu.any.wechat.entity.TempMessageData;
-import com.shengsu.any.wechat.entity.TempMessageData410928703;
+import com.shengsu.any.wechat.entity.TempMessageParamData;
 import com.shengsu.any.wechat.service.TemplateMessageService;
 import com.shengsu.mq.MessageProcessor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +23,9 @@ public class TempMessageDataService implements MessageProcessor<TempMessageData>
     public boolean handleMessage(TempMessageData tempMessageData) {
         log.info("处理消息："+ tempMessageData);
         String openId = tempMessageData.getOpenId();
-        TempMessageData410928703 data = tempMessageData.getData();
+        TempMessageParamData data = tempMessageData.getData();
         // 推送消息
-        templateMessageService.pushTemplateMessage(openId,TemplateMessageEnum.MESSAGE_TEMPLATE_USER_AUTHROTION,data);
+        templateMessageService.pushTemplateMessage(openId,TemplateMessageEnum.MESSAGE_TEMPLATE_SUBSCRIBE_SUCCESS,data);
         return true;
     }
     @Override

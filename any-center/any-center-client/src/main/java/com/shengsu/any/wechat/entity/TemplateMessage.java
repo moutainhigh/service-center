@@ -13,7 +13,7 @@ public class TemplateMessage implements Serializable {
     //详情跳转页面
     private String url;
     //模板数据封装实体
-    private TempMessageData410928703 data;
+    private TempMessageParamData data;
 
 
 }

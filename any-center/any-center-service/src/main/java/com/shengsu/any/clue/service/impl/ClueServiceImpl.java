@@ -32,7 +32,8 @@ import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
 import com.shengsu.any.wechat.entity.TempMessageData;
-import com.shengsu.any.wechat.entity.TempMessageData410928703;
+import com.shengsu.any.wechat.entity.TempMessageParamData;
+import com.shengsu.any.wechat.service.TemplateMessageService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.MQProducerEnum;
@@ -95,6 +96,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private PnsClientService pnsClientService;
     @Autowired
     private PnsService pnsService;
+    @Autowired
+    private TemplateMessageService templateMessageService;
     @Value("${pns.expireTimeSecond}")
     private Integer expireTimeSecond;
     @Value("${pns.areaCodes}")
@@ -392,7 +395,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         // 获取所有律师用户的openId
         List<String>openIds = userService.getAllOpenId();
         // 设置模板
-        TempMessageData410928703 data = userService.assembleTemplateDate(TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE,TEMPLATE_MESSAGE_CLUE_UPDATE_KEYWORD1_VALUE,TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE);
+        TempMessageParamData data = templateMessageService.assembleTemplateDate(TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE,TEMPLATE_MESSAGE_CLUE_UPDATE_KEYWORD1_VALUE,TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE);
         for (String openId : openIds){
             TempMessageData tempMessageData = new TempMessageData();
             tempMessageData.setOpenId(openId);
