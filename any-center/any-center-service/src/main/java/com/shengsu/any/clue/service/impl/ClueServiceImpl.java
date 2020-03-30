@@ -307,16 +307,16 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         // 发送短信给客户和律师
         SystemDict systemDict = systemDictService.getOneByDisplayValue(DICT_CODE_CLUE_TYPE, clue.getClueType());
         // 发短信给律师
-        JSONObject smsParam186613636Json = new JSONObject();
-        smsParam186613636Json.put("lawyer",lawyer.getRealName());
-        smsParam186613636Json.put("clueType",systemDict.getDisplayName());
-        smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_186613636, JSON.toJSONString(smsParam186613636Json),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        JSONObject param = new JSONObject();
+        param.put("lawyer",lawyer.getRealName());
+        param.put("clueType",systemDict.getDisplayName());
+        smsService.sendSms(lawyer.getTel(), SmsTemplateEnum.SMS_186613636, JSON.toJSONString(param),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
         // 发短信给客户
-        JSONObject smsParam186951639Json = new JSONObject();
-        smsParam186951639Json.put("client",clue.getAppellation());
-        smsParam186951639Json.put("lawyer",lawyer.getRealName());
-        smsParam186951639Json.put("tel",lawyer.getTel());
-        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_186951639, JSON.toJSONString(smsParam186951639Json),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        param = new JSONObject();
+        param.put("client",clue.getAppellation());
+        param.put("lawyer",lawyer.getRealName());
+        param.put("tel",lawyer.getTel());
+        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_186951639, JSON.toJSONString(param),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
 
         //解锁
         redisUtil.unlock(clueId,String.valueOf(time));
