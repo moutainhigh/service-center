@@ -86,22 +86,10 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
             return ResultUtil.formResult(false, ResultCode.FAIL, null);
         }
         List<AccountRecord> accountRecords = accountRecordMapper.listExpend(user.getUserId());
-
         List<String> clueIds = new ArrayList<>();
-        for (AccountRecord accountRecord : accountRecords) {
-            clueIds.add(accountRecord.getClueId());
-        }
-        List<Clue> clues = new ArrayList<>();
-        if (null != clueIds && clueIds.size()>0){
-            clues = clueService.getMany(clueIds);
-        }
-        Map<String, Clue> clueMap = ClueUtils.toClueMap(clues);
         List<ExpendListPo> result = new ArrayList<>();
         for (AccountRecord accountRecord : accountRecords){
             ExpendListPo expendListPo = AccountRecordUtils.toExpendListPo(accountRecord);
-            if (clueMap.get(accountRecord.getClueId()) != null) {
-                expendListPo.setClueCode(clueMap.get(accountRecord.getClueId()).getClueCode());
-            }
             result.add(expendListPo);
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
