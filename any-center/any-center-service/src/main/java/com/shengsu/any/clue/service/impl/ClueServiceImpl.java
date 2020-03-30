@@ -145,7 +145,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
         SystemDictUtils.toSystemDicts(systemDicts, clues);
         List<Pns> pns = pnsService.getMany(clueIds);
-        List<ClueLibPo> clueLibPos = ClueUtils.toClue(clues, pns);
+        List<ClueLibPo> clueLibPos = ClueUtils.toClue(clues, pns,expireTimeSecond);
         return ResultUtil.formPageResult(true, ResultCode.SUCCESS, clueLibPos, totalCount);
     }
 

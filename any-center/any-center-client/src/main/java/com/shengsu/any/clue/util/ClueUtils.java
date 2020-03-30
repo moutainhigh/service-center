@@ -49,7 +49,7 @@ public class ClueUtils {
         return clue;
     }
 
-    public static List<ClueLibPo> toClue(List<Clue> clues, List<Pns> pnss) {
+    public static List<ClueLibPo> toClue(List<Clue> clues, List<Pns> pnss, Integer expireTimeSecond) {
         List<ClueLibPo> list = new ArrayList<>();
         for (Clue clue : clues) {
             ClueLibPo clueLibPo = new ClueLibPo();
@@ -73,9 +73,16 @@ public class ClueUtils {
         for (ClueLibPo clueLibPo : list) {
             for (Pns pns : pnss) {
                 if (clueLibPo.getClueId().equals(pns.getClueId())) {
+                    Date now = new Date();
+                    Date date = pns.getBindTime();
                     clueLibPo.setTelX(pns.getTelx());
                     clueLibPo.setBindTime(pns.getBindTime());
                     clueLibPo.setExpiration(pns.getExpiration());
+                    if (now.getTime() - date.getTime() > expireTimeSecond * 1000) {
+                        clueLibPo.setPnsStatus("Expired");
+                    } else {
+                        clueLibPo.setPnsStatus("Valid");
+                    }
                 }
             }
         }
