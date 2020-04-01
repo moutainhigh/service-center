@@ -87,11 +87,15 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
         }
         List<AccountRecord> accountRecords = accountRecordMapper.listExpend(user.getUserId());
         List<String> clueIds = new ArrayList<>();
-        List<ExpendListPo> result = new ArrayList<>();
-        for (AccountRecord accountRecord : accountRecords){
-            ExpendListPo expendListPo = AccountRecordUtils.toExpendListPo(accountRecord);
-            result.add(expendListPo);
+        for (AccountRecord accountRecord : accountRecords) {
+            clueIds.add(accountRecord.getClueId());
         }
+        List<Clue> clues = new ArrayList<>();
+        if (null != clueIds && clueIds.size()>0){
+            clues = clueService.getMany(clueIds);
+        }
+        Map<String, Clue> clueMap = ClueUtils.toClueMap(clues);
+        List<ExpendListPo> result = AccountRecordUtils.toExpendListPo(accountRecords,clueMap);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
     }
 
