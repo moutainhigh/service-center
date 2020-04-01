@@ -33,7 +33,7 @@ public class AccountRecordUtils {
     public static ExpendListPo toExpendListPo(AccountRecord accountRecord) {
         if (accountRecord != null) {
             ExpendListPo expendListPo = new ExpendListPo();
-            expendListPo.setClueId(accountRecord.getClueId().substring(0,17));
+            expendListPo.setClueId(accountRecord.getClueId());
             expendListPo.setActionType(accountRecord.getActionType());
             expendListPo.setAmount(accountRecord.getAmount());
             expendListPo.setModifyTime(accountRecord.getModifyTime());
