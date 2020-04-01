@@ -30,16 +30,19 @@ public class AccountRecordUtils {
         return null;
     }
 
-    public static ExpendListPo toExpendListPo(AccountRecord accountRecord) {
-        if (accountRecord != null) {
+    public static List<ExpendListPo> toExpendListPo(List<AccountRecord> accountRecords,Map<String,Clue> clueMap) {
+        if(accountRecords==null||accountRecords.size()==0)
+            return null;
+        List<ExpendListPo> expendListPos = new ArrayList<>();
+        for(AccountRecord accountRecord:accountRecords){
             ExpendListPo expendListPo = new ExpendListPo();
-            expendListPo.setClueId(accountRecord.getClueId());
             expendListPo.setActionType(accountRecord.getActionType());
             expendListPo.setAmount(accountRecord.getAmount());
             expendListPo.setModifyTime(accountRecord.getModifyTime());
-            return expendListPo;
+            expendListPo.setClueCode(clueMap.get(accountRecord.getClueId()).getClueCode());
+            expendListPos.add(expendListPo);
         }
-        return null;
+        return expendListPos;
     }
     public static AccountRecordDetailsPo toAccountRecordDetailsPo(AccountRecord accountRecord,Map<String, User> userMap,Map<String, String> inOrOutMap) {
         if (accountRecord != null) {
