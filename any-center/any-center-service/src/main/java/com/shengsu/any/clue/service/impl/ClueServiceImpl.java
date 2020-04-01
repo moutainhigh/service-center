@@ -389,9 +389,6 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         List<User> users = userService.getAllPushUsers();
 
         for (User user : users){
-            if(user == null){
-                continue;
-            }
             // 设置模板
             TempMessageParamData data = templateMessageService.assembleTemplateDate(TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE,user.getRealName(),TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE);
             TempMessageData tempMessageData = new TempMessageData();
