@@ -9,7 +9,7 @@ public class ClueUtil {
      * @return
      */
     public static String getStringRandom(int length) {
-        StringBuffer val=null;
+        StringBuffer val= new StringBuffer();
         Random random = new Random();
         //参数length，表示生成几位随机数
         for(int i = 0; i < length; i++) {
