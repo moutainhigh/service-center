@@ -386,7 +386,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Override
     public ResultBean pushAllTemplateMsg() {
         // 获取所有律师用户的openId
-        List<User> users = userService.getAllOpenId();
+        List<User> users = userService.getAllPushUsers();
 
         for (User user : users){
             // 设置模板

@@ -29,5 +29,5 @@ public interface UserService extends BaseService<User,String> {
     ResultBean reject(UserAuthStateVo userAuthStateVo);
     ResultBean uploadHeadImage(UploadHeadImageVo uploadHeadImageVo);
     String getUserIdByTel(String tel);
-    List<User> getAllOpenId();
+    List<User> getAllPushUsers();
 }

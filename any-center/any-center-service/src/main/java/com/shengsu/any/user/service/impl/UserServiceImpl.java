@@ -430,8 +430,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public List<User> getAllOpenId() {
-        return userMapper.getAllOpenId();
+    public List<User> getAllPushUsers() {
+        return userMapper.getAllPushUsers();
     }
 
 }
