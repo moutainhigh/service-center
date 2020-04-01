@@ -3,7 +3,6 @@ package com.shengsu.any.user.service;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.vo.*;
-import com.shengsu.any.wechat.entity.TempMessageParamData;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
@@ -30,5 +29,5 @@ public interface UserService extends BaseService<User,String> {
     ResultBean reject(UserAuthStateVo userAuthStateVo);
     ResultBean uploadHeadImage(UploadHeadImageVo uploadHeadImageVo);
     String getUserIdByTel(String tel);
-    List<String> getAllOpenId();
+    List<User> getAllOpenId();
 }

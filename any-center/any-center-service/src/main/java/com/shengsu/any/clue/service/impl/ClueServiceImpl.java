@@ -386,12 +386,13 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Override
     public ResultBean pushAllTemplateMsg() {
         // 获取所有律师用户的openId
-        List<String>openIds = userService.getAllOpenId();
-        // 设置模板
-        TempMessageParamData data = templateMessageService.assembleTemplateDate(TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE,TEMPLATE_MESSAGE_CLUE_UPDATE_KEYWORD1_VALUE,TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE);
-        for (String openId : openIds){
+        List<User> users = userService.getAllOpenId();
+
+        for (User user : users){
+            // 设置模板
+            TempMessageParamData data = templateMessageService.assembleTemplateDate(TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE,user.getRealName(),TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE);
             TempMessageData tempMessageData = new TempMessageData();
-            tempMessageData.setOpenId(openId);
+            tempMessageData.setOpenId(user.getWechatOpenid());
             tempMessageData.setData(data);
             // 发送消息
             mqProducerService.send(MQProducerEnum.ANY_WECHAT, JSON.toJSONString(tempMessageData));

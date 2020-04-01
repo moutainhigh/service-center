@@ -1,13 +1,10 @@
 package com.shengsu.any.user.mapper;
 
-import com.shengsu.any.account.vo.AccounListByPageVo;
-import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.base.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @description:
@@ -30,5 +27,5 @@ public interface UserMapper extends BaseMapper<User,String> {
 
     String getUserIdByTel(String tel);
 
-    List<String> getAllOpenId();
+    List<User> getAllOpenId();
 }
