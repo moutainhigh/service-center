@@ -19,10 +19,7 @@ import com.shengsu.any.clue.po.MyCluePo;
 import com.shengsu.any.clue.service.CluePersonalService;
 import com.shengsu.any.clue.service.ClueService;
 import com.shengsu.any.clue.service.PnsService;
-import com.shengsu.any.clue.util.AxbBindRequestUtils;
-import com.shengsu.any.clue.util.AxbUnBindRequestUtils;
-import com.shengsu.any.clue.util.ClueUtils;
-import com.shengsu.any.clue.util.PnsUtils;
+import com.shengsu.any.clue.util.*;
 import com.shengsu.any.clue.vo.*;
 import com.shengsu.any.message.entity.Message;
 import com.shengsu.any.message.service.MessageService;
@@ -39,15 +36,11 @@ import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.MQProducerEnum;
 import com.shengsu.helper.constant.SmsSignEnum;
 import com.shengsu.helper.constant.SmsTemplateEnum;
-import com.shengsu.helper.service.*;
 import com.shengsu.helper.entity.AxbBindRequest;
 import com.shengsu.helper.entity.AxbUnBindRequest;
 import com.shengsu.helper.entity.BindResponse;
 import com.shengsu.helper.entity.SystemDict;
-import com.shengsu.helper.service.CodeGeneratorService;
-import com.shengsu.helper.service.PnsClientService;
-import com.shengsu.helper.service.SmsService;
-import com.shengsu.helper.service.SystemDictService;
+import com.shengsu.helper.service.*;
 import com.shengsu.result.ResultBean;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -123,7 +116,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Override
     public ResultBean create(ClueVo clueVo) {
         Clue clue = ClueUtils.toClue(clueVo);
-        clue.setClueCode(codeGeneratorService.generateCode(PREFIX_CLUE_CODE));
+        clue.setClueCode(ClueUtil.getStringRandom(16));
         clue.setClueState(CLUE_STATE_PEND);
         clueMapper.save(clue);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
