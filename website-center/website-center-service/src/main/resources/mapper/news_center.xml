@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsu.website.home.mapper.NewsCenterMapper">
+	<!-- Result Map-->
+	<resultMap id="wheel_center_result_map" type="newsCenter">
+	</resultMap>
+	<sql id="news_center_columns">
+		news_center.*
+	</sql>
+	<sql id="news_center_page">
+		<where>
+			del_flag = 0
+			<if test="type!=null and  type != ''">
+				AND type = #{type}
+			</if>
+			<if test="author!=null and  author != ''">
+				AND author = #{author}
+			</if>
+			<if test="title!=null">
+				AND title LIKE concat('%',#{title},'%')
+			</if>
+			<if test="ascription!=null and  ascription != ''">
+				AND ascription = #{ascription}
+			</if>
+		</where>
+	</sql>
+	<insert id="save" parameterType="newsCenter">
+		INSERT INTO news_center(
+		type,
+		title,
+		news_date,
+		summary,
+		source,
+		author,
+		content,
+		is_home_show,
+		relevant,
+		picture_oss_id,
+		ascription,
+		del_flag,
+		create_time,
+		modify_time
+		)
+		values(
+		#{type},
+		#{title},
+		#{newsDate},
+		#{summary},
+		#{source},
+		#{author},
+		#{content},
+		#{isHomeShow},
+		#{relevant},
+		#{pictureOssId},
+		#{ascription},
+		0,
+		current_timestamp(),
+		current_timestamp()
+		)
+	</insert>
+	<select id="selectById" parameterType="long" resultType="newsCenter">
+		select <include refid="news_center_columns"/> from  news_center where id = #{id} and del_flag = 0 limit 1
+	</select>
+	<select id="selectByTitle" parameterType="string" resultType="newsCenter">
+		select <include refid="news_center_columns"/> from  news_center where title = #{selectByTitle} and del_flag = 0 limit 1
+	</select>
+	<select id="getNewsCenter" parameterType="newsCenter" resultType="newsCenter">
+		select <include refid="news_center_columns"/>
+		from  news_center where
+		is_home_show = #{isHomeShow} and
+		ascription = #{ascription} and
+		del_flag = 0
+		order by news_date desc
+
+	</select>
+	<update id="delete" parameterType="long">
+		UPDATE news_center set del_flag = 1 where id = #{id}
+	</update>
+	<update id="update" parameterType="newsCenter">
+		UPDATE news_center set
+		type = #{type},
+		title = #{title},
+		news_date = #{newsDate},
+		summary = #{summary},
+		source = #{source},
+		author = #{author},
+		content = #{content},
+		is_home_show=#{isHomeShow},
+		relevant = #{relevant},
+		picture_oss_id = #{pictureOssId},
+		ascription = #{ascription},
+		modify_time = current_timestamp()
+		where id = #{id} AND del_flag = 0
+	</update>
+	<select id="selectByPage" parameterType="newsCenter" resultType="newsCenter">
+		<include refid="global.paginationStart_mysql" />
+		SELECT id,title,news_date,summary,picture_oss_id,ascription FROM news_center
+	  	<include refid="news_center_page" />
+		ORDER BY news_date DESC
+		<include refid="global.paginationEnd_mysql" />
+
+	</select>
+	<select id="countByPage"  parameterType="newsCenter" resultType="int">
+		SELECT count(1) FROM news_center  <include refid="news_center_page" />
+	</select>
+	<select id="selectPreviousByIdToType" parameterType="newsCenter" resultType="newsCenter">
+		select id,title from news_center where del_flag = 0 AND  news_date>#{newsDate}
+		<if test="type!=null">
+			and type = #{type}
+		</if>
+		<if test="ascription!=null">
+			and ascription = #{ascription}
+		</if>
+		ORDER BY news_date limit 1
+	</select>
+	<select id="selectNextByIdToType" parameterType="newsCenter" resultType="newsCenter">
+		select id,title from news_center where del_flag = 0 AND news_date &lt; #{newsDate}
+		<if test="type!=null">
+			and type = #{type}
+		</if>
+		<if test="ascription!=null">
+			and ascription = #{ascription}
+		</if>
+		ORDER BY news_date DESC limit 1
+	</select>
+	<select id="selectRelevantByIds" parameterType="list" resultType="newsCenter">
+		select id,title,news_date FROM  news_center WHERE del_flag = 0 AND id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+</mapper>
