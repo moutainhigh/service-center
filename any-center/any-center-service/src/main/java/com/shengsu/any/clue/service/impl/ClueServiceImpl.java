@@ -391,7 +391,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         for (User user : users){
             // 设置模板
             StringBuilder stringBuilder = new StringBuilder(user.getRealName());
-            if("0".equals(user.getAuthState())){
+            if(!"0".equals(user.getAuthState())){
                 stringBuilder.append("律师");
             }
             TempMessageParamData data = templateMessageService.assembleTemplateDate(TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE,stringBuilder.toString(),TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE);
