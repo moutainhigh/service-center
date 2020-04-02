@@ -39,7 +39,8 @@ public class AccountRecordUtils {
             expendListPo.setActionType(accountRecord.getActionType());
             expendListPo.setAmount(accountRecord.getAmount());
             expendListPo.setModifyTime(accountRecord.getModifyTime());
-            expendListPo.setClueCode(clueMap.get(accountRecord.getClueId()).getClueCode());
+            Clue clue = clueMap.get(accountRecord.getClueId());
+            expendListPo.setClueCode(clue==null?"":clue.getClueCode());
             expendListPos.add(expendListPo);
         }
         return expendListPos;
