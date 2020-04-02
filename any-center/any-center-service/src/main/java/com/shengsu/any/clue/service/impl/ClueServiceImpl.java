@@ -390,11 +390,11 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
 
         for (User user : users){
             // 设置模板
-            StringBuilder stringBuilder = new StringBuilder(user.getRealName());
+            String realName = user.getRealName();
             if(!"0".equals(user.getAuthState())){
-                stringBuilder.append("律师");
+                realName = realName + "律师";
             }
-            TempMessageParamData data = templateMessageService.assembleTemplateDate(TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE,stringBuilder.toString(),TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE);
+            TempMessageParamData data = templateMessageService.assembleTemplateDate(TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE,realName,TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE);
             TempMessageData tempMessageData = new TempMessageData();
             tempMessageData.setOpenId(user.getWechatOpenid());
             tempMessageData.setData(data);
