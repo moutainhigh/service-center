@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    	http://code.alibabatech.com/schema/dubbo
+       	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <!--使用 dubbo 协议实现定义好的接口-->
+    <dubbo:service interface="com.shengsu.trade.pay.service.PayOrderService" ref="payOrderService" protocol="dubbo"
+                   timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.trade.pay.service.WxpayService" ref="wxpayService" protocol="dubbo"
+                   timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.trade.pay.service.AlipayService" ref="alipayService" protocol="dubbo"
+                   timeout="3000" version="${dubbo.version}"/>
+</beans>
