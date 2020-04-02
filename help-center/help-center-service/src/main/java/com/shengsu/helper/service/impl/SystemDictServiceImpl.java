@@ -76,6 +76,12 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
         return systemDictMapper.getManyByDisplayValue(disPlayName);
     }
 
+    @Override
+    public Map<String, SystemDict> getManyByDisplayValueMap(String dictCode, List<String> list) {
+        List<SystemDict> systemDicts = getManyByDisplayValue(dictCode,list);
+        return SystemDictUtil.toSystemDictMap(systemDicts);
+    }
+
     /**
      * @return com.shengsu.helper.entity.SystemDict
      * @Author Bell

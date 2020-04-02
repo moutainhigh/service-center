@@ -22,5 +22,6 @@
         <module>any-center</module>
         <module>schedule-center</module>
         <module>website-center</module>
+        <module>trade-center</module>
     </modules>
 </project>
