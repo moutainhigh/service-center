@@ -121,7 +121,7 @@
 		select * from user
 		<include refid="user_where_clause" />
 		and auth_state != 0
-		order by create_time desc
+		order by modify_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
 	<update id="pass" parameterType="string">
