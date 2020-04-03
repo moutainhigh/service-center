@@ -19,10 +19,6 @@ public interface SystemDictService extends BaseService<SystemDict, String> {
 
     ResultBean listDicts(List<SystemDict> systemDictionaries);
 
-    List<SystemDict> getManyByDisplayValue(String dictCode, List<String> list);
-
-    Map<String, SystemDict> getManyByDisplayValueMap(String dictCode, List<String> list);
-
     SystemDict getOneByDisplayValue(String dictCode, String displayValue);
 
     List<SystemDict> listByDictCode(String dictCode);

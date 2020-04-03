@@ -62,26 +62,6 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
         return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
     }
 
-
-    /**
-     * @return java.util.List<com.shengsu.helper.entity.SystemDict>
-     * @Author Bell
-     * @Description 根据案件类型值获取字典表中的名称 返回多个
-     * @Date 2020/3/4
-     * @Param [map]
-     **/
-    @Override
-    public List<SystemDict> getManyByDisplayValue(String dictCode, List<String> displayValues) {
-        Map<String, Object> disPlayName = SystemDictUtil.toParamMap(dictCode, displayValues);
-        return systemDictMapper.getManyByDisplayValue(disPlayName);
-    }
-
-    @Override
-    public Map<String, SystemDict> getManyByDisplayValueMap(String dictCode, List<String> list) {
-        List<SystemDict> systemDicts = getManyByDisplayValue(dictCode,list);
-        return SystemDictUtil.toSystemDictMap(systemDicts);
-    }
-
     /**
      * @return com.shengsu.helper.entity.SystemDict
      * @Author Bell
