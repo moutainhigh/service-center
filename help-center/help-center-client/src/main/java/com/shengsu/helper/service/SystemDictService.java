@@ -27,4 +27,6 @@ public interface SystemDictService extends BaseService<SystemDict, String> {
 
     List<SystemDict> listByDictCode(String dictCode);
 
+    Map<String,SystemDict> mapByDictCode(String dictCode);
+
 }

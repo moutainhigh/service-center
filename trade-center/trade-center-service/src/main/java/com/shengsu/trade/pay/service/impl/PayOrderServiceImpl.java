@@ -71,11 +71,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> imple
         int totalCount = payOrderMapper.countAll(payOrder);
         if (totalCount > 0) {
             List<PayOrder> payOrders = payOrderMapper.listByPage(payOrder);
-            List<String> statusList = new ArrayList<>();
-            for (PayOrder param : payOrders){
-                statusList.add(param.getStatus());
-            }
-            Map<String, SystemDict> systemDictMap = systemDictService.getManyByDisplayValueMap("order_status", statusList);
+            Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode("order_status");
             List<PayOrderListPo> payOrderListPos = PayOrderUtils.toPayOrderListPos(payOrders,systemDictMap);
             map.put("root", payOrderListPos);
             map.put("totalCount", totalCount);

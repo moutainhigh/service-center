@@ -11,7 +11,6 @@ import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.pay.service.AlipayService;
 import com.shengsu.any.pay.service.WxpayService;
-import com.shengsu.any.system.util.SystemDictUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.entity.SystemDict;
@@ -72,12 +71,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> imple
         int totalCount = payOrderMapper.countAll(payOrder);
         if (totalCount > 0) {
             List<PayOrder> payOrders = payOrderMapper.listByPage(payOrder);
-            List<String> statusList = new ArrayList<>();
-            for (PayOrder param : payOrders){
-                statusList.add(param.getStatus());
-            }
-            List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("order_status", statusList);
-            Map<String, SystemDict> systemDictMap = SystemDictUtils.toSystemDictMap(systemDicts);
+            Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode("order_status");
             List<PayOrderListPo> payOrderListPos = PayOrderUtils.toPayOrderListPos(payOrders,systemDictMap);
             map.put("root", payOrderListPos);
             map.put("totalCount", totalCount);

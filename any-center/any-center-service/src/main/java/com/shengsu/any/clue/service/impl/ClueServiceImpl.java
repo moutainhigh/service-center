@@ -24,7 +24,6 @@ import com.shengsu.any.clue.vo.*;
 import com.shengsu.any.message.entity.Message;
 import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
-import com.shengsu.any.system.util.SystemDictUtils;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.any.user.service.UserService;
@@ -55,7 +54,8 @@ import java.util.*;
 
 import static com.shengsu.any.app.constant.BizConst.*;
 import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_CLUE_BUY_SUCCESS;
-import static com.shengsu.any.wechat.constant.TemplateMessageConst.*;
+import static com.shengsu.any.wechat.constant.TemplateMessageConst.TEMPLATE_MESSAGE_ACLUE_UPDATE_REMARK_VALUE;
+import static com.shengsu.any.wechat.constant.TemplateMessageConst.TEMPLATE_MESSAGE_CLUE_UPDATE_FIRST_VALUE;
 
 /**
  * @description:
@@ -136,12 +136,10 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         if (clues.isEmpty()) {
             return ResultUtil.formResult(true, ResultCode.SUCCESS, clues);
         }
-        List<String> clueTypes = ClueUtils.toClueType(clues);
         List<String> clueIds = ClueUtils.toClueId(clues);
-        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
-        SystemDictUtils.toSystemDicts(systemDicts, clues);
+        Map<String,SystemDict> systemDictMap = systemDictService.mapByDictCode("clue_type");
         List<Pns> pns = pnsService.getMany(clueIds);
-        List<ClueLibPo> clueLibPos = ClueUtils.toClue(clues, pns,expireTimeSecond);
+        List<ClueLibPo> clueLibPos = ClueUtils.toClue(clues,systemDictMap, pns,expireTimeSecond);
         return ResultUtil.formPageResult(true, ResultCode.SUCCESS, clueLibPos, totalCount);
     }
 
@@ -348,18 +346,13 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             String clueId = cluePersonal.getClueId();
             list.add(clueId);
         }
-
         if (list.isEmpty()) {
             return ResultUtil.formResult(true, ResultCode.SUCCESS, list);
         }
-
         List<Clue> clues = clueMapper.getMany(list);
-        List<String> clueTypes = ClueUtils.toClueType(clues);
-
-        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
-        SystemDictUtils.toSystemDicts(systemDicts, clues);
+        Map<String,SystemDict> systemDictMap = systemDictService.mapByDictCode("clue_type");
         List<Pns> pns = pnsService.getMany(list);
-        List<MyCluePo> myCluePos = ClueUtils.toClueWebPagePo(clues, cluePersonals, pns, expireTimeSecond);
+        List<MyCluePo> myCluePos = ClueUtils.toClueWebPagePo(clues, cluePersonals, pns,systemDictMap, expireTimeSecond);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, myCluePos);
     }
     /**
@@ -376,11 +369,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         if (clues.isEmpty()) {
             return ResultUtil.formResult(true, ResultCode.SUCCESS, clues);
         }
-        List<String> clueTypes = ClueUtils.toClueType(clues);
-
-        List<SystemDict> systemDicts = systemDictService.getManyByDisplayValue("clue_type", clueTypes);
-        SystemDictUtils.toSystemDicts(systemDicts, clues);
-        List<ClueListPo> clueListPos = ClueUtils.toClueClientPo(clues);
+        Map<String,SystemDict> systemDictMap = systemDictService.mapByDictCode("clue_type");
+        List<ClueListPo> clueListPos = ClueUtils.toClueClientPo(clues,systemDictMap);
         return ResultUtil.formPageResult(true, ResultCode.SUCCESS, clueListPos, totalCount);
     }
     @Override

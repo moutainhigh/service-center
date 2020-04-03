@@ -99,4 +99,9 @@ public class SystemDictServiceImpl extends BaseServiceImpl<SystemDict, String> i
     public List<SystemDict> listByDictCode(String dictCode) {
         return systemDictMapper.listByDictCode(dictCode);
     }
+    @Override
+    public Map<String,SystemDict> mapByDictCode(String dictCode) {
+        List<SystemDict> systemDicts = systemDictMapper.listByDictCode(dictCode);
+        return SystemDictUtil.toSystemDictMap(systemDicts);
+    }
 }

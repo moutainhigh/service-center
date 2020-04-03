@@ -11,7 +11,6 @@ import com.shengsu.any.constant.TemplateMessageEnum;
 import com.shengsu.any.message.entity.Message;
 import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
-import com.shengsu.any.system.util.SystemDictUtils;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.mapper.UserMapper;
 import com.shengsu.any.user.po.UserDetailsPo;
@@ -46,8 +45,8 @@ import java.util.*;
 import static com.shengsu.any.app.constant.BizConst.*;
 import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_PASS;
 import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_REJECT;
-import static com.shengsu.any.wechat.constant.TemplateMessageConst.*;
 import static com.shengsu.any.user.util.UserUtils.toUserDetailsPo;
+import static com.shengsu.any.wechat.constant.TemplateMessageConst.*;
 
 /**
  * @description:
@@ -186,8 +185,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             userDetailsPo.setAuthStateStr(systemDict.getDisplayName());
         }
 
-        List<SystemDict> systemDicts = systemDictService.listByDictCode(DICT_CODE_FIELD);
-        Map<String, SystemDict> systemDictMap = SystemDictUtils.toSystemDictMap(systemDicts);
+        Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode(DICT_CODE_FIELD);
         String field = "";
         if (StringUtils.isNotBlank(user.getField())){
             List<String> fieldItems =Arrays.asList(StringUtils.split(user.getField(), ","));

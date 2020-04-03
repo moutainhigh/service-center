@@ -9,6 +9,7 @@ import com.shengsu.any.clue.po.MyCluePo;
 import com.shengsu.any.clue.vo.ClueEditVo;
 import com.shengsu.any.clue.vo.ClueShelfVo;
 import com.shengsu.any.clue.vo.ClueVo;
+import com.shengsu.helper.entity.SystemDict;
 import com.shengsu.helper.service.CodeGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -49,7 +50,7 @@ public class ClueUtils {
         return clue;
     }
 
-    public static List<ClueLibPo> toClue(List<Clue> clues, List<Pns> pnss, Integer expireTimeSecond) {
+    public static List<ClueLibPo> toClue(List<Clue> clues, Map<String,SystemDict> systemDictMap, List<Pns> pnss, Integer expireTimeSecond) {
         List<ClueLibPo> list = new ArrayList<>();
         for (Clue clue : clues) {
             ClueLibPo clueLibPo = new ClueLibPo();
@@ -59,7 +60,8 @@ public class ClueUtils {
             clueLibPo.setClueCode(clue.getClueCode());
             clueLibPo.setProvinceCode(clue.getProvinceCode());
             clueLibPo.setCluePrice(clue.getCluePrice());
-            clueLibPo.setClueType(clue.getClueType());
+            SystemDict systemDict = systemDictMap.get(clue.getClueType());
+            clueLibPo.setClueType(systemDict==null?"":systemDict.getDisplayName());
             clueLibPo.setDistrictCode(clue.getDistrictCode());
             clueLibPo.setCustomerDemands(clue.getCustomerDemands());
             clueLibPo.setTel(clue.getTel());
@@ -89,7 +91,7 @@ public class ClueUtils {
         return list;
     }
 
-    public static List<ClueListPo> toClueClientPo(List<Clue> clues) {
+    public static List<ClueListPo> toClueClientPo(List<Clue> clues,Map<String,SystemDict> systemDictMap) {
         List<ClueListPo> list = new ArrayList<>();
         for (Clue clue : clues) {
             ClueListPo clueListPo = new ClueListPo();
@@ -99,7 +101,8 @@ public class ClueUtils {
             clueListPo.setClueCode(clue.getClueCode());
             clueListPo.setProvinceCode(clue.getProvinceCode());
             clueListPo.setCluePrice(clue.getCluePrice());
-            clueListPo.setClueType(clue.getClueType());
+            SystemDict systemDict = systemDictMap.get(clue.getClueType());
+            clueListPo.setClueType(systemDict==null?"":systemDict.getDisplayName());
             clueListPo.setDistrictCode(clue.getDistrictCode());
             clueListPo.setCustomerDemands(clue.getCustomerDemands());
             clueListPo.setClueCode(clue.getClueCode());
@@ -110,7 +113,7 @@ public class ClueUtils {
         return list;
     }
 
-    public static List<MyCluePo> toClueWebPagePo(List<Clue> clues, List<CluePersonal> cluePersonals, List<Pns> pnss, Integer expireTimeSecond) {
+    public static List<MyCluePo> toClueWebPagePo(List<Clue> clues, List<CluePersonal> cluePersonals, List<Pns> pnss,Map<String,SystemDict> systemDictMap, Integer expireTimeSecond) {
         List<MyCluePo> list = new ArrayList<>();
         for (CluePersonal cluePersonal : cluePersonals) {
             for (Clue clue : clues) {
@@ -125,7 +128,8 @@ public class ClueUtils {
                         myCluePo.setClueCode(clue.getClueCode());
                         myCluePo.setProvinceCode(clue.getProvinceCode());
                         myCluePo.setCluePrice(clue.getCluePrice());
-                        myCluePo.setClueType(clue.getClueType());
+                        SystemDict systemDict = systemDictMap.get(clue.getClueType());
+                        myCluePo.setClueType(systemDict==null?"":systemDict.getDisplayName());
                         myCluePo.setDistrictCode(clue.getDistrictCode());
                         myCluePo.setCustomerDemands(clue.getCustomerDemands());
                         myCluePo.setTel(clue.getTel());
@@ -150,14 +154,6 @@ public class ClueUtils {
 
     }
 
-    public static List<String> toClueType(List<Clue> clues) {
-        List<String> list = new ArrayList<>();
-        for (Clue clue : clues) {
-            String clueType = clue.getClueType();
-            list.add(clueType);
-        }
-        return list;
-    }
     public static List<String> toClueId(List<Clue> clues){
         List<String> list = new ArrayList<> ();
         for(Clue clue : clues){
