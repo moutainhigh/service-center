@@ -65,6 +65,8 @@ public class AlipayServiceImpl implements AlipayService {
         AlipayTradeWapPayRequest alipayRequest=new AlipayTradeWapPayRequest();
         // 封装请求支付信息
         String outTradeNo = codeGeneratorService.generateCode("ATN");
+        //插入6位随机数
+        outTradeNo = new StringBuilder(outTradeNo).insert(3,PayOrderUtils.randnum(6)).toString();
         AlipayTradeWapPayModel model=new AlipayTradeWapPayModel();
         model.setOutTradeNo(outTradeNo);
         model.setSubject("充值");
