@@ -16,22 +16,13 @@
     <dubbo:protocol name="dubbo" port="${dubbo.port}"/>
 
     <!--使用 dubbo 协议实现定义好的接口-->
-    <dubbo:service interface="com.shengsu.helper.service.OssService" ref="ossService" protocol="dubbo" timeout="3000"
-                   version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.helper.service.StsService" ref="stsService" protocol="dubbo" timeout="3000"
-                   version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.helper.service.MQProducerService" ref="mqProducerService" protocol="dubbo"
-                   timeout="3000" version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.helper.service.DingTalkService" ref="dingTalkService" protocol="dubbo"
-                   timeout="3000" version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.helper.service.CodeGeneratorService" ref="codeGeneratorService"
-                   protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.helper.service.SmsService" ref="smsService" protocol="dubbo" timeout="3000"
-                   version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.helper.service.PnsClientService" ref="pnsClientService" protocol="dubbo"
-                   timeout="3000" version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.helper.service.SystemDictService" ref="systemDictService" protocol="dubbo"
-                   timeout="3000" version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.helper.service.AntiDuplicateService" ref="antiDuplicateService"
-                   protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.OssService" ref="ossService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.StsService" ref="stsService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.MQProducerService" ref="mqProducerService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.DingTalkService" ref="dingTalkService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.CodeGeneratorService" ref="codeGeneratorService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.SmsService" ref="smsService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.PnsClientService" ref="pnsClientService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.SystemDictService" ref="systemDictService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.AntiDuplicateService" ref="antiDuplicateService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>

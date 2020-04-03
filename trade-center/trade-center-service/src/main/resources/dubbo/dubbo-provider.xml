@@ -8,10 +8,7 @@
     	http://code.alibabatech.com/schema/dubbo
        	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <!--使用 dubbo 协议实现定义好的接口-->
-    <dubbo:service interface="com.shengsu.trade.pay.service.PayOrderService" ref="payOrderService" protocol="dubbo"
-                   timeout="3000" version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.trade.pay.service.WxpayService" ref="wxpayService" protocol="dubbo"
-                   timeout="5000" version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.trade.pay.service.AlipayService" ref="alipayService" protocol="dubbo"
-                   timeout="5000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.trade.pay.service.PayOrderService" ref="payOrderService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.trade.pay.service.WxpayService" ref="wxpayService" protocol="dubbo" timeout="5000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.trade.pay.service.AlipayService" ref="alipayService" protocol="dubbo" timeout="5000" version="${dubbo.version}"/>
 </beans>
