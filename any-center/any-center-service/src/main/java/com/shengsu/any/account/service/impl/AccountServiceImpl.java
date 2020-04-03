@@ -1,7 +1,6 @@
 package com.shengsu.any.account.service.impl;
 
 import com.shengsu.any.account.entity.Account;
-import com.shengsu.any.account.entity.PayOrder;
 import com.shengsu.any.account.mapper.AccountMapper;
 import com.shengsu.any.account.po.AccountListPo;
 import com.shengsu.any.account.po.RichesListPo;
@@ -9,7 +8,6 @@ import com.shengsu.any.account.po.TotalExpendPo;
 import com.shengsu.any.account.po.TotalIncomePo;
 import com.shengsu.any.account.service.AccountRecordService;
 import com.shengsu.any.account.service.AccountServcie;
-import com.shengsu.any.account.service.PayOrderService;
 import com.shengsu.any.account.util.AccountUtils;
 import com.shengsu.any.account.vo.AccounListByPageVo;
 import com.shengsu.any.account.vo.BalanceChangeVo;
@@ -27,6 +25,8 @@ import com.shengsu.any.user.util.UserUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.result.ResultBean;
+import com.shengsu.trade.pay.entity.PayOrder;
+import com.shengsu.trade.pay.service.PayOrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,9 +53,9 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
     @Autowired
     private MessageService messageService;
     @Autowired
-    private PayOrderService payOrderService;
-    @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private PayOrderService payOrderService;
     @Override
     public BaseMapper<Account, String> getBaseMapper() {
         return accountMapper;
