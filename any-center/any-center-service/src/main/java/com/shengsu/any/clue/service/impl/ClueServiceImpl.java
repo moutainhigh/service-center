@@ -307,7 +307,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         param.put("client",clue.getAppellation());
         param.put("lawyer",lawyer.getRealName());
         param.put("tel",lawyer.getTel());
-        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_186951639, JSON.toJSONString(param),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_187226616, JSON.toJSONString(param),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
 
         //解锁
         redisUtil.unlock(clueId,String.valueOf(time));
