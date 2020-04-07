@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 
 /**
@@ -63,5 +64,19 @@ public class PayOrderUtils {
             return payOrderListPo;
         }
         return null;
+    }
+
+    /**
+     * n位随机数
+     * @param len
+     * @return
+     */
+    public static String randnum(int len){
+        Random random = new Random();
+        String result="";
+        for(int i=0;i<len;i++){
+            result+=random.nextInt(10);
+        }
+        return result;
     }
 }

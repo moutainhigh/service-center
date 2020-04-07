@@ -62,6 +62,8 @@ public class WxpayServiceImpl implements WxpayService {
         String accountId = wxOrderVo.getAccountId();
         int totalFee =  new BigDecimal(wxOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
         String outTradeNo = codeGeneratorService.generateCode("WTN");
+        //插入6位随机数
+        outTradeNo=new StringBuilder(outTradeNo).insert(3,PayOrderUtils.randnum(6)).toString();
         String prepayId;
         // 配置微信请求参数
         log.info("配置微信请求参数");
