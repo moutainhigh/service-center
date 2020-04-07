@@ -305,7 +305,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         // 发短信给客户
         param = new JSONObject();
         param.put("client",clue.getAppellation());
-        param.put("lawyer",lawyer.getRealName());
+        param.put("lawyer1",lawyer.getRealName());
+        param.put("lawyer2",lawyer.getRealName());
         param.put("tel",lawyer.getTel());
         smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_187226616, JSON.toJSONString(param),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
 
