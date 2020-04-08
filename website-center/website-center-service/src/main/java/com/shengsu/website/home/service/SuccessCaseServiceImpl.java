@@ -109,6 +109,9 @@ public class SuccessCaseServiceImpl extends BaseServiceImpl implements SuccessCa
         Map<String, Object> resultMap = new HashMap<String, Object>();
         if (count > 0) {
             List<SuccessCase> successCases = successCaseMapper.selectByPage(successCase);
+            if(null == successCases || successCases.size() == 0){
+                return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
+            }
             List<SuccessCasePagePo> successCasePagePos = SuccessCaseUtils.toSuccessCasePagePo(successCases);
             for (SuccessCasePagePo successCasePagePo :
                     successCasePagePos) {
