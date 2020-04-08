@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shengsu.website.home.mapper.WheelCenterMapper">
+    <!-- Result Map-->
+    <resultMap id="wheel_center_result_map" type="wheelCenter">
+    </resultMap>
+    <!--表中所有列-->
+    <sql id="wheel_center_columns">
+			wheel_center.*
+	</sql>
+    <!--查询条件-->
+    <sql id="wheel_center_where_clause">
+        <where>
+            del_flag=0
+            <if test="id !=null and id !=''">and id=#{id,jdbcType=BIGINT}</if>
+            <if test="type !=null and type !=''">and type=#{type}</if>
+            <if test="weight !=null and weight !=''">and weight=#{weight}</if>
+            <if test="url !=null and url !=''">and url=#{url}</if>
+            <if test="pictureOssId !=null and pictureOssId !=''">and picture_oss_id=#{pictureOssId}</if>
+        </where>
+    </sql>
+    <!--获取新闻列表-->
+    <select id="selectById" parameterType="wheelCenter" resultType="wheelCenter">
+        select
+        <include refid="wheel_center_columns"/>
+        FROM wheel_center
+        WHERE id=#{id} AND del_flag=0
+    </select>
+    <!--增加新闻内容-->
+    <insert id="save" parameterType="wheelCenter">
+		insert INTO
+		wheel_center
+		(
+		picture_oss_id,
+		type,
+		weight,
+		url,
+		del_flag,
+		create_time,
+		modify_time
+		)
+		VALUES
+		(
+		#{pictureOssId},
+		#{type},
+		#{weight},
+		#{url},
+		0,
+		current_timestamp(),
+		current_timestamp()
+		)
+	</insert>
+    <!--删除新闻内容-->
+    <update id="softDelete" parameterType="wheelCenter">
+		UPDATE wheel_center
+		SET
+		del_flag = 1,
+		modify_time=current_timestamp()
+		WHERE
+		id=#{id}
+	</update>
+    <!--修改新闻内容-->
+    <update id="update" parameterType="wheelCenter">
+		UPDATE wheel_center
+		set
+	  	type= #{type},
+		picture_oss_id=#{pictureOssId},
+		weight=#{weight},
+		url=#{url},
+		modify_time=current_timestamp()
+		WHERE id=#{id} and del_flag=0
+	</update>
+	<!--查询新闻内容-->
+	<select id="selectByType" parameterType="int" resultType="wheelCenter">
+		select
+			<include refid="wheel_center_columns"/>
+			from wheel_center
+			where type = #{type} and del_flag = 0 order by weight
+
+	</select>
+
+</mapper>

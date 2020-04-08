@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsu.website.home.mapper.SuccessCaseMapper">
+	<!-- Result Map-->
+	<resultMap id="wheel_center_result_map" type="successCase">
+	</resultMap>
+	<sql id="success_case_columns">
+		success_case.*
+	</sql>
+	<sql id="success_case_page">
+		<where>
+			del_flag = 0
+			<if test="type!=null and  type != ''">
+				AND type = #{type}
+			</if>
+			<if test="author!=null and  author != ''">
+				AND author = #{author}
+			</if>
+			<if test="title!=null">
+				AND title LIKE concat('%',#{title},'%')
+			</if>
+		</where>
+	</sql>
+	<insert id="save" parameterType="successCase">
+		INSERT INTO success_case(
+		legend_oss_id,
+		type,
+		title,
+		case_date,
+		summary,
+		source,
+		author,
+		content,
+		is_home_show,
+		relevant,
+		del_flag,
+		create_time,
+		modify_time
+		)
+		values(
+		#{legendOssId},
+		#{type},
+		#{title},
+		#{caseDate},
+		#{summary},
+		#{source},
+		#{author},
+		#{content},
+		#{isHomeShow},
+		#{relevant},
+		0,
+		current_timestamp(),
+		current_timestamp()
+		)
+	</insert>
+	<select id="selectById" parameterType="long" resultType="successCase">
+		select <include refid="success_case_columns"/> FROM  success_case WHERE id = #{id} AND del_flag = 0 limit 1
+	</select>
+	<select id="selectByTitle" parameterType="string" resultType="successCase">
+		select <include refid="success_case_columns"/> FROM  success_case WHERE title = #{title} AND del_flag = 0 limit 1
+	</select>
+	<select id="selectByIsHomeShow" parameterType="int" resultType="successCase">
+		select <include refid="success_case_columns"/> FROM  success_case WHERE is_home_show = #{isHomeShow} AND del_flag = 0
+	</select>
+	<update id="delete" parameterType="long">
+		UPDATE success_case set del_flag = 1 where id = #{id}
+	</update>
+	<update id="update" parameterType="successCase">
+		UPDATE success_case set
+		legend_oss_id = #{legendOssId},
+		type = #{type},
+		title = #{title},
+		case_date = #{caseDate},
+		summary = #{summary},
+		source = #{source},
+		author = #{author},
+		content = #{content},
+		is_home_show=#{isHomeShow},
+		relevant = #{relevant},
+		modify_time = current_timestamp()
+		where id = #{id} AND del_flag = 0
+	</update>
+	<select id="selectByPage" parameterType="successCase" resultType="successCase">
+		<include refid="global.paginationStart_mysql" />
+		SELECT id,title,case_date,summary,legend_oss_id FROM success_case
+	  	<include refid="success_case_page" />
+		ORDER BY case_date DESC
+		<include refid="global.paginationEnd_mysql" />
+
+	</select>
+	<select id="countByPage"  parameterType="successCase" resultType="int">
+		SELECT count(1) FROM success_case  <include refid="success_case_page" />
+	</select>
+	<select id="selectPreviousByIdToType" parameterType="successCase" resultType="successCase">
+		select id,title from success_case where del_flag = 0 AND  case_date>#{caseDate}
+		<if test="type!=null">
+			and type = #{type}
+		</if>
+		ORDER BY case_date limit 1
+	</select>
+	<select id="selectNextByIdToType" parameterType="successCase" resultType="successCase">
+		select id,title from success_case where del_flag = 0 AND case_date &lt; #{caseDate}
+		<if test="type!=null">
+			and type = #{type}
+		</if>
+		ORDER BY case_date DESC limit 1
+	</select>
+	<select id="selectRelevantByIds" parameterType="list" resultType="successCase">
+		select id,title,case_date FROM  success_case WHERE del_flag = 0 AND id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+</mapper>
