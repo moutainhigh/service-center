@@ -11,4 +11,5 @@
     <dubbo:service interface="com.shengsu.trade.pay.service.PayOrderService" ref="payOrderService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.trade.pay.service.WxpayService" ref="wxpayService" protocol="dubbo" timeout="5000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.trade.pay.service.AlipayService" ref="alipayService" protocol="dubbo" timeout="5000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.trade.pay.service.BdPayService" ref="bdPayService" protocol="dubbo" timeout="5000" version="${dubbo.version}"/>
 </beans>
