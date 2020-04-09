@@ -26,6 +26,8 @@ public interface BizConst {
     String PAY_TYPE_WECHAT = "wechat";
     //支付类型-支付宝
     String PAY_TYPE_ALIPAY = "alipay";
+    //支付类型-百度
+    String PAY_TYPE_BDPAY = "bdpay";
     //订单状态-未支付
     String ORDER_STATUS_UNPAID= "0";
     //订单状态-已支付

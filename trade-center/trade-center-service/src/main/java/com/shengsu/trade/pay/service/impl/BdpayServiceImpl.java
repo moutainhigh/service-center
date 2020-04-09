@@ -6,9 +6,12 @@ import com.shengsu.trade.app.constant.ResultCode;
 import com.shengsu.trade.app.util.ResultUtil;
 import com.shengsu.trade.pay.entity.BdBizInfo;
 import com.shengsu.trade.pay.entity.BdOrderInfo;
+import com.shengsu.trade.pay.entity.PayOrder;
 import com.shengsu.trade.pay.nuomi.common.NuomiApiException;
 import com.shengsu.trade.pay.nuomi.util.NuomiSignature;
-import com.shengsu.trade.pay.service.BdPayService;
+import com.shengsu.trade.pay.service.BdpayService;
+import com.shengsu.trade.pay.service.PayOrderService;
+import com.shengsu.trade.pay.util.PayOrderUtils;
 import com.shengsu.trade.pay.vo.BaiduOrderVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -16,17 +19,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-
+import static com.shengsu.trade.app.constant.BizConst.*;
 /**
  * @description:
  * @author: lipiao
  * @create: 2020-04-09 11:46
  **/
 @Slf4j
-@Service("bdPayService")
-public class BdPayServiceImpl implements BdPayService {
+@Service("bdpayService")
+public class BdpayServiceImpl implements BdpayService {
     @Value("${bdpay.appKey}")
     private String appKey;
     @Value("${bdpay.dealId}")
@@ -35,10 +39,14 @@ public class BdPayServiceImpl implements BdPayService {
     private String rsaPrivateKey;
     @Autowired
     CodeGeneratorService codeGeneratorService;
+    @Autowired
+    private PayOrderService payOrderService;
     @Override
     public ResultBean order(BaiduOrderVo baiduOrderVo) throws NuomiApiException {
         String amount = baiduOrderVo.getAmount();
         String outTradeNo = codeGeneratorService.generateCode("BTN");
+        //插入6位随机数
+        outTradeNo=new StringBuilder(outTradeNo).insert(3,PayOrderUtils.randnum(6)).toString();
         //百度收银台创建
         BdOrderInfo orderInfo = new BdOrderInfo();
         orderInfo.setAppKey(appKey);
@@ -66,10 +74,14 @@ public class BdPayServiceImpl implements BdPayService {
         bizInfo.setTotalAmount(amount);
         bizInfo.setTpOrderId(outTradeNo);
         orderInfo.setBdBizInfo(bizInfo);
+
+        // order表生成订单数据
+        PayOrder payOrder = PayOrderUtils.toPayOrder("",outTradeNo,"",new BigDecimal(amount),PAY_TYPE_BDPAY,ORDER_STATUS_UNPAID);
+        payOrderService.create(payOrder);
+
         //返回orderInfo
         Map<String,Object> resultMap = new HashMap<>();
         resultMap.put("orderInfo",orderInfo);
-        // TODO 生成订单
         return ResultUtil.formResult(false, ResultCode.SUCCESS,resultMap);
     }
 }
