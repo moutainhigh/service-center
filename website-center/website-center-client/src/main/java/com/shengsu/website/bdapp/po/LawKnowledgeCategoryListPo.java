@@ -1,6 +1,5 @@
 package com.shengsu.website.bdapp.po;
 
-import com.shengsu.website.bdapp.entity.LawKnowledgeCategory;
 import lombok.Data;
 
 import java.io.Serializable;
