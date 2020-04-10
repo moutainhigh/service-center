@@ -16,8 +16,8 @@ import java.util.List;
 public class LawyerUtils {
     public static List<QuestionReplyPo> toQuestionReplyPo(Lawyer lawyer, List<QuestionReply> questionReplies, List<Question> questions) {
         List<QuestionReplyPo> questionReplyPos = new ArrayList<>();
-        QuestionReplyPo questionReplyPo = new QuestionReplyPo();
         for (QuestionReply questionReply : questionReplies) {
+            QuestionReplyPo questionReplyPo = new QuestionReplyPo();
             questionReplyPo.setLawyerId(lawyer.getLawyerId());
             questionReplyPo.setLawyerName(lawyer.getLawyerName());
             questionReplyPo.setIconOssResourceId(lawyer.getIconOssResourceId());

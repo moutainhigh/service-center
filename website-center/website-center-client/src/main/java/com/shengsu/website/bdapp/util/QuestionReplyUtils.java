@@ -16,10 +16,10 @@ import java.util.List;
 public class QuestionReplyUtils {
     public static List<QuestionReplyPo> toQuestionReplyPos(List<QuestionReply> questionReplies, List<Lawyer> lawyers, List<Question> questions) {
         List<QuestionReplyPo> questionReplyPos = new ArrayList<>();
-        QuestionReplyPo questionReplyPo = new QuestionReplyPo();
         for (QuestionReply questionReply : questionReplies) {
             for (Lawyer lawyer : lawyers) {
                 if (questionReply.getReplyLawyerId().equals(lawyer.getLawyerId())) {
+                    QuestionReplyPo questionReplyPo = new QuestionReplyPo();
                     questionReplyPo.setLawyerId(lawyer.getLawyerId());
                     questionReplyPo.setLawyerName(lawyer.getLawyerName());
                     questionReplyPo.setIconOssResourceId(lawyer.getIconOssResourceId());

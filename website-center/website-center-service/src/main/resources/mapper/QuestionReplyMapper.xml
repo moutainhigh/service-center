@@ -70,4 +70,15 @@
         order by
         create_time DESC
     </select>
+    <select id="randomSelect" resultType="QuestionReply">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        question_reply
+        WHERE
+        id >= (
+        (SELECT MAX(id) FROM question_reply) - (SELECT MIN(id) FROM question_reply)
+        ) * RAND() + (SELECT MIN(id) FROM question_reply)
+        LIMIT 3
+    </select>
 </mapper>

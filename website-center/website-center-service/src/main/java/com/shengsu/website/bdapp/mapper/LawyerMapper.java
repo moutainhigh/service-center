@@ -4,6 +4,8 @@ import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.website.bdapp.entity.Lawyer;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @program: service-center
  * @author: Bell
@@ -11,4 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface LawyerMapper extends BaseMapper<Lawyer,String> {
+    List<Lawyer> randomSelect();
 }

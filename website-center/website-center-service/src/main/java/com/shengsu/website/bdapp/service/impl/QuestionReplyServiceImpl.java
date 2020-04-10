@@ -70,4 +70,22 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
     public List<QuestionReply> getReplyByLawyer(String lawyerId) {
         return questionReplyMapper.getReplyByLawyer(lawyerId);
     }
+    @Override
+    public ResultBean randomSelect(){
+        List<QuestionReply> questionReplies = questionReplyMapper.randomSelect();
+        List<String> lawyerIds = new ArrayList<>();
+        for (QuestionReply questionReply : questionReplies) {
+            String lawyerId = questionReply.getReplyLawyerId();
+            lawyerIds.add(lawyerId);
+        }
+        List<Lawyer> lawyers = lawyerService.getMany(lawyerIds);
+        List<String> questionIds = new ArrayList<>();
+        for (QuestionReply questionReply : questionReplies) {
+            String questionId = questionReply.getQuestionId();
+            questionIds.add(questionId);
+        }
+        List<Question> questions = questionService.getMany(questionIds);
+        List<QuestionReplyPo> questionReplyPos = QuestionReplyUtils.toQuestionReplyPos(questionReplies, lawyers, questions);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplyPos);
+    }
 }
