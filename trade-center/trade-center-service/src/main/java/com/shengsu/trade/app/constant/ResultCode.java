@@ -15,7 +15,8 @@ public enum ResultCode {
     // 微信支付
     EXCEPTION_WECHAT_NOTIFY_SIGN_FAIL(1002, "微信支付签名失败"),
     // 百度支付
-    EXCEPTION_BAIDU_SIGN_FAIL(1002, "百度支付签名失败");
+    EXCEPTION_BAIDU_SIGN_FAIL(1002, "百度支付签名失败"),
+    EXCEPTION_BAIDU_CHECK_SIGN_FAIL(1002, "验证签名失败");
 
 
     private Integer code;

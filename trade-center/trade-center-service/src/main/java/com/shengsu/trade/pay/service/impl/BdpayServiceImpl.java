@@ -30,13 +30,15 @@ import static com.shengsu.trade.app.constant.BizConst.*;
  **/
 @Slf4j
 @Service("bdpayService")
-public class BdpayServiceImpl implements BdpayService {
+public class BdpayServiceImpl implements BdpayService{
     @Value("${bdpay.appKey}")
     private String appKey;
     @Value("${bdpay.dealId}")
     private String dealId;
     @Value("${bdpay.rsaPrivateKey}")
     private String rsaPrivateKey;
+    @Value("${bdpay.rsaPublicKey}")
+    private String rsaPublicKey;
     @Autowired
     CodeGeneratorService codeGeneratorService;
     @Autowired
@@ -82,6 +84,16 @@ public class BdpayServiceImpl implements BdpayService {
         //返回orderInfo
         Map<String,Object> resultMap = new HashMap<>();
         resultMap.put("orderInfo",orderInfo);
-        return ResultUtil.formResult(false, ResultCode.SUCCESS,resultMap);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS,resultMap);
+    }
+
+    @Override
+    public ResultBean checkSignWithRsa(Map<String, String> param, String rsaSign) {
+        try {
+            boolean checkSign =  NuomiSignature.checkSignWithRsa(param,rsaPublicKey,rsaSign);
+            return  ResultUtil.formResult(true, ResultCode.SUCCESS,checkSign);
+        } catch (NuomiApiException e) {
+            return  ResultUtil.formResult(false, ResultCode.EXCEPTION_BAIDU_CHECK_SIGN_FAIL,false);
+        }
     }
 }
