@@ -13,8 +13,10 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -111,9 +113,50 @@ public class NuomiSignature {
         return keyFactory.generatePrivate(new PKCS8EncodedKeySpec(encodedKey));
     }
 
-  
+    /**
+     * 签名验证
+     *
+     * @param sortedParams
+     * @param pubKey
+     * @param sign
+     * @return
+     * @throws NuomiApiException
+     */
+    public static boolean checkSignWithRsa(Map<String, String> sortedParams, String pubKey, String sign)
+            throws NuomiApiException {
+        String sortedParamsContent = getSignContent(sortedParams);
+        return doCheck(sortedParamsContent, sign, pubKey, NuomiConstants.CHARSET_UTF8);
+    }
 
+    /**
+     * RSA验签名检查
+     *
+     * @param content   待签名数据
+     * @param sign      签名值
+     * @param publicKey 分配给开发商公钥
+     * @param encode    字符集编码
+     * @return 布尔值
+     * @throws NuomiApiException
+     */
+    private static boolean doCheck(String content, String sign, String publicKey, String encode)
+            throws NuomiApiException {
+        try {
+            KeyFactory keyFactory = KeyFactory.getInstance(NuomiConstants.SIGN_TYPE_RSA);
+            byte[] bytes = publicKey.getBytes();
+            byte[] encodedKey = Base64.decodeBase64(bytes);
+            PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
+            java.security.Signature signature = java.security.Signature.getInstance(NuomiConstants.SIGN_ALGORITHMS);
 
+            signature.initVerify(pubKey);
+            signature.update(content.getBytes(encode));
+
+            boolean bverify = signature.verify(Base64.decodeBase64(sign.getBytes()));
+            return bverify;
+
+        } catch (Exception e) {
+            throw new NuomiApiException("验签==RSA私钥格式不正确，请检查是否正确配置了PKCS8格式的私钥", e);
+        }
+    }
     
 
 
