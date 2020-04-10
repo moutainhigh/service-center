@@ -32,23 +32,35 @@
       question_content = #{questionContent,jdbcType=VARCHAR}
     where question_id = #{questionId,jdbcType=INTEGER}
   </update>
-    <select id="getOne" parameterType="question" resultMap="BaseResultMap">
+    <select id="get" parameterType="String" resultType="Question">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from question
         where question_id = #{questionId,jdbcType=INTEGER}
     </select>
     <select id="listAll" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from question
     </select>
-    <select id="listByPage" parameterType="lawcaseConsult" resultMap="BaseResultMap">
-        <include refid="global.paginationStart_mysql" />
+    <select id="listByPage" parameterType="question" resultMap="BaseResultMap">
+        <include refid="global.paginationStart_mysql"/>
         select
         *
         from question
         order by modify_time desc
-        <include refid="global.paginationEnd_mysql" />
+        <include refid="global.paginationEnd_mysql"/>
+    </select>
+    <select id="getMany" parameterType="list" resultType="question">
+        select
+        *
+        from
+        question
+        where question_id in
+        <foreach collection="list" item="item" open="(" close=") " separator=",">
+            #{item}
+        </foreach>
+        order by
+        create_time DESC
     </select>
 </mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shengsu.website.bdapp.mapper.QuestionReplyMapper">
+    <resultMap id="BaseResultMap" type="QuestionReply">
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, reply_id, question_id, reply_lawyer_id, reply_content, create_time, modify_time,
+    del_flag
+  </sql>
+    <!--    查询条件-->
+    <sql id="questionReply_where_clause">
+        <where>
+            del_flag = 0
+            <if test="replyId != null">
+                and reply_id = #{replyId,jdbcType=VARCHAR}
+            </if>
+            <if test="questionId != null">
+                and question_id = #{questionId,jdbcType=VARCHAR}
+            </if>
+            <if test="replyLawyerId != null">
+                and reply_lawyer_id = #{replyLawyerId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+    <insert id="save" parameterType="QuestionReply">
+    insert into
+    question_reply
+      (
+        reply_id,
+        question_id,
+        reply_lawyer_id,
+        reply_content,
+        create_time,
+        modify_time
+        )
+    values (
+     #{replyId,jdbcType=VARCHAR},
+     #{questionId,jdbcType=VARCHAR},
+     #{replyLawyerId,jdbcType=VARCHAR},
+     #{replyContent,jdbcType=VARCHAR},
+     current_timestamp(),
+     current_timestamp()
+     )
+  </insert>
+    <select id="getOne" parameterType="questionReply" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from question_reply
+        <include refid="questionReply_where_clause"/>
+    </select>
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from question_reply
+    </select>
+    <select id="listByPage" parameterType="questionReply" resultMap="BaseResultMap">
+        <include refid="global.paginationStart_mysql"/>
+        select
+        *
+        from question_reply
+        order by modify_time desc
+        <include refid="global.paginationEnd_mysql"/>
+    </select>
+    <select id="getReplyByLawyer" parameterType="String" resultType="questionReply">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        question_reply
+        where reply_lawyer_id = #{replyLawyerId,jdbcType=VARCHAR}
+        order by
+        create_time DESC
+    </select>
+</mapper>

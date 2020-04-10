@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shengsu.website.bdapp.mapper.LawyerMapper">
+    <resultMap id="BaseResultMap" type="Lawyer">
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, lawyer_id, lawyer_name, icon_oss_resource_id, field, create_time, modify_time,
+    del_flag
+    </sql>
+    <insert id="save" parameterType="Lawyer">
+    insert into lawyer (
+      lawyer_id,
+      lawyer_name,
+      icon_oss_resource_id,
+      field,
+      create_time,
+      modify_time)
+    values (
+    #{lawyerId,jdbcType=VARCHAR},
+    #{lawyerName,jdbcType=VARCHAR},
+    #{iconOssResourceId,jdbcType=VARCHAR},
+    #{field,jdbcType=VARCHAR},
+    current_timestamp(),
+    current_timestamp())
+  </insert>
+    <select id="get" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lawyer
+        where lawyer_id = #{lawyerId,jdbcType=INTEGER}
+    </select>
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lawyer
+    </select>
+    <select id="listByPage" parameterType="lawyer" resultMap="BaseResultMap">
+        <include refid="global.paginationStart_mysql"/>
+        select
+        *
+        from lawyer
+        order by modify_time desc
+        <include refid="global.paginationEnd_mysql"/>
+    </select>
+    <select id="getMany" parameterType="list" resultType="lawyer">
+        select
+        *
+        from
+        lawyer
+        where lawyer_id in
+        <foreach collection="list" item="item" open="(" close=") " separator=",">
+            #{item}
+        </foreach>
+        order by
+        create_time DESC
+    </select>
+</mapper>
