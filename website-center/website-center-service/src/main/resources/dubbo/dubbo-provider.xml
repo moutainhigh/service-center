@@ -13,4 +13,5 @@
     <dubbo:service interface="com.shengsu.website.home.service.SuccessCaseService" ref="successCaseService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.home.service.WheelCenterService" ref="wheelCenterService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.bdapp.service.QuestionService" ref="questionService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.website.bdapp.service.LawKnowledgeCategoryService" ref="lawKnowledgeCategoryService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
 </beans>
