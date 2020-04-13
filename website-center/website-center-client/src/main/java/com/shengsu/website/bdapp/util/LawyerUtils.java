@@ -44,6 +44,8 @@ public class LawyerUtils {
             lawyerPo.setLawyerName(lawyer.getLawyerName());
             lawyerPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
             lawyerPo.setField(lawyer.getField());
+            lawyerPo.setCreateTime(lawyer.getCreateTime());
+            lawyerPo.setModifyTime(lawyer.getModifyTime());
             lawyerPos.add(lawyerPo);
         }
         return lawyerPos;
@@ -54,6 +56,8 @@ public class LawyerUtils {
         lawyerPo.setLawyerName(lawyer.getLawyerName());
         lawyerPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
         lawyerPo.setField(lawyer.getField());
+        lawyerPo.setCreateTime(lawyer.getCreateTime());
+        lawyerPo.setModifyTime(lawyer.getModifyTime());
         return lawyerPo;
     }
 }

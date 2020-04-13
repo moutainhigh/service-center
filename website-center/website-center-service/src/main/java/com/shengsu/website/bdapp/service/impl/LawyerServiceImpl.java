@@ -59,7 +59,7 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
         String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
         lawyer.setIconOssResourceId(url);
         List<QuestionReply> questionReplies = questionReplyService.getReplyByLawyer(lawyer.getLawyerId());
-        if(questionReplies == null){
+        if(questionReplies == null || questionReplies.size() == 0){
             return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplies);
         }
         List<String> questionIds = new ArrayList<>();

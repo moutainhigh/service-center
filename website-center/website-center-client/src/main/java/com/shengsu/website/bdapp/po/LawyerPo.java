@@ -1,8 +1,7 @@
 package com.shengsu.website.bdapp.po;
 
+import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * @program: service-center
@@ -10,7 +9,7 @@ import java.io.Serializable;
  * @create: 2020-04-13 13:52
  **/
 @Data
-public class LawyerPo implements Serializable {
+public class LawyerPo extends BaseEntity {
     /**
      * 用户id
      */
