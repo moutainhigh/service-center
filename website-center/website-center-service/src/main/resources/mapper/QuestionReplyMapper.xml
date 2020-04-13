@@ -76,10 +76,7 @@
         <include refid="Base_Column_List"/>
         FROM
         question_reply
-        WHERE
-        id >= (
-        (SELECT MAX(id) FROM question_reply) - (SELECT MIN(id) FROM question_reply)
-        ) * RAND() + (SELECT MIN(id) FROM question_reply)
+        order by rand()
         LIMIT 3
     </select>
 </mapper>

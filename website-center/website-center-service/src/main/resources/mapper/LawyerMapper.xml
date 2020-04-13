@@ -59,10 +59,7 @@
         <include refid="Base_Column_List"/>
         FROM
 	    lawyer
-        WHERE
-	    id >= (
-		(SELECT MAX(id) FROM lawyer) - (SELECT MIN(id) FROM lawyer)
-	    ) * RAND() + (SELECT MIN(id) FROM lawyer)
+        order by rand()
         LIMIT 3
     </select>
 </mapper>
