@@ -47,6 +47,7 @@
         <include refid="Base_Column_List"/>
         from question_reply
         <include refid="questionReply_where_clause"/>
+        limit 1
     </select>
     <select id="listAll" resultMap="BaseResultMap">
         select
