@@ -15,6 +15,8 @@ import com.shengsu.website.bdapp.service.LawKnowledgeService;
 import com.shengsu.website.bdapp.util.LawKnowledgeUtils;
 import com.shengsu.website.bdapp.vo.LawKnowledgeDetailsVo;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
+import com.shengsu.website.home.po.NewsCenterPagePo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,5 +89,20 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         LawKnowledgeNextPo lawKnowledgeNextPo = LawKnowledgeUtils.toLawKnowledgeNextPo(nextLawKnowledge);
         lawKnowledgeDetailsPo.setLawKnowledgeNextPo(lawKnowledgeNextPo);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeDetailsPo);
+    }
+
+    @Override
+    public ResultBean getlatestThreeCount() {
+        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getlatestThreeCount();
+        List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = LawKnowledgeUtils.toLawKnowledgeSimplePos(lawKnowledges);
+        if (null !=lawKnowledgeSimplePos && lawKnowledgeSimplePos.size()>0){
+            for (LawKnowledgeSimplePo lawKnowledgeSimplePo : lawKnowledgeSimplePos) {
+                String pictureOssId = lawKnowledgeSimplePo.getPictureOssId();
+                if (StringUtils.isNoneBlank(pictureOssId)) {
+                    lawKnowledgeSimplePo.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,pictureOssId));
+                }
+            }
+        }
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeSimplePos);
     }
 }

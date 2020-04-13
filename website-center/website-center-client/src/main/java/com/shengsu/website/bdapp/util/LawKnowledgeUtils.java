@@ -1,10 +1,7 @@
 package com.shengsu.website.bdapp.util;
 
 import com.shengsu.website.bdapp.entity.LawKnowledge;
-import com.shengsu.website.bdapp.po.LawKnowledgeCurrentPo;
-import com.shengsu.website.bdapp.po.LawKnowledgeListPagePo;
-import com.shengsu.website.bdapp.po.LawKnowledgeNextPo;
-import com.shengsu.website.bdapp.po.LawKnowledgePreviousPo;
+import com.shengsu.website.bdapp.po.*;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
 
 import java.util.ArrayList;
@@ -95,6 +92,28 @@ public class LawKnowledgeUtils {
             lawKnowledgeNextPo.setKnowledgeId(nextLawKnowledge.getKnowledgeId());
             lawKnowledgeNextPo.setTitle(nextLawKnowledge.getTitle());
             return lawKnowledgeNextPo;
+        }
+        return null;
+    }
+
+    public static List<LawKnowledgeSimplePo> toLawKnowledgeSimplePos(List<LawKnowledge> lawKnowledges) {
+        if (lawKnowledges != null && !lawKnowledges.isEmpty()) {
+            List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = new ArrayList<>();
+            for (LawKnowledge lawKnowledge : lawKnowledges){
+                lawKnowledgeSimplePos.add(toLawKnowledgeSimplePo(lawKnowledge));
+            }
+            return lawKnowledgeSimplePos;
+        }
+        return null;
+    }
+
+    private static LawKnowledgeSimplePo toLawKnowledgeSimplePo(LawKnowledge lawKnowledge) {
+        if (lawKnowledge != null) {
+            LawKnowledgeSimplePo lawKnowledgeSimplePo = new LawKnowledgeSimplePo();
+            lawKnowledgeSimplePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
+            lawKnowledgeSimplePo.setTitle(lawKnowledge.getTitle());
+            lawKnowledgeSimplePo.setPictureOssId(lawKnowledge.getPictureOssId());
+            return lawKnowledgeSimplePo;
         }
         return null;
     }
