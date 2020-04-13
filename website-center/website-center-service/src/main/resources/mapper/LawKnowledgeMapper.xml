@@ -33,10 +33,29 @@
 	</select>
 	<select id="listByPage" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
-		SELECT knowledge_id,title FROM law_knowledge
+		select knowledge_id,title from law_knowledge
 		<include refid="lawknowledge_where_clause" />
-		ORDER BY date_time DESC
+		order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
-
+	</select>
+	<update id="updatePv">
+		update law_knowledge set pv = pv+1
+	</update>
+	<select id="selectByKnowledgeId" parameterType="string" resultType="lawKnowledge">
+		select <include refid="base_column_list"/> from  law_knowledge where knowledge_id = #{knowledgeId} and del_flag = 0 limit 1
+	</select>
+	<select id="selectPreviousLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
+		select knowledge_id,title from law_knowledge where del_flag = 0 and  date_time>#{dateTime}
+		<if test="thirdCategoryId!=null">
+			and third_category_id = #{thirdCategoryId}
+		</if>
+		order by date_time limit 1
+	</select>
+	<select id="selectNextLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
+		select knowledge_id,title from law_knowledge where del_flag = 0 and date_time &lt; #{dateTime}
+		<if test="thirdCategoryId!=null">
+			and third_category_id = #{thirdCategoryId}
+		</if>
+		order by date_time desc limit 1
 	</select>
 </mapper>

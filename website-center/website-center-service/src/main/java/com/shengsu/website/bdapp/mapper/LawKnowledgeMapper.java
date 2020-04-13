@@ -6,4 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface LawKnowledgeMapper extends BaseMapper<LawKnowledge, String> {
+    LawKnowledge selectByKnowledgeId(String knowledgeId);
+
+    LawKnowledge selectPreviousLawKnowledge(LawKnowledge lawKnowledge);
+
+    LawKnowledge selectNextLawKnowledge(LawKnowledge paramLawKnowledge);
+
+    int updatePv();
 }

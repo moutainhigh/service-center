@@ -1,19 +1,18 @@
-package com.shengsu.website.bdapp.entity;
+package com.shengsu.website.bdapp.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @description:
  * @author: lipiao
- * @create: 2020-04-10 17:45
+ * @create: 2020-04-13 15:07
  **/
 @Data
-public class LawKnowledge extends BaseEntity {
-    private static final long serialVersionUID = 1L;
+public class LawKnowledgeCurrentPo implements Serializable {
     private String knowledgeId;
     private String firstCategoryId;
     private String secondCategoryId;
@@ -25,5 +24,5 @@ public class LawKnowledge extends BaseEntity {
     private String source;
     private String pv;
     private String pictureOssId;
-
+    private String pictureOssUrl;// 图片资源url
 }

@@ -3,18 +3,22 @@ package com.shengsu.website.bdapp.service.impl;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.constant.CommonConst;
+import com.shengsu.helper.constant.OssConstant;
+import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.website.app.constant.ResultCode;
 import com.shengsu.website.app.util.ResultUtil;
 import com.shengsu.website.bdapp.entity.LawKnowledge;
 import com.shengsu.website.bdapp.mapper.LawKnowledgeMapper;
-import com.shengsu.website.bdapp.po.LawKnowledgeListPagePo;
+import com.shengsu.website.bdapp.po.*;
 import com.shengsu.website.bdapp.service.LawKnowledgeService;
 import com.shengsu.website.bdapp.util.LawKnowledgeUtils;
+import com.shengsu.website.bdapp.vo.LawKnowledgeDetailsVo;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,8 @@ import java.util.Map;
  **/
 @Service("lawKnowledgeService")
 public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, String> implements LawKnowledgeService {
+    @Autowired
+    private OssService ossService;
     @Autowired
     private LawKnowledgeMapper lawKnowledgeMapper;
     @Override
@@ -48,5 +54,38 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
             resultMap.put(CommonConst.TOTAL_COUNT, count);
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
+    }
+
+    @Override
+    public int updatePv() {
+        return lawKnowledgeMapper.updatePv();
+    }
+
+    @Override
+    public ResultBean getDetails(LawKnowledgeDetailsVo lawKnowledgeDetailsVo) {
+        String knowledgeId = lawKnowledgeDetailsVo.getKnowledgeId();
+        LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByKnowledgeId(knowledgeId);
+        if (lawKnowledge == null) {
+            return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
+        }
+        //获取当前
+        LawKnowledgeCurrentPo lawKnowledgeCurrentPo = LawKnowledgeUtils.toLawKnowledgeCurrentPo(lawKnowledge);
+        lawKnowledgeCurrentPo.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,lawKnowledge.getPictureOssId()));
+        LawKnowledgeDetailsPo lawKnowledgeDetailsPo = new LawKnowledgeDetailsPo();
+        lawKnowledgeDetailsPo.setLawKnowledgeCurrentPo(lawKnowledgeCurrentPo);
+
+        //获取上一篇
+        Date dateTime = lawKnowledge.getDateTime();
+        String thirdCategoryId = lawKnowledge.getThirdCategoryId();
+        LawKnowledge paramLawKnowledge = LawKnowledgeUtils.toLawKnowledge(dateTime,thirdCategoryId);
+        LawKnowledge previousLawKnowledge = lawKnowledgeMapper.selectPreviousLawKnowledge(paramLawKnowledge);
+        LawKnowledgePreviousPo lawKnowledgePreviousPo = LawKnowledgeUtils.toLawKnowledgePreviousPo(previousLawKnowledge);
+        lawKnowledgeDetailsPo.setLawKnowledgePreviousPo(lawKnowledgePreviousPo);
+
+        // 获取下一篇
+        LawKnowledge nextLawKnowledge = lawKnowledgeMapper.selectNextLawKnowledge(paramLawKnowledge);
+        LawKnowledgeNextPo lawKnowledgeNextPo = LawKnowledgeUtils.toLawKnowledgeNextPo(nextLawKnowledge);
+        lawKnowledgeDetailsPo.setLawKnowledgeNextPo(lawKnowledgeNextPo);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeDetailsPo);
     }
 }

@@ -45,7 +45,10 @@ public enum ResultCode {
 
 //    轮番播放
     WHEEL_DATA_REPEAT(1002,"轮番播放：数据重复"),
-    WHEEL_ID_ERROR(1002,"轮番播放:无此用户")
+    WHEEL_ID_ERROR(1002,"轮番播放:无此用户"),
+
+    //法律知识文库
+    LAW_KNOWLEDGE_ID_ERROR(1002,"法律知识文库:id错误")
     ;
 
 
