@@ -9,4 +9,7 @@ public interface LawyerService extends BaseService<Lawyer,String> {
     ResultBean create(Lawyer lawyer);
     ResultBean getQuestionList(LawyerVo lawyerVo);
     ResultBean randomSelect();
+    ResultBean selectAll();
+    ResultBean getBylawyerId(String lawyerId);
+    ResultBean lawyerListByPage(Lawyer lawyer);
 }

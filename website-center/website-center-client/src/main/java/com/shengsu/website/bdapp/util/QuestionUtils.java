@@ -15,7 +15,7 @@ public class QuestionUtils {
            QuestionReplyPo questionReplyPo = new QuestionReplyPo();
            questionReplyPo.setLawyerId(lawyer.getLawyerId());
            questionReplyPo.setLawyerName(lawyer.getLawyerName());
-           questionReplyPo.setIconOssResourceId(lawyer.getIconOssResourceId());
+           questionReplyPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
            questionReplyPo.setQuestionId(question.getQuestionId());
            questionReplyPo.setQuestionContent(question.getQuestionContent());
            questionReplyPo.setReplyContent(questionReply.getReplyContent());

@@ -2,6 +2,8 @@ package com.shengsu.website.bdapp.service.impl;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.helper.constant.OssConstant;
+import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.website.app.constant.ResultCode;
 import com.shengsu.website.app.util.ResultUtil;
@@ -33,6 +35,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, String> imple
     private LawyerService lawyerService;
     @Autowired
     private QuestionReplyService questionReplyService;
+    @Autowired
+    private OssService ossService;
 
     @Override
     public BaseMapper getBaseMapper() {
@@ -56,6 +60,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, String> imple
             return ResultUtil.formResult(true, ResultCode.SUCCESS, question);
         }
         Lawyer lawyer = lawyerService.get(reply.getReplyLawyerId());
+        String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
+        lawyer.setIconOssResourceId(url);
         QuestionReplyPo questionReplyPo = QuestionUtils.toQuestionReplyPo(question, lawyer, reply);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplyPo);
     }

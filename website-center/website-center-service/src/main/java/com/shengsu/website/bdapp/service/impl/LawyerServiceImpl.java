@@ -2,6 +2,8 @@ package com.shengsu.website.bdapp.service.impl;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.helper.constant.OssConstant;
+import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.website.app.constant.ResultCode;
 import com.shengsu.website.app.util.ResultUtil;
@@ -9,6 +11,7 @@ import com.shengsu.website.bdapp.entity.Lawyer;
 import com.shengsu.website.bdapp.entity.Question;
 import com.shengsu.website.bdapp.entity.QuestionReply;
 import com.shengsu.website.bdapp.mapper.LawyerMapper;
+import com.shengsu.website.bdapp.po.LawyerPo;
 import com.shengsu.website.bdapp.po.QuestionReplyPo;
 import com.shengsu.website.bdapp.service.LawyerService;
 import com.shengsu.website.bdapp.service.QuestionReplyService;
@@ -35,6 +38,8 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     private QuestionService questionService;
     @Autowired
     private QuestionReplyService questionReplyService;
+    @Autowired
+    private OssService ossService;
 
     @Override
     public BaseMapper getBaseMapper() {
@@ -51,7 +56,12 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     @Override
     public ResultBean getQuestionList(LawyerVo lawyerVo) {
         Lawyer lawyer = get(lawyerVo.getLawyerId());
+        String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
+        lawyer.setIconOssResourceId(url);
         List<QuestionReply> questionReplies = questionReplyService.getReplyByLawyer(lawyer.getLawyerId());
+        if(questionReplies == null){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplies);
+        }
         List<String> questionIds = new ArrayList<>();
         for (QuestionReply questionReply : questionReplies) {
             String questionId = questionReply.getQuestionId();
@@ -64,6 +74,39 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     @Override
     public ResultBean randomSelect(){
         List<Lawyer> lawyers = lawyerMapper.randomSelect();
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyers);
+        for(Lawyer lawyer : lawyers){
+            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
+            lawyer.setIconOssResourceId(url);
+        }
+        List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
+    }
+    @Override
+    public ResultBean selectAll(){
+        List<Lawyer> lawyers = lawyerMapper.listAll();
+        for(Lawyer lawyer : lawyers){
+            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
+            lawyer.setIconOssResourceId(url);
+        }
+        List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
+    }
+    @Override
+    public ResultBean getBylawyerId(String lawyerId){
+        Lawyer lawyer = lawyerMapper.get(lawyerId);
+        String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
+        lawyer.setIconOssResourceId(url);
+        LawyerPo lawyerPo = LawyerUtils.toLawyerPo(lawyer);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPo);
+    }
+    @Override
+    public ResultBean lawyerListByPage(Lawyer lawyer){
+        List<Lawyer> lawyers = lawyerMapper.listByPage(lawyer);
+        for(Lawyer lawyerList : lawyers){
+            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyerList.getIconOssResourceId());
+            lawyerList.setIconOssResourceId(url);
+        }
+        List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
     }
 }

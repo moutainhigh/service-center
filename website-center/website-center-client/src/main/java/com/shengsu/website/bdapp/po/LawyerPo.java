@@ -7,10 +7,10 @@ import java.io.Serializable;
 /**
  * @program: service-center
  * @author: Bell
- * @create: 2020-04-10 13:57
+ * @create: 2020-04-13 13:52
  **/
 @Data
-public class QuestionReplyPo implements Serializable {
+public class LawyerPo implements Serializable {
     /**
      * 用户id
      */
@@ -25,14 +25,9 @@ public class QuestionReplyPo implements Serializable {
      * 头像资源
      */
     private String iconOssResourceUrl;
-    private String questionId;
-    private String questionContent;
-    /**
-     * 回复内容
-     */
-    private String replyContent; /**
-     * 回复id
-     */
-    private String replyId;
 
+    /**
+     * 擅长领域
+     */
+    private String field;
 }

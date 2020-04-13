@@ -22,7 +22,7 @@ public class QuestionReplyUtils {
                     QuestionReplyPo questionReplyPo = new QuestionReplyPo();
                     questionReplyPo.setLawyerId(lawyer.getLawyerId());
                     questionReplyPo.setLawyerName(lawyer.getLawyerName());
-                    questionReplyPo.setIconOssResourceId(lawyer.getIconOssResourceId());
+                    questionReplyPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
                     questionReplyPo.setReplyId(questionReply.getReplyId());
                     questionReplyPo.setReplyContent(questionReply.getReplyContent());
                     questionReplyPo.setQuestionId(questionReply.getQuestionId());
