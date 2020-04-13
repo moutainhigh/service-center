@@ -10,7 +10,7 @@
     	id, category_id, category_name, parent_id, sort_num
   	</sql>
 	<!-- 查询条件 -->
-	<sql id="lawdoc_category_where_clause">
+	<sql id="lawknowledge_category_where_clause">
 		<where>
 			del_flag = 0
 			<if test="categoryId != null and  categoryId != ''"> and category_id = #{categoryId}</if>
