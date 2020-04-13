@@ -63,4 +63,14 @@
         order by
         create_time DESC
     </select>
+    <select id="countAllByQuestionIds" parameterType="list" resultType="int">
+        select
+        count(1)
+        from
+        question
+        where question_id in
+        <foreach collection="list" item="item" open="(" close=") " separator=",">
+            #{item}
+        </foreach>
+    </select>
 </mapper>
