@@ -58,4 +58,7 @@
 		</if>
 		order by date_time desc limit 1
 	</select>
+    <select id="getlatestThreeCount" resultType="lawKnowledge">
+        select knowledge_id,title,picture_oss_id from law_knowledge where del_flag = 0 order by date_time desc limit 3
+    </select>
 </mapper>

@@ -10,4 +10,5 @@ public interface LawKnowledgeService extends BaseService<LawKnowledge,String> {
     ResultBean listPage(LawKnowledgeListPageVo lawKnowledgeListPageVo);
     int updatePv();
     ResultBean getDetails(LawKnowledgeDetailsVo lawKnowledgeDetailsVo);
+    ResultBean getlatestThreeCount();
 }
