@@ -52,6 +52,9 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, String> imple
         QuestionReply questionReply = new QuestionReply();
         questionReply.setQuestionId(question.getQuestionId());
         QuestionReply reply = questionReplyService.getOne(questionReply);
+        if(reply == null){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, question);
+        }
         Lawyer lawyer = lawyerService.get(reply.getReplyLawyerId());
         QuestionReplyPo questionReplyPo = QuestionUtils.toQuestionReplyPo(question, lawyer, reply);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplyPo);
