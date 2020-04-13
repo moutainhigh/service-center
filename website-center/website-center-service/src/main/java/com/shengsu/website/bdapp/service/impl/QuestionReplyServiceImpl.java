@@ -104,6 +104,9 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
     @Override
     public ResultBean questionReplyListByPage(QuestionReply questionReply) {
         List<QuestionReply> questionReplies = questionReplyMapper.listByPage(questionReply);
+        if(questionReplies.isEmpty()){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS,questionReplies);
+        }
         List<String> lawyerIds = new ArrayList<>();
         for (QuestionReply questionReplyList : questionReplies) {
             String lawyerId = questionReplyList.getReplyLawyerId();
