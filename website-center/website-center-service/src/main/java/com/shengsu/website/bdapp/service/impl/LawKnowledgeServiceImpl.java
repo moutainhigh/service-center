@@ -15,15 +15,13 @@ import com.shengsu.website.bdapp.service.LawKnowledgeService;
 import com.shengsu.website.bdapp.util.LawKnowledgeUtils;
 import com.shengsu.website.bdapp.vo.LawKnowledgeDetailsVo;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
-import com.shengsu.website.home.po.NewsCenterPagePo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.shengsu.website.app.constant.BizConst.*;
 
 /**
  * @description:
@@ -104,5 +102,16 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
             }
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeSimplePos);
+    }
+
+    @Override
+    public ResultBean getRandomCount() {
+        List<String> titles = lawKnowledgeMapper.getAllTitle();
+        Collections.shuffle(titles);
+        List<String> result = new ArrayList<>();
+        for (int i=0;i<titles.size();i++){
+            if(i >= LAW_HEADLINES_RANDOM_COUNT) break;result.add(titles.get(i));
+        }
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
     }
 }
