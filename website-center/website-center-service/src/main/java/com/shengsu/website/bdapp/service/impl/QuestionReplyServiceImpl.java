@@ -122,8 +122,9 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
             String questionId = questionReplyList.getQuestionId();
             questionIds.add(questionId);
         }
+        int totalCount = questionService.countAllByQuestionIds(questionIds);
         List<Question> questions = questionService.getMany(questionIds);
         List<QuestionReplyPo> questionReplyPos = QuestionReplyUtils.toQuestionReplyPos(questionReplies, lawyers, questions);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplyPos);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, questionReplyPos,totalCount);
     }
 }
