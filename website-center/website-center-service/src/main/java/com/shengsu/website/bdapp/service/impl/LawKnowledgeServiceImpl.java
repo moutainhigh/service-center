@@ -9,9 +9,12 @@ import com.shengsu.result.ResultBean;
 import com.shengsu.website.app.constant.ResultCode;
 import com.shengsu.website.app.util.ResultUtil;
 import com.shengsu.website.bdapp.entity.LawKnowledge;
+import com.shengsu.website.bdapp.entity.LawKnowledgeCategory;
 import com.shengsu.website.bdapp.mapper.LawKnowledgeMapper;
 import com.shengsu.website.bdapp.po.*;
+import com.shengsu.website.bdapp.service.LawKnowledgeCategoryService;
 import com.shengsu.website.bdapp.service.LawKnowledgeService;
+import com.shengsu.website.bdapp.util.LawKnowledgeCategoryUtils;
 import com.shengsu.website.bdapp.util.LawKnowledgeUtils;
 import com.shengsu.website.bdapp.vo.LawKnowledgeDetailsVo;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
@@ -30,6 +33,8 @@ import static com.shengsu.website.app.constant.BizConst.*;
  **/
 @Service("lawKnowledgeService")
 public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, String> implements LawKnowledgeService {
+    @Autowired
+    private LawKnowledgeCategoryService lawKnowledgeCategoryService;
     @Autowired
     private OssService ossService;
     @Autowired
@@ -57,8 +62,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
-    public int updatePv() {
-        return lawKnowledgeMapper.updatePv();
+    public int updatePv(String knowledgeId) {
+        return lawKnowledgeMapper.updatePv(knowledgeId);
     }
 
     @Override
@@ -68,15 +73,18 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         if (lawKnowledge == null) {
             return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
         }
+        String thirdCategoryId = lawKnowledge.getThirdCategoryId();
         //获取当前
         LawKnowledgeCurrentPo lawKnowledgeCurrentPo = LawKnowledgeUtils.toLawKnowledgeCurrentPo(lawKnowledge);
+        lawKnowledgeCurrentPo.setFirstCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledge.getFirstCategoryId()));
+        lawKnowledgeCurrentPo.setSecondCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledge.getSecondCategoryId()));
+        lawKnowledgeCurrentPo.setThirdCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledge.getThirdCategoryId()));
         lawKnowledgeCurrentPo.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,lawKnowledge.getPictureOssId()));
         LawKnowledgeDetailsPo lawKnowledgeDetailsPo = new LawKnowledgeDetailsPo();
         lawKnowledgeDetailsPo.setLawKnowledgeCurrentPo(lawKnowledgeCurrentPo);
 
         //获取上一篇
         Date dateTime = lawKnowledge.getDateTime();
-        String thirdCategoryId = lawKnowledge.getThirdCategoryId();
         LawKnowledge paramLawKnowledge = LawKnowledgeUtils.toLawKnowledge(dateTime,thirdCategoryId);
         LawKnowledge previousLawKnowledge = lawKnowledgeMapper.selectPreviousLawKnowledge(paramLawKnowledge);
         LawKnowledgePreviousPo lawKnowledgePreviousPo = LawKnowledgeUtils.toLawKnowledgePreviousPo(previousLawKnowledge);
@@ -92,7 +100,16 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     @Override
     public ResultBean getlatestThreeCount() {
         List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getlatestThreeCount();
-        List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = LawKnowledgeUtils.toLawKnowledgeSimplePos(lawKnowledges);
+        List<String> thirdCategoryIds = new ArrayList<>();
+        for (LawKnowledge lawKnowledge :lawKnowledges ){
+            thirdCategoryIds.add(lawKnowledge.getThirdCategoryId());
+        }
+        List<LawKnowledgeCategory> lawKnowledgeCategories = new ArrayList<>();
+        if (null !=thirdCategoryIds && thirdCategoryIds.size()>0){
+            lawKnowledgeCategories = lawKnowledgeCategoryService.getManyByThirdCategoryIds(thirdCategoryIds);
+        }
+        Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap = LawKnowledgeCategoryUtils.toLawKnowledgeCategoryMap(lawKnowledgeCategories);
+        List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = LawKnowledgeUtils.toLawKnowledgeSimplePos(lawKnowledges,lawKnowledgeCategoryMap);
         if (null !=lawKnowledgeSimplePos && lawKnowledgeSimplePos.size()>0){
             for (LawKnowledgeSimplePo lawKnowledgeSimplePo : lawKnowledgeSimplePos) {
                 String pictureOssId = lawKnowledgeSimplePo.getPictureOssId();

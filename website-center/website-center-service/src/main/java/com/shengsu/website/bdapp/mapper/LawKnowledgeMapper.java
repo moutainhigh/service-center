@@ -15,7 +15,7 @@ public interface LawKnowledgeMapper extends BaseMapper<LawKnowledge, String> {
 
     LawKnowledge selectNextLawKnowledge(LawKnowledge paramLawKnowledge);
 
-    int updatePv();
+    int updatePv(String knowledgeId);
 
     List<LawKnowledge> getlatestThreeCount();
 

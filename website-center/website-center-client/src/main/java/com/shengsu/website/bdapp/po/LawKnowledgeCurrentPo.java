@@ -17,6 +17,9 @@ public class LawKnowledgeCurrentPo implements Serializable {
     private String firstCategoryId;
     private String secondCategoryId;
     private String thirdCategoryId;
+    private String firstCategoryName;
+    private String secondCategoryName;
+    private String thirdCategoryName;
     private String title;
     private String content;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")

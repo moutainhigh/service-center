@@ -4,7 +4,9 @@ import com.shengsu.website.bdapp.entity.LawKnowledgeCategory;
 import com.shengsu.website.bdapp.po.LawKnowledgeCategoryListPo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LawKnowledgeCategoryUtils {
 
@@ -29,5 +31,15 @@ public class LawKnowledgeCategoryUtils {
             return lawKnowledgeCategoryListPo;
         }
         return null;
+    }
+
+    public static Map<String,LawKnowledgeCategory> toLawKnowledgeCategoryMap(List<LawKnowledgeCategory> lawKnowledgeCategories) {
+        Map<String,LawKnowledgeCategory> result = new HashMap();
+        if(lawKnowledgeCategories !=null && !lawKnowledgeCategories.isEmpty()){
+            for(LawKnowledgeCategory lawKnowledgeCategory:lawKnowledgeCategories){
+                result.put(lawKnowledgeCategory.getCategoryId(),lawKnowledgeCategory);
+            }
+        }
+        return result;
     }
 }

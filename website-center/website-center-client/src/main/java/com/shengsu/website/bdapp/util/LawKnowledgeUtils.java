@@ -1,12 +1,14 @@
 package com.shengsu.website.bdapp.util;
 
 import com.shengsu.website.bdapp.entity.LawKnowledge;
+import com.shengsu.website.bdapp.entity.LawKnowledgeCategory;
 import com.shengsu.website.bdapp.po.*;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -96,22 +98,24 @@ public class LawKnowledgeUtils {
         return null;
     }
 
-    public static List<LawKnowledgeSimplePo> toLawKnowledgeSimplePos(List<LawKnowledge> lawKnowledges) {
+    public static List<LawKnowledgeSimplePo> toLawKnowledgeSimplePos(List<LawKnowledge> lawKnowledges,Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap) {
         if (lawKnowledges != null && !lawKnowledges.isEmpty()) {
             List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = new ArrayList<>();
             for (LawKnowledge lawKnowledge : lawKnowledges){
-                lawKnowledgeSimplePos.add(toLawKnowledgeSimplePo(lawKnowledge));
+                lawKnowledgeSimplePos.add(toLawKnowledgeSimplePo(lawKnowledge,lawKnowledgeCategoryMap));
             }
             return lawKnowledgeSimplePos;
         }
         return null;
     }
 
-    private static LawKnowledgeSimplePo toLawKnowledgeSimplePo(LawKnowledge lawKnowledge) {
+    private static LawKnowledgeSimplePo toLawKnowledgeSimplePo(LawKnowledge lawKnowledge,Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap) {
         if (lawKnowledge != null) {
             LawKnowledgeSimplePo lawKnowledgeSimplePo = new LawKnowledgeSimplePo();
             lawKnowledgeSimplePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
             lawKnowledgeSimplePo.setTitle(lawKnowledge.getTitle());
+            lawKnowledgeSimplePo.setThirdCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId())==null?"":lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId()).getCategoryName());
+            lawKnowledgeSimplePo.setDateTime(lawKnowledge.getDateTime());
             lawKnowledgeSimplePo.setPictureOssId(lawKnowledge.getPictureOssId());
             return lawKnowledgeSimplePo;
         }

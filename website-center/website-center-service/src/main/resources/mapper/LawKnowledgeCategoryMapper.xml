@@ -22,4 +22,22 @@
 		where del_flag = 0
 		order by sort_num
 	</select>
+	<select id="getNameByCategoryId" parameterType="string" resultType="string">
+		select category_name
+		from law_knowledge_category
+		where del_flag = 0
+		and category_id=#{categoryId}
+	</select>
+	<select id="getManyByThirdCategoryIds" parameterType="java.util.List" resultType="lawKnowledgeCategory">
+		select
+		*
+		from
+		law_knowledge_category
+		where
+		del_flag = 0 and
+		category_id in
+		<foreach collection="list" item="categoryId" open="(" separator="," close=")">
+			#{categoryId}
+		</foreach>
+	</select>
 </mapper>
