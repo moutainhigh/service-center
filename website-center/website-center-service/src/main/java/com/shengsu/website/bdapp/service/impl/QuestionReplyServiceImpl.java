@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -60,10 +61,7 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
             lawyerIds.add(lawyerId);
         }
         List<Lawyer> lawyers = lawyerService.getMany(lawyerIds);
-        for(Lawyer lawyer : lawyers){
-            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
-            lawyer.setIconOssResourceId(url);
-        }
+        geturls(lawyers);
         List<String> questionIds = new ArrayList<>();
         for (QuestionReply questionReply : questionReplies) {
             String questionId = questionReply.getQuestionId();
@@ -87,10 +85,7 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
             lawyerIds.add(lawyerId);
         }
         List<Lawyer> lawyers = lawyerService.getMany(lawyerIds);
-        for(Lawyer lawyer : lawyers){
-            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
-            lawyer.setIconOssResourceId(url);
-        }
+        geturls(lawyers);
         List<String> questionIds = new ArrayList<>();
         for (QuestionReply questionReply : questionReplies) {
             String questionId = questionReply.getQuestionId();
@@ -113,10 +108,7 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
             lawyerIds.add(lawyerId);
         }
         List<Lawyer> lawyers = lawyerService.getMany(lawyerIds);
-        for(Lawyer lawyer : lawyers){
-            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
-            lawyer.setIconOssResourceId(url);
-        }
+        geturls(lawyers);
         List<String> questionIds = new ArrayList<>();
         for (QuestionReply questionReplyList : questionReplies) {
             String questionId = questionReplyList.getQuestionId();
@@ -126,5 +118,22 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
         List<Question> questions = questionService.getMany(questionIds);
         List<QuestionReplyPo> questionReplyPos = QuestionReplyUtils.toQuestionReplyPos(questionReplies, lawyers, questions);
         return ResultUtil.formPageResult(true, ResultCode.SUCCESS, questionReplyPos,totalCount);
+    }
+
+    @Override
+    public void geturls(List<Lawyer> lawyers){
+        List<String> keys = new ArrayList<>();
+        for(Lawyer lawyer : lawyers){
+            String key = lawyer.getIconOssResourceId();
+            keys.add(key);
+        }
+        Map<String,String> map = ossService.getUrls(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,keys);
+        for(String id:map.keySet()){
+            for(Lawyer lawyer : lawyers){
+                if(id.equals(lawyer.getIconOssResourceId())){
+                    lawyer.setIconOssResourceId(map.get(id));
+                }
+            }
+        }
     }
 }

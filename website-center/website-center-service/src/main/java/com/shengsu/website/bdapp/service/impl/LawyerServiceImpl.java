@@ -75,20 +75,14 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     @Override
     public ResultBean randomSelect(){
         List<Lawyer> lawyers = lawyerMapper.randomSelect();
-        for(Lawyer lawyer : lawyers){
-            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
-            lawyer.setIconOssResourceId(url);
-        }
+        questionReplyService.geturls(lawyers);
         List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
     }
     @Override
     public ResultBean selectAll(){
         List<Lawyer> lawyers = lawyerMapper.listAll();
-        for(Lawyer lawyer : lawyers){
-            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
-            lawyer.setIconOssResourceId(url);
-        }
+        questionReplyService.geturls(lawyers);
         List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
     }
@@ -106,10 +100,7 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     @Override
     public ResultBean lawyerListByPage(Lawyer lawyer){
         List<Lawyer> lawyers = lawyerMapper.listByPage(lawyer);
-        for(Lawyer lawyerList : lawyers){
-            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyerList.getIconOssResourceId());
-            lawyerList.setIconOssResourceId(url);
-        }
+        questionReplyService.geturls(lawyers);
         List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
     }
