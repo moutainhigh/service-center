@@ -6,9 +6,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.shengsu.helper.service.OssService;
+import org.springframework.util.CollectionUtils;
 
 import java.net.URL;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by zyc on 2019/10/12.
@@ -59,6 +60,18 @@ public class OssServiceImpl implements OssService{
         return url.toString();
 
     }
+
+    @Override
+    public Map<String, String> getUrls(String filedir, List<String> keys) {
+        if(CollectionUtils.isEmpty(keys))
+            return null;
+        Map<String,String> result = new HashMap();
+        for(String key:keys){
+            result.put(key,getUrl(filedir,key));
+        }
+        return result;
+    }
+
     /**
      * 销毁
      */
