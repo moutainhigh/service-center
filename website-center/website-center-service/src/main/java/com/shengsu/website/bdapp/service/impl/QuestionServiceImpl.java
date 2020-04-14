@@ -54,6 +54,9 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, String> imple
     @Override
     public ResultBean getDetail(QuestionVo questionVo) {
         Question question = questionMapper.get(questionVo.getQuestionId());
+        if(question == null){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, question);
+        }
         QuestionReply questionReply = new QuestionReply();
         questionReply.setQuestionId(question.getQuestionId());
         QuestionReply reply = questionReplyService.getOne(questionReply);

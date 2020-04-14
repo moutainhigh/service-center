@@ -95,6 +95,9 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     @Override
     public ResultBean getBylawyerId(String lawyerId){
         Lawyer lawyer = lawyerMapper.get(lawyerId);
+        if(lawyer == null){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyer);
+        }
         String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
         lawyer.setIconOssResourceId(url);
         LawyerPo lawyerPo = LawyerUtils.toLawyerPo(lawyer);
