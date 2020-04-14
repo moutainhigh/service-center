@@ -79,4 +79,11 @@
         order by rand()
         LIMIT 3
     </select>
+    <select id="countAll" parameterType="questionReply" resultType="int">
+        select
+        count(1)
+        from
+        question_reply
+        <include refid="questionReply_where_clause"/>
+    </select>
 </mapper>
