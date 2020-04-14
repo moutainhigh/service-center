@@ -16,7 +16,9 @@ import com.shengsu.website.consult.util.LawcaseConsultAppendixUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -64,10 +66,20 @@ public class LawcaseConsultAppendixServiceImpl extends BaseServiceImpl implement
         return ResultUtil.formResult(true,ResultCode.SUCCESS,appendixDetailsPos);
     }
     private void getDetaIlsOssUrl(List<ConsultAppendixDetailsPo> appendixDetailsPos){
+        List<String> list = new ArrayList<>();
         for (ConsultAppendixDetailsPo appendix:
         appendixDetailsPos) {
-            String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, appendix.getOssResourceId());
-            appendix.setOssResourceUrl(url);
+            String url = appendix.getOssResourceId();
+            list.add(url);
+        }
+        Map<String, String>  map = ossService.getUrls(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,list);
+        for(String id:map.keySet()){
+            for(ConsultAppendixDetailsPo appendix:
+                    appendixDetailsPos){
+                if(id.equals(appendix.getOssResourceId())){
+                    appendix.setOssResourceUrl(map.get(id));
+                }
+            }
         }
     }
 }
