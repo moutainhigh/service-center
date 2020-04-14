@@ -60,7 +60,6 @@
         <foreach collection="list" item="item" open="(" close=") " separator=",">
             #{item}
         </foreach>
-        GROUP BY question_id
         order by
         create_time DESC
     </select>

@@ -2,7 +2,6 @@ package com.shengsu.bench.service.impl;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
-import com.shengsu.bench.constant.BenchConstant;
 import com.shengsu.bench.entity.BenchJournalism;
 import com.shengsu.bench.mapper.BenchJournalismMapper;
 import com.shengsu.bench.service.BenchJournalismService;
@@ -11,7 +10,9 @@ import com.shengsu.helper.service.OssService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -50,10 +51,16 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
         }
 
         //使用ossid获取ossurl
+        List<String> list = new ArrayList<>();
         for (BenchJournalism benchJournalism :
                 journalismList) {
             String pictureOssId = benchJournalism.getPictureOssId();
-            benchJournalism.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_LAW_NEWS_FILEDIR, pictureOssId));
+            list.add(pictureOssId);
+        }
+        Map<String, String> map = ossService.getUrls(OssConstant.OSS_LAW_NEWS_FILEDIR,list);
+        for (BenchJournalism benchJournalism :
+                journalismList) {
+            benchJournalism.setPictureOssUrl(map.get(benchJournalism.getPictureOssId()));
         }
         return journalismList;
     }

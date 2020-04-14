@@ -2,7 +2,6 @@ package com.shengsu.bench.service.impl;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
-import com.shengsu.bench.constant.BenchConstant;
 import com.shengsu.bench.entity.BenchLawyer;
 import com.shengsu.bench.mapper.BenchLawyerMapper;
 import com.shengsu.bench.service.BenchLawyerService;
@@ -12,7 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -52,14 +53,24 @@ public class BenchLawyerServiceImpl extends BaseServiceImpl<BenchLawyer, String>
     public List<BenchLawyer> listByPage(BenchLawyer benchLawyer) {
         List<BenchLawyer> lawyers = lawyerMapper.listByPage(benchLawyer);
         //使用ossid获取ossurl
+        List<String> portraitOssIds = new ArrayList<>();
+        List<String> headOssIds = new ArrayList<> ();
         for (BenchLawyer lawyer :
                 lawyers) {
             String portraitOssId = lawyer.getPortraitOssId();
-            lawyer.setPortraitOssUrl(ossService.getUrl(OssConstant.OSS_LAWYER_FILEDIR, portraitOssId));
+            portraitOssIds.add(portraitOssId);
 
             String headOssId = lawyer.getHeadOssId();
-            lawyer.setHeadOssUrl(ossService.getUrl(OssConstant.OSS_LAWYER_FILEDIR, headOssId));
+            headOssIds.add(headOssId);
         }
+        Map<String, String> mapPortrait = ossService.getUrls(OssConstant.OSS_LAWYER_FILEDIR,portraitOssIds);
+        Map<String, String> mapHead = ossService.getUrls(OssConstant.OSS_LAWYER_FILEDIR,headOssIds);
+        for (BenchLawyer lawyer :
+                lawyers) {
+            lawyer.setPortraitOssUrl(mapPortrait.get(lawyer.getPortraitOssId()));
+            lawyer.setHeadOssUrl(mapHead.get(lawyer.getHeadOssId()));
+        }
+
         return lawyers;
     }
 

@@ -128,12 +128,8 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
             keys.add(key);
         }
         Map<String,String> map = ossService.getUrls(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,keys);
-        for(String id:map.keySet()){
             for(Lawyer lawyer : lawyers){
-                if(id.equals(lawyer.getIconOssResourceId())){
-                    lawyer.setIconOssResourceId(map.get(id));
-                }
+                    lawyer.setIconOssResourceId(map.get(lawyer.getIconOssResourceId()));
             }
-        }
     }
 }

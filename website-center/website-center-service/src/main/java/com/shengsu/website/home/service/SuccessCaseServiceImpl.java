@@ -19,10 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zyc on 2019/9/17.
@@ -113,13 +110,7 @@ public class SuccessCaseServiceImpl extends BaseServiceImpl implements SuccessCa
                 return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
             }
             List<SuccessCasePagePo> successCasePagePos = SuccessCaseUtils.toSuccessCasePagePo(successCases);
-            for (SuccessCasePagePo successCasePagePo :
-                    successCasePagePos) {
-                String legendOssId = successCasePagePo.getLegendOssId();
-                if (StringUtils.isNoneBlank(legendOssId)) {
-                    successCasePagePo.setLegendOssUrl(ossService.getUrl(OssConstant.OSS_SUCCESS_CASE_FFILEDIR,legendOssId));
-                }
-            }
+            getDetailUrls(successCasePagePos);
             resultMap.put(CommonConst.ROOT, successCasePagePos);
             resultMap.put(CommonConst.TOTAL_COUNT, count);
         }
@@ -157,16 +148,23 @@ public class SuccessCaseServiceImpl extends BaseServiceImpl implements SuccessCa
     public ResultBean getHomeShow() {
         List<SuccessCase> successCases = successCaseMapper.selectByIsHomeShow(NewsCenterConst.HOME_SHOW_YES);
         List<SuccessCasePagePo> successCasePagePos = SuccessCaseUtils.toSuccessCasePagePo(successCases);
+        getDetailUrls(successCasePagePos);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, successCasePagePos);
+    }
+
+    public void getDetailUrls(List<SuccessCasePagePo> successCasePagePos){
         if (successCasePagePos != null) {
+            List<String> list = new ArrayList<>();
             for (SuccessCasePagePo successCasePagePo :
                     successCasePagePos) {
                 String legendOssId = successCasePagePo.getLegendOssId();
-                if (StringUtils.isNoneBlank(legendOssId)) {
-                    successCasePagePo.setLegendOssUrl(ossService.getUrl(legendOssId, OssConstant.OSS_SUCCESS_CASE_FFILEDIR));
-                }
+                list.add(legendOssId);
+            }
+            Map<String, String>  map = ossService.getUrls(OssConstant.OSS_SUCCESS_CASE_FFILEDIR,list);
+            for (SuccessCasePagePo successCasePagePo :
+                    successCasePagePos) {
+                successCasePagePo.setLegendOssUrl(map.get(successCasePagePo.getLegendOssId()));
             }
         }
-
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, successCasePagePos);
     }
 }

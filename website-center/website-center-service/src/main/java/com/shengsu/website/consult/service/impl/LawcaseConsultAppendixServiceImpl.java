@@ -73,13 +73,9 @@ public class LawcaseConsultAppendixServiceImpl extends BaseServiceImpl implement
             list.add(url);
         }
         Map<String, String>  map = ossService.getUrls(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,list);
-        for(String id:map.keySet()){
             for(ConsultAppendixDetailsPo appendix:
                     appendixDetailsPos){
-                if(id.equals(appendix.getOssResourceId())){
-                    appendix.setOssResourceUrl(map.get(id));
-                }
+                    appendix.setOssResourceUrl(map.get(appendix.getOssResourceId()));
             }
-        }
     }
 }

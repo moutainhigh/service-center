@@ -19,10 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zyc on 2019/9/17.
@@ -111,14 +108,7 @@ public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenter
         if (count > 0) {
             List<NewsCenter> newsCenters = newsCenterMapper.selectByPage(newsCenter);
             List<NewsCenterPagePo> newsCenterPagePos = NewsCenterUtils.toNewsCenterPagePo(newsCenters);
-            if (null !=newsCenterPagePos && newsCenterPagePos.size()>0){
-                for (NewsCenterPagePo newsCenterPagePo : newsCenterPagePos) {
-                    String pictureOssId = newsCenterPagePo.getPictureOssId();
-                    if (StringUtils.isNoneBlank(pictureOssId)) {
-                        newsCenterPagePo.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_NEWS_CENTERR_FFILEDIR,pictureOssId));
-                    }
-                }
-            }
+            getDetailUrls(newsCenterPagePos);
             resultMap.put(CommonConst.ROOT, newsCenterPagePos);
             resultMap.put(CommonConst.TOTAL_COUNT, count);
         }
@@ -162,14 +152,21 @@ public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenter
         newsCenter.setAscription(ascription);
         List<NewsCenter> newsCenters = newsCenterMapper.getNewsCenter(newsCenter);
         List<NewsCenterPagePo> newsCenterPagePos = NewsCenterUtils.toNewsCenterPagePo(newsCenters);
-        if (null !=newsCenterPagePos && newsCenterPagePos.size()>0){
+        getDetailUrls(newsCenterPagePos);
+        return  ResultUtil.formResult(true, ResultCode.SUCCESS, newsCenterPagePos);
+    }
+
+    public void getDetailUrls(List<NewsCenterPagePo> newsCenterPagePos){
+        if (null !=newsCenterPagePos && newsCenterPagePos.size()>0) {
+            List<String> list = new ArrayList<>();
             for (NewsCenterPagePo newsCenterPagePo : newsCenterPagePos) {
                 String pictureOssId = newsCenterPagePo.getPictureOssId();
-                if (StringUtils.isNoneBlank(pictureOssId)) {
-                    newsCenterPagePo.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_NEWS_CENTERR_FFILEDIR,pictureOssId));
-                }
+                list.add(pictureOssId);
+            }
+            Map<String, String>  map = ossService.getUrls(OssConstant.OSS_NEWS_CENTERR_FFILEDIR,list);
+            for (NewsCenterPagePo newsCenterPagePo : newsCenterPagePos) {
+                newsCenterPagePo.setPictureOssUrl(map.get(newsCenterPagePo.getPictureOssId()));
             }
         }
-        return  ResultUtil.formResult(true, ResultCode.SUCCESS, newsCenterPagePos);
     }
 }
