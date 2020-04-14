@@ -101,23 +101,18 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     public ResultBean getlatestThreeCount() {
         List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getlatestThreeCount();
         List<String> thirdCategoryIds = new ArrayList<>();
+        List<String> pictureOssIds = new ArrayList<>();
         for (LawKnowledge lawKnowledge :lawKnowledges ){
             thirdCategoryIds.add(lawKnowledge.getThirdCategoryId());
+            pictureOssIds.add(lawKnowledge.getPictureOssId());
         }
         List<LawKnowledgeCategory> lawKnowledgeCategories = new ArrayList<>();
         if (null !=thirdCategoryIds && thirdCategoryIds.size()>0){
             lawKnowledgeCategories = lawKnowledgeCategoryService.getManyByThirdCategoryIds(thirdCategoryIds);
         }
         Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap = LawKnowledgeCategoryUtils.toLawKnowledgeCategoryMap(lawKnowledgeCategories);
-        List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = LawKnowledgeUtils.toLawKnowledgeSimplePos(lawKnowledges,lawKnowledgeCategoryMap);
-        if (null !=lawKnowledgeSimplePos && lawKnowledgeSimplePos.size()>0){
-            for (LawKnowledgeSimplePo lawKnowledgeSimplePo : lawKnowledgeSimplePos) {
-                String pictureOssId = lawKnowledgeSimplePo.getPictureOssId();
-                if (StringUtils.isNoneBlank(pictureOssId)) {
-                    lawKnowledgeSimplePo.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,pictureOssId));
-                }
-            }
-        }
+        Map<String, String> pictureOssIdMap = ossService.getUrls(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,pictureOssIds);
+        List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = LawKnowledgeUtils.toLawKnowledgeSimplePos(lawKnowledges,lawKnowledgeCategoryMap,pictureOssIdMap);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeSimplePos);
     }
 

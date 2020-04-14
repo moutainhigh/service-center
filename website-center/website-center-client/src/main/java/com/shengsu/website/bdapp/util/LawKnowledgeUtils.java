@@ -98,18 +98,18 @@ public class LawKnowledgeUtils {
         return null;
     }
 
-    public static List<LawKnowledgeSimplePo> toLawKnowledgeSimplePos(List<LawKnowledge> lawKnowledges,Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap) {
+    public static List<LawKnowledgeSimplePo> toLawKnowledgeSimplePos(List<LawKnowledge> lawKnowledges,Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap,Map<String, String> pictureOssIdMap) {
         if (lawKnowledges != null && !lawKnowledges.isEmpty()) {
             List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = new ArrayList<>();
             for (LawKnowledge lawKnowledge : lawKnowledges){
-                lawKnowledgeSimplePos.add(toLawKnowledgeSimplePo(lawKnowledge,lawKnowledgeCategoryMap));
+                lawKnowledgeSimplePos.add(toLawKnowledgeSimplePo(lawKnowledge,lawKnowledgeCategoryMap,pictureOssIdMap));
             }
             return lawKnowledgeSimplePos;
         }
         return null;
     }
 
-    private static LawKnowledgeSimplePo toLawKnowledgeSimplePo(LawKnowledge lawKnowledge,Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap) {
+    private static LawKnowledgeSimplePo toLawKnowledgeSimplePo(LawKnowledge lawKnowledge,Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap,Map<String, String> pictureOssIdMap) {
         if (lawKnowledge != null) {
             LawKnowledgeSimplePo lawKnowledgeSimplePo = new LawKnowledgeSimplePo();
             lawKnowledgeSimplePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
@@ -117,6 +117,7 @@ public class LawKnowledgeUtils {
             lawKnowledgeSimplePo.setThirdCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId())==null?"":lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId()).getCategoryName());
             lawKnowledgeSimplePo.setDateTime(lawKnowledge.getDateTime());
             lawKnowledgeSimplePo.setPictureOssId(lawKnowledge.getPictureOssId());
+            lawKnowledgeSimplePo.setPictureOssUrl(pictureOssIdMap.get(lawKnowledge.getPictureOssId()));
             return lawKnowledgeSimplePo;
         }
         return null;
