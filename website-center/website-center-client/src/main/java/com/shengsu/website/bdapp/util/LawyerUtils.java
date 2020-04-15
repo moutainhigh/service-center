@@ -46,6 +46,8 @@ public class LawyerUtils {
             lawyerPo.setField(lawyer.getField());
             lawyerPo.setCreateTime(lawyer.getCreateTime());
             lawyerPo.setModifyTime(lawyer.getModifyTime());
+            lawyerPo.setConsultTimes(lawyer.getConsultTimes());
+            lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
             lawyerPos.add(lawyerPo);
         }
         return lawyerPos;
@@ -58,6 +60,8 @@ public class LawyerUtils {
         lawyerPo.setField(lawyer.getField());
         lawyerPo.setCreateTime(lawyer.getCreateTime());
         lawyerPo.setModifyTime(lawyer.getModifyTime());
+        lawyerPo.setConsultTimes(lawyer.getConsultTimes());
+        lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
         return lawyerPo;
     }
 }

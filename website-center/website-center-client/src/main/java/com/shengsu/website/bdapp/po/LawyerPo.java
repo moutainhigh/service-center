@@ -29,4 +29,6 @@ public class LawyerPo extends BaseEntity {
      * 擅长领域
      */
     private String field;
+    private Integer consultTimes;
+    private Integer praiseTimes;
 }

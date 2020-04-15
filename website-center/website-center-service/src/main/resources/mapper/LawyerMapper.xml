@@ -4,8 +4,7 @@
     <resultMap id="BaseResultMap" type="Lawyer">
     </resultMap>
     <sql id="Base_Column_List">
-    id, lawyer_id, lawyer_name, icon_oss_resource_id, field, create_time, modify_time,
-    del_flag
+    id, lawyer_id, lawyer_name, icon_oss_resource_id, field, create_time, modify_time,praise_times,consult_times,del_flag
     </sql>
     <insert id="save" parameterType="Lawyer">
     insert into lawyer (
@@ -14,14 +13,19 @@
       icon_oss_resource_id,
       field,
       create_time,
-      modify_time)
+      modify_time,
+      praise_times,
+      consult_times)
     values (
     #{lawyerId,jdbcType=VARCHAR},
     #{lawyerName,jdbcType=VARCHAR},
     #{iconOssResourceId,jdbcType=VARCHAR},
     #{field,jdbcType=VARCHAR},
     current_timestamp(),
-    current_timestamp())
+    current_timestamp(),
+    #{praiseTimes,jdbcType=VARCHAR},
+    #{consultTimes,jdbcType=VARCHAR}
+    )
   </insert>
     <select id="get" parameterType="String" resultMap="BaseResultMap">
         select
