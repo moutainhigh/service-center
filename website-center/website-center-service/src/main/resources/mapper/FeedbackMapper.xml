@@ -16,13 +16,17 @@
 	<sql id="feedback_where_clause">
 		<where>
 			del_flag = 0
-			<if test="feedbackId != null and  feedbackId != ''"> and feedback_id = #{feedbackId}</if>
 			<if test="suggestion != null and  suggestion != ''"> and suggestion = #{suggestion}</if>
-			<if test="tel != null and  tel != ''"> and tel = #{tel}</if>
+			<if test="tel != null and  tel != ''"> and tel like concat('%',#{tel},'%')</if>
+			<if test="search != null and  search != ''">
+				<bind name="pattern" value="search" />
+				and concat(ifnull(suggestion,'')) like concat('%',#{pattern},'%') escape'/'
+			</if>
 		</where>
 	</sql>
 	<insert id="save" parameterType="feedback">
-		insert into feedback(
+		insert into feedback
+		(
 		feedback_id,
 		suggestion,
 		tel,
@@ -39,4 +43,14 @@
 		0
 		)
 	</insert>
+	<select id="countAll"  parameterType="feedback" resultType="int">
+		select count(1) from feedback <include refid="feedback_where_clause" />
+	</select>
+	<select id="listByPage" parameterType="feedback" resultType="feedback">
+		<include refid="global.paginationStart_mysql" />
+		select <include refid="base_column_list"/> from feedback
+		<include refid="feedback_where_clause" />
+		order by modify_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
 </mapper>
