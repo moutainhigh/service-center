@@ -42,6 +42,7 @@
 			lawyer,
 			source,
 			origin,
+			redirect_url,
 			del_flag
 		)
 		values
@@ -57,6 +58,7 @@
 			#{lawyer,jdbcType=VARCHAR},
             #{source,jdbcType=VARCHAR},
             #{origin,jdbcType=VARCHAR},
+            #{redirectUrl,jdbcType=VARCHAR},
 			0
 		)
 	</insert>

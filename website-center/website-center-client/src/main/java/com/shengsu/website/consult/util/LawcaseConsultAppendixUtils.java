@@ -29,6 +29,7 @@ public class LawcaseConsultAppendixUtils {
             consultDetailsListPo.setReply(lawcaseConsult.getReply());
             consultDetailsListPo.setLawyer(lawcaseConsult.getLawyer());
             consultDetailsListPo.setSource(lawcaseConsult.getSource());
+            consultDetailsListPo.setRedirectUrl(lawcaseConsult.getRedirectUrl());
             consultDetailsListPo.setCreateTime(lawcaseConsult.getCreateTime());
             consultDetailsListPos.add(consultDetailsListPo);
         }

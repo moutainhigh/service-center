@@ -19,6 +19,7 @@ public class LawcaseConsult extends BaseEntity {
     private String reply;
     private String lawyer;
     private String source;
+    private String redirectUrl;
     private String startTime;
 	private String endTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
