@@ -53,12 +53,14 @@
         select
         <include refid="Base_Column_List"/>
         from question_reply
+        <include refid="questionReply_where_clause"/>
     </select>
     <select id="listByPage" parameterType="questionReply" resultMap="BaseResultMap">
         <include refid="global.paginationStart_mysql"/>
         select
         *
         from question_reply
+        <include refid="questionReply_where_clause"/>
         order by modify_time desc
         <include refid="global.paginationEnd_mysql"/>
     </select>
@@ -67,7 +69,7 @@
         <include refid="Base_Column_List"/>
         from
         question_reply
-        where reply_lawyer_id = #{replyLawyerId,jdbcType=VARCHAR}
+        <include refid="questionReply_where_clause"/>
         order by
         create_time DESC
     </select>
@@ -76,6 +78,7 @@
         <include refid="Base_Column_List"/>
         FROM
         question_reply
+        <include refid="questionReply_where_clause"/>
         order by rand()
         LIMIT 3
     </select>

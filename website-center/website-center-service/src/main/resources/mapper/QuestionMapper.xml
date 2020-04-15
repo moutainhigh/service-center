@@ -24,30 +24,32 @@
     </insert>
     <delete id="delete" parameterType="String">
     delete from question
-    where question_id = #{questionId,jdbcType=INTEGER}
+    where del_flag = 0 and question_id = #{questionId,jdbcType=INTEGER}
   </delete>
     <update id="update" parameterType="Question">
     update question
     set
       question_content = #{questionContent,jdbcType=VARCHAR}
-    where question_id = #{questionId,jdbcType=INTEGER}
+    where del_flag = 0 and question_id = #{questionId,jdbcType=INTEGER}
   </update>
     <select id="get" parameterType="String" resultType="Question">
         select
         <include refid="Base_Column_List"/>
         from question
-        where question_id = #{questionId,jdbcType=INTEGER}
+        where del_flag = 0 and question_id = #{questionId,jdbcType=INTEGER}
     </select>
     <select id="listAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from question
+        where del_flag = 0
     </select>
     <select id="listByPage" parameterType="question" resultMap="BaseResultMap">
         <include refid="global.paginationStart_mysql"/>
         select
         *
         from question
+        where del_flag = 0
         order by modify_time desc
         <include refid="global.paginationEnd_mysql"/>
     </select>
@@ -56,7 +58,7 @@
         *
         from
         question
-        where question_id in
+        where del_flag = 0 and question_id in
         <foreach collection="list" item="item" open="(" close=") " separator=",">
             #{item}
         </foreach>
@@ -68,7 +70,7 @@
         count(1)
         from
         question
-        where question_id in
+        where del_flag = 0 and question_id in
         <foreach collection="list" item="item" open="(" close=") " separator=",">
             #{item}
         </foreach>
