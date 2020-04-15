@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsu.website.bdapp.mapper.FeedbackMapper">
+	<!-- Result Map-->
+	<resultMap id="feedback_result_map" type="feedback">
+	</resultMap>
+	<sql id="base_column_list">
+    	id,
+    	feedback_id,
+    	suggestion,
+    	tel
+  	</sql>
+	<!-- 查询条件 -->
+	<sql id="feedback_where_clause">
+		<where>
+			del_flag = 0
+			<if test="feedbackId != null and  feedbackId != ''"> and feedback_id = #{feedbackId}</if>
+			<if test="suggestion != null and  suggestion != ''"> and suggestion = #{suggestion}</if>
+			<if test="tel != null and  tel != ''"> and tel = #{tel}</if>
+		</where>
+	</sql>
+	<insert id="save" parameterType="feedback">
+		insert into feedback(
+		feedback_id,
+		suggestion,
+		tel,
+		create_time,
+		modify_time,
+		del_flag
+		)
+		values(
+		#{feedbackId},
+		#{suggestion},
+		#{tel},
+		current_timestamp(),
+		current_timestamp(),
+		0
+		)
+	</insert>
+</mapper>
