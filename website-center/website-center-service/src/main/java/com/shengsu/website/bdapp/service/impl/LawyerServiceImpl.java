@@ -2,6 +2,7 @@ package com.shengsu.website.bdapp.service.impl;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.constant.CommonConst;
 import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
@@ -21,9 +22,7 @@ import com.shengsu.website.bdapp.vo.LawyerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @program: service-center
@@ -68,9 +67,12 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
             questionIds.add(questionId);
         }
         int totalCount = questionService.countAllByQuestionIds(questionIds);
+        Map<String, Object> resultMap = new HashMap<>();
         List<Question> questions = questionService.getMany(questionIds);
         List<QuestionReplyPo> questionReplyPos = LawyerUtils.toQuestionReplyPo(lawyer, questionReplies, questions);
-        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, questionReplyPos,totalCount);
+        resultMap.put(CommonConst.ROOT, questionReplyPos);
+        resultMap.put(CommonConst.TOTAL_COUNT, totalCount);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
     }
     @Override
     public ResultBean randomSelect(){
