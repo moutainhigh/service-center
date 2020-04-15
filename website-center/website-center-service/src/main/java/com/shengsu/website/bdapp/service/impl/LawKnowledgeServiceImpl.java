@@ -18,7 +18,6 @@ import com.shengsu.website.bdapp.util.LawKnowledgeCategoryUtils;
 import com.shengsu.website.bdapp.util.LawKnowledgeUtils;
 import com.shengsu.website.bdapp.vo.LawKnowledgeDetailsVo;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
