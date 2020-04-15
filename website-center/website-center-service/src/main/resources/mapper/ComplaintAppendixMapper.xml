@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsu.website.bdapp.mapper.ComplaintAppendixMapper">
+	<!-- Result Map-->
+	<resultMap id="complaint_result_map" type="complaintAppendix">
+	</resultMap>
+	<sql id="base_column_list">
+    	id,
+    	appendix_id,
+    	complaint_id,
+    	appendix_name,
+    	full_name,
+    	oss_resource_id,
+    	upload_time,
+    	id_card_flag,
+    	ort_flag,
+    	enterprise_flag,
+    	trademark_flag
+  	</sql>
+	<!-- 查询条件 -->
+	<sql id="complaint_appendix_where_clause">
+		<where>
+			del_flag = 0
+			<if test="appendixName != null and  appendixName != ''"> and appendix_name = #{appendixName}</if>
+			<if test="search != null and  search != ''">
+				<bind name="pattern" value="search" />
+				and concat(ifnull(appendix_name,''),ifnull(full_name,'')) like concat('%',#{pattern},'%') escape'/'
+			</if>
+		</where>
+	</sql>
+	<insert id="save" parameterType="complaintAppendix">
+		insert into complaint_appendix
+		(
+		appendix_id,
+    	complaint_id,
+    	appendix_name,
+    	full_name,
+    	oss_resource_id,
+    	upload_time,
+    	id_card_flag,
+    	ort_flag,
+    	enterprise_flag,
+    	trademark_flag,
+		create_time,
+		modify_time,
+		del_flag
+		)
+		values(
+		#{appendixId},
+		#{complaintId},
+		#{appendixName},
+		#{fullName},
+		#{ossResourceId},
+		#{uploadTime},
+		#{idCardFlag},
+		#{ortFlag},
+		#{enterpriseFlag},
+		#{trademarkFlag},
+		current_timestamp(),
+		current_timestamp(),
+		0
+		)
+	</insert>
+</mapper>
