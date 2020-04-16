@@ -79,7 +79,7 @@ public class BdpayServiceImpl implements BdpayService{
         orderInfo.setBdBizInfo(bizInfo);
 
         // order表生成订单数据
-        PayOrder payOrder = PayOrderUtils.toPayOrder("",outTradeNo,"",new BigDecimal(totalAmount),PAY_TYPE_BDPAY,ORDER_STATUS_UNPAID);
+        PayOrder payOrder = PayOrderUtils.toPayOrder("",outTradeNo,"",new BigDecimal(amount),PAY_TYPE_BDPAY,ORDER_STATUS_UNPAID);
         payOrderService.create(payOrder);
 
         //返回orderInfo
