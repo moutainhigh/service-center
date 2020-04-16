@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @author: lipiao
  * @create: 2020-04-15 17:04
  **/
-@Service("complaintService")
+@Service("complaintAppendixService")
 public class ComplaintAppendixServiceImpl extends BaseServiceImpl<ComplaintAppendix, String> implements ComplaintAppendixService {
     @Autowired
     private ComplaintAppendixMapper complaintAppendixMapper;
