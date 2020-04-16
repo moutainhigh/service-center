@@ -97,8 +97,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
-    public ResultBean getlatestThreeCount() {
-        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getlatestThreeCount();
+    public ResultBean getLatestThree() {
+        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getLatestThree();
         List<String> thirdCategoryIds = new ArrayList<>();
         List<String> pictureOssIds = new ArrayList<>();
         for (LawKnowledge lawKnowledge :lawKnowledges ){
@@ -116,7 +116,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
-    public ResultBean getRandomCount() {
+    public ResultBean getRandomTitles() {
         List<String> titles = lawKnowledgeMapper.getAllTitle();
         Collections.shuffle(titles);
         List<String> result = new ArrayList<>();

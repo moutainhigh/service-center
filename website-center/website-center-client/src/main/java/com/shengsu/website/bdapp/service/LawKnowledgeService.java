@@ -10,6 +10,6 @@ public interface LawKnowledgeService extends BaseService<LawKnowledge,String> {
     ResultBean listPage(LawKnowledgeListPageVo lawKnowledgeListPageVo);
     int updatePv(String knowledgeId);
     ResultBean getDetails(LawKnowledgeDetailsVo lawKnowledgeDetailsVo);
-    ResultBean getlatestThreeCount();
-    ResultBean getRandomCount();
+    ResultBean getLatestThree();
+    ResultBean getRandomTitles();
 }

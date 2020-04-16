@@ -63,4 +63,41 @@
 		0
 		)
 	</insert>
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into
+		complaint_appendix
+		(
+		appendix_id,
+		complaint_id,
+		appendix_name,
+		full_name,
+		oss_resource_id,
+		upload_time,
+		id_card_flag,
+		ort_flag,
+		enterprise_flag,
+		trademark_flag,
+		create_time,
+		modify_time
+		)
+		<foreach collection="list" item="item" index="index" separator="union all">
+			(
+			select
+			#{item.appendixId},
+			#{item.complaintId},
+			#{item.appendixName},
+			#{item.fullName},
+			#{item.ossResourceId},
+			#{item.uploadTime},
+			#{item.idCardFlag},
+			#{item.ortFlag},
+			#{item.enterpriseFlag},
+			#{item.trademarkFlag},
+			current_timestamp(),
+			current_timestamp()
+			from
+			dual
+			)
+		</foreach>
+	</insert>
 </mapper>
