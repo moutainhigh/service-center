@@ -10,7 +10,8 @@
     	id,
     	feedback_id,
     	suggestion,
-    	tel
+    	tel,
+    	create_time
   	</sql>
 	<!-- 查询条件 -->
 	<sql id="feedback_where_clause">
@@ -53,4 +54,7 @@
 		order by modify_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
+	<delete id="softDelete" parameterType="string">
+		update feedback set del_flag = 1 where feedback_id=#{feedbackId}
+	</delete>
 </mapper>
