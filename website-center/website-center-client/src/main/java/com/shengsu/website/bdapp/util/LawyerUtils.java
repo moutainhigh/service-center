@@ -17,21 +17,21 @@ import java.util.List;
 public class LawyerUtils {
     public static List<QuestionReplyPo> toQuestionReplyPo(Lawyer lawyer, List<QuestionReply> questionReplies, List<Question> questions) {
         List<QuestionReplyPo> questionReplyPos = new ArrayList<>();
-        for (QuestionReply questionReply : questionReplies) {
+        for (Question question : questions) {
             QuestionReplyPo questionReplyPo = new QuestionReplyPo();
-            questionReplyPo.setLawyerId(lawyer.getLawyerId());
-            questionReplyPo.setLawyerName(lawyer.getLawyerName());
-            questionReplyPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
-            questionReplyPo.setReplyId(questionReply.getReplyId());
-            questionReplyPo.setReplyContent(questionReply.getReplyContent());
-            questionReplyPo.setQuestionId(questionReply.getQuestionId());
+            questionReplyPo.setQuestionContent(question.getQuestionContent());
+            questionReplyPo.setQuestionId(question.getQuestionId());
             questionReplyPos.add(questionReplyPo);
         }
-        for (QuestionReplyPo replyPo : questionReplyPos) {
-            for (Question question : questions) {
-                if (replyPo.getQuestionId().equals(question.getQuestionId())) {
-                    replyPo.setQuestionContent(question.getQuestionContent());
-                }
+        for (QuestionReplyPo questionReplyPo : questionReplyPos) {
+            for (QuestionReply questionReply : questionReplies) {
+                    if (questionReplyPo.getQuestionId().equals(questionReply.getQuestionId()) && questionReply.getReplyLawyerId().equals(lawyer.getLawyerId())) {
+                        questionReplyPo.setLawyerId(lawyer.getLawyerId());
+                        questionReplyPo.setLawyerName(lawyer.getLawyerName());
+                        questionReplyPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
+                        questionReplyPo.setReplyId(questionReply.getReplyId());
+                        questionReplyPo.setReplyContent(questionReply.getReplyContent());
+                    }
             }
         }
         return questionReplyPos;
