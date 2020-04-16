@@ -69,7 +69,7 @@
         <include refid="Base_Column_List"/>
         from
         question_reply
-        <include refid="questionReply_where_clause"/>
+        where del_flag = 0
         order by
         create_time DESC
     </select>
