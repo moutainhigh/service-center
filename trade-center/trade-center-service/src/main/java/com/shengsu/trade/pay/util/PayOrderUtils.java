@@ -57,6 +57,7 @@ public class PayOrderUtils {
             payOrderListPo.setOrderNo(payOrder.getOrderNo());
             payOrderListPo.setAmount(payOrder.getAmount());
             payOrderListPo.setPayType(payOrder.getPayType());
+            payOrderListPo.setPaySubtype(payOrder.getPaySubtype());
             payOrderListPo.setOrderTime(payOrder.getOrderTime());
             payOrderListPo.setCompleteTime(payOrder.getCompleteTime()==null?null:DateUtil.getDateDetailTime(payOrder.getCompleteTime()));
             payOrderListPo.setStatus(systemDictMap.get(payOrder.getStatus())==null?"":systemDictMap.get(payOrder.getStatus()).getDisplayName());

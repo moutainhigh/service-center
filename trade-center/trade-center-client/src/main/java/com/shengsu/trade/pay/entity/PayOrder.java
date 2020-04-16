@@ -20,6 +20,7 @@ public class PayOrder extends BaseEntity {
     private String prepayId;
     private BigDecimal amount;
     private String payType;
+    private String paySubtype;
     private String status;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date orderTime;// 下单时间

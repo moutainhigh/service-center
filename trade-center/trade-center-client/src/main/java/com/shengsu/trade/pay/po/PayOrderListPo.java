@@ -17,6 +17,7 @@ public class PayOrderListPo implements Serializable{
     private String orderNo;
     private BigDecimal amount;
     private String payType;
+    private String paySubtype;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date orderTime;// 下单时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
