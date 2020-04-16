@@ -9,4 +9,5 @@ import com.shengsu.website.bdapp.vo.FeedbackListPageVo;
 public interface FeedbackService extends BaseService<Feedback,String> {
     ResultBean create(FeedbackCreateVo feedbackCreateVo);
     ResultBean listPage(FeedbackListPageVo feedbackListPageVo);
+    ResultBean deleteFeedback(String feedbackId);
 }

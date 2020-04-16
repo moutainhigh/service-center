@@ -54,6 +54,7 @@ public class FeedbackUtils {
             feedbackListPagePo.setFeedbackId(feedback.getFeedbackId());
             feedbackListPagePo.setSuggestion(feedback.getSuggestion());
             feedbackListPagePo.setTel(feedback.getTel());
+            feedbackListPagePo.setCreateTime(feedback.getCreateTime());
             return feedbackListPagePo;
         }
         return null;

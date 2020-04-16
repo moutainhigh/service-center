@@ -62,4 +62,11 @@ public class FeedbackServiceImpl extends BaseServiceImpl<Feedback, String> imple
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
     }
+
+    @Override
+    public ResultBean deleteFeedback(String feedbackId) {
+        softDelete(feedbackId);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+    }
+
 }
