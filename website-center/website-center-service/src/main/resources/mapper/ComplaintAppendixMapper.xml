@@ -100,4 +100,16 @@
 			)
 		</foreach>
 	</insert>
+	<select id="listComplaintAppendix" parameterType="complaintAppendix" resultType="complaintAppendix">
+		select appendix_name,full_name,oss_resource_id,upload_time
+		from complaint_appendix
+		where del_flag = 0
+		<if test="idCardFlag != null and  idCardFlag==1"> and id_card_flag = #{idCardFlag}</if>
+		<if test="ortFlag != null and  ortFlag==1"> and ort_flag = #{ortFlag}</if>
+		<if test="enterpriseFlag != null and  enterpriseFlag==1"> and enterprise_flag = #{enterpriseFlag}</if>
+		<if test="trademarkFlag != null and  trademarkFlag==1"> and trademark_flag = #{trademarkFlag}</if>
+	</select>
+	<delete id="deleteByComplaintId" parameterType="string">
+		update complaint_appendix set del_flag = 1 where complaint_id=#{complaintId}
+	</delete>
 </mapper>

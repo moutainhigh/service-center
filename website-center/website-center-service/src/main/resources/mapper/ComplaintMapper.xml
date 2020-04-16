@@ -49,4 +49,17 @@
 		0
 		)
 	</insert>
+	<select id="countAll"  parameterType="complaint" resultType="int">
+		select count(1) from complaint <include refid="complaint_where_clause" />
+	</select>
+	<select id="listByPage" parameterType="complaint" resultType="complaint">
+		<include refid="global.paginationStart_mysql" />
+		select <include refid="base_column_list"/> from complaint
+		<include refid="complaint_where_clause" />
+		order by modify_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
+	<delete id="softDelete" parameterType="string">
+		update complaint set del_flag = 1 where complaint_id=#{complaintId}
+	</delete>
 </mapper>

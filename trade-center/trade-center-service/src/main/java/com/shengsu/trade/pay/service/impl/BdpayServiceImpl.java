@@ -49,12 +49,13 @@ public class BdpayServiceImpl implements BdpayService{
         String outTradeNo = codeGeneratorService.generateCode("BTN");
         //插入6位随机数
         outTradeNo=new StringBuilder(outTradeNo).insert(3,PayOrderUtils.randnum(6)).toString();
+        int totalAmount =  new BigDecimal(amount).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
         //百度收银台创建
         BdOrderInfo orderInfo = new BdOrderInfo();
         orderInfo.setAppKey(appKey);
         orderInfo.setDealId(dealId);
         orderInfo.setDealTitle("百度小程序支付");
-        orderInfo.setTotalAmount(amount);
+        orderInfo.setTotalAmount(String.valueOf(totalAmount));
         orderInfo.setTpOrderId(outTradeNo);
         orderInfo.setSignFieldsRange("1");
 
@@ -73,12 +74,12 @@ public class BdpayServiceImpl implements BdpayService{
         BdBizInfo bizInfo = new BdBizInfo();
         bizInfo.setAppKey(appKey);
         bizInfo.setDealld(dealId);
-        bizInfo.setTotalAmount(amount);
+        bizInfo.setTotalAmount(String.valueOf(totalAmount));
         bizInfo.setTpOrderId(outTradeNo);
         orderInfo.setBdBizInfo(bizInfo);
 
         // order表生成订单数据
-        PayOrder payOrder = PayOrderUtils.toPayOrder("",outTradeNo,"",new BigDecimal(amount),PAY_TYPE_BDPAY,ORDER_STATUS_UNPAID);
+        PayOrder payOrder = PayOrderUtils.toPayOrder("",outTradeNo,"",new BigDecimal(totalAmount),PAY_TYPE_BDPAY,ORDER_STATUS_UNPAID);
         payOrderService.create(payOrder);
 
         //返回orderInfo
