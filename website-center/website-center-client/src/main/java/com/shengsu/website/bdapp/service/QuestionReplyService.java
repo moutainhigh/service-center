@@ -11,7 +11,7 @@ public interface QuestionReplyService extends BaseService<QuestionReply,String> 
     ResultBean create(QuestionReply questionReply);
     ResultBean selectAll();
     List<QuestionReply> getReplyByLawyer(String lawyerId);
-    ResultBean randomSelect();
+    ResultBean randomThree();
     ResultBean questionReplyListByPage(QuestionReply questionReply);
     void geturls(List<Lawyer> lawyers);
 }
