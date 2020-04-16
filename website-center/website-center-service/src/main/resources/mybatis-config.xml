@@ -20,5 +20,6 @@
         <package name="com.shengsu.website.consult.entity"/>
         <package name="com.shengsu.website.home.entity"/>
         <package name="com.shengsu.website.bdapp.entity"/>
+        <package name="com.shengsu.website.census.entity"/>
     </typeAliases>
 </configuration>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shengsu.website.census.mapper.PvCensusMapper">
+	<!-- Result Map-->
+	<resultMap id="census_pvcensus_result_map" type="pvCensus">
+	</resultMap>
+
+	<!-- 新增咨询内容信息 -->
+	<update id="update">
+		update 
+			pv_census
+		set
+			count = count+1
+	</update>
+</mapper>
