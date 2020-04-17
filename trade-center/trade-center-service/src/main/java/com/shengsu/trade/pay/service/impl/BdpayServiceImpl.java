@@ -94,6 +94,7 @@ public class BdpayServiceImpl implements BdpayService{
             boolean checkSign =  NuomiSignature.checkSignWithRsa(param,rsaPublicKey,rsaSign);
             return  ResultUtil.formResult(true, ResultCode.SUCCESS,checkSign);
         } catch (NuomiApiException e) {
+            log.info("验签异常：",e);
             return  ResultUtil.formResult(false, ResultCode.EXCEPTION_BAIDU_CHECK_SIGN_FAIL,false);
         }
     }
