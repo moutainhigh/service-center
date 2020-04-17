@@ -128,6 +128,7 @@ public class NuomiSignature {
             throws NuomiApiException {
         String sortedParamsContent = getSignContent(sortedParams);
         log.info("参数："+sortedParamsContent);
+        log.info("签名："+sign);
         return doCheck(sortedParamsContent, sign, pubKey, NuomiConstants.CHARSET_UTF8);
     }
 
