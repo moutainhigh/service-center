@@ -8,6 +8,7 @@ package com.shengsu.trade.pay.nuomi.util;
 import com.shengsu.trade.pay.nuomi.common.NuomiApiException;
 import com.shengsu.trade.pay.nuomi.common.NuomiConstants;
 import com.shengsu.trade.pay.nuomi.util.codec.Base64;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 
+@Slf4j
 public class NuomiSignature {
 
 
@@ -125,6 +127,7 @@ public class NuomiSignature {
     public static boolean checkSignWithRsa(Map<String, String> sortedParams, String pubKey, String sign)
             throws NuomiApiException {
         String sortedParamsContent = getSignContent(sortedParams);
+        log.info("参数："+sortedParamsContent);
         return doCheck(sortedParamsContent, sign, pubKey, NuomiConstants.CHARSET_UTF8);
     }
 
