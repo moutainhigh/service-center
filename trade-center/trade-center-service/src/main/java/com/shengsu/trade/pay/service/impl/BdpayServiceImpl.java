@@ -1,5 +1,6 @@
 package com.shengsu.trade.pay.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.trade.app.constant.ResultCode;
@@ -85,6 +86,7 @@ public class BdpayServiceImpl implements BdpayService{
         //返回orderInfo
         Map<String,Object> resultMap = new HashMap<>();
         resultMap.put("orderInfo",orderInfo);
+        log.info("下单参数：",JSON.toJSONString(orderInfo));
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resultMap);
     }
 
