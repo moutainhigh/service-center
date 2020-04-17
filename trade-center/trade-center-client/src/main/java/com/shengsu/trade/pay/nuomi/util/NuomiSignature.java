@@ -51,10 +51,8 @@ public class NuomiSignature {
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.get(i);
             String value = sortedParams.get(key);
-            if (StringUtils.areNotEmpty(key, value)) {
-                content.append((index == 0 ? "" : "&") + key + "=" + value);
-                index++;
-            }
+            content.append((index == 0 ? "" : "&") + key + "=" + value);
+            index++;
         }
         return content.toString();
     }
