@@ -48,11 +48,7 @@ public enum ResultCode {
     WHEEL_ID_ERROR(1002,"轮番播放:无此用户"),
 
     //法律知识文库
-    LAW_KNOWLEDGE_ID_ERROR(1002,"法律知识文库:id错误"),
-
-    //投诉
-    COMPLAINT_PARAM_ERROR(1002,"投诉:参数错误"),
-    ;
+    LAW_KNOWLEDGE_ID_ERROR(1002,"法律知识文库:id错误");
 
 
     private Integer code;
