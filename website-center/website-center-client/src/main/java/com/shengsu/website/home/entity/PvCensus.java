@@ -1,4 +1,4 @@
-package com.shengsu.website.census.entity;
+package com.shengsu.website.home.entity;
 
 import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;

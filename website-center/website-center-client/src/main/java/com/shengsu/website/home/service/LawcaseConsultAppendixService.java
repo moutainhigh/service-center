@@ -1,9 +1,9 @@
-package com.shengsu.website.consult.service;
+package com.shengsu.website.home.service;
 
 
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
-import com.shengsu.website.consult.po.ConsultAppendixDetailsPo;
+import com.shengsu.website.home.po.ConsultAppendixDetailsPo;
 
 import java.util.List;
 

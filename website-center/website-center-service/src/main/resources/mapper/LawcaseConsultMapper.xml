@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.shengsu.website.consult.mapper.LawcaseConsultMapper">
+<mapper namespace="com.shengsu.website.home.mapper.LawcaseConsultMapper">
 	<!-- Result Map-->
 	<resultMap id="lawcase_consult_result_map" type="lawcaseConsult">
 	</resultMap>

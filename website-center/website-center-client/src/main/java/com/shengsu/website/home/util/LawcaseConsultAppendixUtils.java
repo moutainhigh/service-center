@@ -1,10 +1,10 @@
-package com.shengsu.website.consult.util;
+package com.shengsu.website.home.util;
 
 
-import com.shengsu.website.consult.entity.LawcaseConsult;
-import com.shengsu.website.consult.entity.LawcaseConsultAppendix;
-import com.shengsu.website.consult.po.ConsultDetailsListPo;
-import com.shengsu.website.consult.po.ConsultAppendixDetailsPo;
+import com.shengsu.website.home.entity.LawcaseConsult;
+import com.shengsu.website.home.entity.LawcaseConsultAppendix;
+import com.shengsu.website.home.po.ConsultDetailsListPo;
+import com.shengsu.website.home.po.ConsultAppendixDetailsPo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;

@@ -8,7 +8,7 @@
     	http://code.alibabatech.com/schema/dubbo
        	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <!--使用 dubbo 协议实现定义好的接口-->
-    <dubbo:service interface="com.shengsu.website.consult.service.LawcaseConsultService" ref="lawcaseConsultService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.website.home.service.LawcaseConsultService" ref="lawcaseConsultService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.home.service.NewsCenterService" ref="newsCenterService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.home.service.SuccessCaseService" ref="successCaseService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.home.service.WheelCenterService" ref="wheelCenterService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
@@ -19,6 +19,6 @@
     <dubbo:service interface="com.shengsu.website.bdapp.service.LawKnowledgeService" ref="lawKnowledgeService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.bdapp.service.FeedbackService" ref="feedbackService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.bdapp.service.ComplaintService" ref="complaintService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
-    <dubbo:service interface="com.shengsu.website.census.service.PvCensusService" ref="pvCensusService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.website.home.service.PvCensusService" ref="pvCensusService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.bdapp.service.ComplaintAppendixService" ref="complaintAppendixService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
 </beans>

@@ -1,4 +1,4 @@
-package com.shengsu.website.consult.service.impl;
+package com.shengsu.website.home.service;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
@@ -6,14 +6,12 @@ import com.shengsu.result.ResultBean;
 import com.shengsu.util.StringUtil;
 import com.shengsu.website.app.constant.ResultCode;
 import com.shengsu.website.app.util.ResultUtil;
-import com.shengsu.website.consult.entity.LawcaseConsult;
-import com.shengsu.website.consult.entity.LawcaseConsultAppendix;
-import com.shengsu.website.consult.mapper.LawcaseConsultMapper;
-import com.shengsu.website.consult.po.ConsultDetailsListPo;
-import com.shengsu.website.consult.po.ConsultAppendixDetailsPo;
-import com.shengsu.website.consult.service.LawcaseConsultAppendixService;
-import com.shengsu.website.consult.service.LawcaseConsultService;
-import com.shengsu.website.consult.util.LawcaseConsultAppendixUtils;
+import com.shengsu.website.home.entity.LawcaseConsult;
+import com.shengsu.website.home.entity.LawcaseConsultAppendix;
+import com.shengsu.website.home.mapper.LawcaseConsultMapper;
+import com.shengsu.website.home.po.ConsultDetailsListPo;
+import com.shengsu.website.home.po.ConsultAppendixDetailsPo;
+import com.shengsu.website.home.util.LawcaseConsultAppendixUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

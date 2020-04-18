@@ -1,8 +1,8 @@
-package com.shengsu.website.consult.service;
+package com.shengsu.website.home.service;
 
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
-import com.shengsu.website.consult.entity.LawcaseConsult;
+import com.shengsu.website.home.entity.LawcaseConsult;
 
 public interface LawcaseConsultService extends BaseService {
     /**

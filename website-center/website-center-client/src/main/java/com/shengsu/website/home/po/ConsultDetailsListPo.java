@@ -1,18 +1,23 @@
-package com.shengsu.website.consult.entity;
+package com.shengsu.website.home.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @program: service-center
+ * @author: Bell
+ * @create: 2020-03-24 19:00
+ **/
 @Data
-public class LawcaseConsult extends BaseEntity {
+public class ConsultDetailsListPo implements Serializable {
     private static final long serialVersionUID = 1L;
     private String consultId;
-    private String consultContent;
     private String origin;
+    private String consultContent;
     private String consultor;
     private String contact;
     private String target;
@@ -20,9 +25,7 @@ public class LawcaseConsult extends BaseEntity {
     private String lawyer;
     private String source;
     private String redirectUrl;
-    private String startTime;
-	private String endTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date createTime;//创建时间
-    private List<LawcaseConsultAppendix> appendixList;
+    private List<ConsultAppendixDetailsPo> appendixList;
 }

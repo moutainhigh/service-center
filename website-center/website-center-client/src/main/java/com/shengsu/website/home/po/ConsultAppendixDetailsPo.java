@@ -1,4 +1,4 @@
-package com.shengsu.website.consult.po;
+package com.shengsu.website.home.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

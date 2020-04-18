@@ -1,7 +1,7 @@
-package com.shengsu.website.census.mapper;
+package com.shengsu.website.home.mapper;
 
 import com.shengsu.base.mapper.BaseMapper;
-import com.shengsu.website.census.entity.PvCensus;
+import com.shengsu.website.home.entity.PvCensus;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

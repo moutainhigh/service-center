@@ -1,7 +1,7 @@
-package com.shengsu.website.consult.mapper;
+package com.shengsu.website.home.mapper;
 
 import com.shengsu.base.mapper.BaseMapper;
-import com.shengsu.website.consult.entity.LawcaseConsultAppendix;
+import com.shengsu.website.home.entity.LawcaseConsultAppendix;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

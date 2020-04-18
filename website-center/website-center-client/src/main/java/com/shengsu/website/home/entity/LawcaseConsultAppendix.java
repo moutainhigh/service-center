@@ -1,4 +1,4 @@
-package com.shengsu.website.consult.entity;
+package com.shengsu.website.home.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shengsu.base.entity.BaseEntity;
