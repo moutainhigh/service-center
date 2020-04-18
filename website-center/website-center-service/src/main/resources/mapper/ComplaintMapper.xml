@@ -12,7 +12,8 @@
     	url,
     	name,
     	tel,
-    	appeal
+    	appeal,
+    	complaint_type
   	</sql>
 	<!-- 查询条件 -->
 	<sql id="complaint_where_clause">
@@ -20,6 +21,7 @@
 			del_flag = 0
 			<if test="name != null and  name != ''"> and name = #{name}</if>
 			<if test="tel != null and  tel != ''"> and tel like concat('%',#{tel},'%')</if>
+			<if test="complaintType != null and  complaintType != ''"> and complaint_type = #{complaintType}</if>
 			<if test="search != null and  search != ''">
 				<bind name="pattern" value="search" />
 				and concat(ifnull(name,''),ifnull(tel,'')) like concat('%',#{pattern},'%') escape'/'
@@ -34,6 +36,7 @@
 		name,
 		tel,
 		appeal,
+		complaint_type,
 		create_time,
 		modify_time,
 		del_flag
@@ -44,6 +47,7 @@
 		#{name},
 		#{tel},
 		#{appeal},
+		#{complaintType},
 		current_timestamp(),
 		current_timestamp(),
 		0

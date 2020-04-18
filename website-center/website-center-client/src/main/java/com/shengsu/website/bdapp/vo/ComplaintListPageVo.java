@@ -12,4 +12,5 @@ import lombok.Data;
 public class ComplaintListPageVo extends BaseEntity {
     private String name;
     private String tel;
+    private String complaintType;
 }

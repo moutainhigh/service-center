@@ -81,6 +81,6 @@ public class ComplaintServiceImpl extends BaseServiceImpl<Complaint, String> imp
         softDelete(complaintId);
         // 删除投诉附件
         complaintAppendixService.deleteByComplaintId(complaintId);
-        return null;
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
 }

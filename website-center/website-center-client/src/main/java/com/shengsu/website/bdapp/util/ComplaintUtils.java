@@ -22,6 +22,7 @@ public class ComplaintUtils {
             complaint.setName(complaintCreateVo.getName());
             complaint.setTel(complaintCreateVo.getTel());
             complaint.setAppeal(complaintCreateVo.getAppeal());
+            complaint.setComplaintType(complaintCreateVo.getComplaintType());
             return complaint;
         }
         return null;

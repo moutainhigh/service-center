@@ -23,5 +23,7 @@ public class ComplaintCreateVo implements Serializable {
     private String tel;
     @NotBlank
     private String appeal;
+    @NotBlank
+    private String complaintType;
     private List<ComplaintAppendix> complaintAppendices = new ArrayList<>();//附件
 }

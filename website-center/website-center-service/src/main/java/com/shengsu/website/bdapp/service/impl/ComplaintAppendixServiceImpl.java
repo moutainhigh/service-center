@@ -47,7 +47,7 @@ public class ComplaintAppendixServiceImpl extends BaseServiceImpl<ComplaintAppen
         Map<String, String> ossIdMap = ossService.getUrls(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,ossResourceIds);
         List<ComplaintAppendixSimplePo> complaintAppendixSimplePos = ComplaintAppendixUtils.toComplaintAppendixSimplePos(complaintAppendices,ossIdMap);
 
-        return ResultUtil.formResult(true, ResultCode.COMPLAINT_PARAM_ERROR,complaintAppendixSimplePos);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS,complaintAppendixSimplePos);
     }
 
     @Override
