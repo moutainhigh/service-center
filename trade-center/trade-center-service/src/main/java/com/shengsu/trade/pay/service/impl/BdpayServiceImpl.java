@@ -100,4 +100,31 @@ public class BdpayServiceImpl implements BdpayService{
             return  ResultUtil.formResult(false, ResultCode.EXCEPTION_BAIDU_CHECK_SIGN_FAIL,false);
         }
     }
+
+    @Override
+    public String formatPaySubtype(String paySubtype) {
+        // 支付渠道转化
+        switch(paySubtype)
+        {
+            case "1117":
+                paySubtype=PAY_TYPE_WECHAT;
+                break;
+            case "1087":
+                paySubtype=PAY_TYPE_ALIPAY;
+                break;
+            case "1108":
+                paySubtype=PAY_SUBTYPE_DUXIAOMAN;
+                break;
+            case "10004":
+                paySubtype=PAY_SUBTYPE_BAIDU_FLASH_PAYMENT;
+                break;
+            case "1124":
+                paySubtype=PAY_SUBTYPE_HUABEI;
+                break;
+            default:
+                paySubtype="";
+                break;
+        }
+        return paySubtype;
+    }
 }

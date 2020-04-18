@@ -40,4 +40,16 @@ public interface BizConst {
     //收支类型-支出
     String IN_OR_OUT_TYPE_EXPEND= "expend";
 
+    //支付渠道-微信
+    String PAY_SUBTYPE_WECHAT = "wechat";
+    //支付渠道-支付宝
+    String PAY_SUBTYPE_ALIPAY = "alipay";
+    //支付渠道-度小满
+    String PAY_SUBTYPE_DUXIAOMAN = "duxiaoman";
+    //支付渠道-百度闪付
+    String PAY_SUBTYPE_BAIDU_FLASH_PAYMENT = "baidu_flash_payment";
+    //支付渠道-花呗
+    String PAY_SUBTYPE_HUABEI = "huabei";
+
+
 }
