@@ -32,6 +32,7 @@ public class ComplaintUtils {
             Complaint complaint = new Complaint();
             complaint.setName(complaintListPageVo.getName());
             complaint.setTel(complaintListPageVo.getTel());
+            complaint.setComplaintType(complaintListPageVo.getComplaintType());
             complaint.setSearch(StringUtil.ToLikeStr(complaintListPageVo.getSearch()));
             complaint.setPage(complaintListPageVo.getPage());
             complaint.setPageSize(complaintListPageVo.getPageSize());
