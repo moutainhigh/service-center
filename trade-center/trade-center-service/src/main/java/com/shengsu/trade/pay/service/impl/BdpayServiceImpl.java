@@ -148,7 +148,7 @@ public class BdpayServiceImpl implements BdpayService{
         data.put("orderId", orderId);
         data.put("siteId", siteId);
         data.put("sign", NuomiSignature.genSignWithRsa(data, rsaPrivateKey));
-        String openIdStr = HttpClientUtil.doGet(url, data);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS,openIdStr);
+        String result = HttpClientUtil.doGet(url, data);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS,result);
     }
 }
