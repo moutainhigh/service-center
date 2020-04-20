@@ -12,6 +12,7 @@ import com.shengsu.trade.pay.entity.PayOrder;
 import com.shengsu.trade.pay.mapper.PayOrderMapper;
 import com.shengsu.trade.pay.po.PayOrderListPo;
 import com.shengsu.trade.pay.service.AlipayService;
+import com.shengsu.trade.pay.service.BdpayService;
 import com.shengsu.trade.pay.service.PayOrderService;
 import com.shengsu.trade.pay.service.WxpayService;
 import com.shengsu.trade.pay.util.PayOrderUtils;
@@ -41,6 +42,8 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> imple
     private AlipayService alipayService;
     @Autowired
     private WxpayService wxpayService;
+    @Autowired
+    private BdpayService bdpayService;
     @Override
     public BaseMapper<PayOrder, String> getBaseMapper() {
         return payOrderMapper;
@@ -81,8 +84,12 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> imple
 
     @Override
     public ResultBean orderQuery(PayOrderQueryVo payOrderQueryVo)throws Exception{
-        if(PAY_TYPE_ALIPAY.equals(payOrderQueryVo.getPayType()))
+        if(PAY_TYPE_ALIPAY.equals(payOrderQueryVo.getPayType())){
             return alipayService.orderQuery(payOrderQueryVo.getOrderNo());
-        return wxpayService.orderQuery(payOrderQueryVo.getOrderNo());
+        }else if(PAY_TYPE_WECHAT.equals(payOrderQueryVo.getPayType())){
+            return wxpayService.orderQuery(payOrderQueryVo.getOrderNo());
+        }else{
+            return bdpayService.orderQuery(payOrderQueryVo.getOrderNo());
+        }
     }
 }

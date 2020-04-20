@@ -21,6 +21,7 @@ public class PayOrder extends BaseEntity {
     private BigDecimal amount;
     private String payType;
     private String paySubtype;
+    private String siteId;// 百度用户id
     private String status;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date orderTime;// 下单时间
@@ -28,4 +29,5 @@ public class PayOrder extends BaseEntity {
     private String completeTime;// 订单完成时间
     private String startTime;
     private String endTime;
+
 }

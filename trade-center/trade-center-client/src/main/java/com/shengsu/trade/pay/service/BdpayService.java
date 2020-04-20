@@ -10,4 +10,6 @@ public interface BdpayService {
     ResultBean order(BaiduOrderVo baiduOrderVo) throws NuomiApiException;
     ResultBean checkSignWithRsa(Map<String, String> param,String rsaSign);
     String formatPaySubtype(String paySubtype);
+
+    ResultBean orderQuery(String orderNo) throws NuomiApiException;
 }

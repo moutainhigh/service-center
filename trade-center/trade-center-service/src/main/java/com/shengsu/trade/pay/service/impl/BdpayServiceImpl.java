@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.trade.app.constant.ResultCode;
+import com.shengsu.trade.app.util.HttpClientUtil;
 import com.shengsu.trade.app.util.ResultUtil;
 import com.shengsu.trade.pay.entity.BdBizInfo;
 import com.shengsu.trade.pay.entity.BdOrderInfo;
@@ -34,6 +35,8 @@ import static com.shengsu.trade.app.constant.BizConst.*;
 public class BdpayServiceImpl implements BdpayService{
     @Value("${bdpay.appKey}")
     private String appKey;
+    @Value("${bdpay.appId}")
+    private String appId;
     @Value("${bdpay.dealId}")
     private String dealId;
     @Value("${bdpay.rsaPrivateKey}")
@@ -126,5 +129,26 @@ public class BdpayServiceImpl implements BdpayService{
                 break;
         }
         return paySubtype;
+    }
+
+    @Override
+    public ResultBean orderQuery(String orderNo) throws NuomiApiException {
+        String url = "https://dianshang.baidu.com/platform/entity/openapi/queryorderdetail";
+        // 获取orderId
+        PayOrder payOrder = payOrderService.getByOrderNo(orderNo);
+        String orderId = "";
+        String siteId = "";
+        if (null !=payOrder){
+            orderId=payOrder.getTransactionId();
+            siteId =payOrder.getSiteId();
+        }
+        Map<String, String> data = new HashMap<>();
+        data.put("appId", appId);
+        data.put("appKey", appKey);
+        data.put("orderId", orderId);
+        data.put("siteId", siteId);
+        data.put("sign", NuomiSignature.genSignWithRsa(data, rsaPrivateKey));
+        String openIdStr = HttpClientUtil.doGet(url, data);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS,openIdStr);
     }
 }
