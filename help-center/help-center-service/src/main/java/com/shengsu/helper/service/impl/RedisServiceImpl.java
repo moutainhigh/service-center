@@ -78,6 +78,16 @@ public class RedisServiceImpl implements RedisService {
     }
 
     /**
+     * value递增
+     *
+     * @param key Redis键
+     * @param value 值 单位分
+     */
+    public void increment(final String key, final long value) {
+        redisTemplate.opsForValue().increment(key, value);
+    }
+
+    /**
      * 获取普通对象
      *
      * @param key 键
