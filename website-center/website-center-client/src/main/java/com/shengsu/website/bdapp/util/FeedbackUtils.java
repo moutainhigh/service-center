@@ -30,6 +30,8 @@ public class FeedbackUtils {
             feedback.setSuggestion(feedbackListPageVo.getSuggestion());
             feedback.setTel(feedbackListPageVo.getTel());
             feedback.setSearch(StringUtil.ToLikeStr(feedbackListPageVo.getSearch()));
+            feedback.setStartTime(feedbackListPageVo.getStartTime());
+            feedback.setEndTime(feedbackListPageVo.getEndTime());
             feedback.setPage(feedbackListPageVo.getPage());
             feedback.setPageSize(feedbackListPageVo.getPageSize());
             return feedback;

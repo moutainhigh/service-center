@@ -12,4 +12,6 @@ import lombok.Data;
 public class FeedbackListPageVo extends BaseEntity {
     private String suggestion;
     private String tel;
+    private String startTime;
+    private String endTime;
 }

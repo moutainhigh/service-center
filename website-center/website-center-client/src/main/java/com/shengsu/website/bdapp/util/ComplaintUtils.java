@@ -34,6 +34,8 @@ public class ComplaintUtils {
             complaint.setTel(complaintListPageVo.getTel());
             complaint.setComplaintType(complaintListPageVo.getComplaintType());
             complaint.setSearch(StringUtil.ToLikeStr(complaintListPageVo.getSearch()));
+            complaint.setStartTime(complaintListPageVo.getStartTime());
+            complaint.setEndTime(complaintListPageVo.getEndTime());
             complaint.setPage(complaintListPageVo.getPage());
             complaint.setPageSize(complaintListPageVo.getPageSize());
             return complaint;
@@ -60,6 +62,7 @@ public class ComplaintUtils {
             complaintListPagePo.setTel(complaint.getTel());
             complaintListPagePo.setUrl(complaint.getUrl());
             complaintListPagePo.setAppeal(complaint.getAppeal());
+            complaintListPagePo.setCreateTime(complaint.getCreateTime());
             return complaintListPagePo;
         }
         return null;

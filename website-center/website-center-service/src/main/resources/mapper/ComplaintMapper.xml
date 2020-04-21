@@ -13,7 +13,8 @@
     	name,
     	tel,
     	appeal,
-    	complaint_type
+    	complaint_type,
+    	create_time
   	</sql>
 	<!-- 查询条件 -->
 	<sql id="complaint_where_clause">
@@ -22,6 +23,8 @@
 			<if test="name != null and  name != ''"> and name = #{name}</if>
 			<if test="tel != null and  tel != ''"> and tel like concat('%',#{tel},'%')</if>
 			<if test="complaintType != null and  complaintType != ''"> and complaint_type = #{complaintType}</if>
+			<if test="startTime != null and  startTime != ''">and create_time >= #{startTime,jdbcType=VARCHAR}</if>
+			<if test="endTime != null and  endTime != ''">and  DATE_ADD(date_format(#{endTime,jdbcType=VARCHAR},"%Y-%m-%d"),interval 1 day) >=create_time</if>
 			<if test="search != null and  search != ''">
 				<bind name="pattern" value="search" />
 				and concat(ifnull(name,''),ifnull(tel,'')) like concat('%',#{pattern},'%') escape'/'

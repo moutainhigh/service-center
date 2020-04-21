@@ -14,4 +14,6 @@ public class Feedback extends BaseEntity {
     private String feedbackId;
     private String suggestion;
     private String tel;
+    private String startTime;
+    private String endTime;
 }

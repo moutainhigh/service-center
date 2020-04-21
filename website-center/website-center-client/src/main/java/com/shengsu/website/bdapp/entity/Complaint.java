@@ -16,4 +16,6 @@ public class Complaint extends BaseEntity {
     private String tel;
     private String appeal;
     private String complaintType;
+    private String startTime;
+    private String endTime;
 }

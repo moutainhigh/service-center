@@ -13,4 +13,6 @@ public class ComplaintListPageVo extends BaseEntity {
     private String name;
     private String tel;
     private String complaintType;
+    private String startTime;
+    private String endTime;
 }
