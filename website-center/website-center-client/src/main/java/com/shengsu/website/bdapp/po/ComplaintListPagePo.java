@@ -18,6 +18,7 @@ public class ComplaintListPagePo implements Serializable {
     private String name;
     private String tel;
     private String appeal;
+    private String complaintType;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 }

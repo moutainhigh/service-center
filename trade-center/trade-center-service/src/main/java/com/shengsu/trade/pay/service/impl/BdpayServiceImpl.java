@@ -167,6 +167,8 @@ public class BdpayServiceImpl implements BdpayService{
         String payTime = bdPayNotifyVo.getPayTime();
         // 支付渠道
         String paySubtype = bdPayNotifyVo.getPaySubtype() ;
+        // 支付渠道转化
+        paySubtype = formatPaySubtype(paySubtype);
         // 用户id
         String siteId = bdPayNotifyVo.getSiteId() ;
         // 参数

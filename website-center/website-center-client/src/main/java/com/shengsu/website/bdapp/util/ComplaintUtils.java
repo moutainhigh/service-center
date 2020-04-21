@@ -62,6 +62,7 @@ public class ComplaintUtils {
             complaintListPagePo.setTel(complaint.getTel());
             complaintListPagePo.setUrl(complaint.getUrl());
             complaintListPagePo.setAppeal(complaint.getAppeal());
+            complaintListPagePo.setComplaintType(complaint.getComplaintType());
             complaintListPagePo.setCreateTime(complaint.getCreateTime());
             return complaintListPagePo;
         }
