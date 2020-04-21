@@ -67,6 +67,7 @@ public class MQProducerServiceImpl implements MQProducerService {
             producers.get(producer.getGroup()).send(message);
         } catch (Exception e) {
             log.error("消息发送异常:", e);
+            return ResultUtil.formResult(false, ResultCode.FAIL);
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }

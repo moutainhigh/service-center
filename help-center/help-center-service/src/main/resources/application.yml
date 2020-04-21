@@ -55,7 +55,7 @@ logging:
 rocketmq:
   producer:
     namesrvAddr: 192.168.1.52:9876
-    groups: logGroup,jpushGroup,anyGroup
+    groups: logGroup,jpushGroup,anyGroup,websiteGroup
     maxMessageSize: 131072
     sendMsgTimeout: 10000
   consumer:

@@ -13,8 +13,10 @@ public enum MQProducerEnum {
     JPUSHNORMAL("jpushGroup","jpushMessageTopic","jpushNormalTag"),
     JPUSHSCHEDULE("jpushGroup","jpushMessageTopic","jpushScheduleTag"),
     JPUSHSCHEDULECANCEL("jpushGroup","jpushMessageTopic","jpushScheduleCancelTag"),
-
-    ANY_WECHAT("anyGroup","wechatMessageTopic","wechatMessageTag")
+    //公众号推送
+    ANY_WECHAT("anyGroup","wechatMessageTopic","wechatMessageTag"),
+    //百度小程序支付回调
+    WEBSITE_BAIDU_PAYNOTIFY("websiteGroup","bdpayTopic","payNofityTag")
     ;
 
     private String group;
