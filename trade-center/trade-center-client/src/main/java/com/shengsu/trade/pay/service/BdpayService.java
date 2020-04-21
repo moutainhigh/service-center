@@ -14,5 +14,5 @@ public interface BdpayService {
 
     ResultBean orderQuery(String orderNo) throws NuomiApiException;
 
-    String handleMessage(BdPayNotifyVo bdPayNotifyVo);
+    void handleMessage(BdPayNotifyVo bdPayNotifyVo);
 }

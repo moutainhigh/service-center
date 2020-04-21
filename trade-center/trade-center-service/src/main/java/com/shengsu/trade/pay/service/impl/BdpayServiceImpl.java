@@ -154,7 +154,7 @@ public class BdpayServiceImpl implements BdpayService{
     }
 
     @Override
-    public String handleMessage(BdPayNotifyVo bdPayNotifyVo) {
+    public void handleMessage(BdPayNotifyVo bdPayNotifyVo) {
         // 订单号
         String outTradeNo = bdPayNotifyVo.getOutTradeNo();
         // 状态
@@ -188,15 +188,7 @@ public class BdpayServiceImpl implements BdpayService{
                 PayOrder payOrder = PayOrderUtils.toPayOrder(bdPayNotifyVo.getOutTradeNo(),ORDER_STATUS_PAID,orderId,payTime,paySubtype,siteId);
                 payOrderService.updateOrder(payOrder);
             }
-            resultMap.put("data",consumedMap);
-            return JSON.toJSONString(resultMap);
-
-        }else{
-            //如处理支付回调的过程中开发者端参数异常、其他异常，返回以下参数进行异常退款
-            log.error("支付失败");
-            consumedMap.put("isErrorOrder",1);
-            resultMap.put("data",consumedMap);
-            return JSON.toJSONString(resultMap);
         }
+        log.error("支付失败");
     }
 }
