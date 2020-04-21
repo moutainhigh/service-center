@@ -36,7 +36,16 @@ public class PayOrderUtils {
         payOrder.setCompleteTime(completeTime);
         return payOrder;
     }
-
+    public static PayOrder toPayOrder(String orderNo,String status,String transactionId,String completeTime,String paySubtype,String siteId) {
+        PayOrder payOrder = new PayOrder();
+        payOrder.setOrderNo(orderNo);
+        payOrder.setStatus(status);
+        payOrder.setTransactionId(transactionId);
+        payOrder.setCompleteTime(completeTime);
+        payOrder.setPaySubtype(paySubtype);
+        payOrder.setSiteId(siteId);
+        return payOrder;
+    }
     public static List<PayOrderListPo> toPayOrderListPos(List<PayOrder> payOrders, Map<String, SystemDict> systemDictMap) {
         if (payOrders != null) {
             List<PayOrderListPo> payOrderListPos = new ArrayList<>();

@@ -51,5 +51,8 @@ public interface BizConst {
     //支付渠道-花呗
     String PAY_SUBTYPE_HUABEI = "huabei";
 
+    //百度订单状态-已支付
+    String BAIDU_ORDER_STATUS_PAID= "2";
+
 
 }

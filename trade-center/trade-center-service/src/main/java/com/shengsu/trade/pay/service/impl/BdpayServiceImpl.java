@@ -15,6 +15,7 @@ import com.shengsu.trade.pay.service.BdpayService;
 import com.shengsu.trade.pay.service.PayOrderService;
 import com.shengsu.trade.pay.util.PayOrderUtils;
 import com.shengsu.trade.pay.vo.BaiduOrderVo;
+import com.shengsu.trade.pay.vo.BdPayNotifyVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,5 +151,50 @@ public class BdpayServiceImpl implements BdpayService{
         data.put("sign", NuomiSignature.genSignWithRsa(data, rsaPrivateKey));
         String result = HttpClientUtil.doGet(url, data);
         return ResultUtil.formResult(true, ResultCode.SUCCESS,result);
+    }
+
+    @Override
+    public String handleMessage(BdPayNotifyVo bdPayNotifyVo) {
+        // 订单号
+        String outTradeNo = bdPayNotifyVo.getOutTradeNo();
+        // 状态
+        String status = bdPayNotifyVo.getStatus();
+        // 订单ID
+        String orderId = bdPayNotifyVo.getOrderId() ;
+        // 金额
+        String totalMoney =bdPayNotifyVo.getTotalMoney();
+        // 支付完成时间
+        String payTime = bdPayNotifyVo.getPayTime();
+        // 支付渠道
+        String paySubtype = bdPayNotifyVo.getPaySubtype() ;
+        // 用户id
+        String siteId = bdPayNotifyVo.getSiteId() ;
+        // 参数
+        Map<String,Object> consumedMap = bdPayNotifyVo.getConsumedMap();
+        // 返回结果
+        Map<String,Object> resultMap = bdPayNotifyVo.getResultMap();
+        // 校验百度参数返回值
+        if (BAIDU_ORDER_STATUS_PAID.equals(bdPayNotifyVo.getStatus())){
+            log.info("支付状态=2: 支付成功");
+            // 查询订单状态是否已经支付--如果已经支付不再提醒,百度支付需校验 tpOrderId(outTradeNo)商户号以及金额是实际金额
+            PayOrder order = payOrderService.getByOrderNo(outTradeNo);
+            log.info(JSON.toJSONString(order));
+            BigDecimal amount = new BigDecimal(100).multiply(order.getAmount()).setScale(0);
+            if (null !=order && ORDER_STATUS_UNPAID.equals(order.getStatus())&& totalMoney.equals(amount.toString())){
+                log.info(JSON.toJSONString("修改订单状态"));
+                // 修改订单-包括订单状态
+                PayOrder payOrder = PayOrderUtils.toPayOrder(bdPayNotifyVo.getOutTradeNo(),ORDER_STATUS_PAID,orderId,payTime,paySubtype,siteId);
+                payOrderService.updateOrder(payOrder);
+            }
+            resultMap.put("data",consumedMap);
+            return JSON.toJSONString(resultMap);
+
+        }else{
+            //如处理支付回调的过程中开发者端参数异常、其他异常，返回以下参数进行异常退款
+            log.error("支付失败");
+            consumedMap.put("isErrorOrder",1);
+            resultMap.put("data",consumedMap);
+            return JSON.toJSONString(resultMap);
+        }
     }
 }
