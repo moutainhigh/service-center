@@ -27,7 +27,7 @@ public class BdPayNotifyVo implements Serializable {
     // 用户id
     String siteId ;
     // 结果
-    Map<String,Object> consumedMap;
+    Map<String,Integer> consumedMap;
     // 返回结果
     Map<String,Object> resultMap;
 }

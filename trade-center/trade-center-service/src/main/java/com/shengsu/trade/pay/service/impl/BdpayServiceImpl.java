@@ -170,7 +170,7 @@ public class BdpayServiceImpl implements BdpayService{
         // 用户id
         String siteId = bdPayNotifyVo.getSiteId() ;
         // 参数
-        Map<String,Object> consumedMap = bdPayNotifyVo.getConsumedMap();
+        Map<String,Integer> consumedMap = bdPayNotifyVo.getConsumedMap();
         // 返回结果
         Map<String,Object> resultMap = bdPayNotifyVo.getResultMap();
         // 校验百度参数返回值
