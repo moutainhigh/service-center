@@ -3,8 +3,8 @@ package com.shengsu.website.bdapp.service.impl;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import com.shengsu.website.app.constant.ResultCode;
-import com.shengsu.website.app.util.ResultUtil;
 import com.shengsu.website.bdapp.entity.LawKnowledgeCategory;
 import com.shengsu.website.bdapp.mapper.LawKnowledgeCategoryMapper;
 import com.shengsu.website.bdapp.po.LawKnowledgeCategoryListPo;
@@ -12,10 +12,11 @@ import com.shengsu.website.bdapp.service.LawKnowledgeCategoryService;
 import com.shengsu.website.bdapp.util.LawKnowledgeCategoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.shengsu.website.constant.BdappConst.*;
+import static com.shengsu.website.constant.BdappConst.CATEGORY_ROOT_ID;
 
 /**
  * @description:
