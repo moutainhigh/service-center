@@ -1,9 +1,11 @@
 package com.shengsu.user.service.impl;
 
 
-import com.shengsu.result.ResultBean;
+import com.alibaba.fastjson.JSON;
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.app.util.ResultUtil;
+import com.shengsu.helper.service.RedisService;
+import com.shengsu.result.ResultBean;
 import com.shengsu.user.entity.Auth;
 import com.shengsu.user.po.UserDetailsPo;
 import com.shengsu.user.service.AuthorizedService;
@@ -11,13 +13,11 @@ import com.shengsu.util.MD5Util;
 import io.jsonwebtoken.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by zyc on 2019/10/15.
@@ -37,9 +37,8 @@ public class AuthorizedServiceImpl implements AuthorizedService {
     private long INVALID_TIME;
 
 
-
     @Resource
-    private RedisTemplate<Serializable, Serializable> redisTemplate;
+    private RedisService redisService;
 
 
     /**
@@ -59,7 +58,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         // 将TOKEN放入缓存中，方便验证
         Auth auth = new Auth(iat.getTime(), exp.getTime(), token, user);
         String cacheKey = getCacheKey(token);
-        redisTemplate.opsForValue().set(cacheKey, auth, INVALID_TIME, TimeUnit.SECONDS);
+        redisService.set(cacheKey, JSON.toJSONString(auth), INVALID_TIME);
         return token;
     }
 
@@ -83,7 +82,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
      * @date 2018年1月18日 上午10:03:17
      */
     public void destoryToken(String token) {
-        redisTemplate.delete(getCacheKey(token));
+        redisService.delete(getCacheKey(token));
     }
 
     /**
@@ -97,7 +96,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             Date exp = new Date(System.currentTimeMillis() + INVALID_TIME);
             Auth auth = new Auth(iat.getTime(), exp.getTime(), token, user);
             String cacheKey = getCacheKey(token);
-            redisTemplate.opsForValue().set(cacheKey, auth, INVALID_TIME, TimeUnit.SECONDS);
+            redisService.set(cacheKey, JSON.toJSONString(auth), INVALID_TIME);
         }
     }
 
@@ -113,8 +112,9 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             parseToken(token);
             //解析token,这里会校验token是否正确
             String cacheKey = getCacheKey(token);
-            Auth auth = (Auth) redisTemplate.opsForValue().get(cacheKey);
-            if (null == auth)
+            Serializable authJsonStr =  redisService.get(cacheKey);
+            Auth auth = JSON.parseObject(authJsonStr.toString(), Auth.class);
+            if (null == authJsonStr)
                 return null;
             return auth.getUser();
         }
@@ -157,11 +157,12 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         try {
             parseToken(token);
             String cacheKey = getCacheKey(token);
-            Auth auth = (Auth) redisTemplate.opsForValue().get(cacheKey);
+            Serializable authJsonStr =  redisService.get(cacheKey);
+            Auth auth = JSON.parseObject(authJsonStr.toString(), Auth.class);
             if(auth==null){
                 return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);
             }
-            redisTemplate.opsForValue().set(cacheKey, auth, INVALID_TIME, TimeUnit.SECONDS);
+            redisService.set(cacheKey, JSON.toJSONString(auth), INVALID_TIME);
             return ResultUtil.formResult(true, ResultCode.SUCCESS);
         } catch (ExpiredJwtException e) {
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);
