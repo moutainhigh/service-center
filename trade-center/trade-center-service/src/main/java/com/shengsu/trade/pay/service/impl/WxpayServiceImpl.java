@@ -2,9 +2,9 @@ package com.shengsu.trade.pay.service.impl;
 
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import com.shengsu.trade.app.constant.ResultCode;
 import com.shengsu.trade.app.util.HttpClientUtil;
-import com.shengsu.trade.app.util.ResultUtil;
 import com.shengsu.trade.pay.entity.PayOrder;
 import com.shengsu.trade.pay.service.PayOrderService;
 import com.shengsu.trade.pay.service.WxpayService;
