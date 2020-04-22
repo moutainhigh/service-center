@@ -2,11 +2,11 @@ package com.shengsu.user.service.impl;
 
 import com.shengsu.result.ResultBean;
 import com.shengsu.app.constant.ResultCode;
-import com.shengsu.app.util.ResultUtil;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.service.OssService;
+import com.shengsu.result.ResultUtil;
 import com.shengsu.user.entity.User;
 import com.shengsu.user.mapper.UserMapper;
 import com.shengsu.user.po.UserDetailsPo;

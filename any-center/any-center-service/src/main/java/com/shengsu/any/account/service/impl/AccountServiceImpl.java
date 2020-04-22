@@ -13,7 +13,6 @@ import com.shengsu.any.account.vo.AccounListByPageVo;
 import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.account.vo.RichesListByPageVo;
 import com.shengsu.any.app.constant.ResultCode;
-import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.message.entity.Message;
 import com.shengsu.any.message.service.MessageService;
 import com.shengsu.any.message.util.MessageUtils;
@@ -25,6 +24,7 @@ import com.shengsu.any.user.util.UserUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import com.shengsu.trade.pay.entity.PayOrder;
 import com.shengsu.trade.pay.service.PayOrderService;
 import org.apache.commons.lang3.StringUtils;
@@ -84,7 +84,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         }else{
             String userId = userService.getUserIdByTel(accounListByPageVo.getTel());
             if (StringUtils.isBlank(userId)){
-                return ResultUtil.formNullResult();
+                return ResultUtil.formEmptyResult(true,ResultCode.SUCCESS);
             }
             accounListByPageVo.setUserId(userId);
         }
@@ -125,7 +125,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         }else{
             String userId = userService.getUserIdByTel(richesListByPageVo.getTel());
             if (StringUtils.isBlank(userId)){
-                return ResultUtil.formNullResult();
+                return ResultUtil.formEmptyResult(true,ResultCode.SUCCESS);
             }
             richesListByPageVo.setUserId(userId);
         }

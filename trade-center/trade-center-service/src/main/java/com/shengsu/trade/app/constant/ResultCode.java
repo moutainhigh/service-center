@@ -1,11 +1,13 @@
 package com.shengsu.trade.app.constant;
 
+import com.shengsu.result.IResultCode;
+
 /**
  * 防重类型
  * @author zxh
  *
  */
-public enum ResultCode {
+public enum ResultCode implements IResultCode {
     SUCCESS(1000, "成功"),
     FAIL(1001, "失败"),
     EXCEPTION(1002, "异常"),

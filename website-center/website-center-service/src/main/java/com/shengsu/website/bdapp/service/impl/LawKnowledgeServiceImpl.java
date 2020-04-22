@@ -6,8 +6,8 @@ import com.shengsu.constant.CommonConst;
 import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import com.shengsu.website.app.constant.ResultCode;
-import com.shengsu.website.app.util.ResultUtil;
 import com.shengsu.website.bdapp.entity.LawKnowledge;
 import com.shengsu.website.bdapp.entity.LawKnowledgeCategory;
 import com.shengsu.website.bdapp.mapper.LawKnowledgeMapper;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import static com.shengsu.website.app.constant.BizConst.*;
+import static com.shengsu.website.app.constant.BizConst.LAW_HEADLINES_RANDOM_COUNT;
 
 /**
  * @description:

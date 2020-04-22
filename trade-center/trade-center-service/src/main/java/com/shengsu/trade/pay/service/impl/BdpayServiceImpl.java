@@ -3,9 +3,9 @@ package com.shengsu.trade.pay.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import com.shengsu.trade.app.constant.ResultCode;
 import com.shengsu.trade.app.util.HttpClientUtil;
-import com.shengsu.trade.app.util.ResultUtil;
 import com.shengsu.trade.pay.entity.BdBizInfo;
 import com.shengsu.trade.pay.entity.BdOrderInfo;
 import com.shengsu.trade.pay.entity.PayOrder;
@@ -171,10 +171,6 @@ public class BdpayServiceImpl implements BdpayService{
         paySubtype = formatPaySubtype(paySubtype);
         // 用户id
         String siteId = bdPayNotifyVo.getSiteId() ;
-        // 参数
-        Map<String,Integer> consumedMap = bdPayNotifyVo.getConsumedMap();
-        // 返回结果
-        Map<String,Object> resultMap = bdPayNotifyVo.getResultMap();
         // 校验百度参数返回值
         if (BAIDU_ORDER_STATUS_PAID.equals(bdPayNotifyVo.getStatus())){
             log.info("支付状态=2: 支付成功");

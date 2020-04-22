@@ -3,11 +3,11 @@ package com.shengsu.any.user.service.impl;
 
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.RedisUtil;
-import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.user.entity.Auth;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.service.AuthorizedService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import com.shengsu.util.MD5Util;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
