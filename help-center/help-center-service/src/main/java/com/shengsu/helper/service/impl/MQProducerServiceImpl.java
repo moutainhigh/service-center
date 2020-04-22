@@ -2,15 +2,13 @@ package com.shengsu.helper.service.impl;
 
 
 import com.shengsu.app.constant.ResultCode;
-import com.shengsu.app.util.ResultUtil;
 import com.shengsu.helper.constant.MQProducerEnum;
 import com.shengsu.helper.service.MQProducerService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 import org.springframework.beans.factory.annotation.Value;

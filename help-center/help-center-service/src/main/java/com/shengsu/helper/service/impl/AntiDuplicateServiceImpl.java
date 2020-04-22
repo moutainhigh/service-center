@@ -1,8 +1,8 @@
 package com.shengsu.helper.service.impl;
 
-import com.shengsu.app.exception.BizException;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.exception.BizException;
 import com.shengsu.helper.constant.AntiDuplicateEnum;
 import com.shengsu.helper.entity.AntiDuplicate;
 import com.shengsu.helper.mapper.AntiDuplicateMapper;

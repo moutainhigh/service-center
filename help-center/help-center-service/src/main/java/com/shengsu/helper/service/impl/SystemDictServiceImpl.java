@@ -1,13 +1,13 @@
 package com.shengsu.helper.service.impl;
 
 import com.shengsu.app.constant.ResultCode;
-import com.shengsu.app.util.ResultUtil;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.entity.SystemDict;
 import com.shengsu.helper.mapper.SystemDictMapper;
 import com.shengsu.helper.service.SystemDictService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import com.shengsu.util.SystemDictUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
