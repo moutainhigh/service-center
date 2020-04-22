@@ -171,10 +171,6 @@ public class BdpayServiceImpl implements BdpayService{
         paySubtype = formatPaySubtype(paySubtype);
         // 用户id
         String siteId = bdPayNotifyVo.getSiteId() ;
-        // 参数
-        Map<String,Integer> consumedMap = bdPayNotifyVo.getConsumedMap();
-        // 返回结果
-        Map<String,Object> resultMap = bdPayNotifyVo.getResultMap();
         // 校验百度参数返回值
         if (BAIDU_ORDER_STATUS_PAID.equals(bdPayNotifyVo.getStatus())){
             log.info("支付状态=2: 支付成功");
