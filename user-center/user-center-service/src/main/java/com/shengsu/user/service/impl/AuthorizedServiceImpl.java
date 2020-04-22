@@ -3,7 +3,7 @@ package com.shengsu.user.service.impl;
 
 import com.shengsu.result.ResultBean;
 import com.shengsu.app.constant.ResultCode;
-import com.shengsu.app.util.ResultUtil;
+import com.shengsu.result.ResultUtil;
 import com.shengsu.user.entity.Auth;
 import com.shengsu.user.po.UserDetailsPo;
 import com.shengsu.user.service.AuthorizedService;
