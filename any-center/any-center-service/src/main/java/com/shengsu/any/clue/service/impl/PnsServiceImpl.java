@@ -2,7 +2,6 @@ package com.shengsu.any.clue.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.shengsu.any.app.constant.ResultCode;
-import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.clue.entity.Pns;
 import com.shengsu.any.clue.mapper.PnsMapper;
 import com.shengsu.any.clue.service.PnsService;
@@ -14,6 +13,7 @@ import com.shengsu.helper.entity.AxbBindRequest;
 import com.shengsu.helper.entity.BindResponse;
 import com.shengsu.helper.service.PnsClientService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

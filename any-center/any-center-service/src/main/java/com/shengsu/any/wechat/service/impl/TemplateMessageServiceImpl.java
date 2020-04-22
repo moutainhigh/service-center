@@ -4,13 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.HttpClientUtil;
-import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.constant.TemplateMessageEnum;
 import com.shengsu.any.wechat.entity.TempMessageContent;
 import com.shengsu.any.wechat.entity.TempMessageParamData;
 import com.shengsu.any.wechat.entity.TemplateMessage;
 import com.shengsu.any.wechat.service.TemplateMessageService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

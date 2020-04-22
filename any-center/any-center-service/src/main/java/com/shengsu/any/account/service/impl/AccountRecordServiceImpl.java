@@ -8,7 +8,6 @@ import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
 import com.shengsu.any.account.vo.*;
 import com.shengsu.any.app.constant.ResultCode;
-import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.clue.entity.Clue;
 import com.shengsu.any.clue.service.ClueService;
 import com.shengsu.any.clue.util.ClueUtils;
@@ -20,6 +19,7 @@ import com.shengsu.any.user.util.UserUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import com.shengsu.user.entity.AliasUser;
 import com.shengsu.user.service.AliasUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -106,7 +106,7 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
         }else{
             String userId = userService.getUserIdByTel(accountDetailVo.getTel());
             if (StringUtils.isBlank(userId)){
-                return ResultUtil.formNullResult();
+                return ResultUtil.formEmptyResult(true,ResultCode.SUCCESS);
             }
             accountDetailVo.setUserId(userId);
         }

@@ -1,7 +1,6 @@
 package com.shengsu.any.clue.service.impl;
 
 import com.shengsu.any.app.constant.ResultCode;
-import com.shengsu.any.app.util.ResultUtil;
 import com.shengsu.any.clue.po.ClueRecordPo;
 import com.shengsu.any.clue.entity.ClueRecord;
 import com.shengsu.any.clue.mapper.ClueRecordMapper;
@@ -12,6 +11,7 @@ import com.shengsu.any.clue.vo.ClueRecordVo;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.result.ResultBean;
+import com.shengsu.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
