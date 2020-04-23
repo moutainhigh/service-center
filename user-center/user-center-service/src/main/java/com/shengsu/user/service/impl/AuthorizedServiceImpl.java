@@ -114,13 +114,12 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             parseToken(token);
             //解析token,这里会校验token是否正确
             String cacheKey = getCacheKey(token);
-            Serializable authJsonStr =  redisService.get(cacheKey);
-            Auth auth = JSON.parseObject(authJsonStr.toString(), Auth.class);
-            if (null == authJsonStr)
+            String authJsonStr = (String) redisService.get(cacheKey);
+            if (StringUtils.isBlank(authJsonStr))
                 return null;
+            Auth auth = JSON.parseObject(authJsonStr, Auth.class);
             return auth.getUser();
         }
-
         return null;
     }
 
@@ -160,7 +159,6 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             if(StringUtils.isBlank(authJsonStr)){
                 return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);
             }
-            Auth auth = JSON.parseObject(authJsonStr.toString(), Auth.class);
             redisService.expire(cacheKey, INVALID_TIME);
             return ResultUtil.formResult(true, ResultCode.SUCCESS);
         } catch (ExpiredJwtException e) {
