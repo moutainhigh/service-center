@@ -11,6 +11,7 @@ import com.shengsu.user.po.UserDetailsPo;
 import com.shengsu.user.service.AuthorizedService;
 import com.shengsu.util.MD5Util;
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.Date;
 /**
  * Created by zyc on 2019/10/15.
  */
+@Slf4j
 @Service(value = "authorizedService")
 public class AuthorizedServiceImpl implements AuthorizedService {
 
@@ -135,12 +137,9 @@ public class AuthorizedServiceImpl implements AuthorizedService {
      * @throws SignatureException
      * @date 2018年1月17日 下午2:33:57
      */
-    private Claims parseToken(String token) throws ExpiredJwtException,
-            MalformedJwtException, SignatureException, IllegalArgumentException {
-        // 解密token，拿到里面的对象claims
-        final Claims claims = Jwts.parser().setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token).getBody();
-        return claims;
+    private void parseToken(String token) throws ExpiredJwtException,MalformedJwtException, SignatureException, IllegalArgumentException {
+        log.info(token);
+        final Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
     /**
