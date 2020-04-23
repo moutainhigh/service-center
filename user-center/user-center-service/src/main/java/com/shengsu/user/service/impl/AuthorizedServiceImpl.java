@@ -138,7 +138,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
      * @date 2018年1月17日 下午2:33:57
      */
     private void parseToken(String token) throws ExpiredJwtException,MalformedJwtException, SignatureException, IllegalArgumentException {
-        log.info(token);
+        log.info("token: "+token);
         final Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
@@ -166,7 +166,14 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         } catch (ExpiredJwtException e) {
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);
         } catch (RuntimeException e){
+            log.error("异常：",e);
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_INVALID);
         }
+    }
+
+    public static void main(String[] args) {
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ6eGgiLCJpYXQiOjE1ODc1MTc1OTl9.3LQtISHdQn8UoNNy82C8ObOkQNMEMIIiTHMF75_x3fI";
+        String key  = "97c7d3b3313d31b8#3996a!*1dd85c9711fc1f4?e35<0c9052683e63a";
+        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
     }
 }
