@@ -18,6 +18,5 @@ public class LawKnowledgeSimplePo implements Serializable {
     private String thirdCategoryName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date dateTime;
-    private String pictureOssId;
     private String pictureOssUrl;// 图片资源url
 }

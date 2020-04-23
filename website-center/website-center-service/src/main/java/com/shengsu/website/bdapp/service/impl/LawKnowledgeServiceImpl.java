@@ -19,6 +19,7 @@ import com.shengsu.website.bdapp.util.LawKnowledgeUtils;
 import com.shengsu.website.bdapp.vo.LawKnowledgeDetailsVo;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -32,6 +33,8 @@ import static com.shengsu.website.app.constant.BizConst.LAW_HEADLINES_RANDOM_COU
  **/
 @Service("lawKnowledgeService")
 public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, String> implements LawKnowledgeService {
+    @Value("${lawknowledge.picture-range}")
+    private int pictureRange;
     @Autowired
     private LawKnowledgeCategoryService lawKnowledgeCategoryService;
     @Autowired
@@ -78,7 +81,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         lawKnowledgeCurrentPo.setFirstCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledge.getFirstCategoryId()));
         lawKnowledgeCurrentPo.setSecondCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledge.getSecondCategoryId()));
         lawKnowledgeCurrentPo.setThirdCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledge.getThirdCategoryId()));
-        lawKnowledgeCurrentPo.setPictureOssUrl(ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,lawKnowledge.getPictureOssId()));
+        lawKnowledgeCurrentPo.setPictureOssUrl(getNoRepeatRandom(1).get(0).toString());
         LawKnowledgeDetailsPo lawKnowledgeDetailsPo = new LawKnowledgeDetailsPo();
         lawKnowledgeDetailsPo.setLawKnowledgeCurrentPo(lawKnowledgeCurrentPo);
 
@@ -100,19 +103,35 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     public ResultBean getLatestThree() {
         List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getLatestThree();
         List<String> thirdCategoryIds = new ArrayList<>();
-        List<String> pictureOssIds = new ArrayList<>();
         for (LawKnowledge lawKnowledge :lawKnowledges ){
             thirdCategoryIds.add(lawKnowledge.getThirdCategoryId());
-            pictureOssIds.add(lawKnowledge.getPictureOssId());
         }
         List<LawKnowledgeCategory> lawKnowledgeCategories = new ArrayList<>();
         if (null !=thirdCategoryIds && thirdCategoryIds.size()>0){
             lawKnowledgeCategories = lawKnowledgeCategoryService.getManyByThirdCategoryIds(thirdCategoryIds);
         }
         Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap = LawKnowledgeCategoryUtils.toLawKnowledgeCategoryMap(lawKnowledgeCategories);
-        Map<String, String> pictureOssIdMap = ossService.getUrls(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,pictureOssIds);
-        List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = LawKnowledgeUtils.toLawKnowledgeSimplePos(lawKnowledges,lawKnowledgeCategoryMap,pictureOssIdMap);
+        List<Integer> itemList = getNoRepeatRandom(lawKnowledges.size());
+        List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = LawKnowledgeUtils.toLawKnowledgeSimplePos(lawKnowledges,lawKnowledgeCategoryMap,itemList);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeSimplePos);
+    }
+    /**
+    * @Description: 获取指定范围内的随机不重复数
+    * @Param: * @Param size: 
+    * @Return: * @return: java.util.HashSet<java.lang.Integer>
+    * @date: 
+    */
+    private List<Integer> getNoRepeatRandom(int size) {
+        HashSet<Integer> hashSet = new HashSet<>();
+        Integer i = 0;
+        for (int j = 1; j != 0; j++) {
+            i = (int) (Math.random() * pictureRange) + 1;
+            hashSet.add(i);
+            if (size == hashSet.size()) {
+                break;
+            }
+        }
+        return new ArrayList<>(hashSet);
     }
 
     @Override

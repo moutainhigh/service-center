@@ -5,10 +5,7 @@ import com.shengsu.website.bdapp.entity.LawKnowledgeCategory;
 import com.shengsu.website.bdapp.po.*;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @description:
@@ -98,26 +95,27 @@ public class LawKnowledgeUtils {
         return null;
     }
 
-    public static List<LawKnowledgeSimplePo> toLawKnowledgeSimplePos(List<LawKnowledge> lawKnowledges,Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap,Map<String, String> pictureOssIdMap) {
+    public static List<LawKnowledgeSimplePo> toLawKnowledgeSimplePos(List<LawKnowledge> lawKnowledges,Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap, List<Integer> itemList) {
         if (lawKnowledges != null && !lawKnowledges.isEmpty()) {
             List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = new ArrayList<>();
-            for (LawKnowledge lawKnowledge : lawKnowledges){
-                lawKnowledgeSimplePos.add(toLawKnowledgeSimplePo(lawKnowledge,lawKnowledgeCategoryMap,pictureOssIdMap));
+            for (int i=0; i<lawKnowledges.size(); i++){
+                LawKnowledge lawKnowledge = lawKnowledges.get(i);
+                String item = itemList.get(i).toString();
+                lawKnowledgeSimplePos.add(toLawKnowledgeSimplePo(lawKnowledge,lawKnowledgeCategoryMap,item));
             }
             return lawKnowledgeSimplePos;
         }
         return null;
     }
 
-    private static LawKnowledgeSimplePo toLawKnowledgeSimplePo(LawKnowledge lawKnowledge,Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap,Map<String, String> pictureOssIdMap) {
+    private static LawKnowledgeSimplePo toLawKnowledgeSimplePo(LawKnowledge lawKnowledge,Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap,String item) {
         if (lawKnowledge != null) {
             LawKnowledgeSimplePo lawKnowledgeSimplePo = new LawKnowledgeSimplePo();
             lawKnowledgeSimplePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
             lawKnowledgeSimplePo.setTitle(lawKnowledge.getTitle());
             lawKnowledgeSimplePo.setThirdCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId())==null?"":lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId()).getCategoryName());
             lawKnowledgeSimplePo.setDateTime(lawKnowledge.getDateTime());
-            lawKnowledgeSimplePo.setPictureOssId(lawKnowledge.getPictureOssId());
-            lawKnowledgeSimplePo.setPictureOssUrl(pictureOssIdMap.get(lawKnowledge.getPictureOssId()));
+            lawKnowledgeSimplePo.setPictureOssUrl(item);
             return lawKnowledgeSimplePo;
         }
         return null;
