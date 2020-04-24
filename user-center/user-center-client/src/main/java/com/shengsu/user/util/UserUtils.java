@@ -2,10 +2,7 @@ package com.shengsu.user.util;
 
 import com.shengsu.user.entity.User;
 import com.shengsu.user.po.UserDetailsPo;
-import com.shengsu.user.vo.UserCreateVo;
-import com.shengsu.user.vo.UserEditVo;
-import com.shengsu.user.vo.UserLoginVo;
-import com.shengsu.user.vo.UserUpdatePwdVo;
+import com.shengsu.user.vo.*;
 import com.shengsu.util.EncryptUtil;
 
 import java.io.IOException;
@@ -106,6 +103,15 @@ public class UserUtils {
                 userMap.put(user.getUserId(), user);
             }
             return userMap;
+        }
+        return null;
+    }
+    public static User toUser(RoleEditVo roleEditVo) {
+        if (roleEditVo != null) {
+            User user = new User();
+            user.setUserId(roleEditVo.getUserId());
+            user.setUserType(roleEditVo.getUserType());
+            return user;
         }
         return null;
     }

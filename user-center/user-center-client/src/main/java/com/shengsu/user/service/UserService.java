@@ -24,5 +24,5 @@ public interface UserService extends BaseService<User,String> {
     ResultBean logout(String token);
 
     ResultBean getUserBytoken(String token);
-    ResultBean updateRole(UserEditVo userEditVo) throws IOException;
+    ResultBean updateRole(RoleEditVo roleEditVo);
 }

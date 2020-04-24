@@ -167,13 +167,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public ResultBean updateRole(UserEditVo userEditVo) throws IOException {
-        String userId = userEditVo.getUserId();
-        User user = userMapper.get(userId);
-        if (user == null) {
+    public ResultBean updateRole(RoleEditVo roleEditVo) {
+        String userId = roleEditVo.getUserId();
+        User oldUser = userMapper.get(userId);
+        if (oldUser == null) {
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_REGISTER_USER_NOT_EXISTED);
         }
-        user = UserUtils.toUser(userEditVo);
+        User user = UserUtils.toUser(roleEditVo);
         userMapper.updateRole(user);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
