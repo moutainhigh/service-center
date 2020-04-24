@@ -20,5 +20,7 @@ public class OssConstant {
     public static String OSS_SUCCESS_CASE_FFILEDIR= "success-case/";
     // 案源王oss的file名称
     public static String OSS_ANY_PLATFORM_FFILEDIR = "any-platform/";
+    //诉赢的fill名称
+    public static String OSS_INVEST_PLATFORM_FFILEDIR = "invest-platform/";
 
 }
