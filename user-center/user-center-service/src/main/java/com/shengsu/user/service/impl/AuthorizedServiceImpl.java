@@ -168,10 +168,4 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             return ResultUtil.formResult(true, ResultCode.EXCEPTION);
         }
     }
-
-    public static void main(String[] args) {
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ6eGgiLCJpYXQiOjE1ODc1MTc1OTl9.3LQtISHdQn8UoNNy82C8ObOkQNMEMIIiTHMF75_x3fI";
-        String key  = "97c7d3b3313d31b8#3996a!*1dd85c9711fc1f4?e35<0c9052683e63a";
-        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-    }
 }
