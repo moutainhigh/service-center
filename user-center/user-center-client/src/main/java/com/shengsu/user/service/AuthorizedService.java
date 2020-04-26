@@ -1,12 +1,13 @@
 package com.shengsu.user.service;
 
+import com.shengsu.interceptor.BaseAuthorizedService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.user.po.UserDetailsPo;
 
 /**
  * Created by zyc on 2019/10/15.
  */
-public interface AuthorizedService {
+public interface AuthorizedService extends BaseAuthorizedService {
 
 
     String generateToken(UserDetailsPo user);
@@ -16,6 +17,4 @@ public interface AuthorizedService {
     UserDetailsPo getUserByToken(String token);
 
     void flushUserToken(UserDetailsPo user,String token);
-
-    ResultBean checkToken(String token);
 }

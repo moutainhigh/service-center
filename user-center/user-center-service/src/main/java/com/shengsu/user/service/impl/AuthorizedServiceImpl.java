@@ -4,6 +4,7 @@ package com.shengsu.user.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.helper.service.RedisService;
+import com.shengsu.result.CommonResultCode;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.user.entity.Auth;
@@ -149,13 +150,13 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             String cacheKey = getCacheKey(token);
             String authJsonStr = (String) redisService.get(cacheKey);
             if(StringUtils.isBlank(authJsonStr)){
-                return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);
+                return ResultUtil.formResult(true, CommonResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);
             }
             redisService.expire(cacheKey, expireTimeSecond);
             return ResultUtil.formResult(true, ResultCode.SUCCESS);
         }  catch (RuntimeException e){
             log.error("异常：",e);
-            return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_INVALID);
+            return ResultUtil.formResult(true, CommonResultCode.EXCEPTION_LOGIN_TOKEN_INVALID);
         }
     }
 }
