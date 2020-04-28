@@ -67,7 +67,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
                 resultMap.put(CommonConst.TOTAL_COUNT, count);
             }
         }
-        // 三级类目数据为空
+        // 三级类目数据为空,二级类目不为空
         if (StringUtils.isBlank(thirdCategoryId) && StringUtils.isNotBlank(secondCategoryId)){
             // 包含一级分类和二级分类为空和二级分类不为空
             Integer count = lawKnowledgeMapper.countSecondNotNull(lawKnowledge);
@@ -81,7 +81,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
                 resultMap.put(CommonConst.TOTAL_COUNT, count);
             }
         }
-        // 二级分类为空
+        // 二级分类为空,一级分类不为空
         if (StringUtils.isBlank(secondCategoryId)){
             // 包含 一级分类所有的
             Integer count = lawKnowledgeMapper.countFirstNotNull(lawKnowledge);
