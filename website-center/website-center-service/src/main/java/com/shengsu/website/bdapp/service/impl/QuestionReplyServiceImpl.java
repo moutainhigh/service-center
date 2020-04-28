@@ -79,6 +79,9 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
     @Override
     public ResultBean randomThree(){
         List<QuestionReply> questionReplies = questionReplyMapper.randomSelect();
+        if(questionReplies == null && questionReplies.size() ==0){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplies);
+        }
         List<String> lawyerIds = new ArrayList<>();
         for (QuestionReply questionReply : questionReplies) {
             String lawyerId = questionReply.getReplyLawyerId();

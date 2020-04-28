@@ -77,6 +77,9 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     @Override
     public ResultBean randomThree(){
         List<Lawyer> lawyers = lawyerMapper.randomSelect();
+        if(lawyers == null && lawyers.size() == 0){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyers);
+        }
         questionReplyService.geturls(lawyers);
         List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
