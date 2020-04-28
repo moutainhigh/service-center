@@ -1,9 +1,10 @@
 package com.shengsu.any.user.service;
 
 import com.shengsu.any.user.po.UserDetailsPo;
+import com.shengsu.interceptor.BaseAuthorizedService;
 import com.shengsu.result.ResultBean;
 
-public interface AuthorizedService {
+public interface AuthorizedService extends BaseAuthorizedService {
     String AUTHORIZATION_HEAD_KEY = "Authorization";
 
     String AUTHORIZATION_HEAD = "Bearer ";
