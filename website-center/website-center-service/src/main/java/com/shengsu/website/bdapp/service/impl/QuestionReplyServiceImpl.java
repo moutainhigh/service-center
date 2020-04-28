@@ -80,7 +80,7 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
     public ResultBean randomThree(){
         List<QuestionReply> questionReplies = questionReplyMapper.randomSelect();
         if(questionReplies == null || questionReplies.size() ==0){
-            return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplies);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
         }
         List<String> lawyerIds = new ArrayList<>();
         for (QuestionReply questionReply : questionReplies) {
