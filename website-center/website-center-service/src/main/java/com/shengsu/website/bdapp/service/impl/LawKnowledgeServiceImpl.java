@@ -3,7 +3,6 @@ package com.shengsu.website.bdapp.service.impl;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.constant.CommonConst;
-import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
