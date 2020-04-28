@@ -52,8 +52,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         String secondCategoryId = lawKnowledgeListPageVo.getSecondCategoryId();
         String thirdCategoryId = lawKnowledgeListPageVo.getThirdCategoryId();
         LawKnowledge lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeListPageVo);
-        // 三级类目不为空
         Map<String, Object> resultMap = new HashMap<>();
+        // 三级类目不为空
         if (StringUtils.isNotBlank(thirdCategoryId)){
             // 包含三级数据不为空,三级数据为空,一级分类和二级分类为空,二级分类不为空
             Integer count = lawKnowledgeMapper.countThirdNotNull(lawKnowledge);

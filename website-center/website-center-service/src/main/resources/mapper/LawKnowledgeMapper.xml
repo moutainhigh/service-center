@@ -84,57 +84,96 @@
     </select>
 	<select id="listPageThirdNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
-		select knowledge_id,title,date_time from law_knowledge
-			where del_flag = 0
-			and first_category_id = #{firstCategoryId}
-			and second_category_id = #{secondCategoryId}
-			and (third_category_id = #{thirdCategoryId} or third_category_id='')
-		union
-		select knowledge_id,title,date_time from law_knowledge
-			where del_flag = 0
-			and (first_category_id = #{firstCategoryId} or second_category_id = '')
-		order by date_time desc
+			select
+				knowledge_id,title,date_time
+			from
+				law_knowledge
+			where
+				del_flag = 0
+				and first_category_id = #{firstCategoryId}
+				and second_category_id = #{secondCategoryId}
+				and (third_category_id = #{thirdCategoryId}
+				or third_category_id = '')
+		  	union
+			  select
+					knowledge_id,title,date_time
+				from
+					law_knowledge
+				where
+					del_flag = 0
+					and first_category_id = #{firstCategoryId}
+					and second_category_id = ''
+					order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
 	<select id="countThirdNotNull"  parameterType="lawKnowledge" resultType="int">
-		select count(1) from (
-		select knowledge_id,title from law_knowledge
-			where del_flag = 0
-			and first_category_id = #{firstCategoryId}
-			and second_category_id = #{secondCategoryId}
-			and (third_category_id = #{thirdCategoryId} or third_category_id='')
-		union
-		select knowledge_id,title from law_knowledge
-			where del_flag = 0
-			and (first_category_id = #{firstCategoryId} or second_category_id = '')
-		)knowledge
+		select
+			count(1)
+		from
+			( select
+				knowledge_id,title
+			  from
+			  	law_knowledge
+			  where
+			  	del_flag = 0
+			  	and first_category_id = #{firstCategoryId}
+			  	and second_category_id = #{secondCategoryId}
+			  	and (third_category_id = #{thirdCategoryId}
+			  	 or third_category_id='')
+			  union
+			  	select
+			  	 	knowledge_id,title
+			  	from
+			  		law_knowledge
+			  	where
+			  		del_flag = 0
+			  		and first_category_id = #{firstCategoryId}
+			  		and second_category_id = '')knowledge
 	</select>
 	<select id="listPageSecondNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
-		select knowledge_id,title from law_knowledge
-		where del_flag = 0
-		and first_category_id = #{firstCategoryId}
-		and (second_category_id = #{secondCategoryId} or second_category_id='')
-		order by date_time desc
+			select
+				knowledge_id,title
+			from
+				law_knowledge
+			where
+				del_flag = 0
+				and first_category_id = #{firstCategoryId}
+				and (second_category_id = #{secondCategoryId}
+				or	second_category_id='')
+				order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
 	<select id="countSecondNotNull"  parameterType="lawKnowledge" resultType="int">
-		select count(1) from law_knowledge
-		where del_flag = 0
-		and first_category_id = #{firstCategoryId}
-		and (second_category_id = #{secondCategoryId} or second_category_id='')
+		select
+			count(1)
+		from
+			law_knowledge
+		where
+			del_flag = 0
+		  	and first_category_id = #{firstCategoryId}
+		  	and (second_category_id = #{secondCategoryId}
+		  	 or second_category_id='')
 	</select>
 	<select id="listPageFirstNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
-		select knowledge_id,title from law_knowledge
-		where del_flag = 0
-		and first_category_id = #{firstCategoryId}
-		order by date_time desc
+		select
+			knowledge_id,title
+		from
+			law_knowledge
+		where
+			del_flag = 0
+			and first_category_id = #{firstCategoryId}
+			order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
 	<select id="countFirstNotNull"  parameterType="lawKnowledge" resultType="int">
-		select count(1) from law_knowledge
-		where del_flag = 0
-		and first_category_id = #{firstCategoryId}
+		select
+			count(1)
+		from
+			law_knowledge
+		where
+			del_flag = 0
+			and first_category_id = #{firstCategoryId}
 	</select>
 </mapper>
