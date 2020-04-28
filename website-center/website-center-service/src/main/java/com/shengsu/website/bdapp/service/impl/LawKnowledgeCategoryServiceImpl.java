@@ -66,6 +66,11 @@ public class LawKnowledgeCategoryServiceImpl extends BaseServiceImpl<LawKnowledg
         return lawKnowledgeCategoryMapper.getManyByThirdCategoryIds(thirdCategoryIds);
     }
 
+    @Override
+    public LawKnowledgeCategory getByCategoryId(String categoryId) {
+        return lawKnowledgeCategoryMapper.getByCategoryId(categoryId);
+    }
+
     //递归获取子节点
     private List<LawKnowledgeCategoryListPo> getChild(String categoryId,List<LawKnowledgeCategoryListPo> lawKnowledgeCategoryListPos) {
         //子菜单

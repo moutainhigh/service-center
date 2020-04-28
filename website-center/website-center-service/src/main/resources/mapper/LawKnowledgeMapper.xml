@@ -23,9 +23,15 @@
 	<sql id="lawknowledge_where_clause">
 		<where>
 			del_flag = 0
-			<if test="firstCategoryId != null and  firstCategoryId != ''"> and first_category_id = #{firstCategoryId}</if>
-			<if test="secondCategoryId != null and  secondCategoryId != ''"> and second_category_id = #{secondCategoryId}</if>
-			<if test="thirdCategoryId != null and  thirdCategoryId != ''"> and third_category_id = #{thirdCategoryId}</if>
+			<if test="firstCategoryId != null and  firstCategoryId != ''">
+				and first_category_id = #{firstCategoryId}
+			</if>
+			<if test="secondCategoryId != null and  secondCategoryId != ''">
+				and second_category_id = #{secondCategoryId}
+			</if>
+			<if test="thirdCategoryId != null and  thirdCategoryId != ''">
+			 and third_category_id = #{thirdCategoryId}
+			</if>
 		</where>
 	</sql>
 	<select id="countAll"  parameterType="lawKnowledge" resultType="int">
@@ -45,23 +51,90 @@
 		select <include refid="base_column_list"/> from  law_knowledge where knowledge_id = #{knowledgeId} and del_flag = 0 limit 1
 	</select>
 	<select id="selectPreviousLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
-		select knowledge_id,title from law_knowledge where del_flag = 0 and  date_time>#{dateTime}
-		<if test="thirdCategoryId!=null">
+		select knowledge_id,title from law_knowledge where del_flag = 0 and  date_time > #{dateTime}
+		<if test="thirdCategoryId!=null and thirdCategoryId !=0 ">
 			and third_category_id = #{thirdCategoryId}
+		</if>
+		<if test="thirdCategoryId ==0 and secondCategoryId !=0 ">
+			and second_category_id = #{secondCategoryId}
+		</if>
+		<if test="thirdCategoryId ==0 and secondCategoryId ==0 and firstCategoryId !=0 ">
+			and first_category_id = #{firstCategoryId}
 		</if>
 		order by date_time limit 1
 	</select>
 	<select id="selectNextLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
 		select knowledge_id,title from law_knowledge where del_flag = 0 and date_time &lt; #{dateTime}
-		<if test="thirdCategoryId!=null">
+		<if test="thirdCategoryId!=null and thirdCategoryId !=0 ">
 			and third_category_id = #{thirdCategoryId}
+		</if>
+		<if test="thirdCategoryId ==0 and secondCategoryId !=0 ">
+			and second_category_id = #{secondCategoryId}
+		</if>
+		<if test="thirdCategoryId ==0 and secondCategoryId ==0 and firstCategoryId !=0 ">
+			and first_category_id = #{firstCategoryId}
 		</if>
 		order by date_time desc limit 1
 	</select>
     <select id="getLatestThree" resultType="lawKnowledge">
-        select knowledge_id,title,third_category_id,picture_oss_id,date_time from law_knowledge where del_flag = 0 order by date_time desc limit 3
+        select knowledge_id,title,first_category_id,second_category_id,third_category_id,picture_oss_id,date_time from law_knowledge where del_flag = 0 order by date_time desc limit 3
     </select>
 	<select id="getAllTitle" resultType="string">
         select title from law_knowledge where del_flag = 0
     </select>
+	<select id="listPageThirdNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
+		<include refid="global.paginationStart_mysql" />
+		select knowledge_id,title,date_time from law_knowledge
+			where del_flag = 0
+			and first_category_id = #{firstCategoryId}
+			and second_category_id = #{secondCategoryId}
+			and (third_category_id = #{thirdCategoryId} or third_category_id='')
+		union
+		select knowledge_id,title,date_time from law_knowledge
+			where del_flag = 0
+			and (first_category_id = #{firstCategoryId} or second_category_id = '')
+		order by date_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
+	<select id="countThirdNotNull"  parameterType="lawKnowledge" resultType="int">
+		select count(1) from (
+		select knowledge_id,title from law_knowledge
+			where del_flag = 0
+			and first_category_id = #{firstCategoryId}
+			and second_category_id = #{secondCategoryId}
+			and (third_category_id = #{thirdCategoryId} or third_category_id='')
+		union
+		select knowledge_id,title from law_knowledge
+			where del_flag = 0
+			and (first_category_id = #{firstCategoryId} or second_category_id = '')
+		)knowledge
+	</select>
+	<select id="listPageSecondNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
+		<include refid="global.paginationStart_mysql" />
+		select knowledge_id,title from law_knowledge
+		where del_flag = 0
+		and first_category_id = #{firstCategoryId}
+		and (second_category_id = #{secondCategoryId} or second_category_id='')
+		order by date_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
+	<select id="countSecondNotNull"  parameterType="lawKnowledge" resultType="int">
+		select count(1) from law_knowledge
+		where del_flag = 0
+		and first_category_id = #{firstCategoryId}
+		and (second_category_id = #{secondCategoryId} or second_category_id='')
+	</select>
+	<select id="listPageFirstNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
+		<include refid="global.paginationStart_mysql" />
+		select knowledge_id,title from law_knowledge
+		where del_flag = 0
+		and first_category_id = #{firstCategoryId}
+		order by date_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
+	<select id="countFirstNotNull"  parameterType="lawKnowledge" resultType="int">
+		select count(1) from law_knowledge
+		where del_flag = 0
+		and first_category_id = #{firstCategoryId}
+	</select>
 </mapper>

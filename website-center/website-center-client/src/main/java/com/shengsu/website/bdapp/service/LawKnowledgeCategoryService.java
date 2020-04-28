@@ -12,4 +12,6 @@ public interface LawKnowledgeCategoryService extends BaseService<LawKnowledgeCat
     String getNameByCategoryId(String categoryId);
 
     List<LawKnowledgeCategory> getManyByThirdCategoryIds(List<String> thirdCategoryIds);
+
+    LawKnowledgeCategory getByCategoryId(String categoryId);
 }

@@ -4,6 +4,7 @@ import com.shengsu.website.bdapp.entity.LawKnowledge;
 import com.shengsu.website.bdapp.entity.LawKnowledgeCategory;
 import com.shengsu.website.bdapp.po.*;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -26,16 +27,30 @@ public class LawKnowledgeUtils {
         return null;
     }
 
-    public static LawKnowledge toLawKnowledge(Date dateTime, String thirdCategoryId) {
-        if (dateTime != null) {
-            LawKnowledge lawKnowledge = new LawKnowledge();
-            lawKnowledge.setDateTime(dateTime);
-            lawKnowledge.setThirdCategoryId(thirdCategoryId);
-            return lawKnowledge;
+    public static LawKnowledge toLawKnowledge(LawKnowledge lawKnowledge) {
+        if (lawKnowledge != null) {
+            LawKnowledge result = new LawKnowledge();
+            result.setFirstCategoryId(StringUtils.isBlank(lawKnowledge.getFirstCategoryId())?"0":lawKnowledge.getFirstCategoryId());
+            result.setSecondCategoryId(StringUtils.isBlank(lawKnowledge.getSecondCategoryId())?"0":lawKnowledge.getSecondCategoryId());
+            result.setThirdCategoryId(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())?"0":lawKnowledge.getThirdCategoryId());
+            result.setDateTime(lawKnowledge.getDateTime());
+            return result;
         }
         return null;
     }
-
+    public static LawKnowledge toLawKnowledge(String oldFirstCategoryId, String secondCategoryId) {
+        LawKnowledge lawKnowledge = new LawKnowledge();
+        lawKnowledge.setFirstCategoryId(oldFirstCategoryId);
+        lawKnowledge.setSecondCategoryId(secondCategoryId);
+        return lawKnowledge;
+    }
+    public static LawKnowledge toLawKnowledge(String oldFirstCategoryId, String oldSecondCategoryId,String thirdCategoryId) {
+        LawKnowledge lawKnowledge = new LawKnowledge();
+        lawKnowledge.setFirstCategoryId(oldFirstCategoryId);
+        lawKnowledge.setSecondCategoryId(oldSecondCategoryId);
+        lawKnowledge.setThirdCategoryId(thirdCategoryId);
+        return lawKnowledge;
+    }
     public static List<LawKnowledgeListPagePo> toLawKnowledgeListPagePos(List<LawKnowledge> lawKnowledges) {
         if (lawKnowledges != null && !lawKnowledges.isEmpty()) {
             List<LawKnowledgeListPagePo> lawKnowledgeListPagePos = new ArrayList<>();
@@ -113,6 +128,8 @@ public class LawKnowledgeUtils {
             LawKnowledgeSimplePo lawKnowledgeSimplePo = new LawKnowledgeSimplePo();
             lawKnowledgeSimplePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
             lawKnowledgeSimplePo.setTitle(lawKnowledge.getTitle());
+            lawKnowledgeSimplePo.setFirstCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getFirstCategoryId())==null?"":lawKnowledgeCategoryMap.get(lawKnowledge.getFirstCategoryId()).getCategoryName());
+            lawKnowledgeSimplePo.setSecondCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getSecondCategoryId())==null?"":lawKnowledgeCategoryMap.get(lawKnowledge.getSecondCategoryId()).getCategoryName());
             lawKnowledgeSimplePo.setThirdCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId())==null?"":lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId()).getCategoryName());
             lawKnowledgeSimplePo.setDateTime(lawKnowledge.getDateTime());
             lawKnowledgeSimplePo.setPictureOssUrl(item);
