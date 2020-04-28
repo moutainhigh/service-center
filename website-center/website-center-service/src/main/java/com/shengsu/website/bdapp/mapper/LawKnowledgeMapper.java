@@ -20,4 +20,16 @@ public interface LawKnowledgeMapper extends BaseMapper<LawKnowledge, String> {
     List<LawKnowledge> getLatestThree();
 
     List<String> getAllTitle();
+
+    Integer countThirdNotNull(LawKnowledge lawKnowledge);
+
+    List<LawKnowledge> listPageThirdNotNull(LawKnowledge lawKnowledge);
+
+    List<LawKnowledge> listPageSecondNotNull(LawKnowledge lawKnowledge);
+
+    Integer countSecondNotNull(LawKnowledge lawKnowledge);
+
+    List<LawKnowledge> listPageFirstNotNull(LawKnowledge lawKnowledge);
+
+    Integer countFirstNotNull(LawKnowledge lawKnowledge);
 }

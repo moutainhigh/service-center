@@ -15,6 +15,8 @@ import java.util.Date;
 public class LawKnowledgeSimplePo implements Serializable {
     private String knowledgeId;
     private String title;
+    private String firstCategoryName;
+    private String secondCategoryName;
     private String thirdCategoryName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date dateTime;
