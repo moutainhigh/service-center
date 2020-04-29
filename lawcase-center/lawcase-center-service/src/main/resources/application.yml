@@ -1,5 +1,5 @@
 server:
-  port: 9094
+  port: 9093
   session-timeout: 30
   tomcat.max-threads: 0
   tomcat.uri-encoding: UTF-8
@@ -17,7 +17,7 @@ zookeeper:
 dubbo:
   group: lawcase-center
   port: 20881
-  version: 2.0
+  version: 1.0
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
