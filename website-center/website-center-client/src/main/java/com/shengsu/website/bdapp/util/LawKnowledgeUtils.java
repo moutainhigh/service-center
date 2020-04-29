@@ -30,9 +30,9 @@ public class LawKnowledgeUtils {
     public static LawKnowledge toLawKnowledge(LawKnowledge lawKnowledge) {
         if (lawKnowledge != null) {
             LawKnowledge result = new LawKnowledge();
-            result.setFirstCategoryId(StringUtils.isBlank(lawKnowledge.getFirstCategoryId())?"0":lawKnowledge.getFirstCategoryId());
-            result.setSecondCategoryId(StringUtils.isBlank(lawKnowledge.getSecondCategoryId())?"0":lawKnowledge.getSecondCategoryId());
-            result.setThirdCategoryId(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())?"0":lawKnowledge.getThirdCategoryId());
+            result.setFirstCategoryId(StringUtils.isBlank(lawKnowledge.getFirstCategoryId())?"":lawKnowledge.getFirstCategoryId());
+            result.setSecondCategoryId(StringUtils.isBlank(lawKnowledge.getSecondCategoryId())?"":lawKnowledge.getSecondCategoryId());
+            result.setThirdCategoryId(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())?"":lawKnowledge.getThirdCategoryId());
             result.setDateTime(lawKnowledge.getDateTime());
             return result;
         }

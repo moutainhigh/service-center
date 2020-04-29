@@ -52,26 +52,26 @@
 	</select>
 	<select id="selectPreviousLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
 		select knowledge_id,title from law_knowledge where del_flag = 0 and  date_time > #{dateTime}
-		<if test="thirdCategoryId!=null and thirdCategoryId !=0 ">
+		<if test="thirdCategoryId!=null and thirdCategoryId !='' ">
 			and third_category_id = #{thirdCategoryId}
 		</if>
-		<if test="thirdCategoryId ==0 and secondCategoryId !=0 ">
+		<if test="thirdCategoryId =='' and secondCategoryId !='' ">
 			and second_category_id = #{secondCategoryId}
 		</if>
-		<if test="thirdCategoryId ==0 and secondCategoryId ==0 and firstCategoryId !=0 ">
+		<if test="thirdCategoryId =='' and secondCategoryId =='' and firstCategoryId !='' ">
 			and first_category_id = #{firstCategoryId}
 		</if>
 		order by date_time limit 1
 	</select>
 	<select id="selectNextLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
 		select knowledge_id,title from law_knowledge where del_flag = 0 and date_time &lt; #{dateTime}
-		<if test="thirdCategoryId!=null and thirdCategoryId !=0 ">
+		<if test="thirdCategoryId!=null and thirdCategoryId !='' ">
 			and third_category_id = #{thirdCategoryId}
 		</if>
-		<if test="thirdCategoryId ==0 and secondCategoryId !=0 ">
+		<if test="thirdCategoryId =='' and secondCategoryId !='' ">
 			and second_category_id = #{secondCategoryId}
 		</if>
-		<if test="thirdCategoryId ==0 and secondCategoryId ==0 and firstCategoryId !=0 ">
+		<if test="thirdCategoryId =='' and secondCategoryId =='' and firstCategoryId !='' ">
 			and first_category_id = #{firstCategoryId}
 		</if>
 		order by date_time desc limit 1
