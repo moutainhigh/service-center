@@ -7,7 +7,6 @@ import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.account.util.AccountRecordUtils;
 import com.shengsu.any.account.vo.BalanceChangeVo;
 import com.shengsu.any.app.constant.ResultCode;
-import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.clue.entity.Clue;
 import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.entity.Pns;
@@ -97,7 +96,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     private String areaCodes;
     private static Random random = new Random();
     @Resource
-    private RedisUtil redisUtil;
+    private RedisService redisService;
     @Autowired
     private MQProducerService mqProducerService;
 
@@ -233,7 +232,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         String clueId = clueBuyVo.getClueId();
         // 加锁
         long time = System.currentTimeMillis() + 1000*1;  //超时时间：1秒
-        boolean isLock = redisUtil.lock(clueId, String.valueOf(time));
+        boolean isLock = redisService.lock(clueId, String.valueOf(time));
         if(!isLock){
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_CLUE_IS_LOCKED);
         }
@@ -311,7 +310,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         smsService.sendSms(clue.getTel(), SmsTemplateEnum.SMS_187226616, JSON.toJSONString(param),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
 
         //解锁
-        redisUtil.unlock(clueId,String.valueOf(time));
+        redisService.unlock(clueId,String.valueOf(time));
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
 

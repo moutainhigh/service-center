@@ -75,4 +75,19 @@ public interface RedisService {
      * @return 对象
      */
     public Serializable get(final String key);
+
+    /**
+     * Redis加锁
+     * @param key
+     * @param value
+     * @return
+     */
+    public boolean lock(String key, String value);
+
+    /**
+     * Redis解锁
+     * @param key
+     * @param value
+     */
+    public void unlock(String key, String value);
 }

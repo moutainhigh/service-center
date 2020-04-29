@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.shengsu.any.account.entity.Account;
 import com.shengsu.any.account.service.AccountServcie;
 import com.shengsu.any.app.constant.ResultCode;
-import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.constant.TemplateMessageEnum;
 import com.shengsu.any.message.entity.Message;
 import com.shengsu.any.message.service.MessageService;
@@ -26,6 +25,7 @@ import com.shengsu.helper.constant.SmsSignEnum;
 import com.shengsu.helper.constant.SmsTemplateEnum;
 import com.shengsu.helper.entity.SystemDict;
 import com.shengsu.helper.service.OssService;
+import com.shengsu.helper.service.RedisService;
 import com.shengsu.helper.service.SmsService;
 import com.shengsu.helper.service.SystemDictService;
 import com.shengsu.result.ResultBean;
@@ -70,7 +70,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Autowired
     private TemplateMessageService templateMessageService;
     @Resource
-    private RedisUtil redisUtil;
+    private RedisService redisService;
     @Value("${sms.expireTimeSecond}")
     private long smsExpireTime;
     @Autowired
@@ -85,7 +85,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         String tel = smsSendVo.getTel();
         smsSendVo.setSmsCode(getSixRandomCode());
         // 将短信验证码存储到redis,时效是1分钟
-        redisUtil.set(tel, smsSendVo.getSmsCode(), smsExpireTime);
+        redisService.set(tel, smsSendVo.getSmsCode(), smsExpireTime);
         // 发送手机验证码
         JSONObject smsParam180053728Json = new JSONObject();
         smsParam180053728Json.put("code",smsSendVo.getSmsCode());
@@ -134,7 +134,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     public ResultBean checkPhoneValidationCode(String tel, String smsCode) {
         // 验证短信验证码
         // 根据手机号码取短信验证码
-        String redisSmsCode = (String) redisUtil.get(tel);
+        String redisSmsCode = (String) redisService.get(tel);
         // 如果验证码为空就是超时
         if (StringUtils.isEmpty(redisSmsCode)) {
             return ResultUtil.formResult(false, ResultCode.SMS_AUTHENTICATION_CODE_OVERTIME);
@@ -144,7 +144,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             return ResultUtil.formResult(false, ResultCode.SMS_AUTHENTICATION_CODE_ERROR);
         }
         // 缓存验证码清除
-        redisUtil.delete(tel);
+        redisService.delete(tel);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     @Override

@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.shengsu.any.app.constant.ResultCode;
 import com.shengsu.any.app.util.HttpClientUtil;
-import com.shengsu.any.app.util.RedisUtil;
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.service.AuthorizedService;
@@ -16,6 +15,7 @@ import com.shengsu.any.user.vo.UserBandVo;
 import com.shengsu.any.user.vo.ViewButtonVo;
 import com.shengsu.any.user.vo.WeChatVo;
 import com.shengsu.helper.service.OssService;
+import com.shengsu.helper.service.RedisService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -53,15 +53,15 @@ public class WeChatServiceImpl implements WeChatService {
     @Autowired
     private OssService ossService;
     @Resource
-    private RedisUtil redisUtil;
+    private RedisService redisService;
 
     @Override
     public ResultBean pcLogin(WeChatVo weChatVo) {
         // 将微信用户信息放入缓存,保证前端页面重复刷新请求
-        Map<String, String> resultMap = (HashMap<String, String>) redisUtil.get(weChatVo.getCode());
+        Map<String, String> resultMap = (HashMap<String, String>) redisService.get(weChatVo.getCode());
         if (resultMap==null || resultMap.size()==0){
             resultMap =  getWeChatUser(weChatVo).getBody();
-            redisUtil.set(weChatVo.getCode(),new HashMap<>(resultMap), wechatExpireTime);
+            redisService.set(weChatVo.getCode(),new HashMap<>(resultMap), wechatExpireTime);
         }
         // 根据 openid 登录
         String openid = resultMap.get("openid");
