@@ -5,7 +5,9 @@ package com.shengsu.helper.constant;
  */
 public enum MQConsumerEnum {
 
-    JPUSHMESSAGE("jpushMessageTopic","jpushNormalTag||jpushScheduleTag||jpushScheduleCancelTag");
+    JPUSHMESSAGE("jpushMessageTopic","jpushNormalTag||jpushScheduleTag||jpushScheduleCancelTag"),
+    LOGBUSINESS("logBusinessTopic","logBusinessTag"),
+    LOGERROR("logErrorTopic","logErrorTag");
     private String topic;
     private String tag;
 

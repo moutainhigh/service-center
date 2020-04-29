@@ -1,7 +1,9 @@
 package com.shengsu.log.mq;
 
+import com.shengsu.helper.constant.MQConsumerEnum;
 import com.shengsu.log.service.impl.LogBusinessServiceImpl;
 import com.shengsu.log.service.impl.LogErrorServiceImpl;
+import com.shengsu.mq.AbstractMQConsumer;
 import com.shengsu.mq.MessageListen;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -19,7 +21,7 @@ import javax.annotation.PreDestroy;
  */
 @Slf4j
 @Component
-public class RocketMQConsumer {
+public class RocketMQConsumer extends AbstractMQConsumer {
 
     @Autowired
     private LogBusinessServiceImpl logBusinessService;
@@ -31,48 +33,36 @@ public class RocketMQConsumer {
     @Value("${rocketmq.consumer.logGroup}")
     private String logGroup;
 
-    @Value("${rocketmq.consumer.consumeThreadMin}")
-    private int consumeThreadMin;
-    @Value("${rocketmq.consumer.consumeThreadMax}")
-    private int consumeThreadMax;
-    @Value("${rocketmq.consumer.logBusiness.topic}")
-    private String logBusinessTopic;
-    @Value("${rocketmq.consumer.logBusiness.tag}")
-    private String logBusinessTag;
-    @Value("${rocketmq.consumer.logError.topic}")
-    private String logErrorTopic;
-    @Value("${rocketmq.consumer.logError.tag}")
-    private String logErrorTag;
-    DefaultMQPushConsumer consumer;
-
+    @Override
     @PostConstruct
-    private void init() {
-        consumer = new DefaultMQPushConsumer(logGroup);
-        consumer.setNamesrvAddr(namesrvAddr);
-        consumer.setConsumeThreadMin(consumeThreadMin);
-        consumer.setConsumeThreadMax(consumeThreadMax);
-        consumer.setVipChannelEnabled(false);
-
-        //我们自己实现的监听类
-        MessageListen messageListen = new MessageListen();
-        messageListen.registerHandler(logBusinessTag, logBusinessService);
-        messageListen.registerHandler(logErrorTag, logErrorService);
-        consumer.registerMessageListener(messageListen);
+    public void init() {
         try {
-            consumer.subscribe(logBusinessTopic, logBusinessTag);
-            consumer.subscribe(logErrorTopic, logErrorTag);
+            consumer = new DefaultMQPushConsumer(logGroup);
+            consumer.setNamesrvAddr(namesrvAddr);
+            consumer.setConsumeThreadMin(consumeThreadMin);
+            consumer.setConsumeThreadMax(consumeThreadMax);
+            consumer.setVipChannelEnabled(false);
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+            registerMessageListener();
+            subscribe();
             consumer.start();
-            log.info("consume is start ,groupName:{},topic:{}", logGroup);
+            log.info("consumer is start");
         } catch (MQClientException e) {
             log.error("consume start error:",e);
         }
     }
 
-    @PreDestroy
-    private void destroy() {
-        if (consumer != null) {
-            consumer.shutdown();
-        }
+    @Override
+    protected void registerMessageListener() {
+        MessageListen messageListen = new MessageListen();
+        messageListen.registerHandler(MQConsumerEnum.LOGBUSINESS.getTag(), logBusinessService);
+        messageListen.registerHandler(MQConsumerEnum.LOGERROR.getTag(), logErrorService);
+        consumer.registerMessageListener(messageListen);
+    }
+
+    @Override
+    protected void subscribe() throws MQClientException{
+        consumer.subscribe(MQConsumerEnum.LOGBUSINESS.getTopic(), MQConsumerEnum.LOGBUSINESS.getTag());
+        consumer.subscribe(MQConsumerEnum.LOGERROR.getTopic(), MQConsumerEnum.LOGERROR.getTag());
     }
 }

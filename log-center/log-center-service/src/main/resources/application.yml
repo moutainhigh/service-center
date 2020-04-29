@@ -23,24 +23,10 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
 logging:
   file: logs/log-center-service.log
-management:
-  health:
-    redis:
-      enabled: false
-###consumer
 rocketmq:
   consumer:
     logGroup: logGroup
     namesrvAddr: 127.0.0.1:9876
-    logBusiness:
-      topic: logBusinessTopic
-      tag: logBusinessTag
-    logError:
-      topic: logErrorTopic
-      tag: logErrorTag
-    consumeThreadMin: 20
-    consumeThreadMax: 64
-    consumeMessageBatchMaxSize: 10
 dingtalk:
   groupUrl: https://oapi.dingtalk.com/robot/send?access_token=92e306a3d642162d1f09082821d508d6b8f48cb5612ecb110da7ad9a2a7a4280
   msgUrl: http://192.168.1.52:9005/system/error_log
