@@ -28,11 +28,6 @@ import java.util.Date;
 public class AuthorizedServiceImpl implements AuthorizedService {
 
     /**
-     * token的签名密钥
-     */
-    @Value("${token.secretKey}")
-    private String secretKey;
-    /**
      * token存活时间(秒）
      */
     @Value("${token.expireTimeSecond}")
@@ -61,19 +56,6 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         String cacheKey = getCacheKey(token);
         redisService.set(cacheKey, JSON.toJSONString(auth), expireTimeSecond);
         return token;
-    }
-
-    /**
-     * md5加密
-     *
-     * @param token
-     * @return
-     */
-    private String getCacheKey(String token) {
-        if (StringUtils.isBlank(token)) {
-            token = "";
-        }
-        return MD5Util.md5(token);
     }
 
     /**
@@ -118,24 +100,6 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             return auth.getUser();
         }
         return null;
-    }
-
-    /**
-     * 解析token
-     *
-     * @param token
-     * @return
-     * @throws ExpiredJwtException      Token已过期
-     * @throws MalformedJwtException    {@code token}不是有效的token字符串（格式不正确）
-     * @throws SignatureException       {@code token}签名验证失败
-     * @throws IllegalArgumentException 如果{@code token}参数为null或空字符串或只是空格
-     * @throws ExpiredJwtException
-     * @throws SignatureException
-     * @date 2018年1月17日 下午2:33:57
-     */
-    private void parseToken(String token) throws ExpiredJwtException,MalformedJwtException, SignatureException, IllegalArgumentException {
-        log.info("token: "+token);
-        Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 
     /**

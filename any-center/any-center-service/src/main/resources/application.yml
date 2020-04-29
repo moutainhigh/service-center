@@ -40,7 +40,6 @@ sms:
   expireTimeSecond: 60
 # Token
 token:
-  secretKey: 97c7d3b3313d31b8#3996a!*1dd85c9711fc1f4?e35<0c9052683e63a
   expireTimeSecond: 3600
 wechat:
   pc:

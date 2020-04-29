@@ -1,7 +1,6 @@
 package com.shengsu.user.service;
 
-import com.shengsu.interceptor.BaseAuthorizedService;
-import com.shengsu.result.ResultBean;
+import com.shengsu.base.service.BaseAuthorizedService;
 import com.shengsu.user.po.UserDetailsPo;
 
 /**

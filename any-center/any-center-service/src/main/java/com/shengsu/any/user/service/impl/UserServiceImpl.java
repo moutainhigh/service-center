@@ -267,7 +267,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     */
     @Override
     public ResultBean logout(String token) {
-        authorizedService.logout(token);
+        authorizedService.destoryToken(token);
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     /**

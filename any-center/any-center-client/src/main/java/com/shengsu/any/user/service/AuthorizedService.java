@@ -1,14 +1,10 @@
 package com.shengsu.any.user.service;
 
 import com.shengsu.any.user.po.UserDetailsPo;
-import com.shengsu.interceptor.BaseAuthorizedService;
+import com.shengsu.base.service.BaseAuthorizedService;
 import com.shengsu.result.ResultBean;
 
 public interface AuthorizedService extends BaseAuthorizedService {
-    String AUTHORIZATION_HEAD_KEY = "Authorization";
-
-    String AUTHORIZATION_HEAD = "Bearer ";
-
     String generateToken(UserDetailsPo user);
 
     void destoryToken(String token);
@@ -18,6 +14,4 @@ public interface AuthorizedService extends BaseAuthorizedService {
     void flushUserToken(UserDetailsPo user, String token);
 
     ResultBean checkToken(String token);
-
-    void logout(String token);
 }

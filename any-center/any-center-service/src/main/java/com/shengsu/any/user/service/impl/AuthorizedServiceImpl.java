@@ -23,11 +23,6 @@ import java.util.Date;
 public class AuthorizedServiceImpl implements AuthorizedService {
 
     /**
-     * token的签名密钥
-     */
-    @Value("${token.secretKey}")
-    private String tokenSecretKey;
-    /**
      * token存活时间(秒）
      */
     @Value("${token.expireTimeSecond}")
@@ -49,26 +44,13 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         Date exp = new Date(System.currentTimeMillis() + tokenExpireTime);
         String token = Jwts.builder().setSubject(user.getUserName())
                 .setIssuedAt(iat)// 生成时间
-                .signWith(SignatureAlgorithm.HS256, tokenSecretKey)// 设置编码
+                .signWith(SignatureAlgorithm.HS256, secretKey)// 设置编码
                 .compact();
         // 将TOKEN放入缓存中，方便验证
         Auth auth = new Auth(token, user);
         String cacheKey = getCacheKey(token);
         redisUtil.set(cacheKey, auth, tokenExpireTime);
         return token;
-    }
-
-    /**
-     * md5加密
-     *
-     * @param token
-     * @return
-     */
-    private String getCacheKey(String token) {
-        if (StringUtils.isBlank(token)) {
-            token = "";
-        }
-        return MD5Util.md5(token);
     }
 
     /**
@@ -118,27 +100,6 @@ public class AuthorizedServiceImpl implements AuthorizedService {
     }
 
     /**
-     * 解析token
-     *
-     * @param token
-     * @return
-     * @throws ExpiredJwtException      Token已过期
-     * @throws MalformedJwtException    {@code token}不是有效的token字符串（格式不正确）
-     * @throws SignatureException       {@code token}签名验证失败
-     * @throws IllegalArgumentException 如果{@code token}参数为null或空字符串或只是空格
-     * @throws ExpiredJwtException
-     * @throws SignatureException
-     * @date 2018年1月17日 下午2:33:57
-     */
-    private Claims parseToken(String token) throws ExpiredJwtException,
-            MalformedJwtException, SignatureException, IllegalArgumentException {
-        // 解密token，拿到里面的对象claims
-        final Claims claims = Jwts.parser().setSigningKey(tokenSecretKey)
-                .parseClaimsJws(token).getBody();
-        return claims;
-    }
-
-    /**
      * 验证token是否有效,token无效时会抛出对应的异常
      *
      * @param token 这里指代客户机的唯一标识，目前未启用
@@ -158,13 +119,8 @@ public class AuthorizedServiceImpl implements AuthorizedService {
             }
             redisUtil.set(cacheKey, auth, tokenExpireTime);
             return ResultUtil.formResult(true, ResultCode.SUCCESS);
-        } catch (ExpiredJwtException e) {
-            return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_EXPIRED);
         } catch (RuntimeException e){
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_LOGIN_TOKEN_INVALID);
         }
-    }
-    public void logout(String token) {
-        destoryToken(token);
     }
 }
