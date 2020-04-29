@@ -103,7 +103,7 @@
 					del_flag = 0
 					and first_category_id = #{firstCategoryId}
 					and second_category_id = ''
-					order by date_time desc
+			order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
 	<select id="countThirdNotNull"  parameterType="lawKnowledge" resultType="int">
