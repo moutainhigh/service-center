@@ -20,58 +20,50 @@ import javax.annotation.PreDestroy;
  */
 @Slf4j
 @Component
-public class JPushConsumer {
+public class JPushConsumer extends AbstractMQConsumer{
     @Autowired
     private JpushNormalServiceImpl jpushNormalService;
     @Autowired
     private JpushScheduleServiceImpl jpushScheduleService;
     @Autowired
     private JpushScheduleCancelServiceImpl jpushScheduleCancelService;
+
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
     @Value("${rocketmq.consumer.jpushGroup}")
     private String jpushGroup;
-    @Value("${rocketmq.consumer.consumeThreadMin}")
-    private int consumeThreadMin;
-    @Value("${rocketmq.consumer.consumeThreadMax}")
-    private int consumeThreadMax;
-    @Value("${rocketmq.consumer.consumeTimeout}")
-    private int consumeTimeout;
-    DefaultMQPushConsumer consumer;
 
-
+    @Override
     @PostConstruct
     public void init() {
-        consumer = new DefaultMQPushConsumer(jpushGroup);
-        consumer.setNamesrvAddr(namesrvAddr);
-        consumer.setConsumeThreadMin(consumeThreadMin);
-        consumer.setConsumeThreadMax(consumeThreadMax);
-        consumer.setVipChannelEnabled(false);
-        consumer.setConsumeTimeout(consumeTimeout);
-        MessageListen messageListen = new MessageListen();
-        addJpushMessage(messageListen);
-        consumer.registerMessageListener(messageListen);
-        try {
-            consumer.subscribe(MQConsumerEnum.JPUSHMESSAGE.getTopic(), MQConsumerEnum.JPUSHMESSAGE.getTag());
+        try{
+            consumer = new DefaultMQPushConsumer(jpushGroup);
+            consumer.setNamesrvAddr(namesrvAddr);
+            consumer.setConsumeThreadMin(consumeThreadMin);
+            consumer.setConsumeThreadMax(consumeThreadMax);
+            consumer.setVipChannelEnabled(false);
+            consumer.setConsumeTimeout(consumeTimeout);
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+            registerMessageListener();
+            subscribe();
             consumer.start();
         } catch (MQClientException e) {
             log.error("consumer start error:",e);
         }
     }
 
-    private void addJpushMessage(MessageListen messageListen) {
+    @Override
+    protected void registerMessageListener() {
+        MessageListen messageListen = new MessageListen();
         String[] split = MQConsumerEnum.JPUSHMESSAGE.getTag().split("\\|\\|");
         messageListen.registerHandler(split[0], jpushNormalService);
         messageListen.registerHandler(split[1], jpushScheduleService);
         messageListen.registerHandler(split[2], jpushScheduleCancelService);
+        consumer.registerMessageListener(messageListen);
     }
 
-    @PreDestroy
-    private void destroy() {
-        if (consumer != null) {
-            consumer.shutdown();
-        }
+    @Override
+    protected void subscribe() throws MQClientException {
+        consumer.subscribe(MQConsumerEnum.JPUSHMESSAGE.getTopic(), MQConsumerEnum.JPUSHMESSAGE.getTag());
     }
-
 }

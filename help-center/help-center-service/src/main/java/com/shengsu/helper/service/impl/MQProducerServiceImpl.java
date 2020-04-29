@@ -30,10 +30,8 @@ public class MQProducerServiceImpl implements MQProducerService {
     private String namesrvAddr;
     @Value("${rocketmq.producer.groups}")
     private String groups;
-    @Value("${rocketmq.producer.maxMessageSize}")
-    private Integer maxMessageSize;
-    @Value("${rocketmq.producer.sendMsgTimeout}")
-    private Integer sendMsgTimeout;
+    private Integer maxMessageSize=131072;
+    private Integer sendMsgTimeout=10000;
 
     private DefaultMQProducer logRocketMqProducer;
 
