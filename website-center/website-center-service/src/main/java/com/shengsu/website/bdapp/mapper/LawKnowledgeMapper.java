@@ -32,4 +32,16 @@ public interface LawKnowledgeMapper extends BaseMapper<LawKnowledge, String> {
     List<LawKnowledge> listPageFirstNotNull(LawKnowledge lawKnowledge);
 
     Integer countFirstNotNull(LawKnowledge lawKnowledge);
+
+    LawKnowledge selectThirdPreviousLawKnowledge(LawKnowledge paramLawKnowledge);
+
+    LawKnowledge selectSecondPreviousLawKnowledge(LawKnowledge paramLawKnowledge);
+
+    LawKnowledge selectFirstPreviousLawKnowledge(LawKnowledge paramLawKnowledge);
+
+    LawKnowledge selectThirdNextLawKnowledge(LawKnowledge paramLawKnowledge);
+
+    LawKnowledge selectSecondNextLawKnowledge(LawKnowledge paramLawKnowledge);
+
+    LawKnowledge selectFirstNextLawKnowledge(LawKnowledge paramLawKnowledge);
 }

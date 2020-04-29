@@ -176,4 +176,70 @@
 			del_flag = 0
 			and first_category_id = #{firstCategoryId}
 	</select>
+	<select id="selectThirdPreviousLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
+		select
+			knowledge_id,title
+		from
+			law_knowledge
+		where
+			del_flag = 0
+			and  date_time > #{dateTime}
+			and third_category_id = #{thirdCategoryId}
+			order by date_time limit 1
+	</select>
+	<select id="selectSecondPreviousLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
+		select
+			knowledge_id,title
+		from
+			law_knowledge
+		where
+			del_flag = 0
+			and  date_time > #{dateTime}
+			and  second_category_id = #{secondCategoryId}
+			order by date_time limit 1
+	</select>
+	<select id="selectFirstPreviousLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
+		select
+			knowledge_id,title
+		from
+			law_knowledge
+		where
+			del_flag = 0
+			and  date_time > #{dateTime}
+			and  first_category_id = #{firstCategoryId}
+			order by date_time limit 1
+	</select>
+	<select id="selectThirdNextLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
+		select
+			knowledge_id,title
+		from
+			law_knowledge
+		where
+			del_flag = 0
+			and  date_time &lt; #{dateTime}
+			and third_category_id = #{thirdCategoryId}
+			order by date_time desc limit 1
+	</select>
+	<select id="selectSecondNextLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
+		select
+			knowledge_id,title
+		from
+			law_knowledge
+		where
+			del_flag = 0
+			and  date_time &lt; #{dateTime}
+			and  second_category_id = #{secondCategoryId}
+			order by date_time desc limit 1
+	</select>
+	<select id="selectFirstNextLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
+		select
+			knowledge_id,title
+		from
+			law_knowledge
+		where
+			del_flag = 0
+			and  date_time &lt; #{dateTime}
+			and  first_category_id = #{firstCategoryId}
+			order by date_time desc limit 1
+	</select>
 </mapper>
