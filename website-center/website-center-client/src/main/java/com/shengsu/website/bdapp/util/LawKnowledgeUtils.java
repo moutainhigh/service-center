@@ -128,9 +128,13 @@ public class LawKnowledgeUtils {
             LawKnowledgeSimplePo lawKnowledgeSimplePo = new LawKnowledgeSimplePo();
             lawKnowledgeSimplePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
             lawKnowledgeSimplePo.setTitle(lawKnowledge.getTitle());
-            lawKnowledgeSimplePo.setFirstCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getFirstCategoryId())==null?"":lawKnowledgeCategoryMap.get(lawKnowledge.getFirstCategoryId()).getCategoryName());
-            lawKnowledgeSimplePo.setSecondCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getSecondCategoryId())==null?"":lawKnowledgeCategoryMap.get(lawKnowledge.getSecondCategoryId()).getCategoryName());
-            lawKnowledgeSimplePo.setThirdCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId())==null?"":lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId()).getCategoryName());
+            if (StringUtils.isNotBlank(lawKnowledge.getThirdCategoryId())){
+                lawKnowledgeSimplePo.setCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getThirdCategoryId()).getCategoryName());
+            }else if(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())&& StringUtils.isNotBlank(lawKnowledge.getSecondCategoryId())){
+                lawKnowledgeSimplePo.setCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getSecondCategoryId()).getCategoryName());
+            }else if(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())&& StringUtils.isBlank(lawKnowledge.getSecondCategoryId())&&StringUtils.isNotBlank(lawKnowledge.getFirstCategoryId())){
+                lawKnowledgeSimplePo.setCategoryName(lawKnowledgeCategoryMap.get(lawKnowledge.getFirstCategoryId()).getCategoryName());
+            }
             lawKnowledgeSimplePo.setDateTime(lawKnowledge.getDateTime());
             lawKnowledgeSimplePo.setPictureOssUrl(item);
             return lawKnowledgeSimplePo;

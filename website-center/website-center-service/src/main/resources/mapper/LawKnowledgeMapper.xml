@@ -56,10 +56,10 @@
 			and third_category_id = #{thirdCategoryId}
 		</if>
 		<if test="thirdCategoryId =='' and secondCategoryId !='' ">
-			and second_category_id = #{secondCategoryId}
+			and second_category_id = #{secondCategoryId} and third_category_id = ''
 		</if>
 		<if test="thirdCategoryId =='' and secondCategoryId =='' and firstCategoryId !='' ">
-			and first_category_id = #{firstCategoryId}
+			and first_category_id = #{firstCategoryId} and second_category_id = '' and third_category_id = ''
 		</if>
 		order by date_time limit 1
 	</select>
@@ -69,10 +69,10 @@
 			and third_category_id = #{thirdCategoryId}
 		</if>
 		<if test="thirdCategoryId =='' and secondCategoryId !='' ">
-			and second_category_id = #{secondCategoryId}
+			and second_category_id = #{secondCategoryId} and third_category_id = ''
 		</if>
 		<if test="thirdCategoryId =='' and secondCategoryId =='' and firstCategoryId !='' ">
-			and first_category_id = #{firstCategoryId}
+			and first_category_id = #{firstCategoryId} and second_category_id = '' and third_category_id = ''
 		</if>
 		order by date_time desc limit 1
 	</select>
