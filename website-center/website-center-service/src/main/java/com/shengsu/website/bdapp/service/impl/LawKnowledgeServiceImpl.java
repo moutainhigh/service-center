@@ -161,10 +161,10 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         if (StringUtils.isNotBlank(lawKnowledge.getThirdCategoryId())){
             // 先获取当前分类下的上一篇,如果为空,获取二级分类下的知识文库,如果还未空 获取一级分类下的知识文库
             nextLawKnowledge = lawKnowledgeMapper.selectThirdNextLawKnowledge(paramLawKnowledge);
-            if (null == previousLawKnowledge){
+            if (null == nextLawKnowledge){
                 // 三级分类下为空,获取二级分类下的文章
                 nextLawKnowledge = lawKnowledgeMapper.selectSecondNextLawKnowledge(paramLawKnowledge);
-                if (null == previousLawKnowledge){
+                if (null == nextLawKnowledge){
                     // 二级分类为空,获取一级分类下的文章
                     nextLawKnowledge = lawKnowledgeMapper.selectFirstNextLawKnowledge(paramLawKnowledge);
                 }
@@ -174,7 +174,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         if(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())&& StringUtils.isNotBlank(lawKnowledge.getSecondCategoryId())){
             // 先获取当前分类下的上一篇,如果未空 获取一级分类下的知识文库
             nextLawKnowledge = lawKnowledgeMapper.selectSecondNextLawKnowledge(paramLawKnowledge);
-            if (null == previousLawKnowledge){
+            if (null == nextLawKnowledge){
                 // 二级分类为空,获取一级分类下的文章
                 nextLawKnowledge = lawKnowledgeMapper.selectFirstNextLawKnowledge(paramLawKnowledge);
             }
@@ -187,16 +187,6 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         LawKnowledgeNextPo lawKnowledgeNextPo = LawKnowledgeUtils.toLawKnowledgeNextPo(nextLawKnowledge);
         lawKnowledgeDetailsPo.setLawKnowledgeNextPo(lawKnowledgeNextPo);
 
-        //获取上一篇
-//        LawKnowledge paramLawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledge);
-//        LawKnowledge previousLawKnowledge = lawKnowledgeMapper.selectPreviousLawKnowledge(paramLawKnowledge);
-//        LawKnowledgePreviousPo lawKnowledgePreviousPo = LawKnowledgeUtils.toLawKnowledgePreviousPo(previousLawKnowledge);
-//        lawKnowledgeDetailsPo.setLawKnowledgePreviousPo(lawKnowledgePreviousPo);
-//
-//        // 获取下一篇
-//        LawKnowledge nextLawKnowledge = lawKnowledgeMapper.selectNextLawKnowledge(paramLawKnowledge);
-//        LawKnowledgeNextPo lawKnowledgeNextPo = LawKnowledgeUtils.toLawKnowledgeNextPo(nextLawKnowledge);
-//        lawKnowledgeDetailsPo.setLawKnowledgeNextPo(lawKnowledgeNextPo);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeDetailsPo);
     }
 
