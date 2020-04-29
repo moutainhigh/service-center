@@ -46,13 +46,7 @@ bdpay:
   rsaPublicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIPak4h0pP5/KobxxQRNo4VE7ulen1OV+HfPmARS0Fmqgh8eKQrHOocX3m0crfIUmFr+e3O5RDk+Q8G+98AR6nWaVGRIGnwcwpzaC35jWTYOlqgsG37xQfv90Kkfa8DkUJX9DJapl9ri78GTpDZs6kFFERMZP9/pWJcN7QdKXZtwIDAQAB
 rocketmq:
   consumer:
-    websiteGroup: websiteGroup
     namesrvAddr: 127.0.0.1:9876
-    bdpay:
-      topic: bdpayTopic
-      tag: payNofityTag
-    consumeThreadMin: 20
-    consumeThreadMax: 64
-    consumeMessageBatchMaxSize: 10
+    websiteGroup: websiteGroup
 
 

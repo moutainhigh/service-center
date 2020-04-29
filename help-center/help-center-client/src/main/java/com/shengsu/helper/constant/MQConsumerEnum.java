@@ -7,7 +7,9 @@ public enum MQConsumerEnum {
 
     JPUSHMESSAGE("jpushMessageTopic","jpushNormalTag||jpushScheduleTag||jpushScheduleCancelTag"),
     LOGBUSINESS("logBusinessTopic","logBusinessTag"),
-    LOGERROR("logErrorTopic","logErrorTag");
+    LOGERROR("logErrorTopic","logErrorTag"),
+    BDPAY("bdpayTopic","payNofityTag"),
+    WECHATMESSAGE("wechatMessageTopic","wechatMessageTag");
     private String topic;
     private String tag;
 

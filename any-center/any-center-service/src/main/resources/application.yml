@@ -38,7 +38,6 @@ logging:
   file: logs/help-center-service.log
 sms:
   expireTimeSecond: 60
-# Token
 token:
   expireTimeSecond: 3600
 wechat:
@@ -76,11 +75,5 @@ alipay:
   productCode: QUICK_WAP_WAY
 rocketmq:
   consumer:
-    anyGroup: anyGroup
     namesrvAddr: 127.0.0.1:9876
-    wechatMessage:
-      topic: wechatMessageTopic
-      tag: wechatMessageTag
-    consumeThreadMin: 20
-    consumeThreadMax: 64
-    consumeMessageBatchMaxSize: 10
+    anyGroup: anyGroup

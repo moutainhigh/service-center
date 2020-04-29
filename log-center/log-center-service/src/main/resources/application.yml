@@ -13,7 +13,7 @@ spring:
     proxy-target-class: true
 zookeeper:
   #address: 192.168.1.52:2181
-  address: 127.0.0.1:2181
+  address: 47.98.159.202:2181
 dubbo:
   group: log-center
   port: 20883
