@@ -94,7 +94,7 @@
 				and second_category_id = #{secondCategoryId}
 				and (third_category_id = #{thirdCategoryId}
 				or third_category_id = '')
-		  	union
+		  	union all
 			  select
 					knowledge_id,title,date_time
 				from
@@ -120,7 +120,7 @@
 			  	and second_category_id = #{secondCategoryId}
 			  	and (third_category_id = #{thirdCategoryId}
 			  	 or third_category_id='')
-			  union
+			  union all
 			  	select
 			  	 	knowledge_id,title
 			  	from
