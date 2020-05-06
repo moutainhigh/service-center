@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,25 +31,24 @@ public class MQProducerServiceImpl implements MQProducerService {
     private String namesrvAddr;
     @Value("${rocketmq.producer.groups}")
     private String groups;
-    private Integer maxMessageSize=131072;
-    private Integer sendMsgTimeout=10000;
+    private Integer sendMsgTimeout=5000;
 
     static Map<String,DefaultMQProducer> producers = new ConcurrentHashMap<>();
 
     @PostConstruct
     public void init() {
-        try {
-            for(String group: Arrays.asList(groups.split(","))){
+        List<String> groupList = Arrays.asList(groups.split(","));
+        for(String group: groupList){
+            try {
                 DefaultMQProducer mqProducer = new DefaultMQProducer(group);
                 mqProducer.setNamesrvAddr(namesrvAddr);
-                mqProducer.setMaxMessageSize(maxMessageSize);
                 mqProducer.setSendMsgTimeout(sendMsgTimeout);
                 mqProducer.setVipChannelEnabled(false);
                 mqProducer.start();
                 producers.put(group,mqProducer);
+            } catch (MQClientException e) {
+                log.error("rocketMQ start error：", e);
             }
-        } catch (MQClientException e) {
-            log.error("rocketMQ start error：", e);
         }
         log.info("rocketMQ is started !!");
     }
