@@ -3,6 +3,9 @@ package com.shengsu.any;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -10,8 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.TimeZone;
 
 
-@SpringBootApplication
-@EnableAutoConfiguration
+@SpringBootApplication(exclude = {RedisAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class})
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @ImportResource({"classpath:application-context.xml"})
