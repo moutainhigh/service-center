@@ -33,17 +33,13 @@ public class MQProducerServiceImpl implements MQProducerService {
     private Integer maxMessageSize=131072;
     private Integer sendMsgTimeout=10000;
 
-    private DefaultMQProducer logRocketMqProducer;
-
-    private DefaultMQProducer mqProducer;
-
     static Map<String,DefaultMQProducer> producers = new ConcurrentHashMap<>();
 
     @PostConstruct
     public void init() {
         try {
             for(String group: Arrays.asList(groups.split(","))){
-                mqProducer = new DefaultMQProducer(group);
+                DefaultMQProducer mqProducer = new DefaultMQProducer(group);
                 mqProducer.setNamesrvAddr(namesrvAddr);
                 mqProducer.setMaxMessageSize(maxMessageSize);
                 mqProducer.setSendMsgTimeout(sendMsgTimeout);
@@ -52,7 +48,7 @@ public class MQProducerServiceImpl implements MQProducerService {
                 producers.put(group,mqProducer);
             }
         } catch (MQClientException e) {
-            log.error("rocketMQ start error,{}", e);
+            log.error("rocketMQ start error：", e);
         }
         log.info("rocketMQ is started !!");
     }
