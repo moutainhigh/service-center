@@ -58,10 +58,13 @@ public class WeChatServiceImpl implements WeChatService {
     @Override
     public ResultBean pcLogin(WeChatVo weChatVo) {
         // 将微信用户信息放入缓存,保证前端页面重复刷新请求
-        Map<String, String> resultMap = (HashMap<String, String>) redisService.get(weChatVo.getCode());
-        if (resultMap==null || resultMap.size()==0){
+        Map<String, String> resultMap;
+        String resultMapJsonStr = (String) redisService.get(weChatVo.getCode());
+        if (StringUtils.isBlank(resultMapJsonStr)){
             resultMap =  getWeChatUser(weChatVo).getBody();
-            redisService.set(weChatVo.getCode(),new HashMap<>(resultMap), wechatExpireTime);
+            redisService.set(weChatVo.getCode(),JSON.toJSONString(resultMap), wechatExpireTime);
+        }else{
+            resultMap = JSONObject.parseObject(resultMapJsonStr,Map.class);
         }
         // 根据 openid 登录
         String openid = resultMap.get("openid");
