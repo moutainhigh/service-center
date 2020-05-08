@@ -51,12 +51,12 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     @Override
     protected void registerMessageListener() {
         MessageListen messageListen = new MessageListen();
-        messageListen.registerHandler(MQConsumerEnum.BDPAY.getTag(), bdpayNotifyService);
+        messageListen.registerHandler(MQConsumerEnum.BDPAY_NOTIFY.getTag(), bdpayNotifyService);
         consumer.registerMessageListener(messageListen);
     }
 
     @Override
     protected void subscribe() throws MQClientException {
-        consumer.subscribe(MQConsumerEnum.BDPAY.getTopic(), MQConsumerEnum.BDPAY.getTag());
+        consumer.subscribe(MQConsumerEnum.BDPAY_NOTIFY.getTopic(), MQConsumerEnum.BDPAY_NOTIFY.getTag());
     }
 }
