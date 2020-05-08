@@ -7,4 +7,5 @@ package com.shengsu.website.constant;
  **/
 public interface ConsultConst {
     public static String LAWCASE_CONSULT_CLUE = "lawcase_consult_clue";
+    String CONSULT_FEE = "68";
 }

@@ -9,6 +9,8 @@ import com.shengsu.website.bdapp.po.QuestionReplyPo;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.shengsu.website.constant.ConsultConst.CONSULT_FEE;
+
 /**
  * @program: service-center
  * @author: Bell
@@ -48,6 +50,7 @@ public class LawyerUtils {
             lawyerPo.setModifyTime(lawyer.getModifyTime());
             lawyerPo.setConsultTimes(lawyer.getConsultTimes());
             lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
+            lawyerPo.setConsultFee(CONSULT_FEE);
             lawyerPos.add(lawyerPo);
         }
         return lawyerPos;
@@ -62,6 +65,7 @@ public class LawyerUtils {
         lawyerPo.setModifyTime(lawyer.getModifyTime());
         lawyerPo.setConsultTimes(lawyer.getConsultTimes());
         lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
+        lawyerPo.setConsultFee(CONSULT_FEE);
         return lawyerPo;
     }
 }

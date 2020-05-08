@@ -31,5 +31,5 @@ public class LawyerPo extends BaseEntity {
     private String field;
     private Integer consultTimes;
     private Integer praiseTimes;
-    private Integer consultFee = 68;
+    private String consultFee;
 }
