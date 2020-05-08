@@ -6,6 +6,6 @@ package com.shengsu.website.constant;
  * @create: 2020-03-24 17:09
  **/
 public interface ConsultConst {
-    public static String LAWCASE_CONSULT_CLUE = "lawcase_consult_clue";
+    String LAWCASE_CONSULT_CLUE = "lawcase_consult_clue";
     String CONSULT_FEE = "68";
 }
