@@ -23,9 +23,14 @@ mybatis:
 logging:
   file: logs/trade-center.log
 wxpay:
-  appid: wx6f29705e50768a15
-  mchid: 1573621631
-  apikey: 1f5dc3037d7a4752b69e95fcad34ad34
+  gzh:
+    appid: wx6f29705e50768a15
+    mchid: 1573621631
+    apikey: 1f5dc3037d7a4752b69e95fcad34ad34
+  weapp:
+    appid: wx6f29705e50768a15
+    mchid: 1573621631
+    apikey: 1f5dc3037d7a4752b69e95fcad34ad34
   sandbox: false
   notifyUrl: https://any-platform-test.shengsuvc.com/api/wxpay/notify
 alipay:
