@@ -3,6 +3,7 @@ package com.shengsu.website.decrypt.util;
 import com.shengsu.website.decrypt.entity.Contact;
 import com.shengsu.website.decrypt.entity.Decrypt;
 import com.shengsu.website.decrypt.entity.Trace;
+import com.shengsu.website.decrypt.entity.WeChatDecrypt;
 import com.shengsu.website.home.entity.LawcaseConsult;
 
 import java.util.UUID;
@@ -25,6 +26,14 @@ public class TraceUtil {
         lawcaseConsult.setContact(contact.getMobile());
         lawcaseConsult.setOrigin(trace.getOrigin());
         lawcaseConsult.setSource(trace.getSource());
+        return lawcaseConsult;
+    }
+    public static LawcaseConsult toLawcaseConsult(WeChatDecrypt weChatDecrypt , String contact){
+        LawcaseConsult lawcaseConsult = new LawcaseConsult();
+        lawcaseConsult.setConsultId(UUID.randomUUID().toString());
+        lawcaseConsult.setContact(contact);
+        lawcaseConsult.setOrigin(weChatDecrypt.getOrigin());
+        lawcaseConsult.setSource(weChatDecrypt.getSource());
         return lawcaseConsult;
     }
 }
