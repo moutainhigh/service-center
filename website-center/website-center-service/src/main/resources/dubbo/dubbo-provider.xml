@@ -21,4 +21,5 @@
     <dubbo:service interface="com.shengsu.website.bdapp.service.ComplaintService" ref="complaintService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.home.service.PvCensusService" ref="pvCensusService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.bdapp.service.ComplaintAppendixService" ref="complaintAppendixService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.website.decrypt.service.DecryptService" ref="decryptService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>
