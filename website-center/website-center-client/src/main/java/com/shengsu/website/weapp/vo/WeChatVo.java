@@ -12,5 +12,4 @@ import java.io.Serializable;
 public class WeChatVo implements Serializable {
     @NotBlank
     private String code;
-    private String state;
 }
