@@ -27,6 +27,6 @@ lawknowledge:
 wechat:
   accessTokenUrl: https://api.weixin.qq.com/sns/oauth2/access_token
   userInfoUrl: https://api.weixin.qq.com/sns/userinfo
-  AppID: wx66a3c02a77100500
-  Appsecret: 241ad8d3138af34e6b5879645eb25a45
+  appID: wx66a3c02a77100500
+  appSecret: 241ad8d3138af34e6b5879645eb25a45
 
