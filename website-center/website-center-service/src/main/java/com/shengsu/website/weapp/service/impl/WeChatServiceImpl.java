@@ -37,18 +37,10 @@ public class WeChatServiceImpl implements WeChatService {
         params.put("grant_type","authorization_code");
         String httpResultStr = HttpClientUtil.doGet(accessLoginUrl, params);
         JSONObject jSONObject = JSON.parseObject(httpResultStr);
-        if (jSONObject != null && jSONObject.get("errcode").toString() != "0") { // 有错误码
-            return ResultUtil.formResult(true, ResultCode.EXCEPTION_WECHAT_RESPONSE_ERROR);
-        } else {
-            String openid = String.valueOf(jSONObject.get("openid"));
-            String sessionKey = String.valueOf(jSONObject.get("session_key"));
-            String unionid = String.valueOf(jSONObject.get("unionid"));
-            String errmsg = String.valueOf(jSONObject.get("errmsg"));
-            resultMap.put("openid", openid);
-            resultMap.put("session_key", sessionKey);
-            resultMap.put("unionid", unionid);
-            resultMap.put("errmsg", errmsg);
-        }
+        String openid = String.valueOf(jSONObject.get("openid"));
+        String sessionKey = String.valueOf(jSONObject.get("session_key"));
+        resultMap.put("openid", openid);
+        resultMap.put("session_key", sessionKey);
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resultMap);
     }
 }
