@@ -34,7 +34,7 @@ public class WeChatServiceImpl implements WeChatService {
     public ResultBean authorize(WeChatVo weChatVo){
         //获取微信用户授权信息
         Map<String, String> resultMap =  getWeChatUser(weChatVo).getBody();
-        if(resultMap.isEmpty() && resultMap.size() == 0){
+        if(resultMap.isEmpty() || resultMap.size() == 0){
             return ResultUtil.formEmptyResult(true, ResultCode.EXCEPTION_WECHAT_RESPONSE_ERROR);
         }
         return ResultUtil.formResult(true,ResultCode.SUCCESS,resultMap);
