@@ -8,6 +8,7 @@ import com.shengsu.website.app.constant.ResultCode;
 import com.shengsu.website.app.util.HttpClientUtil;
 import com.shengsu.website.weapp.service.WeChatService;
 import com.shengsu.website.weapp.vo.WeChatVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,7 @@ public class WeChatServiceImpl implements WeChatService {
 
     public ResultBean<Map<String, String>> getWeChatUser(WeChatVo eChatVo) {
         String code = eChatVo.getCode();
-        if(org.apache.commons.lang3.StringUtils.isBlank(code)){
+        if(StringUtils.isBlank(code)){
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_WECHAT_LOGIN_CODE_IS_NULL);
         }
         // 获取微信token
@@ -54,13 +55,13 @@ public class WeChatServiceImpl implements WeChatService {
         String accessToken = pcWXAccessToken.get("access_token");
         String openid = pcWXAccessToken.get("openid");
 
-        if(org.apache.commons.lang3.StringUtils.isBlank(accessToken)|| org.apache.commons.lang3.StringUtils.isBlank(openid)){
+        if(StringUtils.isBlank(accessToken)|| StringUtils.isBlank(openid)){
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_PARAM_NULL,pcWXAccessToken);
         }
         // 获取微信用户信息
         Map<String, String> pcWeiXinUserInfo = getPcWeiXinUserInfo(openid, accessToken);
         String unionid = pcWeiXinUserInfo.get("unionid");
-        if(org.apache.commons.lang3.StringUtils.isBlank(unionid)){
+        if(StringUtils.isBlank(unionid)){
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_PARAM_NULL,pcWeiXinUserInfo);
         }
 
