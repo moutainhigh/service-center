@@ -27,9 +27,9 @@ public class WeChatServiceImpl implements WeChatService {
     private String accessTokenUrl;
     @Value("${wechat.userInfoUrl}")
     private String userInfoUrl;
-    @Value("${wechat.AppID}")
+    @Value("${wechat.appID}")
     private String appID;
-    @Value("${wechat.Appsecret}")
+    @Value("${wechat.appsecret}")
     private String appsecret;
     @Override
     public ResultBean authorize(WeChatVo weChatVo){
