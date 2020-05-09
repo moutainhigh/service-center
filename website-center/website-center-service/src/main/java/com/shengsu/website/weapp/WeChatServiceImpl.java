@@ -23,14 +23,14 @@ import java.util.Map;
  **/
 @Service("weChatService")
 public class WeChatServiceImpl implements WeChatService {
-    @Value("${wechat.pc.accessTokenUrl}")
-    private String pcAccessTokenUrl;
-    @Value("${wechat.pc.userInfoUrl}")
-    private String pcUserInfoUrl;
-    @Value("${wechat.pc.pcAppID}")
-    private String pcAppID;
-    @Value("${wechat.pc.pcAppsecret}")
-    private String pcAppsecret;
+    @Value("${wechat.accessTokenUrl}")
+    private String accessTokenUrl;
+    @Value("${wechat.userInfoUrl}")
+    private String userInfoUrl;
+    @Value("${wechat.AppID}")
+    private String appID;
+    @Value("${wechat.Appsecret}")
+    private String appsecret;
     @Override
     public ResultBean authorize(WeChatVo weChatVo){
         //获取微信用户授权信息
@@ -76,11 +76,11 @@ public class WeChatServiceImpl implements WeChatService {
     private ResultBean getPcWXAccessToken(String code) {
         HashMap<String, String> resultMap = new HashMap<>();
         Map<String, String> params = new HashMap<String, String>();
-        params.put("appid",pcAppID);
-        params.put("secret",pcAppsecret);
+        params.put("appid", appID);
+        params.put("secret", appsecret);
         params.put("code",code);
         params.put("grant_type","authorization_code");
-        String httpResultStr = HttpClientUtil.doGet(pcAccessTokenUrl, params);
+        String httpResultStr = HttpClientUtil.doGet(accessTokenUrl, params);
         JSONObject jSONObject = JSON.parseObject(httpResultStr);
         if (jSONObject != null && jSONObject.get("errcode") != null) { // 有错误码
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_WECHAT_RESPONSE_ERROR);
@@ -113,7 +113,7 @@ public class WeChatServiceImpl implements WeChatService {
         params.put("openid",openId);
         params.put("lang","zh_CN");
         params.put("grant_type","authorization_code");
-        String httpResultStr = HttpClientUtil.doGet(pcUserInfoUrl, params);
+        String httpResultStr = HttpClientUtil.doGet(userInfoUrl, params);
         try {
             httpResultStr = new String(httpResultStr.getBytes("ISO-8859-1"), "UTF-8");
         } catch (UnsupportedEncodingException e) {
