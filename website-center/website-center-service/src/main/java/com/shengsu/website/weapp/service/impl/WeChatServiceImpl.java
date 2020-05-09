@@ -21,8 +21,8 @@ import java.util.Map;
  **/
 @Service("weChatService")
 public class WeChatServiceImpl implements WeChatService {
-    @Value("${wechat.accessTokenUrl}")
-    private String accessTokenUrl;
+    @Value("${wechat.accessLoginUrl}")
+    private String accessLoginUrl;
     @Value("${wechat.appID}")
     private String appID;
     @Value("${wechat.appSecret}")
@@ -35,7 +35,7 @@ public class WeChatServiceImpl implements WeChatService {
         params.put("secret", appsecret);
         params.put("js_code",weChatVo.getCode());
         params.put("grant_type","authorization_code");
-        String httpResultStr = HttpClientUtil.doGet(accessTokenUrl, params);
+        String httpResultStr = HttpClientUtil.doGet(accessLoginUrl, params);
         JSONObject jSONObject = JSON.parseObject(httpResultStr);
         if (jSONObject != null && jSONObject.get("errcode").toString() != "0") { // 有错误码
             return ResultUtil.formResult(true, ResultCode.EXCEPTION_WECHAT_RESPONSE_ERROR);

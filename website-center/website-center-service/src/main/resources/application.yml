@@ -25,7 +25,7 @@ logging:
 lawknowledge:
   picture-range: 100
 wechat:
-  accessTokenUrl: https://api.weixin.qq.com/sns/jscode2session
-  appID: wx66a3c02a77100500
-  appSecret: 241ad8d3138af34e6b5879645eb25a45
+  accessLoginUrl: https://api.weixin.qq.com/sns/jscode2session
+  appID: wx36c1d8e71b07103d
+  appSecret: 209cf3e6b10e170d73c2fcf24b7f4f55
 
