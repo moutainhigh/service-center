@@ -74,4 +74,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, String> imple
     public int countAllByQuestionIds(List<String> questionIds) {
         return questionMapper.countAllByQuestionIds(questionIds);
     }
+    @Override
+    public int isQuestionExist(String content){
+        return questionMapper.isQuestionExist(content);
+    }
 }

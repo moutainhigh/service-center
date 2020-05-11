@@ -18,6 +18,7 @@ public enum ResultCode implements IResultCode {
 
     //咨询
     EXCEPTION_CONSULT_APPENDIX_REFID_IS_NULL(1002, "关联id错误"),
+    EXCEPTION_PROBLEM_ALREADY_EXISTS(1002,"问题已存在"),
     //登录
     EXCEPTION_WECHAT_LOGIN_CODE_IS_NULL(1002,"code为空"),
     FAIL_LOGIN_PARAM_ERROR(1001,"参数错误"),

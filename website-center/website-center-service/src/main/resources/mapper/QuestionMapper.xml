@@ -38,6 +38,12 @@
         from question
         where del_flag = 0 and question_id = #{questionId,jdbcType=INTEGER}
     </select>
+    <select id="isQuestionExist" parameterType="String" resultType="Integer">
+        select
+        count(*)
+        from question
+        where del_flag = 0 and question_content = #{questionContent,jdbcType=INTEGER}
+    </select>
     <select id="listAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
