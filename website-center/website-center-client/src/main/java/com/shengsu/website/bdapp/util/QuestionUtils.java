@@ -5,6 +5,7 @@ import com.shengsu.website.bdapp.entity.Lawyer;
 import com.shengsu.website.bdapp.entity.Question;
 import com.shengsu.website.bdapp.entity.QuestionReply;
 import com.shengsu.website.bdapp.po.QuestionReplyPo;
+import com.shengsu.website.bdapp.vo.ConsultAnswerVo;
 
 import java.util.UUID;
 
@@ -30,6 +31,12 @@ public class QuestionUtils {
         Question question = new Question();
         question.setQuestionId(UUID.randomUUID().toString());
         question.setQuestionContent(consultAnswer.getQuestionContent());
+        return question;
+    }
+    public static Question toQuestion(ConsultAnswerVo consultAnswerVo) {
+        Question question = new Question();
+        question.setQuestionId(consultAnswerVo.getQuestionId());
+        question.setQuestionContent(consultAnswerVo.getQuestionContent());
         return question;
     }
 }
