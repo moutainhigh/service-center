@@ -5,6 +5,7 @@ import com.shengsu.website.bdapp.entity.Lawyer;
 import com.shengsu.website.bdapp.entity.Question;
 import com.shengsu.website.bdapp.entity.QuestionReply;
 import com.shengsu.website.bdapp.po.QuestionReplyPo;
+import com.shengsu.website.bdapp.vo.ConsultAnswerVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,12 @@ public class QuestionReplyUtils {
         questionReply.setQuestionId(question.getQuestionId());
         questionReply.setReplyContent(consultAnswer.getReplyContent());
         questionReply.setReplyLawyerId(consultAnswer.getReplyLawyerId());
+        return questionReply;
+    }
+    public static QuestionReply toQuestionReply(ConsultAnswerVo consultAnswerVo, Question question) {
+        QuestionReply questionReply = new QuestionReply();
+        questionReply.setQuestionId(question.getQuestionId());
+        questionReply.setReplyContent(consultAnswerVo.getReplyContent());
         return questionReply;
     }
 }
