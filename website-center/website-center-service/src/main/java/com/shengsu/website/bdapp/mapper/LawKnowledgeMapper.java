@@ -1,7 +1,6 @@
 package com.shengsu.website.bdapp.mapper;
 
 import com.shengsu.base.mapper.BaseMapper;
-import com.shengsu.result.ResultBean;
 import com.shengsu.website.bdapp.entity.LawKnowledge;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -44,4 +43,7 @@ public interface LawKnowledgeMapper extends BaseMapper<LawKnowledge, String> {
     LawKnowledge selectSecondNextLawKnowledge(LawKnowledge paramLawKnowledge);
 
     LawKnowledge selectFirstNextLawKnowledge(LawKnowledge paramLawKnowledge);
+
+    LawKnowledge selectByTitle(String title);
+
 }

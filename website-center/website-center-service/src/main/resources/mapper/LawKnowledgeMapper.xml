@@ -32,14 +32,58 @@
 			<if test="thirdCategoryId != null and  thirdCategoryId != ''">
 			 and third_category_id = #{thirdCategoryId}
 			</if>
+			<if test="title!=null">
+				AND title LIKE concat('%',#{title},'%')
+			</if>
 		</where>
 	</sql>
+	<insert id="save" parameterType="lawKnowledge">
+		insert into law_knowledge(
+		knowledge_id,
+		first_category_id,
+		second_category_id,
+		third_category_id,
+		title,
+		content,
+		date_time,
+		source,
+		create_time,
+		modify_time
+		)
+		values(
+		#{knowledgeId},
+		#{firstCategoryId},
+		#{secondCategoryId},
+		#{thirdCategoryId},
+		#{title},
+		#{content},
+		#{dateTime},
+		#{source},
+		current_timestamp(),
+		current_timestamp()
+		)
+	</insert>
+	<update id="delete" parameterType="string">
+		update law_knowledge set del_flag = 1 where knowledge_id = #{knowledgeId}
+	</update>
+	<update id="update" parameterType="lawKnowledge">
+		update law_knowledge set
+		first_category_id = #{firstCategoryId},
+		second_category_id = #{secondCategoryId},
+		third_category_id = #{thirdCategoryId},
+		title = #{title},
+		content = #{content},
+		date_time = #{dateTime},
+		source=#{source},
+		modify_time = current_timestamp()
+		where knowledge_id = #{knowledgeId}
+	</update>
 	<select id="countAll"  parameterType="lawKnowledge" resultType="int">
 		select count(1) from law_knowledge <include refid="lawknowledge_where_clause" />
 	</select>
 	<select id="listByPage" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
-		select knowledge_id,title from law_knowledge
+		select knowledge_id,first_category_id,second_category_id,third_category_id,title,date_time from law_knowledge
 		<include refid="lawknowledge_where_clause" />
 		order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
@@ -247,5 +291,8 @@
 			and second_category_id = ''
 			and third_category_id = ''
 			order by date_time desc limit 1
+	</select>
+	<select id="selectByTitle" parameterType="string" resultType="lawKnowledge">
+		select <include refid="base_column_list"/> from  law_knowledge where title = #{title} and del_flag = 0 limit 1
 	</select>
 </mapper>

@@ -3,7 +3,10 @@ package com.shengsu.website.bdapp.util;
 import com.shengsu.website.bdapp.entity.LawKnowledge;
 import com.shengsu.website.bdapp.entity.LawKnowledgeCategory;
 import com.shengsu.website.bdapp.po.*;
+import com.shengsu.website.bdapp.vo.LawKnowledgeCreateVo;
+import com.shengsu.website.bdapp.vo.LawKnowledgeListByPageVo;
 import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
+import com.shengsu.website.bdapp.vo.LawKnowledgeUpdateVo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -138,6 +141,84 @@ public class LawKnowledgeUtils {
             lawKnowledgeSimplePo.setDateTime(lawKnowledge.getDateTime());
             lawKnowledgeSimplePo.setPictureOssUrl(item);
             return lawKnowledgeSimplePo;
+        }
+        return null;
+    }
+    public static LawKnowledge toLawKnowledge(LawKnowledgeCreateVo lawKnowledgeCreateVo) {
+        if (lawKnowledgeCreateVo != null) {
+            LawKnowledge lawKnowledge = new LawKnowledge();
+            lawKnowledge.setFirstCategoryId(lawKnowledgeCreateVo.getFirstCategoryId());
+            lawKnowledge.setSecondCategoryId(lawKnowledgeCreateVo.getSecondCategoryId());
+            lawKnowledge.setThirdCategoryId(lawKnowledgeCreateVo.getThirdCategoryId());
+            lawKnowledge.setTitle(lawKnowledgeCreateVo.getTitle());
+            lawKnowledge.setContent(lawKnowledgeCreateVo.getContent());
+            lawKnowledge.setDateTime(lawKnowledgeCreateVo.getDateTime());
+            lawKnowledge.setSource(lawKnowledgeCreateVo.getSource());
+            return lawKnowledge;
+        }
+        return null;
+    }
+    public static LawKnowledge toLawKnowledge(LawKnowledgeUpdateVo lawKnowledgeUpdateVo) {
+        if (lawKnowledgeUpdateVo != null) {
+            LawKnowledge lawKnowledge = new LawKnowledge();
+            lawKnowledge.setKnowledgeId(lawKnowledgeUpdateVo.getKnowledgeId());
+            lawKnowledge.setFirstCategoryId(lawKnowledgeUpdateVo.getFirstCategoryId());
+            lawKnowledge.setSecondCategoryId(lawKnowledgeUpdateVo.getSecondCategoryId());
+            lawKnowledge.setThirdCategoryId(lawKnowledgeUpdateVo.getThirdCategoryId());
+            lawKnowledge.setTitle(lawKnowledgeUpdateVo.getTitle());
+            lawKnowledge.setContent(lawKnowledgeUpdateVo.getContent());
+            lawKnowledge.setDateTime(lawKnowledgeUpdateVo.getDateTime());
+            lawKnowledge.setSource(lawKnowledgeUpdateVo.getSource());
+            return lawKnowledge;
+        }
+        return null;
+    }
+
+    public static LawKnowledgeQueryPo toLawKnowledgeQueryPo(LawKnowledge lawKnowledge) {
+        if (lawKnowledge != null) {
+            LawKnowledgeQueryPo lawKnowledgeQueryPo = new LawKnowledgeQueryPo();
+            lawKnowledgeQueryPo.setTitle(lawKnowledge.getTitle());
+            lawKnowledgeQueryPo.setContent(lawKnowledge.getContent());
+            lawKnowledgeQueryPo.setDateTime(lawKnowledge.getDateTime());
+            lawKnowledgeQueryPo.setSource(lawKnowledge.getSource());
+            return lawKnowledgeQueryPo;
+        }
+        return null;
+    }
+    public static LawKnowledge toLawKnowledge(LawKnowledgeListByPageVo lawKnowledgeListByPageVo) {
+        if (lawKnowledgeListByPageVo != null) {
+            LawKnowledge lawKnowledge = new LawKnowledge();
+            lawKnowledge.setFirstCategoryId(lawKnowledgeListByPageVo.getFirstCategoryId());
+            lawKnowledge.setSecondCategoryId(lawKnowledgeListByPageVo.getSecondCategoryId());
+            lawKnowledge.setThirdCategoryId(lawKnowledgeListByPageVo.getThirdCategoryId());
+            lawKnowledge.setTitle(lawKnowledgeListByPageVo.getTitle());
+            lawKnowledge.setPage(lawKnowledgeListByPageVo.getPage());
+            lawKnowledge.setPageSize(lawKnowledgeListByPageVo.getPageSize());
+            return lawKnowledge;
+        }
+        return null;
+    }
+
+    public static List<LawKnowledgePagePo> toLawKnowledgePagePos(List<LawKnowledge> lawKnowledges) {
+        if (lawKnowledges != null && !lawKnowledges.isEmpty()) {
+            List<LawKnowledgePagePo> lawKnowledgePagePos = new ArrayList<>();
+            for (LawKnowledge lawKnowledge : lawKnowledges){
+                lawKnowledgePagePos.add(toLawKnowledgePagePo(lawKnowledge));
+            }
+            return lawKnowledgePagePos;
+        }
+        return null;
+    }
+    private static LawKnowledgePagePo toLawKnowledgePagePo(LawKnowledge lawKnowledge) {
+        if (lawKnowledge != null) {
+            LawKnowledgePagePo lawKnowledgePagePo = new LawKnowledgePagePo();
+            lawKnowledgePagePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
+            lawKnowledgePagePo.setFirstCategoryId(lawKnowledge.getFirstCategoryId());
+            lawKnowledgePagePo.setSecondCategoryId(lawKnowledge.getSecondCategoryId());
+            lawKnowledgePagePo.setThirdCategoryId(lawKnowledge.getThirdCategoryId());
+            lawKnowledgePagePo.setTitle(lawKnowledge.getTitle());
+            lawKnowledgePagePo.setDateTime(lawKnowledge.getDateTime());
+            return lawKnowledgePagePo;
         }
         return null;
     }

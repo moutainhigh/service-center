@@ -15,8 +15,7 @@ import com.shengsu.website.bdapp.service.LawKnowledgeCategoryService;
 import com.shengsu.website.bdapp.service.LawKnowledgeService;
 import com.shengsu.website.bdapp.util.LawKnowledgeCategoryUtils;
 import com.shengsu.website.bdapp.util.LawKnowledgeUtils;
-import com.shengsu.website.bdapp.vo.LawKnowledgeDetailsVo;
-import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
+import com.shengsu.website.bdapp.vo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +43,81 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     @Override
     public BaseMapper<LawKnowledge, String> getBaseMapper() {
         return lawKnowledgeMapper;
+    }
+
+    @Override
+    public ResultBean create(LawKnowledgeCreateVo lawKnowledgeCreateVo) {
+        LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByTitle(lawKnowledgeCreateVo.getTitle());
+        if (lawKnowledge != null) {
+            return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_DATA_REPEAT, null);
+        }
+
+        lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeCreateVo);
+        lawKnowledge.setKnowledgeId(UUID.randomUUID().toString());
+        lawKnowledgeMapper.save(lawKnowledge);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+    }
+
+    @Override
+    public ResultBean remove(LawKnowledgeDeleteVo lawKnowledgeDeleteVo) {
+        String knowledgeId= lawKnowledgeDeleteVo.getKnowledgeId();
+        LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByKnowledgeId(knowledgeId);
+        if (lawKnowledge == null) {
+            return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
+        }
+
+        lawKnowledgeMapper.delete(knowledgeId);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+    }
+
+    @Override
+    public ResultBean edit(LawKnowledgeUpdateVo lawKnowledgeUpdateVo) {
+        String knowledgeId= lawKnowledgeUpdateVo.getKnowledgeId();
+        LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByKnowledgeId(knowledgeId);
+        if (lawKnowledge == null) {
+            return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
+        }
+        lawKnowledge = lawKnowledgeMapper.selectByTitle(lawKnowledgeUpdateVo.getTitle());
+        if (lawKnowledge != null && !lawKnowledge.getKnowledgeId().equals(knowledgeId)) {
+            return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_DATA_REPEAT, null);
+        }
+        lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeUpdateVo);
+        lawKnowledgeMapper.update(lawKnowledge);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+    }
+
+    @Override
+    public ResultBean query(LawKnowledgeQueryVo lawKnowledgeQueryVo) {
+        String knowledgeId= lawKnowledgeQueryVo.getKnowledgeId();
+        LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByKnowledgeId(knowledgeId);
+        if (lawKnowledge == null) {
+            return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
+        }
+        LawKnowledgeQueryPo lawKnowledgeQueryPo = LawKnowledgeUtils.toLawKnowledgeQueryPo(lawKnowledge);
+        lawKnowledgeQueryPo.setFirstCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledge.getFirstCategoryId()));
+        lawKnowledgeQueryPo.setSecondCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledge.getSecondCategoryId()));
+        lawKnowledgeQueryPo.setThirdCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledge.getThirdCategoryId()));
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeQueryPo);
+    }
+
+    @Override
+    public ResultBean listKnowledgeByPage(LawKnowledgeListByPageVo lawKnowledgeListByPageVo) {
+        LawKnowledge lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeListByPageVo);
+        Integer count = lawKnowledgeMapper.countAll(lawKnowledge);
+        Map<String, Object> resultMap = new HashMap<>();
+        if (count > 0) {
+            List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.listByPage(lawKnowledge);
+            List<LawKnowledgePagePo> lawKnowledgePagePos = LawKnowledgeUtils.toLawKnowledgePagePos(lawKnowledges);
+            for (LawKnowledgePagePo  lawKnowledgePagePo : lawKnowledgePagePos){
+                lawKnowledgePagePo.setFirstCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getFirstCategoryId()));
+                lawKnowledgePagePo.setSecondCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getSecondCategoryId()));
+                lawKnowledgePagePo.setThirdCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getThirdCategoryId()));
+            }
+            resultMap.put(CommonConst.ROOT, lawKnowledgePagePos);
+            resultMap.put(CommonConst.TOTAL_COUNT, count);
+        }
+
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
     }
 
     @Override
