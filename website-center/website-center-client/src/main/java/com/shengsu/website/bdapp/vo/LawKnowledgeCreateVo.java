@@ -13,9 +13,7 @@ import java.util.Date;
 public class LawKnowledgeCreateVo implements Serializable {
     @NotBlank
     private String firstCategoryId;
-    @NotBlank
     private String secondCategoryId;
-    @NotBlank
     private String thirdCategoryId;
     @NotBlank
     private String title;

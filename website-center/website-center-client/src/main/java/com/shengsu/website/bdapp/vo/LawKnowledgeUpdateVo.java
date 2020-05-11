@@ -19,9 +19,7 @@ public class LawKnowledgeUpdateVo implements Serializable{
     private String knowledgeId;
     @NotBlank
     private String firstCategoryId;
-    @NotBlank
     private String secondCategoryId;
-    @NotBlank
     private String thirdCategoryId;
     @NotBlank
     private String title;
