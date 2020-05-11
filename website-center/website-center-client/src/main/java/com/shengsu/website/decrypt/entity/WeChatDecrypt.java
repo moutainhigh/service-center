@@ -11,7 +11,7 @@ import java.io.Serializable;
  **/
 @Data
 public class WeChatDecrypt implements Serializable {
-    private String session_key;
+    private String sessionKey;
     private String encryptedData;
     private String iv;
     private String origin;

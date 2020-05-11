@@ -89,7 +89,7 @@ public class DecryptServiceImpl implements DecryptService {
     public String getPhoneNumber(WeChatDecrypt weChatDecrypt) {
         byte[] dataByte = Base64.decodeBase64(weChatDecrypt.getEncryptedData());
 
-        byte[] keyByte = Base64.decodeBase64(weChatDecrypt.getSession_key());
+        byte[] keyByte = Base64.decodeBase64(weChatDecrypt.getSessionKey());
 
         byte[] ivByte = Base64.decodeBase64(weChatDecrypt.getIv());
         try {
