@@ -35,25 +35,25 @@
     <delete id="delete" parameterType="String">
     UPDATE question
     set del_flag = 1
-    where question_id = #{questionId,jdbcType=INTEGER}
+    where question_id = #{questionId}
   </delete>
     <update id="update" parameterType="Question">
     update question
     set
       question_content = #{questionContent,jdbcType=VARCHAR}
-    where del_flag = 0 and question_id = #{questionId,jdbcType=INTEGER}
+    where del_flag = 0 and question_id = #{questionId}
   </update>
     <select id="get" parameterType="String" resultType="Question">
         select
         <include refid="Base_Column_List"/>
         from question
-        where del_flag = 0 and question_id = #{questionId,jdbcType=INTEGER}
+        where del_flag = 0 and question_id = #{questionId}
     </select>
-    <select id="isQuestionExist" parameterType="String" resultType="Integer">
+    <select id="isQuestionExist" parameterType="String" resultType="int">
         select
         count(*)
         from question
-        where del_flag = 0 and question_content = #{questionContent,jdbcType=INTEGER}
+        where del_flag = 0 and question_content = #{questionContent}
     </select>
     <select id="listAll" resultMap="BaseResultMap">
         select
@@ -92,18 +92,18 @@
             #{item}
         </foreach>
     </select>
-    <select id="countAll" parameterType="question" resultType="java.lang.Integer">
+    <select id="countAll" parameterType="question" resultType="int">
         select
         count(1)
         from
         question
         <include refid="question_where_clause"/>
     </select>
-    <select id="isQuestionExistOther" parameterType="Question" resultType="java.lang.Integer">
+    <select id="isQuestionExistOther" parameterType="Question" resultType="int">
         select
         count(*)
         from question
-        where del_flag = 0 and question_content = #{questionContent,jdbcType=INTEGER}
+        where del_flag = 0 and question_content = #{questionContent}
             and question_id not in ( #{questionId} )
     </select>
 
