@@ -78,4 +78,9 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, String> imple
     public int isQuestionExist(String content){
         return questionMapper.isQuestionExist(content);
     }
+
+    @Override
+    public int isQuestionExist(Question question) {
+        return questionMapper.isQuestionExistOther(question);
+    }
 }

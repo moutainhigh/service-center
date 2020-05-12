@@ -53,12 +53,13 @@ public class ConsultAnswerServiceImpl implements ConsultAnswerService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultBean update(ConsultAnswerVo consultAnswerVo){
-        int count = questionService.isQuestionExist(consultAnswerVo.getQuestionContent());
+        Question question = QuestionUtils.toQuestion(consultAnswerVo);
+
+        int count = questionService.isQuestionExist(question);
         if(count>0){
             return ResultUtil.formResult(false, ResultCode.EXCEPTION_PROBLEM_ALREADY_EXISTS, null);
         }
 
-        Question question = QuestionUtils.toQuestion(consultAnswerVo);
         questionService.update(question);
         QuestionReply questionReply = QuestionReplyUtils.toQuestionReply(consultAnswerVo,question);
         questionReplyService.update(questionReply);

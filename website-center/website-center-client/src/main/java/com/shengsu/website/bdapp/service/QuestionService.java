@@ -17,4 +17,5 @@ public interface QuestionService extends BaseService<Question,String> {
     ResultBean getDetail(QuestionVo questionVo);
     int countAllByQuestionIds(List<String> questionIds);
     int isQuestionExist(String content);
+    int isQuestionExist(Question question);
 }

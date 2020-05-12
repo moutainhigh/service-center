@@ -10,4 +10,5 @@ import java.util.List;
 public interface QuestionMapper extends BaseMapper<Question,String> {
     int countAllByQuestionIds(List<String> questionIds);
     int isQuestionExist(String content);
+    int isQuestionExistOther(Question question);
 }

@@ -99,5 +99,12 @@
         question
         <include refid="question_where_clause"/>
     </select>
+    <select id="isQuestionExistOther" parameterType="Question" resultType="java.lang.Integer">
+        select
+        count(*)
+        from question
+        where del_flag = 0 and question_content = #{questionContent,jdbcType=INTEGER}
+            and question_id not in ( #{questionId} )
+    </select>
 
 </mapper>
