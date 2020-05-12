@@ -2,8 +2,8 @@ package com.shengsu.website.bdapp.entity;
 
 import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * @program: service-center
@@ -12,18 +12,18 @@ import javax.validation.constraints.NotNull;
  **/
 @Data
 public class ConsultAnswer extends BaseEntity {
-    @NotNull
+    @NotBlank
     private String questionContent;
     /**
      * 回复人id
      */
-    @NotNull
+    @NotBlank
     private String replyLawyerId;
 
     /**
      * 回复内容
      */
-    @NotNull
+    @NotBlank
     private String replyContent;
 
 }

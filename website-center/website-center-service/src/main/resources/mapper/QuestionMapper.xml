@@ -33,8 +33,9 @@
         )
     </insert>
     <delete id="delete" parameterType="String">
-    delete from question
-    where del_flag = 0 and question_id = #{questionId,jdbcType=INTEGER}
+    UPDATE question
+    set del_flag = 1
+    where question_id = #{questionId,jdbcType=INTEGER}
   </delete>
     <update id="update" parameterType="Question">
     update question
@@ -91,4 +92,12 @@
             #{item}
         </foreach>
     </select>
+    <select id="countAll" parameterType="question" resultType="java.lang.Integer">
+        select
+        count(1)
+        from
+        question
+        <include refid="question_where_clause"/>
+    </select>
+
 </mapper>

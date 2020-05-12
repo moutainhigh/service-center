@@ -45,7 +45,8 @@
     <update id="update" parameterType="questionReply">
         UPDATE question_reply
         SET
-        reply_content = #{replyContent}
+        reply_content = #{replyContent},
+        reply_lawyer_id = #{replyLawyerId}
         WHERE del_flag=0 and question_id = #{questionId}
     </update>
     <select id="getOne" parameterType="questionReply" resultMap="BaseResultMap">
@@ -97,8 +98,9 @@
         <include refid="questionReply_where_clause"/>
     </select>
     <delete id="delete" parameterType="String">
-    delete from question_reply
-    where del_flag = 0 and question_id = #{questionId,jdbcType=INTEGER}
+        UPDATE question_reply
+        set del_flag = 1
+        where question_id = #{questionId,jdbcType=INTEGER}
   </delete>
     <select id="getMany" parameterType="list" resultType="questionReply">
         select

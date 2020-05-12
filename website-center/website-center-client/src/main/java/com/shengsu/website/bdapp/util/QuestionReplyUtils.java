@@ -53,6 +53,7 @@ public class QuestionReplyUtils {
         QuestionReply questionReply = new QuestionReply();
         questionReply.setQuestionId(question.getQuestionId());
         questionReply.setReplyContent(consultAnswerVo.getReplyContent());
+        questionReply.setReplyLawyerId(consultAnswerVo.getReplyLawyerId());
         return questionReply;
     }
 }

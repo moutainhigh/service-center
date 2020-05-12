@@ -53,10 +53,16 @@ public class ConsultAnswerServiceImpl implements ConsultAnswerService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultBean update(ConsultAnswerVo consultAnswerVo){
+        int count = questionService.isQuestionExist(consultAnswerVo.getQuestionContent());
+        if(count>0){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION_PROBLEM_ALREADY_EXISTS, null);
+        }
+
         Question question = QuestionUtils.toQuestion(consultAnswerVo);
         questionService.update(question);
         QuestionReply questionReply = QuestionReplyUtils.toQuestionReply(consultAnswerVo,question);
         questionReplyService.update(questionReply);
+
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
     @Override
@@ -89,7 +95,7 @@ public class ConsultAnswerServiceImpl implements ConsultAnswerService {
         }
         List<Lawyer> lawyers = lawyerService.getMany(lawyerIds);
         questionReplyService.geturls(lawyers);
-        int totalCount = questionService.countAllByQuestionIds(questionIds);
+        int totalCount = questionService.countAll(question);
         List<QuestionReplyPo> questionReplyPos = QuestionReplyUtils.toQuestionReplyPos(questionReplies, lawyers, questions);
         return ResultUtil.formPageResult(true, ResultCode.SUCCESS, questionReplyPos,totalCount);
     }
