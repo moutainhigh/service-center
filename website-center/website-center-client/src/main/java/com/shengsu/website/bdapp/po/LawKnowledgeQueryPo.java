@@ -13,6 +13,9 @@ import java.util.Date;
  **/
 @Data
 public class LawKnowledgeQueryPo implements Serializable {
+    private String firstCategoryId;
+    private String secondCategoryId;
+    private String thirdCategoryId;
     private String firstCategoryName;
     private String secondCategoryName;
     private String thirdCategoryName;

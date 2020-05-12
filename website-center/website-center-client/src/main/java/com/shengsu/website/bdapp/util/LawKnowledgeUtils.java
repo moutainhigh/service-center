@@ -177,6 +177,9 @@ public class LawKnowledgeUtils {
     public static LawKnowledgeQueryPo toLawKnowledgeQueryPo(LawKnowledge lawKnowledge) {
         if (lawKnowledge != null) {
             LawKnowledgeQueryPo lawKnowledgeQueryPo = new LawKnowledgeQueryPo();
+            lawKnowledgeQueryPo.setFirstCategoryId(lawKnowledge.getFirstCategoryId());
+            lawKnowledgeQueryPo.setSecondCategoryId(lawKnowledge.getSecondCategoryId());
+            lawKnowledgeQueryPo.setThirdCategoryId(lawKnowledge.getThirdCategoryId());
             lawKnowledgeQueryPo.setTitle(lawKnowledge.getTitle());
             lawKnowledgeQueryPo.setContent(lawKnowledge.getContent());
             lawKnowledgeQueryPo.setDateTime(lawKnowledge.getDateTime());
