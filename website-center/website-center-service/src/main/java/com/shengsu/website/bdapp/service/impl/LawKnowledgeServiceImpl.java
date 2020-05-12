@@ -1,5 +1,6 @@
 package com.shengsu.website.bdapp.service.impl;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.constant.CommonConst;
@@ -108,10 +109,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         if (count > 0) {
             List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.listByPage(lawKnowledge);
             List<LawKnowledgePagePo> lawKnowledgePagePos = LawKnowledgeUtils.toLawKnowledgePagePos(lawKnowledges);
-            for (LawKnowledgePagePo  lawKnowledgePagePo : lawKnowledgePagePos){
-                lawKnowledgePagePo.setFirstCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getFirstCategoryId()));
-                lawKnowledgePagePo.setSecondCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getSecondCategoryId()));
-                lawKnowledgePagePo.setThirdCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getThirdCategoryId()));
+            if (CollectionUtils.isNotEmpty(lawKnowledgePagePos)) {
+                for (LawKnowledgePagePo lawKnowledgePagePo : lawKnowledgePagePos) {
+                    lawKnowledgePagePo.setFirstCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getFirstCategoryId()));
+                    lawKnowledgePagePo.setSecondCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getSecondCategoryId()));
+                    lawKnowledgePagePo.setThirdCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getThirdCategoryId()));
+                }
             }
             resultMap.put(CommonConst.ROOT, lawKnowledgePagePos);
             resultMap.put(CommonConst.TOTAL_COUNT, count);
