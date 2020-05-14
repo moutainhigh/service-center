@@ -34,10 +34,10 @@ import static com.shengsu.trade.app.constant.BizConst.*;
 public class WxpayServiceImpl implements WxpayService {
     // 公众号
     @Value("${wxpay.gzh.appid}")
-    private String appID;
-    @Value("${wxpay.gzh.mchid}")
+    private String gzhAppID ;
+    @Value("${wxpay.mchid}")
     private String mchID;
-    @Value("${wxpay.gzh.apikey}")
+    @Value("${wxpay.apikey}")
     private String apiKey;
     @Value("${wxpay.sandbox}")
     private boolean isSandbox;
@@ -45,11 +45,7 @@ public class WxpayServiceImpl implements WxpayService {
     private String notifyUrl;
     // 小程序
     @Value("${wxpay.weapp.appid}")
-    private String weappId;
-    @Value("${wxpay.weapp.mchid}")
-    private String weappMchID;
-    @Value("${wxpay.weapp.apikey}")
-    private String weappApiKey;
+    private String weAppID;
 
     @Autowired
     private CodeGeneratorService codeGeneratorService;
@@ -72,7 +68,7 @@ public class WxpayServiceImpl implements WxpayService {
         outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config= getMyConfig(appID,mchID,apiKey);
+        MyConfig config= getMyConfig(gzhAppID,mchID,apiKey);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("案源王充值中心-会员充值",outTradeNo,String.valueOf(totalFee),wxOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxOrderVo.getOpenId());
@@ -116,7 +112,7 @@ public class WxpayServiceImpl implements WxpayService {
         outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config= getMyConfig(weappId,weappMchID,weappApiKey);
+        MyConfig config= getMyConfig(weAppID,mchID,apiKey);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("小程序支付中心-支付",outTradeNo,String.valueOf(totalFee),wxAppOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxAppOrderVo.getOpenId());
@@ -202,7 +198,7 @@ public class WxpayServiceImpl implements WxpayService {
     @Override
     public ResultBean cancel(WxOrderCancelVo wxOrderCancelVo)throws Exception{
         MyConfig config = new MyConfig();
-        config.setAppID(appID);
+        config.setAppID(gzhAppID);
         config.setMchID(mchID);
         config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
@@ -227,7 +223,7 @@ public class WxpayServiceImpl implements WxpayService {
     @Override
     public ResultBean orderQuery(String outTradeNo)throws Exception{
         MyConfig config = new MyConfig();
-        config.setAppID(appID);
+        config.setAppID(gzhAppID);
         config.setMchID(mchID);
         config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
@@ -250,22 +246,19 @@ public class WxpayServiceImpl implements WxpayService {
         config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
         return config;
     }
-
     @Override
-    public MyConfig getGzhConfig() throws Exception{
+    public MyConfig getConfig(String orderFlag) throws Exception{
         MyConfig config = new MyConfig();
-        config.setAppID(appID);
+        switch (orderFlag){
+            case "WGTN":
+                config.setAppID(gzhAppID);
+                break;
+            case "WATN":
+                config.setAppID(weAppID);
+                break;
+        }
         config.setMchID(mchID);
         config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
-        return config;
-    }
-
-    @Override
-    public MyConfig getWeappConfig() throws Exception{
-        MyConfig config = new MyConfig();
-        config.setAppID(weappId);
-        config.setMchID(weappMchID);
-        config.setKey(isSandbox?getSignKey(weappMchID,weappApiKey):weappApiKey);
         return config;
     }
     private String getSignKey(String mchID,String apiKey) throws Exception {
