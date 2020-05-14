@@ -64,7 +64,7 @@ public class WxpayServiceImpl implements WxpayService {
         int totalFee =  new BigDecimal(wxOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
         String outTradeNo = codeGeneratorService.generateCode(ORDER_FLAG_WECHAT_GZH);
         //插入6位随机数
-        outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
+        outTradeNo=new StringBuilder(outTradeNo).insert(2,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
         MyConfig config= getConfig("WG");
@@ -108,7 +108,7 @@ public class WxpayServiceImpl implements WxpayService {
         int totalFee =  new BigDecimal(wxAppOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
         String outTradeNo = codeGeneratorService.generateCode(ORDER_FLAG_WECHAT_WEAPP);
         //插入6位随机数
-        outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
+        outTradeNo=new StringBuilder(outTradeNo).insert(2,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
         MyConfig config= getConfig("WA");
