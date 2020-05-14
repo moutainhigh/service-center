@@ -62,9 +62,9 @@ public class WxpayServiceImpl implements WxpayService {
         log.info("开始下单");
         String accountId = wxOrderVo.getAccountId();
         int totalFee =  new BigDecimal(wxOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo = codeGeneratorService.generateCode(ORDER_FLAG_WECHAT_GZH);
+        String outTradeNo = codeGeneratorService.generateCode("WGTN");
         //插入6位随机数
-        outTradeNo=new StringBuilder(outTradeNo).insert(2,PayOrderUtils.randnum(6)).toString();
+        outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
         MyConfig config= getConfig("WG");
@@ -106,9 +106,9 @@ public class WxpayServiceImpl implements WxpayService {
     public ResultBean order(WxAppOrderVo wxAppOrderVo) throws Exception {
         log.info("开始下单");
         int totalFee =  new BigDecimal(wxAppOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo = codeGeneratorService.generateCode(ORDER_FLAG_WECHAT_WEAPP);
+        String outTradeNo = codeGeneratorService.generateCode("WATN");
         //插入6位随机数
-        outTradeNo=new StringBuilder(outTradeNo).insert(2,PayOrderUtils.randnum(6)).toString();
+        outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
         MyConfig config= getConfig("WA");
