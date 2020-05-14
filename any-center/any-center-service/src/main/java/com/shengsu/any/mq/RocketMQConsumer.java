@@ -28,14 +28,14 @@ public class RocketMQConsumer extends AbstractMQConsumer {
 
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
-    @Value("${rocketmq.consumer.anyGroup}")
-    private String anyGroup;
+    @Value("${rocketmq.consumer.group}")
+    private String group;
 
     @Override
     @PostConstruct
     public void init() {
         try {
-            consumer = new DefaultMQPushConsumer(anyGroup);
+            consumer = new DefaultMQPushConsumer(group);
             consumer.setNamesrvAddr(namesrvAddr);
             consumer.setConsumeThreadMin(consumeThreadMin);
             consumer.setConsumeThreadMax(consumeThreadMax);
@@ -44,7 +44,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
             registerMessageListener();
             subscribe();
             consumer.start();
-            log.info("consume is start", anyGroup);
+            log.info("consume is start", group);
         } catch (MQClientException e) {
             log.error("consume start error:",e);
         }
