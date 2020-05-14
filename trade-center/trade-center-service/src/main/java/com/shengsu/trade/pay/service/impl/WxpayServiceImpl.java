@@ -68,7 +68,7 @@ public class WxpayServiceImpl implements WxpayService {
         outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config= getMyConfig(gzhAppID,mchID,apiKey);
+        MyConfig config= getConfig("WGTN");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("案源王充值中心-会员充值",outTradeNo,String.valueOf(totalFee),wxOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxOrderVo.getOpenId());
@@ -112,7 +112,7 @@ public class WxpayServiceImpl implements WxpayService {
         outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config= getMyConfig(weAppID,mchID,apiKey);
+        MyConfig config= getConfig("WATN");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("小程序支付中心-支付",outTradeNo,String.valueOf(totalFee),wxAppOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxAppOrderVo.getOpenId());
@@ -221,9 +221,16 @@ public class WxpayServiceImpl implements WxpayService {
     }
 
     @Override
-    public ResultBean orderQuery(String outTradeNo)throws Exception{
+    public ResultBean orderQuery(String outTradeNo,String paySubType)throws Exception{
         MyConfig config = new MyConfig();
-        config.setAppID(gzhAppID);
+        switch (paySubType){
+            case PAY_SUB_TYPE_WECHAT_GZH:
+                config.setAppID(gzhAppID);
+                break;
+            case PAY_SUB_TYPE_WECHAT_WEAPP:
+                config.setAppID(weAppID);
+                break;
+        }
         config.setMchID(mchID);
         config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
@@ -239,13 +246,6 @@ public class WxpayServiceImpl implements WxpayService {
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resp);
     }
 
-    private MyConfig getMyConfig(String appID,String mchID,String apiKey) throws Exception{
-        MyConfig config = new MyConfig();
-        config.setAppID(appID);
-        config.setMchID(mchID);
-        config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
-        return config;
-    }
     @Override
     public MyConfig getConfig(String orderFlag) throws Exception{
         MyConfig config = new MyConfig();
