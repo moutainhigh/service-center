@@ -174,26 +174,6 @@ public class WxpayServiceImpl implements WxpayService {
         result.put("paySign", paySign);
         return result;
     }
-    /**
-    * @Description:
-    * @Param: * @Param code:
-    * @Return: * @return: java.lang.String
-    * @date:
-    */
-    private String getOpenId(String appid,String secret,String code) {
-        //页面获取openId接口
-        String getopenid_url = "https://api.weixin.qq.com/sns/jscode2session";
-        Map<String, String> params = new HashMap<>();
-        params.put("appid",appid);
-        params.put("secret",secret);
-        params.put("js_code",code);
-        params.put("grant_type","authorization_code");
-        //向微信服务器发送get请求获取openIdStr
-        String openIdStr = HttpClientUtil.doGet(getopenid_url, params);
-        JSONObject json = JSONObject.parseObject(openIdStr);//转成Json格式
-        String openId = json.getString("openid");//获取openId
-        return openId;
-    }
 
     @Override
     public ResultBean cancel(WxOrderCancelVo wxOrderCancelVo)throws Exception{
