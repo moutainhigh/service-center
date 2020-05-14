@@ -32,6 +32,11 @@ public interface BizConst {
     String PAY_SUB_TYPE_WECHAT_GZH = "wechat_gzh";
     //支付子类型-微信小程序
     String PAY_SUB_TYPE_WECHAT_WEAPP = "wechat_weapp";
+    // 下单标记-微信公众号
+    String ORDER_FLAG_WECHAT_GZH= "WGTN";
+    // 下单标记-微信小程序
+    String ORDER_FLAG_WECHAT_WEAPP= "WATN";
+
     //订单状态-未支付
     String ORDER_STATUS_UNPAID= "0";
     //订单状态-已支付

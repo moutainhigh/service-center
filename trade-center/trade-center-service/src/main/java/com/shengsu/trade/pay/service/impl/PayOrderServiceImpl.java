@@ -87,9 +87,11 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> imple
         if(PAY_TYPE_ALIPAY.equals(payOrderQueryVo.getPayType())){
             return alipayService.orderQuery(payOrderQueryVo.getOrderNo());
         }else if(PAY_TYPE_WECHAT.equals(payOrderQueryVo.getPayType())&&PAY_SUB_TYPE_WECHAT_GZH.equals(payOrderQueryVo.getPaySubType())){
-            return wxpayService.orderQuery(payOrderQueryVo.getOrderNo(),payOrderQueryVo.getPaySubType());
+            // 微信公众号支付
+            return wxpayService.orderQuery(payOrderQueryVo.getOrderNo(),ORDER_FLAG_WECHAT_GZH);
         }else if(PAY_TYPE_WECHAT.equals(payOrderQueryVo.getPayType())&&PAY_SUB_TYPE_WECHAT_WEAPP.equals(payOrderQueryVo.getPaySubType())){
-            return wxpayService.orderQuery(payOrderQueryVo.getOrderNo(),payOrderQueryVo.getPaySubType());
+            // 微信小程序支付
+            return wxpayService.orderQuery(payOrderQueryVo.getOrderNo(),ORDER_FLAG_WECHAT_WEAPP);
         }else{
             return bdpayService.orderQuery(payOrderQueryVo.getOrderNo());
         }

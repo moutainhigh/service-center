@@ -1,6 +1,5 @@
 package com.shengsu.trade.pay.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
@@ -63,7 +62,7 @@ public class WxpayServiceImpl implements WxpayService {
         log.info("开始下单");
         String accountId = wxOrderVo.getAccountId();
         int totalFee =  new BigDecimal(wxOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo = codeGeneratorService.generateCode("WGTN");
+        String outTradeNo = codeGeneratorService.generateCode(ORDER_FLAG_WECHAT_GZH);
         //插入6位随机数
         outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
@@ -107,7 +106,7 @@ public class WxpayServiceImpl implements WxpayService {
     public ResultBean order(WxAppOrderVo wxAppOrderVo) throws Exception {
         log.info("开始下单");
         int totalFee =  new BigDecimal(wxAppOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo = codeGeneratorService.generateCode("WATN");
+        String outTradeNo = codeGeneratorService.generateCode(ORDER_FLAG_WECHAT_WEAPP);
         //插入6位随机数
         outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
@@ -201,18 +200,8 @@ public class WxpayServiceImpl implements WxpayService {
     }
 
     @Override
-    public ResultBean orderQuery(String outTradeNo,String paySubType)throws Exception{
-        MyConfig config = new MyConfig();
-        switch (paySubType){
-            case PAY_SUB_TYPE_WECHAT_GZH:
-                config.setAppID(gzhAppID);
-                break;
-            case PAY_SUB_TYPE_WECHAT_WEAPP:
-                config.setAppID(weAppID);
-                break;
-        }
-        config.setMchID(mchID);
-        config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
+    public ResultBean orderQuery(String outTradeNo,String orderFlag)throws Exception{
+        MyConfig config =getConfig(orderFlag);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         Map<String, String> data = new HashMap<>();
         data.put("out_trade_no", outTradeNo);
@@ -230,10 +219,10 @@ public class WxpayServiceImpl implements WxpayService {
     public MyConfig getConfig(String orderFlag) throws Exception{
         MyConfig config = new MyConfig();
         switch (orderFlag){
-            case "WGTN":
+            case ORDER_FLAG_WECHAT_GZH:
                 config.setAppID(gzhAppID);
                 break;
-            case "WATN":
+            case ORDER_FLAG_WECHAT_WEAPP:
                 config.setAppID(weAppID);
                 break;
         }
