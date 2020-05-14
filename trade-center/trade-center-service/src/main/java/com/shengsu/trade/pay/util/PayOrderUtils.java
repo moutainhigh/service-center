@@ -28,14 +28,6 @@ public class PayOrderUtils {
         payOrder.setStatus(status);
         return payOrder;
     }
-    public static PayOrder toPayOrder(String orderNo,String status,String transactionId,String completeTime) {
-        PayOrder payOrder = new PayOrder();
-        payOrder.setOrderNo(orderNo);
-        payOrder.setStatus(status);
-        payOrder.setTransactionId(transactionId);
-        payOrder.setCompleteTime(completeTime);
-        return payOrder;
-    }
     public static PayOrder toPayOrder(String orderNo,String status,String transactionId,String completeTime,String paySubtype,String siteId) {
         PayOrder payOrder = new PayOrder();
         payOrder.setOrderNo(orderNo);
