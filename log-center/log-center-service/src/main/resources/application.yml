@@ -25,7 +25,7 @@ logging:
   file: logs/log-center-service.log
 rocketmq:
   consumer:
-    logGroup: logGroup
+    group: logGroup
     namesrvAddr: 127.0.0.1:9876
 dingtalk:
   groupUrl: https://oapi.dingtalk.com/robot/send?access_token=92e306a3d642162d1f09082821d508d6b8f48cb5612ecb110da7ad9a2a7a4280

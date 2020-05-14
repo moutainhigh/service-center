@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 /**
  * Created by zyc on 2019/9/27.
@@ -30,7 +29,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
 
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
-    @Value("${rocketmq.consumer.logGroup}")
+    @Value("${rocketmq.consumer.group}")
     private String logGroup;
 
     @Override
