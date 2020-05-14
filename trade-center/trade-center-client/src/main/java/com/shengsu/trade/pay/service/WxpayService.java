@@ -10,8 +10,7 @@ import com.shengsu.trade.pay.wxsdk.MyConfig;
 public interface WxpayService {
     ResultBean order(WxOrderVo wxOrderVo)throws Exception;
     ResultBean cancel(WxOrderCancelVo wxOrderCancelVo)throws Exception;
-    MyConfig getGzhConfig()throws Exception;
     ResultBean orderQuery(String outTradeNo)throws Exception;
     ResultBean order(WxAppOrderVo wxAppOrderVo)throws Exception;
-    MyConfig getWeappConfig()throws Exception;
+    MyConfig getConfig(String orderFlag) throws Exception;
 }
