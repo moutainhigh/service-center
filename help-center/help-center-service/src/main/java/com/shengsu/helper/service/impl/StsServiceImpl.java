@@ -45,7 +45,6 @@ public class StsServiceImpl implements StsService {
      * @return
      * @throws ClientException
      */
-    @Override
     public AssumeRoleResponse assumeRole(String policy, ProtocolType protocolType) throws ClientException {
         try {
             // 创建一个 Aliyun Acs Client, 用于发起 OpenAPI 请求
