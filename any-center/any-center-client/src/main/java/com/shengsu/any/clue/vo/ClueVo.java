@@ -14,7 +14,7 @@ public class ClueVo implements Serializable {
     private String provinceCode;// 省级编码
     @NotBlank
     private String cityCode;// 市级编码
-    @NotBlank
+
     private String districtCode;// 区级编码
     @NotBlank
     private String appellation;// 称谓
