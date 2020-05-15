@@ -27,7 +27,7 @@ wxpay:
   gzh:
     appid: wx6f29705e50768a15
   weapp:
-    appid: wx6f29705e50768a15
+    appid: wx36c1d8e71b07103d
   mchid: 1573621631
   apikey: 1f5dc3037d7a4752b69e95fcad34ad34
   sandbox: false

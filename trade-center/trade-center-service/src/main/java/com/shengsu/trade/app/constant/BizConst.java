@@ -28,6 +28,11 @@ public interface BizConst {
     String PAY_TYPE_ALIPAY = "alipay";
     //支付类型-百度
     String PAY_TYPE_BDPAY = "bdpay";
+    // 下单标记-微信公众号
+    String ORDER_FLAG_WECHAT_GZH= "WG";
+    // 下单标记-微信小程序
+    String ORDER_FLAG_WECHAT_WEAPP= "WA";
+
     //订单状态-未支付
     String ORDER_STATUS_UNPAID= "0";
     //订单状态-已支付

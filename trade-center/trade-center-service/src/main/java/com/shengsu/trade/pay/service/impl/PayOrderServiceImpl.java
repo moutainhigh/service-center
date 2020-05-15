@@ -84,12 +84,18 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrder, String> imple
 
     @Override
     public ResultBean orderQuery(PayOrderQueryVo payOrderQueryVo)throws Exception{
-        if(PAY_TYPE_ALIPAY.equals(payOrderQueryVo.getPayType())){
-            return alipayService.orderQuery(payOrderQueryVo.getOrderNo());
-        }else if(PAY_TYPE_WECHAT.equals(payOrderQueryVo.getPayType())){
-            return wxpayService.orderQuery(payOrderQueryVo.getOrderNo());
-        }else{
-            return bdpayService.orderQuery(payOrderQueryVo.getOrderNo());
+        ResultBean resultBean = null;
+        switch (payOrderQueryVo.getPayType()){
+            case PAY_TYPE_ALIPAY:
+                resultBean = alipayService.orderQuery(payOrderQueryVo.getOrderNo());
+                break;
+            case PAY_TYPE_WECHAT:
+                resultBean = wxpayService.orderQuery(payOrderQueryVo.getOrderNo());
+                break;
+            case PAY_TYPE_BDPAY:
+                resultBean = bdpayService.orderQuery(payOrderQueryVo.getOrderNo());
+                break;
         }
+        return resultBean;
     }
 }

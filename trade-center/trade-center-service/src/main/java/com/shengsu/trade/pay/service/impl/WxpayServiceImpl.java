@@ -1,6 +1,5 @@
 package com.shengsu.trade.pay.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
@@ -68,7 +67,7 @@ public class WxpayServiceImpl implements WxpayService {
         outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config= getMyConfig(gzhAppID,mchID,apiKey);
+        MyConfig config= getConfig("WG");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("案源王充值中心-会员充值",outTradeNo,String.valueOf(totalFee),wxOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxOrderVo.getOpenId());
@@ -112,7 +111,7 @@ public class WxpayServiceImpl implements WxpayService {
         outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config= getMyConfig(weAppID,mchID,apiKey);
+        MyConfig config= getConfig("WA");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("小程序支付中心-支付",outTradeNo,String.valueOf(totalFee),wxAppOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxAppOrderVo.getOpenId());
@@ -174,33 +173,11 @@ public class WxpayServiceImpl implements WxpayService {
         result.put("paySign", paySign);
         return result;
     }
-    /**
-    * @Description:
-    * @Param: * @Param code:
-    * @Return: * @return: java.lang.String
-    * @date:
-    */
-    private String getOpenId(String appid,String secret,String code) {
-        //页面获取openId接口
-        String getopenid_url = "https://api.weixin.qq.com/sns/jscode2session";
-        Map<String, String> params = new HashMap<>();
-        params.put("appid",appid);
-        params.put("secret",secret);
-        params.put("js_code",code);
-        params.put("grant_type","authorization_code");
-        //向微信服务器发送get请求获取openIdStr
-        String openIdStr = HttpClientUtil.doGet(getopenid_url, params);
-        JSONObject json = JSONObject.parseObject(openIdStr);//转成Json格式
-        String openId = json.getString("openid");//获取openId
-        return openId;
-    }
 
     @Override
     public ResultBean cancel(WxOrderCancelVo wxOrderCancelVo)throws Exception{
-        MyConfig config = new MyConfig();
-        config.setAppID(gzhAppID);
-        config.setMchID(mchID);
-        config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
+        String orderFlag = wxOrderCancelVo.getOrderNo().substring(0,2);
+        MyConfig config = getConfig(orderFlag);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         Map<String, String> data = new HashMap<>();
         data.put("out_trade_no", wxOrderCancelVo.getOrderNo());
@@ -222,10 +199,8 @@ public class WxpayServiceImpl implements WxpayService {
 
     @Override
     public ResultBean orderQuery(String outTradeNo)throws Exception{
-        MyConfig config = new MyConfig();
-        config.setAppID(gzhAppID);
-        config.setMchID(mchID);
-        config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
+        String orderFlag = outTradeNo.substring(0,2);
+        MyConfig config =getConfig(orderFlag);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         Map<String, String> data = new HashMap<>();
         data.put("out_trade_no", outTradeNo);
@@ -239,21 +214,14 @@ public class WxpayServiceImpl implements WxpayService {
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resp);
     }
 
-    private MyConfig getMyConfig(String appID,String mchID,String apiKey) throws Exception{
-        MyConfig config = new MyConfig();
-        config.setAppID(appID);
-        config.setMchID(mchID);
-        config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
-        return config;
-    }
     @Override
     public MyConfig getConfig(String orderFlag) throws Exception{
         MyConfig config = new MyConfig();
         switch (orderFlag){
-            case "WGTN":
+            case ORDER_FLAG_WECHAT_GZH:
                 config.setAppID(gzhAppID);
                 break;
-            case "WATN":
+            case ORDER_FLAG_WECHAT_WEAPP:
                 config.setAppID(weAppID);
                 break;
         }

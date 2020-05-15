@@ -18,4 +18,5 @@ public class PayOrderQueryVo implements Serializable {
     // 支付类型
     @NotBlank
     private String payType;
+    private String paySubType;
 }
