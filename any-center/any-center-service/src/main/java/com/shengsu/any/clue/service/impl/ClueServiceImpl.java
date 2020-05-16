@@ -393,5 +393,8 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
-
+    @Override
+    public List<Clue> getClues(CluePersonalVo cluePersonalVo){
+        return clueMapper.getClues(cluePersonalVo);
+    }
 }

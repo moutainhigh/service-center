@@ -184,4 +184,17 @@
     <update id="updateClueTelX" parameterType="clue">
          update clue set telX = #{telX} where clue_id = #{clueId}
     </update>
+    <select id="getClues" parameterType="com.shengsu.any.clue.vo.CluePersonalVo" resultType="Clue">
+        select
+        *
+        from
+        clue
+        where clue_id in
+        <foreach collection="clueIds" item="item" open="(" close=") " separator=",">
+            #{item}
+        </foreach>
+        <if test="clueType != null and  clueType != ''">
+            and clue_type=#{clueType}
+        </if>
+    </select>
 </mapper>

@@ -86,7 +86,9 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
             String clueId = person.getClueId();
             clueIds.add(clueId);
         }
-        List<Clue> clues = clueService.getMany(clueIds);
+        cluePersonalVo.setClueIds(clueIds);
+
+        List<Clue> clues = clueService.getClues(cluePersonalVo);
         Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode("clue_type");
         for(Clue clue : clues){
             SystemDict systemDict = systemDictMap.get(clue.getClueType());

@@ -6,6 +6,8 @@ import com.shengsu.any.clue.vo.*;
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 
+import java.util.List;
+
 /**
  * @description:
  * @author: lipiao
@@ -23,4 +25,5 @@ public interface ClueService extends BaseService<Clue,String> {
      ResultBean clueClientListByPage(ClueListByPageVo clueListByPageVo);
      ResultBean sendAxbUnBindRequest(AxbUnBindRequestVo axbUnBindRequestVo);
      ResultBean pushAllTemplateMsg();
+     List<Clue> getClues(CluePersonalVo cluePersonalVo);
 }

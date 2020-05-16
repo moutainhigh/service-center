@@ -24,6 +24,9 @@ public class CluePersonalUtils {
             CluePersonalPo cluePersonalPo = new CluePersonalPo();
             UserPo userPo = UserUtils.toUserPo(userMap.get(cluePersonal.getUserId()));
             Clue clue = clueMap.get(cluePersonal.getClueId());
+            if(userPo==null || clue==null){
+                continue;
+            }
             cluePersonalPo.setUserPo(userPo);
             cluePersonalPo.setClueCode(clue.getClueCode());
             cluePersonalPo.setOnshelfTime(clue.getOnshelfTime());
