@@ -106,8 +106,8 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
 
         List<User> users = userService.getMany(userIds);
         Map<String, SystemDict> systemDicts = systemDictService.mapByDictCode(DICT_CODE_FIELD);
-        String field = "";
         for(User user : users){
+            String field = "";
             if (StringUtils.isNotBlank(user.getField())){
                 List<String> fieldItems = Arrays.asList(StringUtils.split(user.getField(), ","));
                 for (String item : fieldItems){
