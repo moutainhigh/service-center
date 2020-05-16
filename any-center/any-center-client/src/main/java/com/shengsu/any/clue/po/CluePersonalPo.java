@@ -24,7 +24,6 @@ public class CluePersonalPo implements Serializable {
     private String clueType;// 线索类型
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date buyTime;
-    private String appellation;
     private BigDecimal cluePrice;
     private UserPo userPo;
 }

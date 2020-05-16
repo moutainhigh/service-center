@@ -32,7 +32,6 @@ public class CluePersonalUtils {
             cluePersonalPo.setDistrictCode(clue.getDistrictCode());
             cluePersonalPo.setClueType(clue.getClueType());
             cluePersonalPo.setBuyTime(cluePersonal.getCreateTime());
-            cluePersonalPo.setAppellation(clue.getAppellation());
             cluePersonalPo.setCluePrice(clue.getCluePrice());
             cluePersonalPos.add(cluePersonalPo);
         }
