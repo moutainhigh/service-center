@@ -16,5 +16,5 @@ import java.util.List;
 public interface CluePersonalService extends BaseService<CluePersonal,String> {
      void create(String clueId,String userId);
     List<CluePersonal> listByUserId(String userId);
-    ResultBean listClueAndUser(CluePersonalVo cluePersonalVo);
+    ResultBean listSoldRecord(CluePersonalVo cluePersonalVo);
 }

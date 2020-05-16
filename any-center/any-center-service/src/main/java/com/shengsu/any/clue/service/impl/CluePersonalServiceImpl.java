@@ -74,7 +74,7 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
     }
 
     @Override
-    public ResultBean listClueAndUser(CluePersonalVo cluePersonalVo){
+    public ResultBean listSoldRecord(CluePersonalVo cluePersonalVo){
         CluePersonal cluePersonal = CluePersonalUtils.toCluePersonal(cluePersonalVo);
         List<CluePersonal> cluePersonals = cluePersonalMapper.listByCreateTime(cluePersonal);
         if(cluePersonals.isEmpty() || cluePersonals.size() == 0){
