@@ -18,4 +18,5 @@
     <dubbo:service interface="com.shengsu.any.account.service.AccountServcie" ref="accountService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.any.account.service.AccountRecordService" ref="accountRecordService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.any.clue.service.PnsService" ref="pnsService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.any.clue.service.CluePersonalService" ref="cluePersonalService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>

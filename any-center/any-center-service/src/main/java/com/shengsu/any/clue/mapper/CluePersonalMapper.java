@@ -14,4 +14,5 @@ import java.util.List;
 @Mapper
 public interface CluePersonalMapper extends BaseMapper<CluePersonal,String> {
     List<CluePersonal> listByUserId(String userId);
+    List<CluePersonal> listByCreateTime(CluePersonal cluePersonal);
 }

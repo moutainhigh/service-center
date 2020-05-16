@@ -2,6 +2,7 @@ package com.shengsu.any.user.util;
 
 import com.shengsu.any.user.entity.User;
 import com.shengsu.any.user.po.UserDetailsPo;
+import com.shengsu.any.user.po.UserPo;
 import com.shengsu.any.user.vo.UserBandVo;
 import com.shengsu.any.user.vo.UserEditVo;
 import com.shengsu.user.entity.AliasUser;
@@ -9,6 +10,17 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 
 public class UserUtils {
+    public static UserPo toUserPo(User user){
+            UserPo userPo = new UserPo();
+            userPo.setUserName(user.getUserName());
+            userPo.setGender(user.getGender());
+            userPo.setTel(user.getTel());
+            userPo.setIdCard(user.getIdCard());
+            userPo.setLawFirm(user.getLawFirm());
+            userPo.setLawyerLicenseNo(user.getLawyerLicenseNo());
+            userPo.setField(user.getField());
+        return userPo;
+    }
     public static User toUser(String tel){
         if (StringUtils.isNotBlank(tel)) {
             User user = new User();

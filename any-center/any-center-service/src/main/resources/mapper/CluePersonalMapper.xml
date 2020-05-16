@@ -34,4 +34,15 @@
         order by
         create_time DESC
     </select>
+    <select id="listByCreateTime" parameterType="CluePersonal" resultType="CluePersonal">
+       SELECT
+       clue_id,
+       user_id,
+       create_time
+       FROM
+       clue_personal
+       WHERE del_flag = 0
+       AND DATE_FORMAT(create_time,'%Y-%m-%d') = DATE_FORMAT(#{createTime},'%Y-%m-%d')
+    </select>
+
 </mapper>
