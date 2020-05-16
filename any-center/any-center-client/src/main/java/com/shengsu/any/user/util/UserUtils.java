@@ -12,7 +12,7 @@ import java.util.*;
 public class UserUtils {
     public static UserPo toUserPo(User user){
             UserPo userPo = new UserPo();
-            userPo.setUserName(user.getUserName());
+            userPo.setRealName(user.getRealName());
             userPo.setGender(user.getGender());
             userPo.setTel(user.getTel());
             userPo.setIdCard(user.getIdCard());

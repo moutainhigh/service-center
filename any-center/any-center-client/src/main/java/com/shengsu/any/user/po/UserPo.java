@@ -11,11 +11,11 @@ import java.io.Serializable;
  **/
 @Data
 public class UserPo implements Serializable {
-    private String userName;
     private Short gender;// 性别
     private String tel;// 手机号
     private String idCard;// 身份证
     private String lawFirm;// 律所
     private String lawyerLicenseNo;// 执照号
     private String field;// 擅长领域
+    private String realName;
 }

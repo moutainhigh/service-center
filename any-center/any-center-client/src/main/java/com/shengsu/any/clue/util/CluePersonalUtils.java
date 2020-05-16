@@ -25,7 +25,7 @@ public class CluePersonalUtils {
             UserPo userPo = UserUtils.toUserPo(userMap.get(cluePersonal.getUserId()));
             Clue clue = clueMap.get(cluePersonal.getClueId());
             cluePersonalPo.setUserPo(userPo);
-            cluePersonalPo.setClueId(clue.getClueId());
+            cluePersonalPo.setClueCode(clue.getClueCode());
             cluePersonalPo.setOnshelfTime(clue.getOnshelfTime());
             cluePersonalPo.setProvinceCode(clue.getProvinceCode());
             cluePersonalPo.setCityCode(clue.getCityCode());

@@ -15,7 +15,7 @@ import java.util.Date;
  **/
 @Data
 public class CluePersonalPo implements Serializable {
-    private String clueId;
+    private String clueCode;//线索号
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date onshelfTime;
     private String provinceCode;// 省级编码

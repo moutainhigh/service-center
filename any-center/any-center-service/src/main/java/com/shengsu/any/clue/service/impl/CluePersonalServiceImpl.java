@@ -15,15 +15,21 @@ import com.shengsu.any.user.service.UserService;
 import com.shengsu.any.user.util.UserUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.helper.entity.SystemDict;
+import com.shengsu.helper.service.SystemDictService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static com.shengsu.any.app.constant.BizConst.DICT_CODE_FIELD;
 
 /**
  * @description:
@@ -38,6 +44,8 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
     private CluePersonalMapper cluePersonalMapper;
     @Autowired
     private ClueService clueService;
+    @Autowired
+    private SystemDictService systemDictService;
     @Override
     public BaseMapper<CluePersonal, String> getBaseMapper() {
         return cluePersonalMapper;
@@ -79,6 +87,11 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
             clueIds.add(clueId);
         }
         List<Clue> clues = clueService.getMany(clueIds);
+        Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode("clue_type");
+        for(Clue clue : clues){
+            SystemDict systemDict = systemDictMap.get(clue.getClueType());
+            clue.setClueType(systemDict==null?"":systemDict.getDisplayName());
+        }
         Map<String,Clue> clueMap= ClueUtils.toClueMap(clues);
         if(clues.isEmpty() || clues.size()==0){
             return ResultUtil.formEmptyResult(true,ResultCode.SUCCESS);
@@ -90,6 +103,18 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
         }
 
         List<User> users = userService.getMany(userIds);
+        Map<String, SystemDict> systemDicts = systemDictService.mapByDictCode(DICT_CODE_FIELD);
+        String field = "";
+        for(User user : users){
+            if (StringUtils.isNotBlank(user.getField())){
+                List<String> fieldItems = Arrays.asList(StringUtils.split(user.getField(), ","));
+                for (String item : fieldItems){
+                    SystemDict dict = systemDicts.get(item);
+                    if (null!=dict) field = field + " "+ dict.getDisplayName();
+                }
+            }
+            user.setField(field.trim());
+        }
         Map<String,User>  userMap=UserUtils.toUserMap(users);
         if(users.isEmpty() || users.size()==0){
             return ResultUtil.formEmptyResult(true,ResultCode.SUCCESS);

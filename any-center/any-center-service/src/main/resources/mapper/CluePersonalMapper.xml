@@ -43,6 +43,8 @@
        clue_personal
        WHERE del_flag = 0
        AND DATE_FORMAT(create_time,'%Y-%m-%d') = DATE_FORMAT(#{createTime},'%Y-%m-%d')
+       order by
+       create_time DESC
     </select>
 
 </mapper>
