@@ -89,15 +89,15 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
         cluePersonalVo.setClueIds(clueIds);
 
         List<Clue> clues = clueService.getClues(cluePersonalVo);
+        if(clues.isEmpty() || clues.size()==0){
+            return ResultUtil.formResult(true,ResultCode.SUCCESS,null);
+        }
         Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode("clue_type");
         for(Clue clue : clues){
             SystemDict systemDict = systemDictMap.get(clue.getClueType());
             clue.setClueType(systemDict==null?"":systemDict.getDisplayName());
         }
         Map<String,Clue> clueMap= ClueUtils.toClueMap(clues);
-        if(clues.isEmpty() || clues.size()==0){
-            return ResultUtil.formEmptyResult(true,ResultCode.SUCCESS);
-        }
         List<String> userIds = new ArrayList<> ();
         for(CluePersonal person : cluePersonals){
             String userId = person.getUserId();
@@ -123,6 +123,9 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
         }
 
         List<CluePersonalPo> cluePersonalPos = CluePersonalUtils.toCluePersonalPos(cluePersonals,userMap,clueMap);
+        if(cluePersonalPos.isEmpty() || cluePersonalPos.size() == 0){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+        }
         return ResultUtil.formResult(true, ResultCode.SUCCESS, cluePersonalPos);
     }
 }
