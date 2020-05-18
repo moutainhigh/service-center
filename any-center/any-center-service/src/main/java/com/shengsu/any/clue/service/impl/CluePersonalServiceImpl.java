@@ -107,7 +107,7 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
         UserUtils.setFields(users,systemDicts);
         Map<String,User>  userMap=UserUtils.toUserMap(users);
         List<CluePersonalPo> cluePersonalPos = CluePersonalUtils.toCluePersonalPos(cluePersonals,userMap,clueMap);
-        if(cluePersonalPos.isEmpty() || cluePersonalPos.size() == 0){
+        if(cluePersonalPos ==null || cluePersonalPos.size() == 0){
             return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS, cluePersonalPos);
