@@ -19,13 +19,11 @@ import com.shengsu.helper.entity.SystemDict;
 import com.shengsu.helper.service.SystemDictService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -77,7 +75,7 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
     public ResultBean listSoldRecord(CluePersonalVo cluePersonalVo){
         CluePersonal cluePersonal = CluePersonalUtils.toCluePersonal(cluePersonalVo);
         List<CluePersonal> cluePersonals = cluePersonalMapper.listByCreateTime(cluePersonal);
-        if(cluePersonals.isEmpty() || cluePersonals.size() == 0){
+        if(cluePersonals == null || cluePersonals.size() == 0){
             return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
         }
 
@@ -89,14 +87,11 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
         cluePersonalVo.setClueIds(clueIds);
 
         List<Clue> clues = clueService.getClues(cluePersonalVo);
-        if(clues.isEmpty() || clues.size()==0){
+        if(clues==null || clues.size()==0){
             return ResultUtil.formResult(true,ResultCode.SUCCESS,null);
         }
         Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode("clue_type");
-        for(Clue clue : clues){
-            SystemDict systemDict = systemDictMap.get(clue.getClueType());
-            clue.setClueType(systemDict==null?"":systemDict.getDisplayName());
-        }
+        ClueUtils.setClueTypes(clues,systemDictMap);
         Map<String,Clue> clueMap= ClueUtils.toClueMap(clues);
         List<String> userIds = new ArrayList<> ();
         for(CluePersonal person : cluePersonals){
@@ -105,23 +100,12 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
         }
 
         List<User> users = userService.getMany(userIds);
+        if(users==null || users.size()==0){
+            return ResultUtil.formResult(true,ResultCode.SUCCESS,null);
+        }
         Map<String, SystemDict> systemDicts = systemDictService.mapByDictCode(DICT_CODE_FIELD);
-        for(User user : users){
-            String field = "";
-            if (StringUtils.isNotBlank(user.getField())){
-                List<String> fieldItems = Arrays.asList(StringUtils.split(user.getField(), ","));
-                for (String item : fieldItems){
-                    SystemDict dict = systemDicts.get(item);
-                    if (null!=dict) field = field + " "+ dict.getDisplayName();
-                }
-            }
-            user.setField(field.trim());
-        }
+        UserUtils.setFields(users,systemDicts);
         Map<String,User>  userMap=UserUtils.toUserMap(users);
-        if(users.isEmpty() || users.size()==0){
-            return ResultUtil.formEmptyResult(true,ResultCode.SUCCESS);
-        }
-
         List<CluePersonalPo> cluePersonalPos = CluePersonalUtils.toCluePersonalPos(cluePersonals,userMap,clueMap);
         if(cluePersonalPos.isEmpty() || cluePersonalPos.size() == 0){
             return ResultUtil.formResult(true, ResultCode.SUCCESS, null);

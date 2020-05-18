@@ -5,11 +5,25 @@ import com.shengsu.any.user.po.UserDetailsPo;
 import com.shengsu.any.user.po.UserPo;
 import com.shengsu.any.user.vo.UserBandVo;
 import com.shengsu.any.user.vo.UserEditVo;
+import com.shengsu.helper.entity.SystemDict;
 import com.shengsu.user.entity.AliasUser;
 import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 
 public class UserUtils {
+    public static void setFields(List<User> users, Map<String, SystemDict> systemDicts){
+        for(User user : users){
+            String field = "";
+            if (StringUtils.isNotBlank(user.getField())){
+                List<String> fieldItems = Arrays.asList(StringUtils.split(user.getField(), ","));
+                for (String item : fieldItems){
+                    SystemDict dict = systemDicts.get(item);
+                    if (null!=dict) field = field + " "+ dict.getDisplayName();
+                }
+            }
+            user.setField(field.trim());
+        }
+    }
     public static UserPo toUserPo(User user){
             UserPo userPo = new UserPo();
             userPo.setRealName(user.getRealName());

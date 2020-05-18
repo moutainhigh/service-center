@@ -3,21 +3,23 @@ package com.shengsu.any.clue.util;
 import com.shengsu.any.clue.entity.Clue;
 import com.shengsu.any.clue.entity.CluePersonal;
 import com.shengsu.any.clue.entity.Pns;
-import com.shengsu.any.clue.po.ClueListPo;
 import com.shengsu.any.clue.po.ClueLibPo;
+import com.shengsu.any.clue.po.ClueListPo;
 import com.shengsu.any.clue.po.MyCluePo;
 import com.shengsu.any.clue.vo.ClueEditVo;
 import com.shengsu.any.clue.vo.ClueShelfVo;
 import com.shengsu.any.clue.vo.ClueVo;
 import com.shengsu.helper.entity.SystemDict;
-import com.shengsu.helper.service.CodeGeneratorService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
 public class ClueUtils {
-    @Autowired
-    private CodeGeneratorService codeGeneratorService;
+    public static void setClueTypes(List<Clue> clues,Map<String, SystemDict> systemDictMap){
+        for(Clue clue : clues){
+            SystemDict systemDict = systemDictMap.get(clue.getClueType());
+            clue.setClueType(systemDict==null?"":systemDict.getDisplayName());
+        }
+    }
     public static Clue toClue(ClueShelfVo clueShelfVo){
         Clue clue = new Clue();
         clue.setClueId(clueShelfVo.getClueId());
