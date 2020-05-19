@@ -15,12 +15,8 @@ public enum ResultCode implements IResultCode {
     EXCEPTION_PARAM_VALID_FAIL(1002, "参数校验失败"),
 
     // 参数
-    EXCEPTION_PARAM_ERROR(1002,"参数错误"),
     EXCEPTION_MOBILE_EMPTY(1002,"手机号为空"),
 
-    //数据校验
-    EXCEPTION_DATA_EXISTENCE(1002,"数据已存在"),
-    EXCEPTION_NOT_NATA_EXISTENCE(1002,"数据不存在"),
 
     //短信异常信息
     EXCEPTION_MSG_SEND(1002,"短信发送异常");

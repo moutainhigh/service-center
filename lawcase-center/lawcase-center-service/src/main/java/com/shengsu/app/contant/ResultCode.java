@@ -10,17 +10,8 @@ import com.shengsu.result.IResultCode;
 public enum ResultCode implements IResultCode {
     SUCCESS(1000, "成功"),
     FAIL(1001, "失败"),
-    EXCEPTION(1002, "异常"),
-    EXCEPTION_PARAM_PARSE_FAIL(1002, "参数解析失败"),
-    EXCEPTION_PARAM_VALID_FAIL(1002, "参数校验失败"),
+    EXCEPTION(1002, "异常");
 
-    //获取token
-    EXCEPTION_PARAM_ERROR(1002,"参数有误"),
-
-    //数据校验
-    EXCEPTION_DATA_EXISTENCE(1002,"数据已存在"),
-    EXCEPTION_NOT_NATA_EXISTENCE(1002,"数据不存在"),
-    EXCEPTION_DUPLICATE_ACTION(1002,"重复操作");
 
     private Integer code;
     private String  resultMessage;
