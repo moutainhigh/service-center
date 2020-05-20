@@ -28,6 +28,8 @@ public class CluePersonalUtils {
                 continue;
             }
             cluePersonalPo.setUserPo(userPo);
+            cluePersonalPo.setAppellation(clue.getAppellation());
+            cluePersonalPo.setTel(clue.getTel());
             cluePersonalPo.setClueCode(clue.getClueCode());
             cluePersonalPo.setOnshelfTime(clue.getOnshelfTime());
             cluePersonalPo.setProvinceCode(clue.getProvinceCode());
