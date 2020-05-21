@@ -50,11 +50,11 @@ public class AlipayServiceImpl implements AlipayService {
     private String notifyUrl;
     @Value("${alipay.gatewayUrl}")
     private String gatewayUrl;
-    @Value("${alipay.signType}")
+    @Value("${alipay.signType:RSA2}")
     private String signType;
-    @Value("${alipay.timeoutExpress}")
+    @Value("${alipay.timeoutExpress:2m}")
     private String timeoutExpress;
-    @Value("${alipay.productCode}")
+    @Value("${alipay.productCode:QUICK_WAP_WAY}")
     private String productCode;
     @Autowired
     CodeGeneratorService codeGeneratorService;
@@ -87,7 +87,7 @@ public class AlipayServiceImpl implements AlipayService {
         String outTradeNo = codeGeneratorService.generateCode("AMTN");
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
-        return getForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),marketReturnUrl);
+        return getForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),marketReturnUrl+"?verifyCode="+aliMarketOrderVo.getVerifyCode());
     }
     /**
     * @Description: 获取支付下单返回的form表单数据

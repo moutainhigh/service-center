@@ -38,12 +38,9 @@ alipay:
   alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1NKEKwl4sUMEP7vZiZWZMTqEC9JaygVNPGmiBiLF3V5NLGS7MIOMHPG3uAbm+qPfaIFjHHvWEuXqiP6Y7h7FgG+HzJZp9AxuZVBD1Q82Bp1TTDFdTTXwebh6i3x5iA0L2i0b0fDbC4ug2WbQsjQp/QR7GH3XAaqMTDRlr6USNggf2uFCjQ0BqlkyM9pBKCJeuunF1cgwia8xc3vNf3f3H3+kfWSKmbPkRC2VVfoktlpM839+wszowgLoRIBqtW1xcfJztTFPKtTBdgFRYqW7thNn0MlzlXZYXgG1j/rYFyfLTRhB1DAIs+isHQwKuELeRu/ZHYvEIB8efWx9iNYeYQIDAQAB
   returnUrl:
     any: https://any-h5-test.shengsuvc.com/finance/complete
-    market: https://market-h5-test.shengsuvc.com/finance/complete
+    market: https://market-h5-test.shengsuvc.com/pages/service/service
   notifyUrl: https://platform-test.yuanshoulawyer.com/api/alipay/notify
   gatewayUrl: https://openapi.alipaydev.com/gateway.do
-  signType: RSA2
-  timeoutExpress: 2m
-  productCode: QUICK_WAP_WAY
 bdpay:
   appKey: MMUv5L
   appId: 31280

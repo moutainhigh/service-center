@@ -10,5 +10,7 @@ public class AliMarketOrderVo implements Serializable {
     // 充值金额
     @NotBlank
     private String amount;
+    @NotBlank
+    private String verifyCode;
 
 }
