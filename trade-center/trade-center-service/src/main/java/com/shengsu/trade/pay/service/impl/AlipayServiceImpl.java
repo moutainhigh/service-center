@@ -20,9 +20,9 @@ import com.shengsu.trade.pay.entity.PayOrder;
 import com.shengsu.trade.pay.service.AlipayService;
 import com.shengsu.trade.pay.service.PayOrderService;
 import com.shengsu.trade.pay.util.PayOrderUtils;
+import com.shengsu.trade.pay.vo.AliAnyOrderVo;
 import com.shengsu.trade.pay.vo.AliMarketOrderVo;
 import com.shengsu.trade.pay.vo.AliOrderCancelVo;
-import com.shengsu.trade.pay.vo.AliOrderVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -68,12 +68,12 @@ public class AlipayServiceImpl implements AlipayService {
     * @date: 
     */
     @Override
-    public String order(AliOrderVo aliOrderVo)throws Exception {
+    public String order(AliAnyOrderVo aliAnyOrderVo)throws Exception {
         // 封装请求支付信息
         String outTradeNo = codeGeneratorService.generateCode("AATN");
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
-        return getForm(aliOrderVo.getAccountId(),outTradeNo,"充值","充值金额:",aliOrderVo.getAmount(),anyReturnUrl);
+        return getForm(aliAnyOrderVo.getAccountId(),outTradeNo,"充值","充值金额:",aliAnyOrderVo.getAmount(),anyReturnUrl);
     }
     /**
      * @Description: 市场推广H5下单
