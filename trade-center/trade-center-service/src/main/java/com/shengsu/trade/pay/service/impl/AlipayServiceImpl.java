@@ -42,8 +42,10 @@ public class AlipayServiceImpl implements AlipayService {
     private String rsaPrivateKey;
     @Value("${alipay.alipayPublicKey}")
     private String alipayPublicKey;
-    @Value("${alipay.returnUrl}")
-    private String returnUrl;
+    @Value("${alipay.returnUrl.any}")
+    private String anyReturnUrl;
+    @Value("${alipay.returnUrl.market}")
+    private String marketReturnUrl;
     @Value("${alipay.notifyUrl}")
     private String notifyUrl;
     @Value("${alipay.gatewayUrl}")
@@ -71,7 +73,7 @@ public class AlipayServiceImpl implements AlipayService {
         String outTradeNo = codeGeneratorService.generateCode("AATN");
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
-        return getForm(aliOrderVo.getAccountId(),outTradeNo,"充值","充值金额:",aliOrderVo.getAmount(),returnUrl.split(";")[0]);
+        return getForm(aliOrderVo.getAccountId(),outTradeNo,"充值","充值金额:",aliOrderVo.getAmount(),anyReturnUrl);
     }
     /**
      * @Description: 市场推广H5下单
@@ -85,7 +87,7 @@ public class AlipayServiceImpl implements AlipayService {
         String outTradeNo = codeGeneratorService.generateCode("AMTN");
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
-        return getForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl.split(";")[1]);
+        return getForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),marketReturnUrl);
     }
     /**
     * @Description: 获取支付下单返回的form表单数据
