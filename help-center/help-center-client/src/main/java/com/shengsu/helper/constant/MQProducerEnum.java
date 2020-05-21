@@ -20,7 +20,7 @@ public enum MQProducerEnum {
     //微信小程序支付通知-小程序
     ANY_WXPAY_NOTIFY_WEAPP("anyGroup","wxpayTopic","weappNotifyTag"),
     //支付宝支付通知
-    ANY_ALIPAY_NOTIFY_MWEB("anyGroup","alipayTopic","mwebNotifyTag"),
+    ANY_ALIPAY_NOTIFY("anyGroup","alipayTopic","payNotifyTag"),
     //百度小程序支付通知
     WEBSITE_BDPAY_NOTIFY("websiteGroup","bdpayTopic","payNofityTag")
     ;

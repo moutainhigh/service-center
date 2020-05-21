@@ -12,7 +12,7 @@ public enum MQConsumerEnum {
     BDPAY_NOTIFY("bdpayTopic","payNofityTag"),
     WXPAY_NOTIFY_GZH("wxpayTopic","gzhNotifyTag"),
     WXPAY_NOTIFY_WEAPP("wxpayTopic","weappNotifyTag"),
-    ALIPAY_NOTIFY_MWEB("alipayTopic","mwebNotifyTag");
+    ALIPAY_NOTIFY("alipayTopic","payNotifyTag");
     private String topic;
     private String tag;
 

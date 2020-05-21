@@ -58,7 +58,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
         MessageListen messageListen = new MessageListen();
         messageListen.registerHandler(MQConsumerEnum.WECHATMESSAGE.getTag(), tempMessageDataService);
         messageListen.registerHandler(MQConsumerEnum.WXPAY_NOTIFY_GZH.getTag(), wxPayGzhNotifyService);
-        messageListen.registerHandler(MQConsumerEnum.ALIPAY_NOTIFY_MWEB.getTag(), aliPayMwebNotifyService);
+        messageListen.registerHandler(MQConsumerEnum.ALIPAY_NOTIFY.getTag(), aliPayMwebNotifyService);
         consumer.registerMessageListener(messageListen);
     }
 
@@ -66,6 +66,6 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     protected void subscribe() throws MQClientException {
         consumer.subscribe(MQConsumerEnum.WECHATMESSAGE.getTopic(), MQConsumerEnum.WECHATMESSAGE.getTag());
         consumer.subscribe(MQConsumerEnum.WXPAY_NOTIFY_GZH.getTopic(), MQConsumerEnum.WXPAY_NOTIFY_GZH.getTag());
-        consumer.subscribe(MQConsumerEnum.ALIPAY_NOTIFY_MWEB.getTopic(), MQConsumerEnum.ALIPAY_NOTIFY_MWEB.getTag());
+        consumer.subscribe(MQConsumerEnum.ALIPAY_NOTIFY.getTopic(), MQConsumerEnum.ALIPAY_NOTIFY.getTag());
     }
 }
