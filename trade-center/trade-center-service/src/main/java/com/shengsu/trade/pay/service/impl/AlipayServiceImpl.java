@@ -20,6 +20,7 @@ import com.shengsu.trade.pay.entity.PayOrder;
 import com.shengsu.trade.pay.service.AlipayService;
 import com.shengsu.trade.pay.service.PayOrderService;
 import com.shengsu.trade.pay.util.PayOrderUtils;
+import com.shengsu.trade.pay.vo.AliMarketOrderVo;
 import com.shengsu.trade.pay.vo.AliOrderCancelVo;
 import com.shengsu.trade.pay.vo.AliOrderVo;
 import lombok.extern.slf4j.Slf4j;
@@ -57,21 +58,50 @@ public class AlipayServiceImpl implements AlipayService {
     CodeGeneratorService codeGeneratorService;
     @Autowired
     private PayOrderService payOrderService;
+
+    /**
+    * @Description: 案源王H5下单
+    * @Param: * @Param aliOrderVo: 
+    * @Return: * @return: java.lang.String
+    * @date: 
+    */
     @Override
     public String order(AliOrderVo aliOrderVo)throws Exception {
+        // 封装请求支付信息
+        String outTradeNo = codeGeneratorService.generateCode("AATN");
+        //插入6位随机数
+        outTradeNo = new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
+        return getForm(aliOrderVo.getAccountId(),outTradeNo,"充值","充值金额:",aliOrderVo.getAmount(),returnUrl.split(";")[0]);
+    }
+    /**
+     * @Description: 市场推广H5下单
+     * @Param: * @Param aliOrderVo:
+     * @Return: * @return: java.lang.String
+     * @date:
+     */
+    @Override
+    public String order(AliMarketOrderVo aliMarketOrderVo) throws Exception {
+        // 封装请求支付信息
+        String outTradeNo = codeGeneratorService.generateCode("AMTN");
+        //插入6位随机数
+        outTradeNo = new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
+        return getForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl.split(";")[1]);
+    }
+    /**
+    * @Description: 获取支付下单返回的form表单数据
+    * @Return: * @return: java.lang.String
+    * @date: 
+    */
+    private String getForm(String accountId,String outTradeNo,String subject,String body, String amount,String returnUrl)throws Exception {
         // SDK 公共请求类，包含公共请求参数，以及封装了签名与验签，开发者无需关注签名与验签
         //调用RSA签名方式
         AlipayClient client = new DefaultAlipayClient(gatewayUrl, appID, rsaPrivateKey, "json", "UTF-8", alipayPublicKey,signType);
         AlipayTradeWapPayRequest alipayRequest=new AlipayTradeWapPayRequest();
-        // 封装请求支付信息
-        String outTradeNo = codeGeneratorService.generateCode("ATN");
-        //插入6位随机数
-        outTradeNo = new StringBuilder(outTradeNo).insert(3,PayOrderUtils.randnum(6)).toString();
         AlipayTradeWapPayModel model=new AlipayTradeWapPayModel();
         model.setOutTradeNo(outTradeNo);
-        model.setSubject("充值");
-        model.setTotalAmount(String.valueOf(aliOrderVo.getAmount()));
-        model.setBody("充值金额:"+aliOrderVo.getAmount());
+        model.setSubject(subject);
+        model.setTotalAmount(amount);
+        model.setBody(body+amount);
         model.setTimeoutExpress(timeoutExpress);
         model.setProductCode(productCode);
         alipayRequest.setBizModel(model);
@@ -82,11 +112,10 @@ public class AlipayServiceImpl implements AlipayService {
         // 调用SDK生成表单
         String form = client.pageExecute(alipayRequest).getBody();
         // order表生成订单数据
-        PayOrder payOrder = PayOrderUtils.toPayOrder(aliOrderVo.getAccountId(),outTradeNo,"",new BigDecimal(aliOrderVo.getAmount()),PAY_TYPE_ALIPAY,ORDER_STATUS_UNPAID);
+        PayOrder payOrder = PayOrderUtils.toPayOrder(accountId,outTradeNo,"",new BigDecimal(amount),PAY_TYPE_ALIPAY,ORDER_STATUS_UNPAID);
         payOrderService.create(payOrder);
         return form;
     }
-
     @Override
     public ResultBean cancel(AliOrderCancelVo aliOrderCancelVo) throws AlipayApiException{
         //商户订单号和支付宝交易号不能同时为空。 trade_no、  out_trade_no如果同时存在优先取trade_no

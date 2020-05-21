@@ -1,5 +1,6 @@
 package com.shengsu.any.mq;
 
+import com.shengsu.any.mq.service.AliPayMwebNotifyService;
 import com.shengsu.any.mq.service.TempMessageDataService;
 import com.shengsu.any.mq.service.WxPayGzhNotifyService;
 import com.shengsu.helper.constant.MQConsumerEnum;
@@ -25,6 +26,8 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     private TempMessageDataService tempMessageDataService;
     @Autowired
     private WxPayGzhNotifyService wxPayGzhNotifyService;
+    @Autowired
+    private AliPayMwebNotifyService aliPayMwebNotifyService;
 
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
@@ -55,6 +58,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
         MessageListen messageListen = new MessageListen();
         messageListen.registerHandler(MQConsumerEnum.WECHATMESSAGE.getTag(), tempMessageDataService);
         messageListen.registerHandler(MQConsumerEnum.WXPAY_NOTIFY_GZH.getTag(), wxPayGzhNotifyService);
+        messageListen.registerHandler(MQConsumerEnum.ALIPAY_NOTIFY_MWEB.getTag(), aliPayMwebNotifyService);
         consumer.registerMessageListener(messageListen);
     }
 
@@ -62,5 +66,6 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     protected void subscribe() throws MQClientException {
         consumer.subscribe(MQConsumerEnum.WECHATMESSAGE.getTopic(), MQConsumerEnum.WECHATMESSAGE.getTag());
         consumer.subscribe(MQConsumerEnum.WXPAY_NOTIFY_GZH.getTopic(), MQConsumerEnum.WXPAY_NOTIFY_GZH.getTag());
+        consumer.subscribe(MQConsumerEnum.ALIPAY_NOTIFY_MWEB.getTopic(), MQConsumerEnum.ALIPAY_NOTIFY_MWEB.getTag());
     }
 }

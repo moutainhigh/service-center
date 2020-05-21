@@ -11,7 +11,8 @@ public enum MQConsumerEnum {
     WECHATMESSAGE("wechatMessageTopic","wechatMessageTag"),
     BDPAY_NOTIFY("bdpayTopic","payNofityTag"),
     WXPAY_NOTIFY_GZH("wxpayTopic","gzhNotifyTag"),
-    WXPAY_NOTIFY_WEAPP("wxpayTopic","weappNotifyTag");
+    WXPAY_NOTIFY_WEAPP("wxpayTopic","weappNotifyTag"),
+    ALIPAY_NOTIFY_MWEB("alipayTopic","mwebNotifyTag");
     private String topic;
     private String tag;
 

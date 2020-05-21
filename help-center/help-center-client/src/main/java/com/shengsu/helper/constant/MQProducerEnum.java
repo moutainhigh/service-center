@@ -15,10 +15,12 @@ public enum MQProducerEnum {
     JPUSHSCHEDULECANCEL("jpushGroup","jpushMessageTopic","jpushScheduleCancelTag"),
     //公众号推送
     ANY_WECHAT("anyGroup","wechatMessageTopic","wechatMessageTag"),
-    //微信小程序支付通知-公众号
+    //微信公众号支付通知-公众号
     ANY_WXPAY_NOTIFY_GZH("anyGroup","wxpayTopic","gzhNotifyTag"),
     //微信小程序支付通知-小程序
     ANY_WXPAY_NOTIFY_WEAPP("anyGroup","wxpayTopic","weappNotifyTag"),
+    //支付宝支付通知
+    ANY_ALIPAY_NOTIFY_MWEB("anyGroup","alipayTopic","mwebNotifyTag"),
     //百度小程序支付通知
     WEBSITE_BDPAY_NOTIFY("websiteGroup","bdpayTopic","payNofityTag")
     ;
