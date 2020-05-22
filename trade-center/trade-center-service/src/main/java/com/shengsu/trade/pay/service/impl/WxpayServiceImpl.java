@@ -76,8 +76,7 @@ public class WxpayServiceImpl implements WxpayService {
         MyConfig config= getConfig("WG");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
-        Map<String, String> reqData = getOrderRequsetData("案源王充值中心-会员充值",outTradeNo,String.valueOf(totalFee),wxOrderVo.getIpAddress(),notifyUrl,"JSAPI");
-        reqData.put("openid",wxOrderVo.getOpenId());
+        Map<String, String> reqData = getOrderRequsetData("案源王充值中心-会员充值",outTradeNo,String.valueOf(totalFee),wxOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxOrderVo.getOpenId());
         // 构造返回值
         Map<String, String> resp = null;
         Map<String, String> result = null;
@@ -120,8 +119,7 @@ public class WxpayServiceImpl implements WxpayService {
         MyConfig config= getConfig("WA");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
-        Map<String, String> reqData = getOrderRequsetData("小程序支付中心-支付",outTradeNo,String.valueOf(totalFee),wxAppOrderVo.getIpAddress(),notifyUrl,"JSAPI");
-        reqData.put("openid",wxAppOrderVo.getOpenId());
+        Map<String, String> reqData = getOrderRequsetData("小程序支付中心-支付",outTradeNo,String.valueOf(totalFee),wxAppOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxAppOrderVo.getOpenId());
         // 返回数据
         Map<String, String> resp = null;
         Map<String, String> result = null;
@@ -163,7 +161,7 @@ public class WxpayServiceImpl implements WxpayService {
         MyConfig config= getConfig("WM");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
-        Map<String, String> reqData = getOrderRequsetData("订单支付-支付",outTradeNo,String.valueOf(totalFee),wxMwebOrderVo.getIpAddress(),notifyUrl,"MWEB");
+        Map<String, String> reqData = getOrderRequsetData("订单支付-支付",outTradeNo,String.valueOf(totalFee),wxMwebOrderVo.getIpAddress(),notifyUrl,"MWEB","");
         fillSceneInfoData(reqData);
         // 返回数据
         Map<String, String> resp = null;
@@ -211,7 +209,7 @@ public class WxpayServiceImpl implements WxpayService {
     * @Return: * @return: java.util.Map<java.lang.String,java.lang.String>
     * @date: 
     */
-    private Map<String,String> getOrderRequsetData(String body,String outTradeNo,String totalFee,String ipAddress,String notifyUrl,String tradeType) {
+    private Map<String,String> getOrderRequsetData(String body,String outTradeNo,String totalFee,String ipAddress,String notifyUrl,String tradeType,String openid) {
         Map<String, String> data = new HashMap<>();
         data.put("body", body);
         data.put("out_trade_no", outTradeNo);
@@ -219,6 +217,7 @@ public class WxpayServiceImpl implements WxpayService {
         data.put("spbill_create_ip", ipAddress);
         data.put("notify_url", notifyUrl);
         data.put("trade_type", tradeType);// 交易类型
+        data.put("openid",openid);
         return data;
     }
     /**
