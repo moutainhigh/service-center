@@ -32,18 +32,18 @@ import static com.shengsu.trade.app.constant.BizConst.*;
 @Service("wxpayService")
 public class WxpayServiceImpl implements WxpayService {
     // 公众号
-    @Value("${wxpay.gzh.appid:wx6f29705e50768a15}")
+    @Value("${wxpay.gzh.appid}")
     private String gzhAppID ;
-    @Value("${wxpay.mchid:1573621631}")
+    @Value("${wxpay.mchid}")
     private String mchID;
-    @Value("${wxpay.apikey:1f5dc3037d7a4752b69e95fcad34ad34}")
+    @Value("${wxpay.apikey}")
     private String apiKey;
     @Value("${wxpay.sandbox:false}")
     private boolean isSandbox;
-    @Value("${wxpay.notifyUrl:https://platform-test.yuanshoulawyer.com/api/wxpay/notify}")
+    @Value("${wxpay.notifyUrl}")
     private String notifyUrl;
     // 小程序
-    @Value("${wxpay.weapp.appid:wx36c1d8e71b07103d}")
+    @Value("${wxpay.weapp.appid}")
     private String weAppID;
 
     @Autowired
