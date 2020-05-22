@@ -30,7 +30,6 @@ wxpay:
     appid: wx36c1d8e71b07103d
   mchid: 1573621631
   apikey: 1f5dc3037d7a4752b69e95fcad34ad34
-  sandbox: false
   notifyUrl: https://platform-test.yuanshoulawyer.com/api/wxpay/notify
 alipay:
   appid: 2016101900724821
