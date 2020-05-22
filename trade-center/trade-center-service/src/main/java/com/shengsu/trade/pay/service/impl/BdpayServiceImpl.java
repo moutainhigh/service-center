@@ -34,11 +34,11 @@ import static com.shengsu.trade.app.constant.BizConst.*;
 @Slf4j
 @Service("bdpayService")
 public class BdpayServiceImpl implements BdpayService{
-    @Value("${bdpay.appKey}")
+    @Value("${bdpay.appKey:MMUv5L}")
     private String appKey;
-    @Value("${bdpay.appId}")
+    @Value("${bdpay.appId:31280}")
     private String appId;
-    @Value("${bdpay.dealId}")
+    @Value("${bdpay.dealId:671485529}")
     private String dealId;
     @Value("${bdpay.rsaPrivateKey}")
     private String rsaPrivateKey;
