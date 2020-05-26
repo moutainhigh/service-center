@@ -19,6 +19,7 @@ import com.shengsu.website.bdapp.service.QuestionReplyService;
 import com.shengsu.website.bdapp.service.QuestionService;
 import com.shengsu.website.bdapp.util.LawyerUtils;
 import com.shengsu.website.bdapp.vo.LawyerVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,9 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     public ResultBean getQuestionList(LawyerVo lawyerVo) {
         Lawyer lawyer = get(lawyerVo.getLawyerId());
         String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
+        if(StringUtils.isBlank(url)){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+        }
         lawyer.setIconOssResourceId(url);
         List<QuestionReply> questionReplies = questionReplyService.getReplyByLawyer(lawyer.getLawyerId());
         if(questionReplies.isEmpty()){
