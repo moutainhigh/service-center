@@ -32,6 +32,8 @@ public interface BizConst {
     String ORDER_FLAG_WECHAT_GZH= "WG";
     // 下单标记-微信小程序
     String ORDER_FLAG_WECHAT_WEAPP= "WA";
+    // 下单标记-微信H5
+    String ORDER_FLAG_WECHAT_MWEB= "WM";
 
     //订单状态-未支付
     String ORDER_STATUS_UNPAID= "0";

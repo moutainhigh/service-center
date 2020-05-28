@@ -1,7 +1,5 @@
 server:
   port: 9091
-  session-timeout: 30
-  tomcat.max-threads: 0
   tomcat.uri-encoding: UTF-8
 spring:
   datasource:

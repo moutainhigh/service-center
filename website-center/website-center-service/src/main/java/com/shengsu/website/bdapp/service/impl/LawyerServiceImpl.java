@@ -55,6 +55,9 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     @Override
     public ResultBean getQuestionList(LawyerVo lawyerVo) {
         Lawyer lawyer = get(lawyerVo.getLawyerId());
+        if(lawyer == null){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+        }
         String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
         lawyer.setIconOssResourceId(url);
         List<QuestionReply> questionReplies = questionReplyService.getReplyByLawyer(lawyer.getLawyerId());
