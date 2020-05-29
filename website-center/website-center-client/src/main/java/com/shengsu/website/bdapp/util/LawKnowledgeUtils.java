@@ -184,12 +184,15 @@ public class LawKnowledgeUtils {
         return null;
     }
 
-    public static LawKnowledgeQueryPo toLawKnowledgeQueryPo(LawKnowledge lawKnowledge) {
+    public static LawKnowledgeQueryPo toLawKnowledgeQueryPo(LawKnowledge lawKnowledge ,Map<String , String > nodeMap) {
         if (lawKnowledge != null) {
             LawKnowledgeQueryPo lawKnowledgeQueryPo = new LawKnowledgeQueryPo();
             lawKnowledgeQueryPo.setFirstCategoryId(lawKnowledge.getFirstCategoryId());
             lawKnowledgeQueryPo.setSecondCategoryId(lawKnowledge.getSecondCategoryId());
             lawKnowledgeQueryPo.setThirdCategoryId(lawKnowledge.getThirdCategoryId());
+            lawKnowledgeQueryPo.setFirstCategoryName(nodeMap.get(lawKnowledge.getFirstCategoryId()));
+            lawKnowledgeQueryPo.setSecondCategoryName(nodeMap.get(lawKnowledge.getSecondCategoryId()));
+            lawKnowledgeQueryPo.setThirdCategoryName(nodeMap.get(lawKnowledge.getThirdCategoryId()));
             lawKnowledgeQueryPo.setTitle(lawKnowledge.getTitle());
             lawKnowledgeQueryPo.setContent(lawKnowledge.getContent());
             lawKnowledgeQueryPo.setDateTime(lawKnowledge.getDateTime());
