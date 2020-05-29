@@ -113,41 +113,28 @@
 			and third_category_id = #{thirdCategoryId}
 		</if>
 		<if test="thirdCategoryId =='' and secondCategoryId !='' ">
-            and second_category_id = #{secondCategoryId} and third_category_id = ''
-        </if>
-        <if test="thirdCategoryId =='' and secondCategoryId =='' and firstCategoryId !='' ">
-            and first_category_id = #{firstCategoryId} and second_category_id = '' and third_category_id = ''
-        </if>
-        order by date_time desc limit 1
-    </select>
+			and second_category_id = #{secondCategoryId} and third_category_id = ''
+		</if>
+		<if test="thirdCategoryId =='' and secondCategoryId =='' and firstCategoryId !='' ">
+			and first_category_id = #{firstCategoryId} and second_category_id = '' and third_category_id = ''
+		</if>
+		order by date_time desc limit 1
+	</select>
     <select id="getLatestThree" resultType="lawKnowledge">
         select knowledge_id,title,first_category_id,second_category_id,third_category_id,picture_oss_id,date_time from law_knowledge where del_flag = 0 order by date_time desc limit 3
     </select>
-    <select id="getAll" resultType="lawKnowledge">
-    SELECT
-	knowledge_id,
-	first_category_id,
-	second_category_id,
-	third_category_id,
-	title,
-	content,
-	date_time,
-	source,
-	pv
-    FROM
-	law_knowledge
-    WHERE
-	del_flag = 0
+	<select id="getAllTitle" resultType="string">
+        select title from law_knowledge where del_flag = 0
     </select>
-    <select id="listPageThirdNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
-        <include refid="global.paginationStart_mysql"/>
-        select
-        knowledge_id,title,date_time
-        from
-        law_knowledge
-        where
-        del_flag = 0
-        and first_category_id = #{firstCategoryId}
+	<select id="listPageThirdNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
+		<include refid="global.paginationStart_mysql" />
+			select
+				knowledge_id,title,date_time
+			from
+				law_knowledge
+			where
+				del_flag = 0
+				and first_category_id = #{firstCategoryId}
 				and second_category_id = #{secondCategoryId}
 				and (third_category_id = #{thirdCategoryId}
 				or third_category_id = '')

@@ -311,22 +311,13 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
-    public ResultBean getRandomArticles() {
-        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getAll();
-        if (lawKnowledges == null || lawKnowledges.isEmpty()) {
-            return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
+    public ResultBean getRandomTitles() {
+        List<String> titles = lawKnowledgeMapper.getAllTitle();
+        Collections.shuffle(titles);
+        List<String> result = new ArrayList<>();
+        for (int i=0;i<titles.size();i++){
+            if(i >= LAW_HEADLINES_RANDOM_COUNT) break;result.add(titles.get(i));
         }
-        Collections.shuffle(lawKnowledges);
-        List<LawKnowledge> result = new ArrayList<>();
-        for (int i=0;i<lawKnowledges.size();i++){
-            if(i >= LAW_HEADLINES_RANDOM_COUNT) break;result.add(lawKnowledges.get(i));
-        }
-        List<LawKnowledgePo> lawKnowledgePos = LawKnowledgeUtils.toLawknowledgePO(result);
-        for(LawKnowledgePo lawKnowledgePo : lawKnowledgePos){
-            lawKnowledgePo.setFirstCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePo.getFirstCategoryId()));
-            lawKnowledgePo.setSecondCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePo.getSecondCategoryId()));
-            lawKnowledgePo.setThirdCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePo.getThirdCategoryId()));
-        }
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgePos);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
     }
 }
