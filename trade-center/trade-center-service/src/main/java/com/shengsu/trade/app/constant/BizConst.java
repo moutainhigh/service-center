@@ -7,6 +7,7 @@ package com.shengsu.trade.app.constant;
  * @Description: 业务常量
  */
 public interface BizConst {
+    String SYSTEM_TAG_SHENGSU= "shengsu";
     String SYSTEM_TAG_YUANSHOU = "yuanshou";
     //账户余额来源-账户余额-充值
     String ACCOUNT_BALANCE_SOURCE_RECHANGE = "other";

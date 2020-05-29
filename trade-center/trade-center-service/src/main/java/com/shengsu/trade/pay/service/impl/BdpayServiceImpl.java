@@ -70,7 +70,7 @@ public class BdpayServiceImpl implements BdpayService{
             //插入6位随机数
             outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
             orderInfoResult =  getOrderInfo(outTradeNo,amount,totalAmount,ysAppKey,ysDealId,rsaPrivateKey);
-        }else{
+        }else if(SYSTEM_TAG_SHENGSU.equals(baiduOrderVo.getSystemTag())){
             outTradeNo = codeGeneratorService.generateCode("BTN");
             //插入6位随机数
             outTradeNo=new StringBuilder(outTradeNo).insert(3,PayOrderUtils.randnum(6)).toString();

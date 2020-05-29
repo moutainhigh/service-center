@@ -25,8 +25,8 @@ spring:
           max-idle: 10
           min-idle: 0
 zookeeper:
-  address: 192.168.1.52:2181
-  #address: localhost:2181
+  #address: 192.168.1.52:2181
+  address: 127.0.0.1:2181
 dubbo:
   group: help-center
   port: 20885
@@ -50,10 +50,10 @@ logging:
 ###consumer
 rocketmq:
   producer:
-    namesrvAddr: 192.168.1.52:9876
+    namesrvAddr: 127.0.0.1:9876
     groups: logGroup,jpushGroup,anyGroup,websiteGroup
   consumer:
-    namesrvAddr: 192.168.1.52:9876
+    namesrvAddr: 127.0.0.1:9876
     group: jpushGroup
 
 jiguang:
