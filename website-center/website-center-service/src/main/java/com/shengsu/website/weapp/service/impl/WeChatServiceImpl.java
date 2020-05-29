@@ -21,13 +21,14 @@ import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_SHENGSU;
  **/
 @Service("weChatService")
 public class WeChatServiceImpl implements WeChatService {
+    // 胜诉
     @Value("${wechat.shengsu.accessLoginUrl}")
     private String ssAccessLoginUrl;
     @Value("${wechat.shengsu.appID}")
     private String ssAppID;
     @Value("${wechat.shengsu.appSecret}")
     private String ssAppsecret;
-
+    // 援手
     @Value("${wechat.yuanshou.accessLoginUrl}")
     private String ysAccessLoginUrl;
     @Value("${wechat.yuanshou.appID}")
