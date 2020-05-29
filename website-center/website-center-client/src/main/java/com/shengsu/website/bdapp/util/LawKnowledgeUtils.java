@@ -17,6 +17,16 @@ import java.util.*;
  * @create: 2020-04-13 11:03
  **/
 public class LawKnowledgeUtils {
+    public static List<LawKnowledgePo> toLawknowledgePO(List<LawKnowledge> result){
+        List<LawKnowledgePo> lawKnowledgePos = new ArrayList<>();
+        for(LawKnowledge lawKnowledge : result){
+            LawKnowledgePo lawKnowledgePo = new LawKnowledgePo();
+            lawKnowledgePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
+            lawKnowledgePo.setTitle(lawKnowledge.getTitle());
+            lawKnowledgePos.add(lawKnowledgePo);
+        }
+        return lawKnowledgePos;
+    }
     public static LawKnowledge toLawKnowledge(LawKnowledgeListPageVo lawKnowledgeListPageVo) {
         if (lawKnowledgeListPageVo != null) {
             LawKnowledge lawKnowledge = new LawKnowledge();

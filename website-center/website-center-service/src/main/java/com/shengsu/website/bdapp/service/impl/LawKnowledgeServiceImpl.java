@@ -311,13 +311,16 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
-    public ResultBean getRandomTitles() {
-        List<String> titles = lawKnowledgeMapper.getAllTitle();
-        Collections.shuffle(titles);
-        List<String> result = new ArrayList<>();
-        for (int i=0;i<titles.size();i++){
-            if(i >= LAW_HEADLINES_RANDOM_COUNT) break;result.add(titles.get(i));
+    public ResultBean getRandomArticles() {
+        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getAll();
+        Collections.shuffle(lawKnowledges);
+        List<LawKnowledge> result = new ArrayList<>();
+        for (int i=0;i<lawKnowledges.size();i++){
+            if(i >= LAW_HEADLINES_RANDOM_COUNT)
+                break;
+            result.add(lawKnowledges.get(i));
         }
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, result);
+        List<LawKnowledgePo> lawKnowledgePos = LawKnowledgeUtils.toLawknowledgePO(result);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgePos);
     }
 }
