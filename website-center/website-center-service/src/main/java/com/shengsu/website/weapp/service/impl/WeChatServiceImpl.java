@@ -22,29 +22,29 @@ import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_SHENGSU;
 @Service("weChatService")
 public class WeChatServiceImpl implements WeChatService {
     @Value("${wechat.shengsu.accessLoginUrl}")
-    private String ssaccessLoginUrl;
+    private String ssAccessLoginUrl;
     @Value("${wechat.shengsu.appID}")
-    private String ssappID;
+    private String ssAppID;
     @Value("${wechat.shengsu.appSecret}")
-    private String ssappsecret;
+    private String ssAppsecret;
 
     @Value("${wechat.yuanshou.accessLoginUrl}")
-    private String ysaccessLoginUrl;
+    private String ysAccessLoginUrl;
     @Value("${wechat.yuanshou.appID}")
-    private String ysappID;
+    private String ysAppID;
     @Value("${wechat.yuanshou.appSecret}")
-    private String ysappsecret;
+    private String ysAppsecret;
 
     @Override
     public ResultBean authorize(WeChatVo weChatVo){
-        if(SYSTEM_TAG_SHENGSU == weChatVo.getSystemTag()){
+        if(SYSTEM_TAG_SHENGSU.equals(weChatVo.getSystemTag())){
         HashMap<String, String> resultMap = new HashMap<>();
         Map<String, String> params = new HashMap<String, String>();
-        params.put("appid", ssappID);
-        params.put("secret", ssappsecret);
+        params.put("appid", ssAppID);
+        params.put("secret", ssAppsecret);
         params.put("js_code",weChatVo.getCode());
         params.put("grant_type","authorization_code");
-        String httpResultStr = HttpClientUtil.doGet(ssaccessLoginUrl, params);
+        String httpResultStr = HttpClientUtil.doGet(ssAccessLoginUrl, params);
         JSONObject jSONObject = JSON.parseObject(httpResultStr);
         String openid = String.valueOf(jSONObject.get("openid"));
         String sessionKey = String.valueOf(jSONObject.get("session_key"));
@@ -54,11 +54,11 @@ public class WeChatServiceImpl implements WeChatService {
         } else {
             HashMap<String, String> resultMap = new HashMap<>();
             Map<String, String> params = new HashMap<String, String>();
-            params.put("appid", ysappID);
-            params.put("secret", ysappsecret);
+            params.put("appid", ysAppID);
+            params.put("secret", ysAppsecret);
             params.put("js_code", weChatVo.getCode());
             params.put("grant_type", "authorization_code");
-            String httpResultStr = HttpClientUtil.doGet(ysaccessLoginUrl, params);
+            String httpResultStr = HttpClientUtil.doGet(ysAccessLoginUrl, params);
             JSONObject jSONObject = JSON.parseObject(httpResultStr);
             String openid = String.valueOf(jSONObject.get("openid"));
             String sessionKey = String.valueOf(jSONObject.get("session_key"));
