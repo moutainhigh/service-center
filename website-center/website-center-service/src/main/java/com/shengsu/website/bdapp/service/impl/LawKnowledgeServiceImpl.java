@@ -96,16 +96,9 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
             return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
         }
 
-        List<String> nodeIds= new ArrayList<>();
-        nodeIds.add(lawKnowledge.getFirstCategoryId());
-        nodeIds.add(lawKnowledge.getSecondCategoryId());
-        nodeIds.add(lawKnowledge.getThirdCategoryId());
+        List<String> nodeIds= LawKnowledgeUtils.toNodeIds(lawKnowledge);
         List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
-        Map<String , String > nodeMap = new HashMap<>();
-        for(LawKnowledgeCategory lawKnowledgeCategory : lawKnowledgeCategories){
-            nodeMap.put(lawKnowledgeCategory.getCategoryId(),lawKnowledgeCategory.getCategoryName());
-        }
-
+        Map<String , String > nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
         LawKnowledgeQueryPo lawKnowledgeQueryPo = LawKnowledgeUtils.toLawKnowledgeQueryPo(lawKnowledge ,nodeMap);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeQueryPo);
     }

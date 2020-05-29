@@ -9,7 +9,10 @@ import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
 import com.shengsu.website.bdapp.vo.LawKnowledgeUpdateVo;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -17,9 +20,25 @@ import java.util.*;
  * @create: 2020-04-13 11:03
  **/
 public class LawKnowledgeUtils {
-    public static List<LawKnowledgePo> toLawknowledgePO(List<LawKnowledge> result){
+    public static Map<String, String> toNodeMap(List<LawKnowledgeCategory> lawKnowledgeCategories) {
+        Map<String, String> nodeMap = new HashMap<>();
+        for (LawKnowledgeCategory lawKnowledgeCategory : lawKnowledgeCategories) {
+            nodeMap.put(lawKnowledgeCategory.getCategoryId(), lawKnowledgeCategory.getCategoryName());
+        }
+        return nodeMap;
+    }
+
+    public static List<String> toNodeIds(LawKnowledge lawKnowledge) {
+        List<String> nodeIds = new ArrayList<>();
+        nodeIds.add(lawKnowledge.getFirstCategoryId());
+        nodeIds.add(lawKnowledge.getSecondCategoryId());
+        nodeIds.add(lawKnowledge.getThirdCategoryId());
+        return nodeIds;
+    }
+
+    public static List<LawKnowledgePo> toLawknowledgePO(List<LawKnowledge> result) {
         List<LawKnowledgePo> lawKnowledgePos = new ArrayList<>();
-        for(LawKnowledge lawKnowledge : result){
+        for (LawKnowledge lawKnowledge : result) {
             LawKnowledgePo lawKnowledgePo = new LawKnowledgePo();
             lawKnowledgePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
             lawKnowledgePo.setTitle(lawKnowledge.getTitle());
