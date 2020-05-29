@@ -38,9 +38,9 @@ public class WxpayServiceImpl implements WxpayService {
     @Value("${wxpay.shengsu.gzh.appid}")
     private String gzhAppID ;
     @Value("${wxpay.shengsu.mchid}")
-    private String mchID;
+    private String ssMchID;
     @Value("${wxpay.shengsu.apikey}")
-    private String apiKey;
+    private String ssApiKey;
     @Value("${wxpay.sandbox:false}")
     private boolean isSandbox;
     @Value("${wxpay.notifyUrl}")
@@ -290,13 +290,13 @@ public class WxpayServiceImpl implements WxpayService {
         MyConfig config = null;
         switch (orderFlag){
             case ORDER_FLAG_WECHAT_GZH:
-                config =getConfig(gzhAppID,mchID,apiKey);
+                config =getConfig(gzhAppID,ssMchID,ssApiKey);
                 break;
             case ORDER_FLAG_SHENGSU_WECHAT_WEAPP:
-                config =getConfig(ssWeAppID,mchID,apiKey);
+                config =getConfig(ssWeAppID,ssMchID,ssApiKey);
                 break;
             case ORDER_FLAG_SHENGSU_WECHAT_MWEB:
-                config =getConfig(ssMwebAppID,mchID,apiKey);
+                config =getConfig(ssMwebAppID,ssMchID,ssApiKey);
                 break;
             case ORDER_FLAG_YUANSHOU_WECHAT_WEAPP:
                 config =getConfig(ysWeAppID,ysMchID,ysApiKey);
