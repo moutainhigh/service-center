@@ -34,26 +34,25 @@ import static com.shengsu.trade.app.constant.BizConst.*;
 @Slf4j
 @Service("wxpayService")
 public class WxpayServiceImpl implements WxpayService {
-    // 公众号
+    // 公众号(案源王-胜诉)
     @Value("${wxpay.shengsu.gzh.appid}")
     private String gzhAppID ;
     @Value("${wxpay.shengsu.mchid}")
-    private String mchID;
+    private String ssMchID;
     @Value("${wxpay.shengsu.apikey}")
-    private String apiKey;
+    private String ssApiKey;
     @Value("${wxpay.sandbox:false}")
     private boolean isSandbox;
     @Value("${wxpay.notifyUrl}")
     private String notifyUrl;
-    // 小程序
+    // 小程序(市场推广-胜诉)
     @Value("${wxpay.shengsu.weapp.appid}")
-    private String weAppID;
-    // H5
+    private String ssWeAppID;
+    // H5 (市场推广-胜诉)
     @Value("${wxpay.shengsu.gzh.appid}")
-    private String mwebAppID;
+    private String ssMwebAppID;
 
-    // 援手
-    // 小程序
+    // 小程序 (市场推广-援手)
     @Value("${wxpay.yuanshou.weapp.appid}")
     private String ysWeAppID;
     @Value("${wxpay.yuanshou.mchid}")
@@ -291,13 +290,13 @@ public class WxpayServiceImpl implements WxpayService {
         MyConfig config = null;
         switch (orderFlag){
             case ORDER_FLAG_WECHAT_GZH:
-                config =getConfig(gzhAppID,mchID,apiKey);
+                config =getConfig(gzhAppID,ssMchID,ssApiKey);
                 break;
-            case ORDER_FLAG_WECHAT_WEAPP:
-                config =getConfig(weAppID,mchID,apiKey);
+            case ORDER_FLAG_SHENGSU_WECHAT_WEAPP:
+                config =getConfig(ssWeAppID,ssMchID,ssApiKey);
                 break;
-            case ORDER_FLAG_WECHAT_MWEB:
-                config =getConfig(mwebAppID,mchID,apiKey);
+            case ORDER_FLAG_SHENGSU_WECHAT_MWEB:
+                config =getConfig(ssMwebAppID,ssMchID,ssApiKey);
                 break;
             case ORDER_FLAG_YUANSHOU_WECHAT_WEAPP:
                 config =getConfig(ysWeAppID,ysMchID,ysApiKey);
