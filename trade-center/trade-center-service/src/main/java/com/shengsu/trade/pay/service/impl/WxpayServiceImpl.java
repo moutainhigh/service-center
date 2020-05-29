@@ -52,6 +52,15 @@ public class WxpayServiceImpl implements WxpayService {
     @Value("${wxpay.gzh.appid}")
     private String mwebAppID;
 
+    // 援手
+    // 小程序
+    @Value("${wxpay.yuanshou.weapp.appid}")
+    private String ysWeAppID;
+    @Value("${wxpay.yuanshou.mchid}")
+    private String ysMchID;
+    @Value("${wxpay.yuanshou.apikey}")
+    private String ysApiKey;
+
     @Autowired
     private CodeGeneratorService codeGeneratorService;
     @Autowired
@@ -68,12 +77,12 @@ public class WxpayServiceImpl implements WxpayService {
         log.info("开始下单");
         String accountId = wxOrderVo.getAccountId();
         int totalFee =  new BigDecimal(wxOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo = codeGeneratorService.generateCode("WGTN");
+        String outTradeNo = codeGeneratorService.generateCode("AWGTN");
         //插入6位随机数
-        outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
+        outTradeNo=new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config= getConfig("WG");
+        MyConfig config= getConfig("AWG");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("案源王充值中心-会员充值",outTradeNo,String.valueOf(totalFee),wxOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxOrderVo.getOpenId());
@@ -111,12 +120,11 @@ public class WxpayServiceImpl implements WxpayService {
     public ResultBean order(WxAppOrderVo wxAppOrderVo) throws Exception {
         log.info("开始下单");
         int totalFee =  new BigDecimal(wxAppOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo = codeGeneratorService.generateCode("WATN");
-        //插入6位随机数
-        outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
+        String outTradeNo = SYSTEM_TAG_YUANSHOU.equals(wxAppOrderVo.getSystemTag())?codeGeneratorService.generateCode("YWATN"):codeGeneratorService.generateCode("SWATN");
+        outTradeNo=new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config= getConfig("WA");
+        MyConfig config = SYSTEM_TAG_YUANSHOU.equals(wxAppOrderVo.getSystemTag())?getConfig("YWA"):getConfig("SWA");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("小程序支付中心-支付",outTradeNo,String.valueOf(totalFee),wxAppOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxAppOrderVo.getOpenId());
@@ -153,12 +161,12 @@ public class WxpayServiceImpl implements WxpayService {
     public ResultBean order(WxMwebOrderVo wxMwebOrderVo) throws Exception {
         log.info("开始下单");
         int totalFee =  new BigDecimal(wxMwebOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo = codeGeneratorService.generateCode("WMTN");
+        String outTradeNo = codeGeneratorService.generateCode("SWMTN");
         //插入6位随机数
-        outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
+        outTradeNo=new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config= getConfig("WM");
+        MyConfig config= getConfig("SWM");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("订单支付-支付",outTradeNo,String.valueOf(totalFee),wxMwebOrderVo.getIpAddress(),notifyUrl,"MWEB","");
@@ -240,7 +248,7 @@ public class WxpayServiceImpl implements WxpayService {
 
     @Override
     public ResultBean cancel(WxOrderCancelVo wxOrderCancelVo)throws Exception{
-        String orderFlag = wxOrderCancelVo.getOrderNo().substring(0,2);
+        String orderFlag = wxOrderCancelVo.getOrderNo().substring(0,3);
         MyConfig config = getConfig(orderFlag);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         Map<String, String> data = new HashMap<>();
@@ -263,7 +271,7 @@ public class WxpayServiceImpl implements WxpayService {
 
     @Override
     public ResultBean orderQuery(String outTradeNo)throws Exception{
-        String orderFlag = outTradeNo.substring(0,2);
+        String orderFlag = outTradeNo.substring(0,3);
         MyConfig config =getConfig(orderFlag);
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         Map<String, String> data = new HashMap<>();
@@ -280,18 +288,26 @@ public class WxpayServiceImpl implements WxpayService {
 
     @Override
     public MyConfig getConfig(String orderFlag) throws Exception{
-        MyConfig config = new MyConfig();
+        MyConfig config = null;
         switch (orderFlag){
             case ORDER_FLAG_WECHAT_GZH:
-                config.setAppID(gzhAppID);
+                config =getConfig(gzhAppID,mchID,apiKey);
                 break;
             case ORDER_FLAG_WECHAT_WEAPP:
-                config.setAppID(weAppID);
+                config =getConfig(weAppID,mchID,apiKey);
                 break;
             case ORDER_FLAG_WECHAT_MWEB:
-                config.setAppID(mwebAppID);
+                config =getConfig(mwebAppID,mchID,apiKey);
+                break;
+            case ORDER_FLAG_YUANSHOU_WECHAT_WEAPP:
+                config =getConfig(ysWeAppID,ysMchID,ysApiKey);
                 break;
         }
+        return config;
+    }
+    private MyConfig getConfig(String appId,String mchID,String apiKey)throws Exception{
+        MyConfig config = new MyConfig();
+        config.setAppID(appId);
         config.setMchID(mchID);
         config.setKey(isSandbox?getSignKey(mchID,apiKey):apiKey);
         return config;
