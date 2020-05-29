@@ -7,6 +7,7 @@ package com.shengsu.trade.app.constant;
  * @Description: 业务常量
  */
 public interface BizConst {
+    String SYSTEM_TAG_YUANSHOU = "yuanshou";
     //账户余额来源-账户余额-充值
     String ACCOUNT_BALANCE_SOURCE_RECHANGE = "other";
     //账户余额来源-账户余额-提现
@@ -29,11 +30,13 @@ public interface BizConst {
     //支付类型-百度
     String PAY_TYPE_BDPAY = "bdpay";
     // 下单标记-微信公众号
-    String ORDER_FLAG_WECHAT_GZH= "WG";
+    String ORDER_FLAG_WECHAT_GZH= "AWG";
     // 下单标记-微信小程序
-    String ORDER_FLAG_WECHAT_WEAPP= "WA";
+    String ORDER_FLAG_WECHAT_WEAPP= "SWA";
     // 下单标记-微信H5
-    String ORDER_FLAG_WECHAT_MWEB= "WM";
+    String ORDER_FLAG_WECHAT_MWEB= "SWM";
+    // 援手平台下单标记-微信小程序
+    String ORDER_FLAG_YUANSHOU_WECHAT_WEAPP= "YWA";
 
     //订单状态-未支付
     String ORDER_STATUS_UNPAID= "0";
