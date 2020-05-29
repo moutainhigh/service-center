@@ -31,11 +31,11 @@ public interface BizConst {
     String PAY_TYPE_BDPAY = "bdpay";
     // 下单标记-微信公众号
     String ORDER_FLAG_WECHAT_GZH= "AWG";
-    // 下单标记-微信小程序
-    String ORDER_FLAG_WECHAT_WEAPP= "SWA";
-    // 下单标记-微信H5
-    String ORDER_FLAG_WECHAT_MWEB= "SWM";
-    // 援手平台下单标记-微信小程序
+    // 胜诉平台支付下单标记-微信小程序
+    String ORDER_FLAG_SHENGSU_WECHAT_WEAPP= "SWA";
+    // 胜诉平台下单标记-微信H5
+    String ORDER_FLAG_SHENGSU_WECHAT_MWEB= "SWM";
+    // 援手平台支付下单标记-微信小程序
     String ORDER_FLAG_YUANSHOU_WECHAT_WEAPP= "YWA";
 
     //订单状态-未支付

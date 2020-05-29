@@ -293,10 +293,10 @@ public class WxpayServiceImpl implements WxpayService {
             case ORDER_FLAG_WECHAT_GZH:
                 config =getConfig(gzhAppID,mchID,apiKey);
                 break;
-            case ORDER_FLAG_WECHAT_WEAPP:
+            case ORDER_FLAG_SHENGSU_WECHAT_WEAPP:
                 config =getConfig(weAppID,mchID,apiKey);
                 break;
-            case ORDER_FLAG_WECHAT_MWEB:
+            case ORDER_FLAG_SHENGSU_WECHAT_MWEB:
                 config =getConfig(mwebAppID,mchID,apiKey);
                 break;
             case ORDER_FLAG_YUANSHOU_WECHAT_WEAPP:
