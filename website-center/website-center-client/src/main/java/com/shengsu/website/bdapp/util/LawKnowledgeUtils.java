@@ -193,7 +193,7 @@ public class LawKnowledgeUtils {
             lawKnowledgeQueryPo.setTitle(lawKnowledge.getTitle());
             lawKnowledgeQueryPo.setContent(lawKnowledge.getContent());
             lawKnowledgeQueryPo.setDateTime(lawKnowledge.getDateTime());
-            lawKnowledgeQueryPo.setSource(lawKnowledge.getSource());
+            lawKnowledgeQueryPo.setPv(lawKnowledge.getPv());
             return lawKnowledgeQueryPo;
         }
         return null;

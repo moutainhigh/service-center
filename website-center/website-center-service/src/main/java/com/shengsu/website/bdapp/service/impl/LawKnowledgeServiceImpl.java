@@ -90,6 +90,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     @Override
     public ResultBean query(LawKnowledgeQueryVo lawKnowledgeQueryVo) {
         String knowledgeId= lawKnowledgeQueryVo.getKnowledgeId();
+        updatePv(knowledgeId);
         LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByKnowledgeId(knowledgeId);
         if (lawKnowledge == null) {
             return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
@@ -311,8 +312,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
-    public ResultBean getRandomArticles() {
-        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getAll();
+    public ResultBean getRandomTitles() {
+        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getAllTitle();
         Collections.shuffle(lawKnowledges);
         List<LawKnowledge> result = new ArrayList<>();
         for (int i=0;i<lawKnowledges.size();i++){

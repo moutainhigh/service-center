@@ -123,7 +123,7 @@
     <select id="getLatestThree" resultType="lawKnowledge">
         select knowledge_id,title,first_category_id,second_category_id,third_category_id,picture_oss_id,date_time from law_knowledge where del_flag = 0 order by date_time desc limit 3
     </select>
-	<select id="getAll" resultType="lawKnowledge">
+	<select id="getAllTitle" resultType="lawKnowledge">
         select knowledge_id ,title from law_knowledge where del_flag = 0
     </select>
 	<select id="listPageThirdNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">

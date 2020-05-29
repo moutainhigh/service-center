@@ -23,5 +23,5 @@ public class LawKnowledgeQueryPo implements Serializable {
     private String content;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date dateTime;
-    private String source;
+    private String pv;
 }
