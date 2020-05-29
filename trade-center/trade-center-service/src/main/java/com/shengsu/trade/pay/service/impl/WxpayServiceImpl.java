@@ -35,21 +35,21 @@ import static com.shengsu.trade.app.constant.BizConst.*;
 @Service("wxpayService")
 public class WxpayServiceImpl implements WxpayService {
     // 公众号
-    @Value("${wxpay.gzh.appid}")
+    @Value("${wxpay.shengsu.gzh.appid}")
     private String gzhAppID ;
-    @Value("${wxpay.mchid}")
+    @Value("${wxpay.shengsu.mchid}")
     private String mchID;
-    @Value("${wxpay.apikey}")
+    @Value("${wxpay.shengsu.apikey}")
     private String apiKey;
     @Value("${wxpay.sandbox:false}")
     private boolean isSandbox;
     @Value("${wxpay.notifyUrl}")
     private String notifyUrl;
     // 小程序
-    @Value("${wxpay.weapp.appid}")
+    @Value("${wxpay.shengsu.weapp.appid}")
     private String weAppID;
     // H5
-    @Value("${wxpay.gzh.appid}")
+    @Value("${wxpay.shengsu.gzh.appid}")
     private String mwebAppID;
 
     // 援手
