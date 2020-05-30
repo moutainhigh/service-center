@@ -1,6 +1,5 @@
 package com.shengsu.website.bdapp.service.impl;
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.constant.CommonConst;
@@ -90,7 +89,6 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     @Override
     public ResultBean query(LawKnowledgeQueryVo lawKnowledgeQueryVo) {
         String knowledgeId= lawKnowledgeQueryVo.getKnowledgeId();
-        updatePv(knowledgeId);
         LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByKnowledgeId(knowledgeId);
         if (lawKnowledge == null) {
             return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
@@ -110,14 +108,18 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         Map<String, Object> resultMap = new HashMap<>();
         if (count > 0) {
             List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.listByPage(lawKnowledge);
-            List<LawKnowledgePagePo> lawKnowledgePagePos = LawKnowledgeUtils.toLawKnowledgePagePos(lawKnowledges);
-            if (CollectionUtils.isNotEmpty(lawKnowledgePagePos)) {
-                for (LawKnowledgePagePo lawKnowledgePagePo : lawKnowledgePagePos) {
-                    lawKnowledgePagePo.setFirstCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getFirstCategoryId()));
-                    lawKnowledgePagePo.setSecondCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getSecondCategoryId()));
-                    lawKnowledgePagePo.setThirdCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(lawKnowledgePagePo.getThirdCategoryId()));
-                }
+
+            List<String> nodeIds= new ArrayList<>();
+            for(LawKnowledge knowledge : lawKnowledges){
+                String firstCategoryId = knowledge.getFirstCategoryId();
+                String secondCategoryId = knowledge.getSecondCategoryId();
+                String thirdCategoryId = knowledge.getThirdCategoryId();
+                Collections.addAll(nodeIds, firstCategoryId, secondCategoryId,thirdCategoryId);
             }
+            List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
+            Map<String , String > nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+
+            List<LawKnowledgePagePo> lawKnowledgePagePos = LawKnowledgeUtils.toLawKnowledgePagePos(lawKnowledges,nodeMap);
             resultMap.put(CommonConst.ROOT, lawKnowledgePagePos);
             resultMap.put(CommonConst.TOTAL_COUNT, count);
         }
@@ -189,14 +191,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         if (lawKnowledge == null) {
             return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
         }
-        String firstCategoryId = lawKnowledge.getFirstCategoryId();
-        String secondCategoryId = lawKnowledge.getSecondCategoryId();
-        String thirdCategoryId = lawKnowledge.getThirdCategoryId();
+        List<String> nodeIds= LawKnowledgeUtils.toNodeIds(lawKnowledge);
+        List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
+        Map<String , String > nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+
         //获取当前
-        LawKnowledgeCurrentPo lawKnowledgeCurrentPo = LawKnowledgeUtils.toLawKnowledgeCurrentPo(lawKnowledge);
-        lawKnowledgeCurrentPo.setFirstCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(firstCategoryId));
-        lawKnowledgeCurrentPo.setSecondCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(secondCategoryId));
-        lawKnowledgeCurrentPo.setThirdCategoryName(lawKnowledgeCategoryService.getNameByCategoryId(thirdCategoryId));
+        LawKnowledgeCurrentPo lawKnowledgeCurrentPo = LawKnowledgeUtils.toLawKnowledgeCurrentPo(lawKnowledge,nodeMap);
         lawKnowledgeCurrentPo.setPictureOssUrl(getNoRepeatRandom(1).get(0).toString());
         LawKnowledgeDetailsPo lawKnowledgeDetailsPo = new LawKnowledgeDetailsPo();
         lawKnowledgeDetailsPo.setLawKnowledgeCurrentPo(lawKnowledgeCurrentPo);
