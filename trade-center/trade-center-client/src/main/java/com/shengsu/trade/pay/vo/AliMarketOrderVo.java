@@ -12,5 +12,6 @@ public class AliMarketOrderVo implements Serializable {
     private String amount;
     @NotBlank
     private String verifyCode;
+    private String systemTag;
 
 }

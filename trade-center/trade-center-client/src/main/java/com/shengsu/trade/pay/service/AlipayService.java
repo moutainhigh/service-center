@@ -14,4 +14,5 @@ public interface AlipayService {
     ResultBean cancel(AliOrderCancelVo aliOrderCancelVo)throws AlipayApiException;
     ResultBean orderQuery(String outTradeNo);
     boolean rsaCheckV1(Map<String, String> params)throws AlipayApiException;
+    String assembleSubType(String outTradeNo);
 }

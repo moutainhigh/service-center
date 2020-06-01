@@ -39,6 +39,13 @@ public interface BizConst {
     // 援手平台支付下单标记-微信小程序
     String ORDER_FLAG_YUANSHOU_WECHAT_WEAPP= "YWA";
 
+    // 胜诉平台下单标记-支付宝案源王H5
+    String ORDER_FLAG_SHENGSU_ALIPAY_ANY_MWEB= "AAT";
+    // 胜诉平台下单标记-支付宝市场推广H5
+    String ORDER_FLAG_SHENGSU_ALIPAY_MARKET_MWEB= "SAM";
+    // 援手平台支付下单标记-微信小程序
+    String ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_MWEB= "YAM";
+
     //订单状态-未支付
     String ORDER_STATUS_UNPAID= "0";
     //订单状态-已支付
