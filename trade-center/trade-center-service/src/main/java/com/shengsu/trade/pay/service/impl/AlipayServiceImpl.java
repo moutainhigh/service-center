@@ -42,10 +42,10 @@ public class AlipayServiceImpl implements AlipayService {
     private String ssRsaPrivateKey;
     @Value("${alipay.shengsu.alipayPublicKey}")
     private String ssAlipayPublicKey;
-    @Value("${alipay.returnUrl.any}")
+    @Value("${alipay.shengsu.returnUrl.any}")
     private String anyReturnUrl;
-    @Value("${alipay.returnUrl.market}")
-    private String marketReturnUrl;
+    @Value("${alipay.shengsu.returnUrl.market}")
+    private String ssMarketReturnUrl;
     @Value("${alipay.notifyUrl}")
     private String notifyUrl;
     @Value("${alipay.gatewayUrl}")
@@ -64,6 +64,8 @@ public class AlipayServiceImpl implements AlipayService {
     private String ysRsaPrivateKey;
     @Value("${alipay.yuanshou.alipayPublicKey}")
     private String ysAlipayPublicKey;
+    @Value("${alipay.yuanshou.returnUrl.market}")
+    private String ysMarketReturnUrl;
 
     @Autowired
     CodeGeneratorService codeGeneratorService;
@@ -94,9 +96,10 @@ public class AlipayServiceImpl implements AlipayService {
     public String order(AliMarketOrderVo aliMarketOrderVo) throws Exception {
         // 封装请求支付信息
         String outTradeNo = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?codeGeneratorService.generateCode("YAMTN"):codeGeneratorService.generateCode("SAMTN");
+        String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?ysMarketReturnUrl:ssMarketReturnUrl;
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
-        return getForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),marketReturnUrl+"?verifyCode="+aliMarketOrderVo.getVerifyCode());
+        return getForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl+"?verifyCode="+aliMarketOrderVo.getVerifyCode());
     }
     /**
     * @Description: 获取支付下单返回的form表单数据
