@@ -150,23 +150,6 @@ public class AlipayServiceImpl implements AlipayService {
        return client;
     }
     @Override
-    public String assembleSubType(String outTradeNo){
-        String orderFlag = outTradeNo.substring(0,3);
-        String subType = "";
-        switch (orderFlag){
-            case ORDER_FLAG_SHENGSU_ALIPAY_ANY_MWEB:
-                subType = "any";
-                break;
-            case ORDER_FLAG_SHENGSU_ALIPAY_MARKET_MWEB:
-                subType = "shengsu_market";
-                break;
-            case ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_MWEB:
-                subType = "yuanshou_market";
-                break;
-        }
-        return subType;
-    }
-    @Override
     public ResultBean cancel(AliOrderCancelVo aliOrderCancelVo) throws AlipayApiException{
         //商户订单号和支付宝交易号不能同时为空。 trade_no、  out_trade_no如果同时存在优先取trade_no
         //商户订单号，和支付宝交易号二选一
