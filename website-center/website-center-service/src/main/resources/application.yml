@@ -14,7 +14,7 @@ zookeeper:
 dubbo:
   group: website-center
   port: 20887
-  version: 1.0
+  version: 2.0
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
@@ -23,7 +23,11 @@ logging:
 lawknowledge:
   picture-range: 100
 wechat:
-  accessLoginUrl: https://api.weixin.qq.com/sns/jscode2session
-  appID: wx36c1d8e71b07103d
-  appSecret: 209cf3e6b10e170d73c2fcf24b7f4f55
-
+  shengsu:
+    accessLoginUrl: https://api.weixin.qq.com/sns/jscode2session
+    appID: wx36c1d8e71b07103d
+    appSecret: 209cf3e6b10e170d73c2fcf24b7f4f55
+  yuanshou:
+    accessLoginUrl: https://api.weixin.qq.com/sns/jscode2session
+    appID: wx22c0714da6b3d10b
+    appSecret: 93df5324e1387778ad2fea1ebd2c4680

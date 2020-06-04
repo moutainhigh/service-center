@@ -9,7 +9,10 @@ import com.shengsu.website.bdapp.vo.LawKnowledgeListPageVo;
 import com.shengsu.website.bdapp.vo.LawKnowledgeUpdateVo;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -17,6 +20,32 @@ import java.util.*;
  * @create: 2020-04-13 11:03
  **/
 public class LawKnowledgeUtils {
+    public static Map<String, String> toNodeMap(List<LawKnowledgeCategory> lawKnowledgeCategories) {
+        Map<String, String> nodeMap = new HashMap<>();
+        for (LawKnowledgeCategory lawKnowledgeCategory : lawKnowledgeCategories) {
+            nodeMap.put(lawKnowledgeCategory.getCategoryId(), lawKnowledgeCategory.getCategoryName());
+        }
+        return nodeMap;
+    }
+
+    public static List<String> toNodeIds(LawKnowledge lawKnowledge) {
+        List<String> nodeIds = new ArrayList<>();
+        nodeIds.add(lawKnowledge.getFirstCategoryId());
+        nodeIds.add(lawKnowledge.getSecondCategoryId());
+        nodeIds.add(lawKnowledge.getThirdCategoryId());
+        return nodeIds;
+    }
+
+    public static List<LawKnowledgePo> toLawknowledgePO(List<LawKnowledge> result) {
+        List<LawKnowledgePo> lawKnowledgePos = new ArrayList<>();
+        for (LawKnowledge lawKnowledge : result) {
+            LawKnowledgePo lawKnowledgePo = new LawKnowledgePo();
+            lawKnowledgePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
+            lawKnowledgePo.setTitle(lawKnowledge.getTitle());
+            lawKnowledgePos.add(lawKnowledgePo);
+        }
+        return lawKnowledgePos;
+    }
     public static LawKnowledge toLawKnowledge(LawKnowledgeListPageVo lawKnowledgeListPageVo) {
         if (lawKnowledgeListPageVo != null) {
             LawKnowledge lawKnowledge = new LawKnowledge();
@@ -75,13 +104,16 @@ public class LawKnowledgeUtils {
         return null;
     }
 
-    public static LawKnowledgeCurrentPo toLawKnowledgeCurrentPo(LawKnowledge lawKnowledge) {
+    public static LawKnowledgeCurrentPo toLawKnowledgeCurrentPo(LawKnowledge lawKnowledge,Map<String , String > nodeMap) {
         if (lawKnowledge != null) {
             LawKnowledgeCurrentPo lawKnowledgeCurrentPo = new LawKnowledgeCurrentPo();
             lawKnowledgeCurrentPo.setKnowledgeId(lawKnowledge.getKnowledgeId());
             lawKnowledgeCurrentPo.setFirstCategoryId(lawKnowledge.getFirstCategoryId());
             lawKnowledgeCurrentPo.setSecondCategoryId(lawKnowledge.getSecondCategoryId());
             lawKnowledgeCurrentPo.setThirdCategoryId(lawKnowledge.getThirdCategoryId());
+            lawKnowledgeCurrentPo.setFirstCategoryName(nodeMap.get(lawKnowledge.getFirstCategoryId()));
+            lawKnowledgeCurrentPo.setSecondCategoryName(nodeMap.get(lawKnowledge.getSecondCategoryId()));
+            lawKnowledgeCurrentPo.setThirdCategoryName(nodeMap.get(lawKnowledge.getThirdCategoryId()));
             lawKnowledgeCurrentPo.setTitle(lawKnowledge.getTitle());
             lawKnowledgeCurrentPo.setContent(lawKnowledge.getContent());
             lawKnowledgeCurrentPo.setDateTime(lawKnowledge.getDateTime());
@@ -174,15 +206,19 @@ public class LawKnowledgeUtils {
         return null;
     }
 
-    public static LawKnowledgeQueryPo toLawKnowledgeQueryPo(LawKnowledge lawKnowledge) {
+    public static LawKnowledgeQueryPo toLawKnowledgeQueryPo(LawKnowledge lawKnowledge ,Map<String , String > nodeMap) {
         if (lawKnowledge != null) {
             LawKnowledgeQueryPo lawKnowledgeQueryPo = new LawKnowledgeQueryPo();
             lawKnowledgeQueryPo.setFirstCategoryId(lawKnowledge.getFirstCategoryId());
             lawKnowledgeQueryPo.setSecondCategoryId(lawKnowledge.getSecondCategoryId());
             lawKnowledgeQueryPo.setThirdCategoryId(lawKnowledge.getThirdCategoryId());
+            lawKnowledgeQueryPo.setFirstCategoryName(nodeMap.get(lawKnowledge.getFirstCategoryId()));
+            lawKnowledgeQueryPo.setSecondCategoryName(nodeMap.get(lawKnowledge.getSecondCategoryId()));
+            lawKnowledgeQueryPo.setThirdCategoryName(nodeMap.get(lawKnowledge.getThirdCategoryId()));
             lawKnowledgeQueryPo.setTitle(lawKnowledge.getTitle());
             lawKnowledgeQueryPo.setContent(lawKnowledge.getContent());
             lawKnowledgeQueryPo.setDateTime(lawKnowledge.getDateTime());
+            lawKnowledgeQueryPo.setPv(lawKnowledge.getPv());
             lawKnowledgeQueryPo.setSource(lawKnowledge.getSource());
             return lawKnowledgeQueryPo;
         }
@@ -202,17 +238,17 @@ public class LawKnowledgeUtils {
         return null;
     }
 
-    public static List<LawKnowledgePagePo> toLawKnowledgePagePos(List<LawKnowledge> lawKnowledges) {
+    public static List<LawKnowledgePagePo> toLawKnowledgePagePos(List<LawKnowledge> lawKnowledges,Map<String , String > nodeMap) {
         if (lawKnowledges != null && !lawKnowledges.isEmpty()) {
             List<LawKnowledgePagePo> lawKnowledgePagePos = new ArrayList<>();
             for (LawKnowledge lawKnowledge : lawKnowledges){
-                lawKnowledgePagePos.add(toLawKnowledgePagePo(lawKnowledge));
+                lawKnowledgePagePos.add(toLawKnowledgePagePo(lawKnowledge,nodeMap));
             }
             return lawKnowledgePagePos;
         }
         return null;
     }
-    private static LawKnowledgePagePo toLawKnowledgePagePo(LawKnowledge lawKnowledge) {
+    private static LawKnowledgePagePo toLawKnowledgePagePo(LawKnowledge lawKnowledge,Map<String , String > nodeMap) {
         if (lawKnowledge != null) {
             LawKnowledgePagePo lawKnowledgePagePo = new LawKnowledgePagePo();
             lawKnowledgePagePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
@@ -221,6 +257,9 @@ public class LawKnowledgeUtils {
             lawKnowledgePagePo.setThirdCategoryId(lawKnowledge.getThirdCategoryId());
             lawKnowledgePagePo.setTitle(lawKnowledge.getTitle());
             lawKnowledgePagePo.setDateTime(lawKnowledge.getDateTime());
+            lawKnowledgePagePo.setFirstCategoryName(nodeMap.get(lawKnowledge.getFirstCategoryId()));
+            lawKnowledgePagePo.setSecondCategoryName(nodeMap.get(lawKnowledge.getSecondCategoryId()));
+            lawKnowledgePagePo.setThirdCategoryName(nodeMap.get(lawKnowledge.getThirdCategoryId()));
             return lawKnowledgePagePo;
         }
         return null;

@@ -36,16 +36,16 @@ import static com.shengsu.trade.app.constant.BizConst.*;
 @Slf4j
 @Service("alipayService")
 public class AlipayServiceImpl implements AlipayService {
-    @Value("${alipay.appid}")
-    private String appID;
-    @Value("${alipay.rsaPrivateKey}")
-    private String rsaPrivateKey;
-    @Value("${alipay.alipayPublicKey}")
-    private String alipayPublicKey;
-    @Value("${alipay.returnUrl.any}")
+    @Value("${alipay.shengsu.appid}")
+    private String ssAppID;
+    @Value("${alipay.shengsu.rsaPrivateKey}")
+    private String ssRsaPrivateKey;
+    @Value("${alipay.shengsu.alipayPublicKey}")
+    private String ssAlipayPublicKey;
+    @Value("${alipay.shengsu.returnUrl.any}")
     private String anyReturnUrl;
-    @Value("${alipay.returnUrl.market}")
-    private String marketReturnUrl;
+    @Value("${alipay.shengsu.returnUrl.market}")
+    private String ssMarketReturnUrl;
     @Value("${alipay.notifyUrl}")
     private String notifyUrl;
     @Value("${alipay.gatewayUrl}")
@@ -56,6 +56,17 @@ public class AlipayServiceImpl implements AlipayService {
     private String timeoutExpress;
     @Value("${alipay.productCode:QUICK_WAP_WAY}")
     private String productCode;
+
+    // 援手
+    @Value("${alipay.yuanshou.appid}")
+    private String ysAppID;
+    @Value("${alipay.yuanshou.rsaPrivateKey}")
+    private String ysRsaPrivateKey;
+    @Value("${alipay.yuanshou.alipayPublicKey}")
+    private String ysAlipayPublicKey;
+    @Value("${alipay.yuanshou.returnUrl.market}")
+    private String ysMarketReturnUrl;
+
     @Autowired
     CodeGeneratorService codeGeneratorService;
     @Autowired
@@ -84,10 +95,11 @@ public class AlipayServiceImpl implements AlipayService {
     @Override
     public String order(AliMarketOrderVo aliMarketOrderVo) throws Exception {
         // 封装请求支付信息
-        String outTradeNo = codeGeneratorService.generateCode("AMTN");
+        String outTradeNo = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?codeGeneratorService.generateCode("YAMTN"):codeGeneratorService.generateCode("SAMTN");
+        String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?ysMarketReturnUrl:ssMarketReturnUrl;
         //插入6位随机数
-        outTradeNo = new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
-        return getForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),marketReturnUrl+"?verifyCode="+aliMarketOrderVo.getVerifyCode());
+        outTradeNo = new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
+        return getForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl+"?verifyCode="+aliMarketOrderVo.getVerifyCode());
     }
     /**
     * @Description: 获取支付下单返回的form表单数据
@@ -97,7 +109,8 @@ public class AlipayServiceImpl implements AlipayService {
     private String getForm(String accountId,String outTradeNo,String subject,String body, String amount,String returnUrl)throws Exception {
         // SDK 公共请求类，包含公共请求参数，以及封装了签名与验签，开发者无需关注签名与验签
         //调用RSA签名方式
-        AlipayClient client = new DefaultAlipayClient(gatewayUrl, appID, rsaPrivateKey, "json", "UTF-8", alipayPublicKey,signType);
+        String orderFlag = outTradeNo.substring(0,3);
+        AlipayClient client = getAlipayClient(orderFlag);
         AlipayTradeWapPayRequest alipayRequest=new AlipayTradeWapPayRequest();
         AlipayTradeWapPayModel model=new AlipayTradeWapPayModel();
         model.setOutTradeNo(outTradeNo);
@@ -118,13 +131,34 @@ public class AlipayServiceImpl implements AlipayService {
         payOrderService.create(payOrder);
         return form;
     }
+    /**
+    * @Description: 获取AlipayClient
+    * @Param: 
+    * @Return: * @return: com.alipay.api.AlipayClient
+    * @date: 
+    */
+    private AlipayClient getAlipayClient(String orderFlag){
+        AlipayClient client = null;
+        switch (orderFlag){
+            case ORDER_FLAG_SHENGSU_ALIPAY_ANY_MWEB:
+                client =new DefaultAlipayClient(gatewayUrl, ssAppID, ssRsaPrivateKey, "json", "UTF-8", ssAlipayPublicKey,signType);
+                break;
+            case ORDER_FLAG_SHENGSU_ALIPAY_MARKET_MWEB:
+                client =new DefaultAlipayClient(gatewayUrl, ssAppID, ssRsaPrivateKey, "json", "UTF-8", ssAlipayPublicKey,signType);
+                break;
+            case ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_MWEB:
+                client =new DefaultAlipayClient(gatewayUrl, ysAppID, ysRsaPrivateKey, "json", "UTF-8", ysAlipayPublicKey,signType);
+                break;
+        }
+       return client;
+    }
     @Override
     public ResultBean cancel(AliOrderCancelVo aliOrderCancelVo) throws AlipayApiException{
         //商户订单号和支付宝交易号不能同时为空。 trade_no、  out_trade_no如果同时存在优先取trade_no
         //商户订单号，和支付宝交易号二选一
         String outTradeNo = aliOrderCancelVo.getOrderNo();
-        // SDK 公共请求类，包含公共请求参数，以及封装了签名与验签，开发者无需关注签名与验签
-        AlipayClient client = new DefaultAlipayClient(gatewayUrl, appID, rsaPrivateKey, "json", "UTF-8", alipayPublicKey,signType);
+        String orderFlag = outTradeNo.substring(0,3);
+        AlipayClient client = getAlipayClient(orderFlag);
         AlipayTradeCloseRequest alipayRequest=new AlipayTradeCloseRequest();
         AlipayTradeCloseModel model =new AlipayTradeCloseModel();
         model.setOutTradeNo(outTradeNo);
@@ -142,7 +176,8 @@ public class AlipayServiceImpl implements AlipayService {
     @Override
     public ResultBean orderQuery(String outTradeNo){
         // SDK 公共请求类，包含公共请求参数，以及封装了签名与验签，开发者无需关注签名与验签
-        AlipayClient client = new DefaultAlipayClient(gatewayUrl, appID, rsaPrivateKey, "json", "UTF-8", alipayPublicKey,signType);
+        String orderFlag = outTradeNo.substring(0,3);
+        AlipayClient client = getAlipayClient(orderFlag);
         AlipayTradeQueryRequest alipayRequest=new AlipayTradeQueryRequest();
         AlipayTradeQueryModel model =new AlipayTradeQueryModel();
         model.setOutTradeNo(outTradeNo);
@@ -159,7 +194,21 @@ public class AlipayServiceImpl implements AlipayService {
 
     @Override
     public boolean rsaCheckV1(Map<String, String> params) throws AlipayApiException{
-        return AlipaySignature.rsaCheckV1(params, alipayPublicKey, "UTF-8", signType);
+        String outTradeNo = params.get("out_trade_no");
+        String orderFlag = outTradeNo.substring(0,3);
+        String publicKey = "";
+        switch (orderFlag){
+            case ORDER_FLAG_SHENGSU_ALIPAY_ANY_MWEB:
+                publicKey = ssAlipayPublicKey;
+                break;
+            case ORDER_FLAG_SHENGSU_ALIPAY_MARKET_MWEB:
+                publicKey = ssAlipayPublicKey;
+                break;
+            case ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_MWEB:
+                publicKey = ysAlipayPublicKey;
+                break;
+        }
+        return AlipaySignature.rsaCheckV1(params, publicKey, "UTF-8", signType);
     }
 
 }

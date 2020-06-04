@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_SHENGSU;
 /**
  * @program: service-center
  * @author: Bell
@@ -21,18 +21,30 @@ import java.util.Map;
  **/
 @Service("weChatService")
 public class WeChatServiceImpl implements WeChatService {
-    @Value("${wechat.accessLoginUrl}")
-    private String accessLoginUrl;
-    @Value("${wechat.appID}")
-    private String appID;
-    @Value("${wechat.appSecret}")
-    private String appsecret;
+    // 胜诉
+    @Value("${wechat.shengsu.accessLoginUrl}")
+    private String ssAccessLoginUrl;
+    @Value("${wechat.shengsu.appID}")
+    private String ssAppID;
+    @Value("${wechat.shengsu.appSecret}")
+    private String ssAppsecret;
+    // 援手
+    @Value("${wechat.yuanshou.accessLoginUrl}")
+    private String ysAccessLoginUrl;
+    @Value("${wechat.yuanshou.appID}")
+    private String ysAppID;
+    @Value("${wechat.yuanshou.appSecret}")
+    private String ysAppsecret;
+
     @Override
     public ResultBean authorize(WeChatVo weChatVo){
+        String appId =SYSTEM_TAG_SHENGSU.equals(weChatVo.getSystemTag())?ssAppID:ysAppID;
+        String secret = SYSTEM_TAG_SHENGSU.equals(weChatVo.getSystemTag())?ssAppsecret:ysAppsecret;
+        String accessLoginUrl = SYSTEM_TAG_SHENGSU.equals(weChatVo.getSystemTag())?ssAccessLoginUrl:ysAccessLoginUrl;
         HashMap<String, String> resultMap = new HashMap<>();
         Map<String, String> params = new HashMap<String, String>();
-        params.put("appid", appID);
-        params.put("secret", appsecret);
+        params.put("appid", appId);
+        params.put("secret", secret);
         params.put("js_code",weChatVo.getCode());
         params.put("grant_type","authorization_code");
         String httpResultStr = HttpClientUtil.doGet(accessLoginUrl, params);

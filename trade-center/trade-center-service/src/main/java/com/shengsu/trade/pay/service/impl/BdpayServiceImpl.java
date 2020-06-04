@@ -34,27 +34,65 @@ import static com.shengsu.trade.app.constant.BizConst.*;
 @Slf4j
 @Service("bdpayService")
 public class BdpayServiceImpl implements BdpayService{
-    @Value("${bdpay.appKey}")
-    private String appKey;
-    @Value("${bdpay.appId}")
-    private String appId;
-    @Value("${bdpay.dealId}")
-    private String dealId;
-    @Value("${bdpay.rsaPrivateKey}")
+    // 胜诉
+    @Value("${bdpay.shengsu.appKey}")
+    private String ssAppKey;
+    @Value("${bdpay.shengsu.appId}")
+    private String ssAppId;
+    @Value("${bdpay.shengsu.dealId}")
+    private String ssDealId;
+    @Value("${bdpay.shengsu.rsaPrivateKey}")
     private String rsaPrivateKey;
-    @Value("${bdpay.rsaPublicKey}")
-    private String rsaPublicKey;
+    @Value("${bdpay.shengsu.rsaPublicKey}")
+    private String ssRsaPublicKey;
+    // 援手
+    @Value("${bdpay.yuanshou.appKey}")
+    private String ysAppKey;
+    @Value("${bdpay.yuanshou.appId}")
+    private String ysAppId;
+    @Value("${bdpay.yuanshou.dealId}")
+    private String ysDealId;
+    @Value("${bdpay.yuanshou.rsaPublicKey}")
+    private String ysRsaPublicKey;
     @Autowired
     CodeGeneratorService codeGeneratorService;
     @Autowired
     private PayOrderService payOrderService;
+
     @Override
     public ResultBean order(BaiduOrderVo baiduOrderVo) throws NuomiApiException {
         String amount = baiduOrderVo.getAmount();
-        String outTradeNo = codeGeneratorService.generateCode("BTN");
-        //插入6位随机数
-        outTradeNo=new StringBuilder(outTradeNo).insert(3,PayOrderUtils.randnum(6)).toString();
         int totalAmount =  new BigDecimal(amount).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
+        String outTradeNo;
+        ResultBean<BdOrderInfo> orderInfoResult = null;
+        if (SYSTEM_TAG_YUANSHOU.equals(baiduOrderVo.getSystemTag())){
+            outTradeNo = codeGeneratorService.generateCode("YBTN");
+            //插入6位随机数
+            outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
+            orderInfoResult =  getOrderInfo(outTradeNo,amount,totalAmount,ysAppKey,ysDealId,rsaPrivateKey);
+        }else if(SYSTEM_TAG_SHENGSU.equals(baiduOrderVo.getSystemTag())){
+            outTradeNo = codeGeneratorService.generateCode("SBTN");
+            //插入6位随机数
+            outTradeNo=new StringBuilder(outTradeNo).insert(4,PayOrderUtils.randnum(6)).toString();
+            orderInfoResult =  getOrderInfo(outTradeNo,amount,totalAmount,ssAppKey,ssDealId,rsaPrivateKey);
+        }
+        BdOrderInfo orderInfo = null;
+        if (orderInfoResult.isSuccess()) {
+            orderInfo = orderInfoResult.getBody();
+        }
+        //返回orderInfo
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("orderInfo",orderInfo);
+        log.info("下单参数：",JSON.toJSONString(orderInfo));
+
+        return ResultUtil.formResult(true, ResultCode.SUCCESS,resultMap);
+    }
+    /**
+    * @Description: 获取订单信息
+    * @Return: * @return: com.shengsu.result.ResultBean<com.shengsu.trade.pay.entity.BdOrderInfo>
+    * @date: 
+    */
+    private ResultBean<BdOrderInfo> getOrderInfo(String outTradeNo,String amount,int totalAmount, String appKey, String dealId, String rsaPrivateKey)throws NuomiApiException {
         //百度收银台创建
         BdOrderInfo orderInfo = new BdOrderInfo();
         orderInfo.setAppKey(appKey);
@@ -86,18 +124,15 @@ public class BdpayServiceImpl implements BdpayService{
         // order表生成订单数据
         PayOrder payOrder = PayOrderUtils.toPayOrder("",outTradeNo,"",new BigDecimal(amount),PAY_TYPE_BDPAY,ORDER_STATUS_UNPAID);
         payOrderService.create(payOrder);
-
-        //返回orderInfo
-        Map<String,Object> resultMap = new HashMap<>();
-        resultMap.put("orderInfo",orderInfo);
-        log.info("下单参数：",JSON.toJSONString(orderInfo));
-        return ResultUtil.formResult(true, ResultCode.SUCCESS,resultMap);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, orderInfo);
     }
 
     @Override
     public ResultBean checkSignWithRsa(Map<String, String> param, String rsaSign) {
+        String outTradeNo =param.get("tpOrderId");
+        String publicKey= outTradeNo.contains("YBTN")?ysRsaPublicKey:ssRsaPublicKey;
         try {
-            boolean checkSign =  NuomiSignature.checkSignWithRsa(param,rsaPublicKey,rsaSign);
+            boolean checkSign = NuomiSignature.checkSignWithRsa(param,publicKey,rsaSign);
             return  ResultUtil.formResult(true, ResultCode.SUCCESS,checkSign);
         } catch (NuomiApiException e) {
             log.info("验签异常：",e);
@@ -139,6 +174,8 @@ public class BdpayServiceImpl implements BdpayService{
         PayOrder payOrder = payOrderService.getByOrderNo(orderNo);
         String orderId = "";
         String siteId = "";
+        String appId = orderNo.contains("YBTN")?ysAppId:ssAppId;
+        String appKey = orderNo.contains("YBTN")?ysAppKey:ssAppKey;
         if (null !=payOrder){
             orderId=payOrder.getTransactionId();
             siteId =payOrder.getSiteId();

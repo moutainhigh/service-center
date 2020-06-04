@@ -10,4 +10,5 @@ public class BaiduOrderVo implements Serializable {
     // 付款金额
     @NotBlank
     private String amount;
+    private String systemTag;
 }

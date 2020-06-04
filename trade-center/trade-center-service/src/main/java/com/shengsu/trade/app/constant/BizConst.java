@@ -7,6 +7,8 @@ package com.shengsu.trade.app.constant;
  * @Description: 业务常量
  */
 public interface BizConst {
+    String SYSTEM_TAG_SHENGSU= "shengsu";
+    String SYSTEM_TAG_YUANSHOU = "yuanshou";
     //账户余额来源-账户余额-充值
     String ACCOUNT_BALANCE_SOURCE_RECHANGE = "other";
     //账户余额来源-账户余额-提现
@@ -29,11 +31,20 @@ public interface BizConst {
     //支付类型-百度
     String PAY_TYPE_BDPAY = "bdpay";
     // 下单标记-微信公众号
-    String ORDER_FLAG_WECHAT_GZH= "WG";
-    // 下单标记-微信小程序
-    String ORDER_FLAG_WECHAT_WEAPP= "WA";
-    // 下单标记-微信H5
-    String ORDER_FLAG_WECHAT_MWEB= "WM";
+    String ORDER_FLAG_WECHAT_GZH= "AWG";
+    // 胜诉平台支付下单标记-微信小程序
+    String ORDER_FLAG_SHENGSU_WECHAT_WEAPP= "SWA";
+    // 胜诉平台下单标记-微信H5
+    String ORDER_FLAG_SHENGSU_WECHAT_MWEB= "SWM";
+    // 援手平台支付下单标记-微信小程序
+    String ORDER_FLAG_YUANSHOU_WECHAT_WEAPP= "YWA";
+
+    // 胜诉平台下单标记-支付宝案源王H5
+    String ORDER_FLAG_SHENGSU_ALIPAY_ANY_MWEB= "AAT";
+    // 胜诉平台下单标记-支付宝市场推广H5
+    String ORDER_FLAG_SHENGSU_ALIPAY_MARKET_MWEB= "SAM";
+    // 援手平台支付下单标记-微信小程序
+    String ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_MWEB= "YAM";
 
     //订单状态-未支付
     String ORDER_STATUS_UNPAID= "0";

@@ -9,5 +9,5 @@ package com.shengsu.website.app.constant;
 public interface BizConst {
     //法律头条-随机数
     Integer LAW_HEADLINES_RANDOM_COUNT = 10;
-
+    String SYSTEM_TAG_SHENGSU = "shengsu";
 }
