@@ -28,7 +28,7 @@ wxpay:
     weapp:
       appid: wx36c1d8e71b07103d
     h5:
-      appid: wx6f29705e50768a15
+      appid: wx48ce1523aef6264f
       redirectUrl: https://market-h5-test.shengsuvc.com/pages/service/service
     mchid: 1573621631
     apikey: 1f5dc3037d7a4752b69e95fcad34ad34
