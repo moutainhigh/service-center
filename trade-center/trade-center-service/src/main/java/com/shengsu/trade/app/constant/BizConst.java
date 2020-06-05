@@ -34,10 +34,13 @@ public interface BizConst {
     String ORDER_FLAG_WECHAT_GZH= "AWG";
     // 胜诉平台支付下单标记-微信小程序
     String ORDER_FLAG_SHENGSU_WECHAT_WEAPP= "SWA";
-    // 胜诉平台下单标记-微信H5
-    String ORDER_FLAG_SHENGSU_WECHAT_MWEB= "SWM";
     // 援手平台支付下单标记-微信小程序
     String ORDER_FLAG_YUANSHOU_WECHAT_WEAPP= "YWA";
+    // 胜诉平台下单标记-微信H5
+    String ORDER_FLAG_SHENGSU_WECHAT_MWEB= "SWM";
+    // 援手平台下单标记-微信H5
+    String ORDER_FLAG_YUANSHOU_WECHAT_MWEB= "YWM";
+
 
     // 胜诉平台下单标记-支付宝案源王H5
     String ORDER_FLAG_SHENGSU_ALIPAY_ANY_MWEB= "AAT";

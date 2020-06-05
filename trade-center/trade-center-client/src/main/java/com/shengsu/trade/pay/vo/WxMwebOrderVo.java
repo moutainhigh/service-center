@@ -10,6 +10,9 @@ public class WxMwebOrderVo implements Serializable {
     // 充值金额
     @NotBlank
     private String amount;
+    private String systemTag;
+    @NotBlank
+    private String verifyCode;
     private String ipAddress;
 
 }
