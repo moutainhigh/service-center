@@ -188,11 +188,12 @@ public class WxpayServiceImpl implements WxpayService {
             String prepayId = resp.get("prepay_id");
             // 拼接重定向地址
             String redirectUrl = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?ysMwebRedirectUrl:ssMwebRedirectUrl;
-            String redirectUrlEncode =  URLEncoder.encode(redirectUrl,"utf-8")+"?verifyCode="+wxMwebOrderVo.getVerifyCode()+"&orderNo="+outTradeNo;
+            String redirectUrlEncode =  URLEncoder.encode(redirectUrl,"utf-8")+"?verifyCode="+wxMwebOrderVo.getVerifyCode();
             String mwebUrl =  resp.get("mweb_url")+"&redirect_url="+redirectUrlEncode;
             if ("SUCCESS".equals(resp.get("return_code"))&&"SUCCESS".equals(resp.get("result_code"))){
                 // 返回前端数据
                 result.put("mwebUrl", mwebUrl);
+                result.put("orderNo", outTradeNo);
                 // order表生成订单数据
                 PayOrder payOrder = PayOrderUtils.toPayOrder("",outTradeNo,prepayId,new BigDecimal(wxMwebOrderVo.getAmount()),PAY_TYPE_WECHAT,ORDER_STATUS_UNPAID);
                 payOrderService.create(payOrder);
