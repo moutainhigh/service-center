@@ -174,9 +174,6 @@ public class WxpayServiceImpl implements WxpayService {
         // 配置微信请求参数
         log.info("配置微信请求参数");
         MyConfig config = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?getConfig("YWM"):getConfig("SWM");
-        // 拼接重定向地址
-        String redirectUrl = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?ysMwebRedirectUrl:ssMwebRedirectUrl;
-        String redirectUrlEncode =  URLEncoder.encode(redirectUrl,"utf-8")+"?verifyCode="+wxMwebOrderVo.getVerifyCode();
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("订单支付-支付",outTradeNo,String.valueOf(totalFee),wxMwebOrderVo.getIpAddress(),notifyUrl,"MWEB","");
@@ -189,6 +186,9 @@ public class WxpayServiceImpl implements WxpayService {
             resp = wxpay.unifiedOrder(reqData);
             log.info("请求微信返回预期结果"+resp);
             String prepayId = resp.get("prepay_id");
+            // 拼接重定向地址
+            String redirectUrl = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?ysMwebRedirectUrl:ssMwebRedirectUrl;
+            String redirectUrlEncode =  URLEncoder.encode(redirectUrl,"utf-8")+"?verifyCode="+wxMwebOrderVo.getVerifyCode();
             String mwebUrl =  resp.get("mweb_url")+"&redirect_url="+redirectUrlEncode;
             if ("SUCCESS".equals(resp.get("return_code"))&&"SUCCESS".equals(resp.get("result_code"))){
                 // 返回前端数据
