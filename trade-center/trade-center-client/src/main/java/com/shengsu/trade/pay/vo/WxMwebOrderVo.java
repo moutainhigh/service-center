@@ -12,7 +12,7 @@ public class WxMwebOrderVo implements Serializable {
     private String amount;
     private String systemTag;
     @NotBlank
-    private String verifyCode;
+    private String lawyerId;
     private String ipAddress;
 
 }
