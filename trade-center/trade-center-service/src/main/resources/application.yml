@@ -27,11 +27,17 @@ wxpay:
       appid: wx6f29705e50768a15
     weapp:
       appid: wx36c1d8e71b07103d
+    h5:
+      appid: wx48ce1523aef6264f
+      redirectUrl: https://market-h5-test.shengsuvc.com/pages/home/home
     mchid: 1573621631
     apikey: 1f5dc3037d7a4752b69e95fcad34ad34
   yuanshou:
     weapp:
       appid: wx22c0714da6b3d10b
+    h5:
+      appid: wxc830be55ad156d5b
+      redirectUrl: https://market-h5-test.yuanshoulawyer.com/pages/home/home
     mchid: 1596653831
     apikey: 7d37cc340c374ee8afecd3a9a776b273
   notifyUrl: https://platform-test.yuanshoulawyer.com/api/wxpay/notify

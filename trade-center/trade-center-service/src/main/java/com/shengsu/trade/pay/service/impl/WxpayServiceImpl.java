@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,8 +50,10 @@ public class WxpayServiceImpl implements WxpayService {
     @Value("${wxpay.shengsu.weapp.appid}")
     private String ssWeAppID;
     // H5 (市场推广-胜诉)
-    @Value("${wxpay.shengsu.gzh.appid}")
+    @Value("${wxpay.shengsu.h5.appid}")
     private String ssMwebAppID;
+    @Value("${wxpay.shengsu.h5.redirectUrl}")
+    private String ssMwebRedirectUrl;
 
     // 小程序 (市场推广-援手)
     @Value("${wxpay.yuanshou.weapp.appid}")
@@ -59,6 +62,11 @@ public class WxpayServiceImpl implements WxpayService {
     private String ysMchID;
     @Value("${wxpay.yuanshou.apikey}")
     private String ysApiKey;
+    // H5 (市场推广-援手 )
+    @Value("${wxpay.yuanshou.h5.appid}")
+    private String ysMwebAppID;
+    @Value("${wxpay.yuanshou.h5.redirectUrl}")
+    private String ysMwebRedirectUrl;
 
     @Autowired
     private CodeGeneratorService codeGeneratorService;
@@ -160,12 +168,12 @@ public class WxpayServiceImpl implements WxpayService {
     public ResultBean order(WxMwebOrderVo wxMwebOrderVo) throws Exception {
         log.info("开始下单");
         int totalFee =  new BigDecimal(wxMwebOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo = codeGeneratorService.generateCode("SWMTN");
+        String outTradeNo = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?codeGeneratorService.generateCode("YWMTN"):codeGeneratorService.generateCode("SWMTN");
         //插入6位随机数
         outTradeNo=new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config= getConfig("SWM");
+        MyConfig config = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?getConfig("YWM"):getConfig("SWM");
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("订单支付-支付",outTradeNo,String.valueOf(totalFee),wxMwebOrderVo.getIpAddress(),notifyUrl,"MWEB","");
@@ -178,10 +186,14 @@ public class WxpayServiceImpl implements WxpayService {
             resp = wxpay.unifiedOrder(reqData);
             log.info("请求微信返回预期结果"+resp);
             String prepayId = resp.get("prepay_id");
-            String mwebUrl =  resp.get("mweb_url");
+            // 拼接重定向地址
+            String redirectUrl = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?ysMwebRedirectUrl:ssMwebRedirectUrl;
+            String redirectUrlEncode =  URLEncoder.encode(redirectUrl,"utf-8")+"?lawyerId="+wxMwebOrderVo.getLawyerId();
+            String mwebUrl =  resp.get("mweb_url")+"&redirect_url="+redirectUrlEncode;
             if ("SUCCESS".equals(resp.get("return_code"))&&"SUCCESS".equals(resp.get("result_code"))){
                 // 返回前端数据
                 result.put("mwebUrl", mwebUrl);
+                result.put("orderNo", outTradeNo);
                 // order表生成订单数据
                 PayOrder payOrder = PayOrderUtils.toPayOrder("",outTradeNo,prepayId,new BigDecimal(wxMwebOrderVo.getAmount()),PAY_TYPE_WECHAT,ORDER_STATUS_UNPAID);
                 payOrderService.create(payOrder);
@@ -295,11 +307,14 @@ public class WxpayServiceImpl implements WxpayService {
             case ORDER_FLAG_SHENGSU_WECHAT_WEAPP:
                 config =getConfig(ssWeAppID,ssMchID,ssApiKey);
                 break;
+            case ORDER_FLAG_YUANSHOU_WECHAT_WEAPP:
+                config =getConfig(ysWeAppID,ysMchID,ysApiKey);
+                break;
             case ORDER_FLAG_SHENGSU_WECHAT_MWEB:
                 config =getConfig(ssMwebAppID,ssMchID,ssApiKey);
                 break;
-            case ORDER_FLAG_YUANSHOU_WECHAT_WEAPP:
-                config =getConfig(ysWeAppID,ysMchID,ysApiKey);
+            case ORDER_FLAG_YUANSHOU_WECHAT_MWEB:
+                config =getConfig(ysMwebAppID,ysMchID,ysApiKey);
                 break;
         }
         return config;

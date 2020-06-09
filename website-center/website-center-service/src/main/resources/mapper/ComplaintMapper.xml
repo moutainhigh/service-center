@@ -2,7 +2,7 @@
 <!DOCTYPE mapper 
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.shengsu.website.bdapp.mapper.ComplaintMapper">
+<mapper namespace="com.shengsu.website.market.mapper.ComplaintMapper">
 	<!-- Result Map-->
 	<resultMap id="complaint_result_map" type="complaint">
 	</resultMap>
