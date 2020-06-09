@@ -188,7 +188,7 @@ public class WxpayServiceImpl implements WxpayService {
             String prepayId = resp.get("prepay_id");
             // 拼接重定向地址
             String redirectUrl = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?ysMwebRedirectUrl:ssMwebRedirectUrl;
-            String redirectUrlEncode =  URLEncoder.encode(redirectUrl,"utf-8")+"?item="+wxMwebOrderVo.getLawyerId();
+            String redirectUrlEncode =  URLEncoder.encode(redirectUrl,"utf-8")+"?lawyerId="+wxMwebOrderVo.getLawyerId();
             String mwebUrl =  resp.get("mweb_url")+"&redirect_url="+redirectUrlEncode;
             if ("SUCCESS".equals(resp.get("return_code"))&&"SUCCESS".equals(resp.get("result_code"))){
                 // 返回前端数据
