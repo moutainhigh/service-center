@@ -13,8 +13,6 @@ public class AliAppOrderVo implements Serializable {
     // 充值金额
     @NotBlank
     private String amount;
-    @NotBlank
-    private String verifyCode;
     private String systemTag;
 
 }

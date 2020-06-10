@@ -126,10 +126,9 @@ public class AlipayServiceImpl implements AlipayService {
     public ResultBean order(AliAppOrderVo aliAppOrderVo) throws Exception {
         // 封装请求支付信息
         String outTradeNo = SYSTEM_TAG_YUANSHOU.equals(aliAppOrderVo.getSystemTag())?codeGeneratorService.generateCode("YAATN"):codeGeneratorService.generateCode("SAATN");
-        String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliAppOrderVo.getSystemTag())?ysMarketAliAppReturnUrl:ssMarketAliAppReturnUrl;
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
-        return getAppData(aliAppOrderVo.getBuyerId(),outTradeNo,"支付","支付金额:",aliAppOrderVo.getAmount(),returnUrl+"?verifyCode="+aliAppOrderVo.getVerifyCode());
+        return getAppData(aliAppOrderVo.getBuyerId(),outTradeNo,"支付","支付金额:",aliAppOrderVo.getAmount());
     }
     /**
     * @Description: 获取H5支付下单返回的form表单数据
@@ -166,7 +165,7 @@ public class AlipayServiceImpl implements AlipayService {
     * @Return: * @return: java.lang.String
     * @date: 
     */
-    private ResultBean getAppData(String buyerId,String outTradeNo,String subject,String body, String amount,String returnUrl)throws Exception {
+    private ResultBean getAppData(String buyerId,String outTradeNo,String subject,String body, String amount)throws Exception {
         // SDK 公共请求类，包含公共请求参数，以及封装了签名与验签，开发者无需关注签名与验签
         //调用RSA签名方式
         String orderFlag = outTradeNo.substring(0,3);
@@ -183,8 +182,6 @@ public class AlipayServiceImpl implements AlipayService {
         alipayRequest.setBizModel(model);
         // 设置异步通知地址
         alipayRequest.setNotifyUrl(notifyUrl);
-        // 设置同步地址
-        alipayRequest.setReturnUrl(returnUrl);
         // 调用SDK产生交易订单交易号数据
         String tradeNo = client.execute(alipayRequest).getTradeNo();
         // order表生成订单数据
