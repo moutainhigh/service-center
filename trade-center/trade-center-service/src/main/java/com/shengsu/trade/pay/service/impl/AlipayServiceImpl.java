@@ -214,7 +214,7 @@ public class AlipayServiceImpl implements AlipayService {
                 client =new DefaultAlipayClient(gatewayUrl, ysMwebAppID, ysRsaPrivateKey, "json", "UTF-8", ysAlipayPublicKey,signType);
                 break;
             case ORDER_FLAG_SHENGSU_ALIPAY_MARKET_APP:
-                client =new DefaultAlipayClient(gatewayUrl, ssAliAppID, ssRsaPrivateKey, "json", "UTF-8", ysAlipayPublicKey,signType);
+                client =new DefaultAlipayClient(gatewayUrl, ssAliAppID, ssRsaPrivateKey, "json", "UTF-8", ssAlipayPublicKey,signType);
                 break;
             case ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_APP:
                 client =new DefaultAlipayClient(gatewayUrl, ysAliAppID, ysRsaPrivateKey, "json", "UTF-8", ysAlipayPublicKey,signType);
