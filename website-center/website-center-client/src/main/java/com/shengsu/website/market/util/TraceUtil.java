@@ -36,4 +36,9 @@ public class TraceUtil {
         lawcaseConsult.setSource(weChatDecrypt.getSource());
         return lawcaseConsult;
     }
+    public static LawcaseConsult toLawcaseConsult(String contact){
+        LawcaseConsult lawcaseConsult = new LawcaseConsult();
+        lawcaseConsult.setContact(contact);
+        return lawcaseConsult;
+    }
 }
