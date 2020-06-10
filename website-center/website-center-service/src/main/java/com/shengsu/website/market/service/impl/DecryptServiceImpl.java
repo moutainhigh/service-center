@@ -38,7 +38,7 @@ import java.util.Map;
 public class DecryptServiceImpl implements DecryptService {
     @Value("${alipay.appconfig.decryptKey}")
     private String decryptKey;
-    @Value("${alipay.appconfig.signVeriKey}")
+    @Value("${alipay.appconfig.publicKey}")
     private String signVeriKey;
 
     private static Charset CHARSET = Charset.forName("utf-8");
