@@ -22,13 +22,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service("alipayService")
 public class AlipayServiceImpl implements AlipayService {
-    @Value("${alipay.appconfig.accessLoginUrl}")
+    @Value("${alipay.shengsu.accessLoginUrl}")
     private String accessLoginUrl;
-    @Value("${alipay.appconfig.appID}")
+    @Value("${alipay.shengsu.appID}")
     private String appID;
-    @Value("${alipay.appconfig.privateKey}")
+    @Value("${alipay.shengsu.privateKey}")
     private String privateKey;
-    @Value("${alipay.appconfig.publicKey}")
+    @Value("${alipay.shengsu.publicKey}")
     private String publicKey;
     @Override
     public ResultBean authorize(AlipayVo alipayVo) {

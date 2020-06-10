@@ -36,9 +36,9 @@ import java.util.Map;
 @Slf4j
 @Service(value = "decryptService")
 public class DecryptServiceImpl implements DecryptService {
-    @Value("${alipay.appconfig.decryptKey}")
+    @Value("${alipay.shengsu.decryptKey}")
     private String decryptKey;
-    @Value("${alipay.appconfig.publicKey}")
+    @Value("${alipay.shengsu.publicKey}")
     private String signVeriKey;
 
     private static Charset CHARSET = Charset.forName("utf-8");
