@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_SHENGSU;
+
 /**
  * @program: service-center
  * @author: Bell
@@ -25,14 +27,26 @@ public class AlipayServiceImpl implements AlipayService {
     @Value("${alipay.shengsu.accessLoginUrl}")
     private String accessLoginUrl;
     @Value("${alipay.shengsu.appID}")
-    private String appID;
+    private String ssAppID;
     @Value("${alipay.shengsu.privateKey}")
-    private String privateKey;
+    private String ssPrivateKey;
     @Value("${alipay.shengsu.publicKey}")
-    private String publicKey;
+    private String ssPublicKey;
+    @Value("${alipay.yuanshou.appID}")
+    private String ysAppID;
+    @Value("${alipay.yuanshou.privateKey}")
+    private String ysPrivateKey;
+    @Value("${alipay.yuanshou.privateKey}")
+    private String ysPublicKey;
+
     @Override
     public ResultBean authorize(AlipayVo alipayVo) {
-        AlipayClient alipayClient = new DefaultAlipayClient(accessLoginUrl, appID, privateKey,"json", "GBK", publicKey, "RSA2");
+        AlipayClient alipayClient;
+        if (SYSTEM_TAG_SHENGSU.equals(alipayVo.getSystemTag())) {
+            alipayClient = new DefaultAlipayClient(accessLoginUrl, ssAppID, ssPrivateKey, "json", "GBK", ssPublicKey, "RSA2");
+        } else {
+            alipayClient = new DefaultAlipayClient(accessLoginUrl, ysAppID, ysPrivateKey, "json", "GBK", ysPublicKey, "RSA2");
+        }
         AlipaySystemOauthTokenRequest request = new AlipaySystemOauthTokenRequest();
         request.setGrantType("authorization_code");
         request.setCode(alipayVo.getCode());
@@ -48,6 +62,6 @@ public class AlipayServiceImpl implements AlipayService {
             log.info("支付宝用户唯一id：" + response.getUserId());
             return ResultUtil.formResult(true, ResultCode.SUCCESS,response.getUserId());
         }
-        return null;
+        return ResultUtil.formResult(false, ResultCode.GET_EXCEPTION);
     }
 }
