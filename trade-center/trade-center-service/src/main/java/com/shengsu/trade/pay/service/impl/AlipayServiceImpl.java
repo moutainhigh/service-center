@@ -44,8 +44,6 @@ public class AlipayServiceImpl implements AlipayService {
     // 胜诉-小程序
     @Value("${alipay.shengsu.aliApp.appid}")
     private String ssAliAppID;
-    @Value("${alipay.shengsu.returnUrl.market-aliapp}")
-    private String ssMarketAliAppReturnUrl;
     // 胜诉公共部分
     @Value("${alipay.shengsu.rsaPrivateKey}")
     private String ssRsaPrivateKey;
@@ -60,8 +58,6 @@ public class AlipayServiceImpl implements AlipayService {
     // 援手-小程序
     @Value("${alipay.yuanshou.aliApp.appid}")
     private String ysAliAppID;
-    @Value("${alipay.yuanshou.returnUrl.market-aliapp}")
-    private String ysMarketAliAppReturnUrl;
     // 援手公共部分
     @Value("${alipay.yuanshou.rsaPrivateKey}")
     private String ysRsaPrivateKey;
