@@ -31,3 +31,7 @@ wechat:
     accessLoginUrl: https://api.weixin.qq.com/sns/jscode2session
     appID: wx22c0714da6b3d10b
     appSecret: 93df5324e1387778ad2fea1ebd2c4680
+alipay:
+  appconfig:
+    decryptKey: UkKAlXdXFZlCs+dK3+5dGQ==
+    signVeriKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1TeItoHnjhKLxHP6xhDd4eRGcNk59RwbuvcdRoV1PbX/4EbnYOPaTXJWQdNLHBiHkpxpnRqpn8wsi1vNoSxvczW2ptg/G/1lI6iJvY7b/2UgzJ33NlKcgJRLE9tvVnDmAFMH0wdwLEL27nGX6KQ6jpl6F8Nd9eucKDctkNBGFx3d3A1YamL8LT9s++qM9Mq1Ue451t1HBVmN8y9+RTDI7NLQq68zQyeH6IC6aLyex8VXuUtZVwZ/es3sDZbd3YCYnQNGSlGi3edo/C1MVcnot7GXQNNBQQRcM+brgiNiovediilIQsdM3IlM2bGxys/kpSI97rPHB1NFImW6bXEdSQIDAQAB

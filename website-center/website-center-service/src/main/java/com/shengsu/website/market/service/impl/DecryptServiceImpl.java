@@ -1,13 +1,22 @@
 package com.shengsu.website.market.service.impl;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.parser.Feature;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.internal.util.AlipayEncrypt;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.shengsu.website.market.entity.Decrypt;
 import com.shengsu.website.market.entity.WeChatDecrypt;
 import com.shengsu.website.market.service.DecryptService;
 import com.shengsu.website.market.util.PKCS7Encoder;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
@@ -17,15 +26,23 @@ import java.nio.charset.Charset;
 import java.security.AlgorithmParameters;
 import java.security.Security;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * @program: yuanshou-website-platform
  * @author: Bell
  * @create: 2020-04-08 15:24
  **/
+@Slf4j
 @Service(value = "decryptService")
 public class DecryptServiceImpl implements DecryptService {
+    @Value("${alipay.appconfig.decryptKey}")
+    private String decryptKey;
+    @Value("${alipay.appconfig.signVeriKey}")
+    private String signVeriKey;
+
     private static Charset CHARSET = Charset.forName("utf-8");
+
     /**
      * 对密文进行解密
      *
@@ -112,13 +129,67 @@ public class DecryptServiceImpl implements DecryptService {
             byte[] resultByte = cipher.doFinal(dataByte);
             if (null != resultByte && resultByte.length > 0) {
                 String result = new String(resultByte, "UTF-8");
-                JSONObject obj=JSONObject.parseObject(result);
-                String sphone=obj.get("phoneNumber").toString();
+                JSONObject obj = JSONObject.parseObject(result);
+                String sphone = obj.get("phoneNumber").toString();
                 return sphone;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 敏感信息解密
+     */
+    @Override
+    public String aliDecrypt(String encryptContent) {
+        Map<String, String> openapiResult = JSON.parseObject(encryptContent,
+                new TypeReference<Map<String, String>>() {
+                },
+                Feature.OrderedField);
+        String signType = StringUtils.defaultIfBlank(openapiResult.get("sign_type"), "RSA2");
+        String charset = StringUtils.defaultIfBlank(openapiResult.get("charset"), "UTF-8");
+        String encryptType = StringUtils.defaultIfBlank(openapiResult.get("encrypt_type"), "AES");
+        String sign = openapiResult.get("sign");
+        String content = openapiResult.get("response");
+
+        log.info(String.format("准备验签和解密，sign=[%s], signType=[%s], encryptType=[%s], encryptContent=[%s]", sign, signType, encryptType, encryptContent));
+
+        //如果密文的
+        boolean isDataEncrypted = !content.startsWith("{");
+        boolean signCheckPass = false;
+
+        //2. 验签
+        String signContent = content;
+
+        //如果是加密的报文则需要在密文的前后添加双引号
+        if (isDataEncrypted) {
+            signContent = "\"" + signContent + "\"";
+        }
+        try {
+            signCheckPass = AlipaySignature.rsaCheck(signContent, sign, signVeriKey, charset, signType);
+        } catch (AlipayApiException e) {
+            //验签异常, 日志
+            log.error("验签异常，encryptContent=" + encryptContent, e);
+        }
+        if (!signCheckPass) {
+            //验签不通过（异常或者报文被篡改），终止流程（不需要做解密）
+            log.error("验签失败，encryptContent=" + encryptContent);
+        }
+
+        //3. 解密
+        String plainData = null;
+        if (isDataEncrypted) {
+            try {
+                plainData = AlipayEncrypt.decryptContent(content, encryptType, decryptKey, charset);
+            } catch (AlipayApiException e) {
+                //解密异常, 日志
+                log.error("解密异常，encryptContent=" + encryptContent, e);
+            }
+        } else {
+            plainData = content;
+        }
+        return plainData;
     }
 }
