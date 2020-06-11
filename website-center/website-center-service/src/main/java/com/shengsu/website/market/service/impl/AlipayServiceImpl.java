@@ -56,7 +56,7 @@ public class AlipayServiceImpl implements AlipayService {
         try {
             response = alipayClient.execute(request);
         } catch (AlipayApiException e) {
-            e.printStackTrace();
+            log.error("解析异常" + request, e);
         }
         //String accessToken = response.getAccessToken();
         if (response.isSuccess()) {
