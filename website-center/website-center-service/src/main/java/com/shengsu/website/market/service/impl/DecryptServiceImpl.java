@@ -8,11 +8,11 @@ import com.alibaba.fastjson.parser.Feature;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipayEncrypt;
 import com.alipay.api.internal.util.AlipaySignature;
-import com.shengsu.website.market.vo.AlipayDecryptVo;
 import com.shengsu.website.market.entity.Decrypt;
 import com.shengsu.website.market.entity.WeChatDecrypt;
 import com.shengsu.website.market.service.DecryptService;
 import com.shengsu.website.market.util.PKCS7Encoder;
+import com.shengsu.website.market.vo.AlipayDecryptVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -176,7 +176,8 @@ public class DecryptServiceImpl implements DecryptService {
             signContent = "\"" + signContent + "\"";
         }
         try {
-            signCheckPass = AlipaySignature.rsaCheck(signContent, sign, SYSTEM_TAG_SHENGSU.equals(alipayDecryptVo.getSystemTag())?ssSignVeriKey:ysSignVeriKey, charset, signType);
+            String signVeriKey = SYSTEM_TAG_SHENGSU.equals(alipayDecryptVo.getSystemTag()) ? ssSignVeriKey : ysSignVeriKey;
+            signCheckPass = AlipaySignature.rsaCheck(signContent, sign, signVeriKey, charset, signType);
         } catch (AlipayApiException e) {
             //验签异常, 日志
             log.error("验签异常，encryptContent=" + encryptContent, e);
@@ -190,7 +191,8 @@ public class DecryptServiceImpl implements DecryptService {
         String plainData = null;
         if (isDataEncrypted) {
             try {
-                plainData = AlipayEncrypt.decryptContent(content, encryptType, SYSTEM_TAG_SHENGSU.equals(alipayDecryptVo.getSystemTag())?ssDecryptKey:ysDecryptKey, charset);
+                String decryptKey = SYSTEM_TAG_SHENGSU.equals(alipayDecryptVo.getSystemTag()) ? ssDecryptKey : ysDecryptKey;
+                plainData = AlipayEncrypt.decryptContent(content, encryptType, decryptKey, charset);
             } catch (AlipayApiException e) {
                 //解密异常, 日志
                 log.error("解密异常，encryptContent=" + encryptContent, e);
