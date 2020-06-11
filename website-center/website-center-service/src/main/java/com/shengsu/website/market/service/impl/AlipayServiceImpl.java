@@ -36,7 +36,7 @@ public class AlipayServiceImpl implements AlipayService {
     private String ysAppID;
     @Value("${alipay.yuanshou.privateKey}")
     private String ysPrivateKey;
-    @Value("${alipay.yuanshou.privateKey}")
+    @Value("${alipay.yuanshou.publicKey}")
     private String ysPublicKey;
 
     @Override
