@@ -106,10 +106,11 @@ public class AlipayServiceImpl implements AlipayService {
     @Override
     public String order(AliMarketOrderVo aliMarketOrderVo) throws Exception {
         // 封装请求支付信息
-        String outTradeNo = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?codeGeneratorService.generateCode("YAMTN"):codeGeneratorService.generateCode("SAMTN");
-        String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?ysMarketMwebReturnUrl:ssMarketMwebReturnUrl;
+        String orderPrefixCode = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?"YAMTN":"SAMTN";
+        String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
+        String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?ysMarketMwebReturnUrl:ssMarketMwebReturnUrl;
         return getMwebForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl+"?verifyCode="+aliMarketOrderVo.getVerifyCode());
     }
     /**
@@ -121,7 +122,8 @@ public class AlipayServiceImpl implements AlipayService {
     @Override
     public ResultBean order(AliAppOrderVo aliAppOrderVo) throws Exception {
         // 封装请求支付信息
-        String outTradeNo = SYSTEM_TAG_YUANSHOU.equals(aliAppOrderVo.getSystemTag())?codeGeneratorService.generateCode("YAATN"):codeGeneratorService.generateCode("SAATN");
+        String orderPrefixCode = SYSTEM_TAG_YUANSHOU.equals(aliAppOrderVo.getSystemTag())?"YAATN":"SAATN";
+        String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
         return getAppData(aliAppOrderVo.getBuyerId(),outTradeNo,"支付","支付金额:",aliAppOrderVo.getAmount());
