@@ -8,6 +8,7 @@ import com.alibaba.fastjson.parser.Feature;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipayEncrypt;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.shengsu.website.market.vo.AlipayDecryptVo;
 import com.shengsu.website.market.entity.Decrypt;
 import com.shengsu.website.market.entity.WeChatDecrypt;
 import com.shengsu.website.market.service.DecryptService;
@@ -143,7 +144,8 @@ public class DecryptServiceImpl implements DecryptService {
      * 敏感信息解密
      */
     @Override
-    public String aliDecrypt(String encryptContent) {
+    public String aliDecrypt(AlipayDecryptVo alipayDecryptVo) {
+        String encryptContent = alipayDecryptVo.getResponse();
         Map<String, String> openapiResult = JSON.parseObject(encryptContent,
                 new TypeReference<Map<String, String>>() {
                 },
