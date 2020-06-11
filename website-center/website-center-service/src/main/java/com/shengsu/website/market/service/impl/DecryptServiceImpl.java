@@ -29,6 +29,8 @@ import java.security.Security;
 import java.util.Arrays;
 import java.util.Map;
 
+import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_SHENGSU;
+
 /**
  * @program: yuanshou-website-platform
  * @author: Bell
@@ -38,9 +40,13 @@ import java.util.Map;
 @Service(value = "decryptService")
 public class DecryptServiceImpl implements DecryptService {
     @Value("${alipay.shengsu.decryptKey}")
-    private String decryptKey;
+    private String ssDecryptKey;
     @Value("${alipay.shengsu.publicKey}")
-    private String signVeriKey;
+    private String ssSignVeriKey;
+    @Value("${alipay.yuanshou.decryptKey}")
+    private String ysDecryptKey;
+    @Value("${alipay.yuanshou.publicKey}")
+    private String ysSignVeriKey;
 
     private static Charset CHARSET = Charset.forName("utf-8");
 
@@ -170,7 +176,7 @@ public class DecryptServiceImpl implements DecryptService {
             signContent = "\"" + signContent + "\"";
         }
         try {
-            signCheckPass = AlipaySignature.rsaCheck(signContent, sign, signVeriKey, charset, signType);
+            signCheckPass = AlipaySignature.rsaCheck(signContent, sign, SYSTEM_TAG_SHENGSU.equals(alipayDecryptVo.getSystemTag())?ssSignVeriKey:ysSignVeriKey, charset, signType);
         } catch (AlipayApiException e) {
             //验签异常, 日志
             log.error("验签异常，encryptContent=" + encryptContent, e);
@@ -184,7 +190,7 @@ public class DecryptServiceImpl implements DecryptService {
         String plainData = null;
         if (isDataEncrypted) {
             try {
-                plainData = AlipayEncrypt.decryptContent(content, encryptType, decryptKey, charset);
+                plainData = AlipayEncrypt.decryptContent(content, encryptType, SYSTEM_TAG_SHENGSU.equals(alipayDecryptVo.getSystemTag())?ssDecryptKey:ysDecryptKey, charset);
             } catch (AlipayApiException e) {
                 //解密异常, 日志
                 log.error("解密异常，encryptContent=" + encryptContent, e);

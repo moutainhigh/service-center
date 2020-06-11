@@ -1,10 +1,8 @@
 package com.shengsu.website.market.util;
 
-import com.shengsu.website.market.entity.Contact;
-import com.shengsu.website.market.entity.Decrypt;
-import com.shengsu.website.market.entity.Trace;
-import com.shengsu.website.market.entity.WeChatDecrypt;
+import com.shengsu.website.market.entity.*;
 import com.shengsu.website.home.entity.LawcaseConsult;
+import com.shengsu.website.market.vo.AlipayDecryptVo;
 
 import java.util.UUID;
 
@@ -39,6 +37,14 @@ public class TraceUtil {
     public static LawcaseConsult toLawcaseConsult(String contact){
         LawcaseConsult lawcaseConsult = new LawcaseConsult();
         lawcaseConsult.setContact(contact);
+        return lawcaseConsult;
+    }
+    public static LawcaseConsult toLawcaseConsult(AlipayDecryptVo alipayDecryptVo,AlipayDecrypt alipayDecrypt){
+        LawcaseConsult lawcaseConsult = new LawcaseConsult();
+        lawcaseConsult.setConsultId(UUID.randomUUID().toString());
+        lawcaseConsult.setContact(alipayDecrypt.getMobile());
+        lawcaseConsult.setOrigin(alipayDecryptVo.getOrigin());
+        lawcaseConsult.setSource(alipayDecryptVo.getSource());
         return lawcaseConsult;
     }
 }

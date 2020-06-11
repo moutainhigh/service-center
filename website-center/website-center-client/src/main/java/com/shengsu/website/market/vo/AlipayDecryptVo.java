@@ -2,6 +2,7 @@ package com.shengsu.website.market.vo;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -11,5 +12,9 @@ import java.io.Serializable;
  **/
 @Data
 public class AlipayDecryptVo implements Serializable {
+    @NotBlank
     private String response;
+    private String systemTag;
+    private String origin;
+    private String source;
 }
