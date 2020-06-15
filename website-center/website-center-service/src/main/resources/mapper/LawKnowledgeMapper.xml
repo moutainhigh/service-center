@@ -35,6 +35,16 @@
 			<if test="title!=null">
 				AND title LIKE concat('%',#{title},'%')
 			</if>
+			<if test="creator!=null">
+				AND creator = #{creator}
+			</if>
+            <if test="createStartTime != null and  createStartTime != ''">
+                and create_time >= #{createStartTime}
+            </if>
+            <if test="createEndTime != null and  createEndTime != ''">
+                and DATE_ADD(date_format(#{createEndTime,jdbcType=VARCHAR},"%Y-%m-%d %H:%i:%s"),interval 1 day) >=
+                create_time
+            </if>
 		</where>
 	</sql>
 	<insert id="save" parameterType="lawKnowledge">
@@ -47,6 +57,7 @@
 		content,
 		date_time,
 		source,
+		creator,
 		create_time,
 		modify_time
 		)
@@ -59,6 +70,7 @@
 		#{content},
 		#{dateTime},
 		#{source},
+		#{creator},
 		current_timestamp(),
 		current_timestamp()
 		)
@@ -83,7 +95,7 @@
 	</select>
 	<select id="listByPage" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
-		select knowledge_id,first_category_id,second_category_id,third_category_id,title,date_time from law_knowledge
+		select knowledge_id,first_category_id,second_category_id,third_category_id,title,date_time,creator,create_time from law_knowledge
 		<include refid="lawknowledge_where_clause" />
 		order by date_time desc
 		<include refid="global.paginationEnd_mysql" />

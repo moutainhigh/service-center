@@ -27,6 +27,11 @@
             <groupId>com.shengsu</groupId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.shengsu</groupId>
+            <artifactId>user-center-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>website-center-service</finalName>

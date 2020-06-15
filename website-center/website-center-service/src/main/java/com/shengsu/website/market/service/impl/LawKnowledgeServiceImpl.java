@@ -6,10 +6,13 @@ import com.shengsu.constant.CommonConst;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
+import com.shengsu.user.entity.User;
+import com.shengsu.user.service.UserService;
+import com.shengsu.user.util.UserUtils;
 import com.shengsu.website.app.constant.ResultCode;
-import com.shengsu.website.market.mapper.LawKnowledgeMapper;
 import com.shengsu.website.market.entity.LawKnowledge;
 import com.shengsu.website.market.entity.LawKnowledgeCategory;
+import com.shengsu.website.market.mapper.LawKnowledgeMapper;
 import com.shengsu.website.market.po.*;
 import com.shengsu.website.market.service.LawKnowledgeCategoryService;
 import com.shengsu.website.market.service.LawKnowledgeService;
@@ -40,6 +43,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     private OssService ossService;
     @Autowired
     private LawKnowledgeMapper lawKnowledgeMapper;
+    @Autowired
+    private UserService userService;
     @Override
     public BaseMapper<LawKnowledge, String> getBaseMapper() {
         return lawKnowledgeMapper;
@@ -108,6 +113,16 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         Map<String, Object> resultMap = new HashMap<>();
         if (count > 0) {
             List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.listByPage(lawKnowledge);
+            List<String> creators = new ArrayList<>();
+            for(LawKnowledge knowledge : lawKnowledges){
+                String creator = knowledge.getCreator();
+                creators.add(creator);
+            }
+            List<User> users = userService.getMany(creators);
+            Map<String, User> map = UserUtils.toUserMap(users);
+            for(LawKnowledge knowledge : lawKnowledges){
+                knowledge.setCreator(map.get(knowledge.getCreator()).getUserName());
+            }
 
             List<String> nodeIds= new ArrayList<>();
             for(LawKnowledge knowledge : lawKnowledges){

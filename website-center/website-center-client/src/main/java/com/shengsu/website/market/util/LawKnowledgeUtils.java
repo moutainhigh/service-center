@@ -186,6 +186,7 @@ public class LawKnowledgeUtils {
             lawKnowledge.setContent(lawKnowledgeCreateVo.getContent());
             lawKnowledge.setDateTime(lawKnowledgeCreateVo.getDateTime());
             lawKnowledge.setSource(lawKnowledgeCreateVo.getSource());
+            lawKnowledge.setCreator(lawKnowledgeCreateVo.getCreator());
             return lawKnowledge;
         }
         return null;
@@ -233,6 +234,9 @@ public class LawKnowledgeUtils {
             lawKnowledge.setTitle(lawKnowledgeListByPageVo.getTitle());
             lawKnowledge.setPage(lawKnowledgeListByPageVo.getPage());
             lawKnowledge.setPageSize(lawKnowledgeListByPageVo.getPageSize());
+            lawKnowledge.setCreateStartTime(lawKnowledgeListByPageVo.getCreateStartTime());
+            lawKnowledge.setCreateEndTime(lawKnowledgeListByPageVo.getCreateEndTime());
+            lawKnowledge.setCreator(lawKnowledgeListByPageVo.getCreator());
             return lawKnowledge;
         }
         return null;
@@ -251,6 +255,8 @@ public class LawKnowledgeUtils {
     private static LawKnowledgePagePo toLawKnowledgePagePo(LawKnowledge lawKnowledge,Map<String , String > nodeMap) {
         if (lawKnowledge != null) {
             LawKnowledgePagePo lawKnowledgePagePo = new LawKnowledgePagePo();
+            lawKnowledgePagePo.setCreateTime(lawKnowledge.getCreateTime());
+            lawKnowledgePagePo.setCreator(lawKnowledge.getCreator());
             lawKnowledgePagePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
             lawKnowledgePagePo.setFirstCategoryId(lawKnowledge.getFirstCategoryId());
             lawKnowledgePagePo.setSecondCategoryId(lawKnowledge.getSecondCategoryId());
