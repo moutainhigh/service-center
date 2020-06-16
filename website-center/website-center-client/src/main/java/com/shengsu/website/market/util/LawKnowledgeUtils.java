@@ -20,6 +20,14 @@ import java.util.Map;
  * @create: 2020-04-13 11:03
  **/
 public class LawKnowledgeUtils {
+    public static List<String> toListCreator(List<LawKnowledge> lawKnowledges){
+        List<String> creators = new ArrayList<>();
+        for (LawKnowledge knowledge : lawKnowledges) {
+            String creator = knowledge.getCreator();
+            creators.add(creator);
+        }
+        return creators;
+    }
     public static Map<String, String> toNodeMap(List<LawKnowledgeCategory> lawKnowledgeCategories) {
         Map<String, String> nodeMap = new HashMap<>();
         for (LawKnowledgeCategory lawKnowledgeCategory : lawKnowledgeCategories) {
