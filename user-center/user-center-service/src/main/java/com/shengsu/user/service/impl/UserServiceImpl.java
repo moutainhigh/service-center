@@ -1,11 +1,11 @@
 package com.shengsu.user.service.impl;
 
-import com.shengsu.result.ResultBean;
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.service.OssService;
+import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.user.entity.User;
 import com.shengsu.user.mapper.UserMapper;
@@ -21,9 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("userService")
 public class UserServiceImpl extends BaseServiceImpl<User, String> implements UserService {
@@ -53,6 +51,18 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         }
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS, map);
+    }
+
+    @Override
+    public ResultBean listByUserType(User user) {
+        List<String> userType = new ArrayList<>();
+        userType.add(user.getUserType());
+        String[] userTypes = StringUtils.split(user.getUserType(), ",");
+        for (String type : userTypes) {
+            userType.add(type);
+        }
+        List<User> users = userMapper.listByUserType(userType);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, users);
     }
 
     @Override
