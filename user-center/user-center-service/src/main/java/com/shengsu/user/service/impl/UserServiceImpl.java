@@ -55,12 +55,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 
     @Override
     public ResultBean listByUserType(User user) {
-        List<String> userType = new ArrayList<>();
-        userType.add(user.getUserType());
-        String[] userTypes = StringUtils.split(user.getUserType(), ",");
-        for (String type : userTypes) {
-            userType.add(type);
-        }
+        List<String> userType = Arrays.asList(StringUtils.split(user.getUserType(), ","));
         List<User> users = userMapper.listByUserType(userType);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, users);
     }
