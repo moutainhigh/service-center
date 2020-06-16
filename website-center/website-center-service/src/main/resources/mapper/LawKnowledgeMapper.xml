@@ -32,10 +32,10 @@
 			<if test="thirdCategoryId != null and  thirdCategoryId != ''">
 			 and third_category_id = #{thirdCategoryId}
 			</if>
-			<if test="title!=null">
+			<if test="title!=null and  title != ''">
 				AND title LIKE concat('%',#{title},'%')
 			</if>
-			<if test="creator!=null">
+			<if test="creator!=null and  creator != ''">
 				AND creator = #{creator}
 			</if>
             <if test="createStartTime != null and  createStartTime != ''">
