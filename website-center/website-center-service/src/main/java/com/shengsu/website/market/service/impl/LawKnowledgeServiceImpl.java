@@ -121,7 +121,11 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
             List<User> users = userService.getMany(creators);
             Map<String, User> map = UserUtils.toUserMap(users);
             for(LawKnowledge knowledge : lawKnowledges){
-                knowledge.setCreator(map.get(knowledge.getCreator()).getUserName());
+                User user = map.get(knowledge.getCreator());
+                if(user!=null){
+                    String creator = user.getUserName();
+                    knowledge.setCreator(creator);
+                }
             }
 
             List<String> nodeIds= new ArrayList<>();
