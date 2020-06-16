@@ -123,7 +123,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
             for(LawKnowledge knowledge : lawKnowledges){
                 User user = map.get(knowledge.getCreator());
                 if(user!=null){
-                    String creator = user.getUserName();
+                    String creator = user.getRealName();
                     knowledge.setCreator(creator);
                 }
             }
