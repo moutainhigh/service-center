@@ -189,17 +189,14 @@
         order by
         user_id desc
     </select>
-    <select id="listByUserType" parameterType="list" resultType="User">
+    <select id="listByUserType" parameterType="string">
         select
-        *
+          *
         from
-        user
+          user
         where
-        del_flag = 0
-        and
-        <foreach collection="list" item="userType" open="(" separator="or" close=")">
-            user_type LIKE CONCAT(CONCAT('%', #{userType}), '%')
-        </foreach>
+          del_flag = 0
+        and user_type in (#{userType})
     </select>
 
     <!-- 软删 -->

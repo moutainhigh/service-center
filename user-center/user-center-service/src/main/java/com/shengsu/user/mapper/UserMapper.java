@@ -13,5 +13,5 @@ public interface UserMapper extends BaseMapper<User,String> {
 
 	User selectbyUserName(String userName);
 	void updateRole(User user);
-    List<User> listByUserType(List<String> userType);
+    List<User> listByUserType(String userType);
 }
