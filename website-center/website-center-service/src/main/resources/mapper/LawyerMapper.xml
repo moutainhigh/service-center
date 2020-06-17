@@ -6,6 +6,17 @@
     <sql id="Base_Column_List">
     id, lawyer_id, lawyer_name, icon_oss_resource_id, field, create_time, modify_time,price,rank,praise_times,consult_times,del_flag
     </sql>
+    <sql id="lawyer_where_clause">
+        <where>
+            del_flag = 0
+            <if test="rank != null and  rank != ''">
+                and rank like concat('%',#{rank},'%')
+            </if>
+            <if test="lawyerName != null and  lawyerName != ''">
+                and lawyer_name like concat('%',#{lawyerName},'%')
+            </if>
+        </where>
+    </sql>
     <insert id="save" parameterType="Lawyer">
     insert into lawyer (
       lawyer_id,
@@ -66,7 +77,7 @@
         select
         *
         from lawyer
-        where del_flag = 0
+        <include refid="lawyer_where_clause"/>
         order by modify_time desc
         <include refid="global.paginationEnd_mysql"/>
     </select>
@@ -90,5 +101,18 @@
 	    where del_flag = 0
         order by rand()
         LIMIT 3
+    </select>
+    <select id="countAll" parameterType="lawyer" resultType="int">
+        select
+        count(1)
+        from
+        lawyer
+        <include refid="lawyer_where_clause"/>
+    </select>
+    <select id="isLawyerExist" parameterType="String" resultType="int">
+        select
+        count(*)
+        from lawyer
+        where del_flag = 0 and lawyer_name = #{lawyerName}
     </select>
 </mapper>

@@ -47,6 +47,10 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
 
     @Override
     public ResultBean create(Lawyer lawyer) {
+        int count = lawyerMapper.isLawyerExist(lawyer.getLawyerName());
+        if(count > 0){
+            return ResultUtil.formResult(false, ResultCode.LAWYER_ALREADY_EXISTS, null);
+        }
         lawyer.setLawyerId(UUID.randomUUID().toString());
         lawyerMapper.save(lawyer);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
@@ -108,11 +112,16 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     public ResultBean lawyerListByPage(Lawyer lawyer){
         List<Lawyer> lawyers = lawyerMapper.listByPage(lawyer);
         questionReplyService.geturls(lawyers);
+        int totalCount = lawyerMapper.countAll(lawyer);
         List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, lawyerPos, totalCount);
     }
     @Override
     public ResultBean edit(Lawyer lawyer) {
+        int count = lawyerMapper.isLawyerExist(lawyer.getLawyerName());
+        if(count > 0){
+            return ResultUtil.formResult(false, ResultCode.LAWYER_ALREADY_EXISTS, null);
+        }
         lawyerMapper.update(lawyer);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
