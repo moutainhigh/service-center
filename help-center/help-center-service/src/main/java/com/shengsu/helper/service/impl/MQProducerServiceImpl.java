@@ -53,9 +53,16 @@ public class MQProducerServiceImpl implements MQProducerService {
         log.info("rocketMQ is started !!");
     }
 
+    @Override
     public ResultBean send(MQProducerEnum producer, String body){
+        return sendDelay(producer, body,0);
+    }
+
+    @Override
+    public ResultBean sendDelay(MQProducerEnum producer, String body, int delayLevel) {
         try {
             Message message = new Message(producer.getTopic(), producer.getTag(), body.getBytes(RemotingHelper.DEFAULT_CHARSET));
+            message.setDelayTimeLevel(delayLevel);
             producers.get(producer.getGroup()).send(message);
         } catch (Exception e) {
             log.error("消息发送异常:", e);

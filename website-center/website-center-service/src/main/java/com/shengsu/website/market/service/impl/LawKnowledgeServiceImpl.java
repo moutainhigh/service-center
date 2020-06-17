@@ -6,10 +6,13 @@ import com.shengsu.constant.CommonConst;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
+import com.shengsu.user.entity.User;
+import com.shengsu.user.service.UserService;
+import com.shengsu.user.util.UserUtils;
 import com.shengsu.website.app.constant.ResultCode;
-import com.shengsu.website.market.mapper.LawKnowledgeMapper;
 import com.shengsu.website.market.entity.LawKnowledge;
 import com.shengsu.website.market.entity.LawKnowledgeCategory;
+import com.shengsu.website.market.mapper.LawKnowledgeMapper;
 import com.shengsu.website.market.po.*;
 import com.shengsu.website.market.service.LawKnowledgeCategoryService;
 import com.shengsu.website.market.service.LawKnowledgeService;
@@ -40,6 +43,9 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     private OssService ossService;
     @Autowired
     private LawKnowledgeMapper lawKnowledgeMapper;
+    @Autowired
+    private UserService userService;
+
     @Override
     public BaseMapper<LawKnowledge, String> getBaseMapper() {
         return lawKnowledgeMapper;
@@ -60,7 +66,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
 
     @Override
     public ResultBean remove(LawKnowledgeDeleteVo lawKnowledgeDeleteVo) {
-        String knowledgeId= lawKnowledgeDeleteVo.getKnowledgeId();
+        String knowledgeId = lawKnowledgeDeleteVo.getKnowledgeId();
         LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByKnowledgeId(knowledgeId);
         if (lawKnowledge == null) {
             return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
@@ -72,7 +78,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
 
     @Override
     public ResultBean edit(LawKnowledgeUpdateVo lawKnowledgeUpdateVo) {
-        String knowledgeId= lawKnowledgeUpdateVo.getKnowledgeId();
+        String knowledgeId = lawKnowledgeUpdateVo.getKnowledgeId();
         LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByKnowledgeId(knowledgeId);
         if (lawKnowledge == null) {
             return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
@@ -88,16 +94,16 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
 
     @Override
     public ResultBean query(LawKnowledgeQueryVo lawKnowledgeQueryVo) {
-        String knowledgeId= lawKnowledgeQueryVo.getKnowledgeId();
+        String knowledgeId = lawKnowledgeQueryVo.getKnowledgeId();
         LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByKnowledgeId(knowledgeId);
         if (lawKnowledge == null) {
             return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
         }
 
-        List<String> nodeIds= LawKnowledgeUtils.toNodeIds(lawKnowledge);
+        List<String> nodeIds = LawKnowledgeUtils.toNodeIds(lawKnowledge);
         List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
-        Map<String , String > nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
-        LawKnowledgeQueryPo lawKnowledgeQueryPo = LawKnowledgeUtils.toLawKnowledgeQueryPo(lawKnowledge ,nodeMap);
+        Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+        LawKnowledgeQueryPo lawKnowledgeQueryPo = LawKnowledgeUtils.toLawKnowledgeQueryPo(lawKnowledge, nodeMap);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeQueryPo);
     }
 
@@ -108,18 +114,28 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         Map<String, Object> resultMap = new HashMap<>();
         if (count > 0) {
             List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.listByPage(lawKnowledge);
+            List<String> creators = LawKnowledgeUtils.toListCreator(lawKnowledges);
+            List<User> users = userService.getMany(creators);
+            Map<String, User> map = UserUtils.toUserMap(users);
+            for (LawKnowledge knowledge : lawKnowledges) {
+                User user = map.get(knowledge.getCreator());
+                if (user != null) {
+                    String creator = user.getRealName();
+                    knowledge.setCreator(creator);
+                }
+            }
 
-            List<String> nodeIds= new ArrayList<>();
-            for(LawKnowledge knowledge : lawKnowledges){
+            List<String> nodeIds = new ArrayList<>();
+            for (LawKnowledge knowledge : lawKnowledges) {
                 String firstCategoryId = knowledge.getFirstCategoryId();
                 String secondCategoryId = knowledge.getSecondCategoryId();
                 String thirdCategoryId = knowledge.getThirdCategoryId();
-                Collections.addAll(nodeIds, firstCategoryId, secondCategoryId,thirdCategoryId);
+                Collections.addAll(nodeIds, firstCategoryId, secondCategoryId, thirdCategoryId);
             }
             List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
-            Map<String , String > nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+            Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
 
-            List<LawKnowledgePagePo> lawKnowledgePagePos = LawKnowledgeUtils.toLawKnowledgePagePos(lawKnowledges,nodeMap);
+            List<LawKnowledgePagePo> lawKnowledgePagePos = LawKnowledgeUtils.toLawKnowledgePagePos(lawKnowledges, nodeMap);
             resultMap.put(CommonConst.ROOT, lawKnowledgePagePos);
             resultMap.put(CommonConst.TOTAL_COUNT, count);
         }
@@ -135,12 +151,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         LawKnowledge lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeListPageVo);
         Map<String, Object> resultMap = new HashMap<>();
         // 三级类目不为空
-        if (StringUtils.isNotBlank(thirdCategoryId)){
+        if (StringUtils.isNotBlank(thirdCategoryId)) {
             // 包含三级数据不为空,三级数据为空,一级分类和二级分类为空,二级分类不为空
             Integer count = lawKnowledgeMapper.countThirdNotNull(lawKnowledge);
             if (count > 0) {
                 List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.listPageThirdNotNull(lawKnowledge);
-                if(null == lawKnowledges || lawKnowledges.size() == 0){
+                if (null == lawKnowledges || lawKnowledges.size() == 0) {
                     return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
                 }
                 List<LawKnowledgeListPagePo> lawKnowledgeListPagePos = LawKnowledgeUtils.toLawKnowledgeListPagePos(lawKnowledges);
@@ -149,12 +165,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
             }
         }
         // 三级类目数据为空,二级类目不为空
-        if (StringUtils.isBlank(thirdCategoryId) && StringUtils.isNotBlank(secondCategoryId)){
+        if (StringUtils.isBlank(thirdCategoryId) && StringUtils.isNotBlank(secondCategoryId)) {
             // 包含一级分类和二级分类为空和二级分类不为空
             Integer count = lawKnowledgeMapper.countSecondNotNull(lawKnowledge);
             if (count > 0) {
                 List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.listPageSecondNotNull(lawKnowledge);
-                if(null == lawKnowledges || lawKnowledges.size() == 0){
+                if (null == lawKnowledges || lawKnowledges.size() == 0) {
                     return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
                 }
                 List<LawKnowledgeListPagePo> lawKnowledgeListPagePos = LawKnowledgeUtils.toLawKnowledgeListPagePos(lawKnowledges);
@@ -163,12 +179,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
             }
         }
         // 二级分类为空,一级分类不为空
-        if (StringUtils.isBlank(secondCategoryId)){
+        if (StringUtils.isBlank(secondCategoryId)) {
             // 包含 一级分类所有的
             Integer count = lawKnowledgeMapper.countFirstNotNull(lawKnowledge);
             if (count > 0) {
                 List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.listPageFirstNotNull(lawKnowledge);
-                if(null == lawKnowledges || lawKnowledges.size() == 0){
+                if (null == lawKnowledges || lawKnowledges.size() == 0) {
                     return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
                 }
                 List<LawKnowledgeListPagePo> lawKnowledgeListPagePos = LawKnowledgeUtils.toLawKnowledgeListPagePos(lawKnowledges);
@@ -191,12 +207,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         if (lawKnowledge == null) {
             return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
         }
-        List<String> nodeIds= LawKnowledgeUtils.toNodeIds(lawKnowledge);
+        List<String> nodeIds = LawKnowledgeUtils.toNodeIds(lawKnowledge);
         List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
-        Map<String , String > nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+        Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
 
         //获取当前
-        LawKnowledgeCurrentPo lawKnowledgeCurrentPo = LawKnowledgeUtils.toLawKnowledgeCurrentPo(lawKnowledge,nodeMap);
+        LawKnowledgeCurrentPo lawKnowledgeCurrentPo = LawKnowledgeUtils.toLawKnowledgeCurrentPo(lawKnowledge, nodeMap);
         lawKnowledgeCurrentPo.setPictureOssUrl(getNoRepeatRandom(1).get(0).toString());
         LawKnowledgeDetailsPo lawKnowledgeDetailsPo = new LawKnowledgeDetailsPo();
         lawKnowledgeDetailsPo.setLawKnowledgeCurrentPo(lawKnowledgeCurrentPo);
@@ -206,30 +222,30 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         // 先判断此分类属于哪级分类  前一篇的话就是找时间最挨近的最小的,后一篇就找时间最挨近的最大的
         //当前分类属于第三级分类
         LawKnowledge previousLawKnowledge = null;
-        if (StringUtils.isNotBlank(lawKnowledge.getThirdCategoryId())){
+        if (StringUtils.isNotBlank(lawKnowledge.getThirdCategoryId())) {
             // 先获取当前分类下的上一篇,如果为空,获取二级分类下的知识文库,如果还未空 获取一级分类下的知识文库
-             previousLawKnowledge = lawKnowledgeMapper.selectThirdPreviousLawKnowledge(paramLawKnowledge);
-            if (null == previousLawKnowledge){
+            previousLawKnowledge = lawKnowledgeMapper.selectThirdPreviousLawKnowledge(paramLawKnowledge);
+            if (null == previousLawKnowledge) {
                 // 三级分类下为空,获取二级分类下的文章
-                 previousLawKnowledge = lawKnowledgeMapper.selectSecondPreviousLawKnowledge(paramLawKnowledge);
-                 if (null == previousLawKnowledge){
-                     // 二级分类为空,获取一级分类下的文章
-                     previousLawKnowledge = lawKnowledgeMapper.selectFirstPreviousLawKnowledge(paramLawKnowledge);
-                 }
+                previousLawKnowledge = lawKnowledgeMapper.selectSecondPreviousLawKnowledge(paramLawKnowledge);
+                if (null == previousLawKnowledge) {
+                    // 二级分类为空,获取一级分类下的文章
+                    previousLawKnowledge = lawKnowledgeMapper.selectFirstPreviousLawKnowledge(paramLawKnowledge);
+                }
             }
         }
         // 当前分类属于二级分类
-        if(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())&& StringUtils.isNotBlank(lawKnowledge.getSecondCategoryId())){
+        if (StringUtils.isBlank(lawKnowledge.getThirdCategoryId()) && StringUtils.isNotBlank(lawKnowledge.getSecondCategoryId())) {
             // 先获取当前分类下的上一篇,如果未空 获取一级分类下的知识文库
-             previousLawKnowledge = lawKnowledgeMapper.selectSecondPreviousLawKnowledge(paramLawKnowledge);
-            if (null == previousLawKnowledge){
+            previousLawKnowledge = lawKnowledgeMapper.selectSecondPreviousLawKnowledge(paramLawKnowledge);
+            if (null == previousLawKnowledge) {
                 // 二级分类为空,获取一级分类下的文章
                 previousLawKnowledge = lawKnowledgeMapper.selectFirstPreviousLawKnowledge(paramLawKnowledge);
             }
 
         }
         // 当前分类属于一级分类
-        if(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())&& StringUtils.isBlank(lawKnowledge.getSecondCategoryId())&&StringUtils.isNotBlank(lawKnowledge.getFirstCategoryId())){
+        if (StringUtils.isBlank(lawKnowledge.getThirdCategoryId()) && StringUtils.isBlank(lawKnowledge.getSecondCategoryId()) && StringUtils.isNotBlank(lawKnowledge.getFirstCategoryId())) {
             previousLawKnowledge = lawKnowledgeMapper.selectFirstPreviousLawKnowledge(paramLawKnowledge);
         }
         LawKnowledgePreviousPo lawKnowledgePreviousPo = LawKnowledgeUtils.toLawKnowledgePreviousPo(previousLawKnowledge);
@@ -237,30 +253,30 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         // 获取下一篇
         //当前分类属于第三级分类
         LawKnowledge nextLawKnowledge = null;
-        if (StringUtils.isNotBlank(lawKnowledge.getThirdCategoryId())){
+        if (StringUtils.isNotBlank(lawKnowledge.getThirdCategoryId())) {
             // 先获取当前分类下的上一篇,如果为空,获取二级分类下的知识文库,如果还未空 获取一级分类下的知识文库
             nextLawKnowledge = lawKnowledgeMapper.selectThirdNextLawKnowledge(paramLawKnowledge);
-            if (null == nextLawKnowledge){
+            if (null == nextLawKnowledge) {
                 // 三级分类下为空,获取二级分类下的文章
                 nextLawKnowledge = lawKnowledgeMapper.selectSecondNextLawKnowledge(paramLawKnowledge);
-                if (null == nextLawKnowledge){
+                if (null == nextLawKnowledge) {
                     // 二级分类为空,获取一级分类下的文章
                     nextLawKnowledge = lawKnowledgeMapper.selectFirstNextLawKnowledge(paramLawKnowledge);
                 }
             }
         }
         // 当前分类属于二级分类
-        if(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())&& StringUtils.isNotBlank(lawKnowledge.getSecondCategoryId())){
+        if (StringUtils.isBlank(lawKnowledge.getThirdCategoryId()) && StringUtils.isNotBlank(lawKnowledge.getSecondCategoryId())) {
             // 先获取当前分类下的上一篇,如果未空 获取一级分类下的知识文库
             nextLawKnowledge = lawKnowledgeMapper.selectSecondNextLawKnowledge(paramLawKnowledge);
-            if (null == nextLawKnowledge){
+            if (null == nextLawKnowledge) {
                 // 二级分类为空,获取一级分类下的文章
                 nextLawKnowledge = lawKnowledgeMapper.selectFirstNextLawKnowledge(paramLawKnowledge);
             }
 
         }
         // 当前分类属于一级分类
-        if(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())&& StringUtils.isBlank(lawKnowledge.getSecondCategoryId())&&StringUtils.isNotBlank(lawKnowledge.getFirstCategoryId())){
+        if (StringUtils.isBlank(lawKnowledge.getThirdCategoryId()) && StringUtils.isBlank(lawKnowledge.getSecondCategoryId()) && StringUtils.isNotBlank(lawKnowledge.getFirstCategoryId())) {
             nextLawKnowledge = lawKnowledgeMapper.selectFirstNextLawKnowledge(paramLawKnowledge);
         }
         LawKnowledgeNextPo lawKnowledgeNextPo = LawKnowledgeUtils.toLawKnowledgeNextPo(nextLawKnowledge);
@@ -273,32 +289,33 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     public ResultBean getLatestThree() {
         List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getLatestThree();
         List<LawKnowledgeCategory> lawKnowledgeCategories = new ArrayList<>();
-        for (LawKnowledge lawKnowledge : lawKnowledges){
-            if (StringUtils.isNotBlank(lawKnowledge.getThirdCategoryId())){
+        for (LawKnowledge lawKnowledge : lawKnowledges) {
+            if (StringUtils.isNotBlank(lawKnowledge.getThirdCategoryId())) {
                 // 三级分类不为空,获取知识库类目
                 LawKnowledgeCategory lawKnowledgeCategory = lawKnowledgeCategoryService.getByCategoryId(lawKnowledge.getThirdCategoryId());
                 lawKnowledgeCategories.add(lawKnowledgeCategory);
-            }else if(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())&& StringUtils.isNotBlank(lawKnowledge.getSecondCategoryId())){
+            } else if (StringUtils.isBlank(lawKnowledge.getThirdCategoryId()) && StringUtils.isNotBlank(lawKnowledge.getSecondCategoryId())) {
                 // // 三级分类为空,二级分类不为空 获取知识库类目
                 LawKnowledgeCategory lawKnowledgeCategory = lawKnowledgeCategoryService.getByCategoryId(lawKnowledge.getSecondCategoryId());
                 lawKnowledgeCategories.add(lawKnowledgeCategory);
-            }else if(StringUtils.isBlank(lawKnowledge.getThirdCategoryId())&& StringUtils.isBlank(lawKnowledge.getSecondCategoryId())&&StringUtils.isNotBlank(lawKnowledge.getFirstCategoryId())){
+            } else if (StringUtils.isBlank(lawKnowledge.getThirdCategoryId()) && StringUtils.isBlank(lawKnowledge.getSecondCategoryId()) && StringUtils.isNotBlank(lawKnowledge.getFirstCategoryId())) {
                 // // 三级分类为空,二级分类为空,一级分类不为空 获取知识库类目
                 LawKnowledgeCategory lawKnowledgeCategory = lawKnowledgeCategoryService.getByCategoryId(lawKnowledge.getFirstCategoryId());
                 lawKnowledgeCategories.add(lawKnowledgeCategory);
             }
         }
-        Map<String,LawKnowledgeCategory> lawKnowledgeCategoryMap = LawKnowledgeCategoryUtils.toLawKnowledgeCategoryMap(lawKnowledgeCategories);
+        Map<String, LawKnowledgeCategory> lawKnowledgeCategoryMap = LawKnowledgeCategoryUtils.toLawKnowledgeCategoryMap(lawKnowledgeCategories);
         List<Integer> itemList = getNoRepeatRandom(lawKnowledges.size());
-        List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = LawKnowledgeUtils.toLawKnowledgeSimplePos(lawKnowledges,lawKnowledgeCategoryMap,itemList);
+        List<LawKnowledgeSimplePo> lawKnowledgeSimplePos = LawKnowledgeUtils.toLawKnowledgeSimplePos(lawKnowledges, lawKnowledgeCategoryMap, itemList);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeSimplePos);
     }
+
     /**
-    * @Description: 获取指定范围内的随机不重复数
-    * @Param: * @Param size: 
-    * @Return: * @return: java.util.HashSet<java.lang.Integer>
-    * @date: 
-    */
+     * @Description: 获取指定范围内的随机不重复数
+     * @Param: * @Param size:
+     * @Return: * @return: java.util.HashSet<java.lang.Integer>
+     * @date:
+     */
     private List<Integer> getNoRepeatRandom(int size) {
         HashSet<Integer> hashSet = new HashSet<>();
         Integer i = 0;
@@ -317,8 +334,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getAllTitle();
         Collections.shuffle(lawKnowledges);
         List<LawKnowledge> result = new ArrayList<>();
-        for (int i=0;i<lawKnowledges.size();i++){
-            if(i >= LAW_HEADLINES_RANDOM_COUNT)
+        for (int i = 0; i < lawKnowledges.size(); i++) {
+            if (i >= LAW_HEADLINES_RANDOM_COUNT)
                 break;
             result.add(lawKnowledges.get(i));
         }

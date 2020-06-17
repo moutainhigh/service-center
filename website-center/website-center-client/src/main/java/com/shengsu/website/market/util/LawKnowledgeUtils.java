@@ -20,6 +20,14 @@ import java.util.Map;
  * @create: 2020-04-13 11:03
  **/
 public class LawKnowledgeUtils {
+    public static List<String> toListCreator(List<LawKnowledge> lawKnowledges){
+        List<String> creators = new ArrayList<>();
+        for (LawKnowledge knowledge : lawKnowledges) {
+            String creator = knowledge.getCreator();
+            creators.add(creator);
+        }
+        return creators;
+    }
     public static Map<String, String> toNodeMap(List<LawKnowledgeCategory> lawKnowledgeCategories) {
         Map<String, String> nodeMap = new HashMap<>();
         for (LawKnowledgeCategory lawKnowledgeCategory : lawKnowledgeCategories) {
@@ -186,6 +194,7 @@ public class LawKnowledgeUtils {
             lawKnowledge.setContent(lawKnowledgeCreateVo.getContent());
             lawKnowledge.setDateTime(lawKnowledgeCreateVo.getDateTime());
             lawKnowledge.setSource(lawKnowledgeCreateVo.getSource());
+            lawKnowledge.setCreator(lawKnowledgeCreateVo.getCreator());
             return lawKnowledge;
         }
         return null;
@@ -233,6 +242,9 @@ public class LawKnowledgeUtils {
             lawKnowledge.setTitle(lawKnowledgeListByPageVo.getTitle());
             lawKnowledge.setPage(lawKnowledgeListByPageVo.getPage());
             lawKnowledge.setPageSize(lawKnowledgeListByPageVo.getPageSize());
+            lawKnowledge.setCreateStartTime(lawKnowledgeListByPageVo.getCreateStartTime());
+            lawKnowledge.setCreateEndTime(lawKnowledgeListByPageVo.getCreateEndTime());
+            lawKnowledge.setCreator(lawKnowledgeListByPageVo.getCreator());
             return lawKnowledge;
         }
         return null;
@@ -251,6 +263,8 @@ public class LawKnowledgeUtils {
     private static LawKnowledgePagePo toLawKnowledgePagePo(LawKnowledge lawKnowledge,Map<String , String > nodeMap) {
         if (lawKnowledge != null) {
             LawKnowledgePagePo lawKnowledgePagePo = new LawKnowledgePagePo();
+            lawKnowledgePagePo.setCreateTime(lawKnowledge.getCreateTime());
+            lawKnowledgePagePo.setCreator(lawKnowledge.getCreator());
             lawKnowledgePagePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
             lawKnowledgePagePo.setFirstCategoryId(lawKnowledge.getFirstCategoryId());
             lawKnowledgePagePo.setSecondCategoryId(lawKnowledge.getSecondCategoryId());

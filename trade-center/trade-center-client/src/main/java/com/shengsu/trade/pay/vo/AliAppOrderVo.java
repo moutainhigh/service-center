@@ -6,12 +6,13 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data
-public class AliMarketOrderVo implements Serializable {
+public class AliAppOrderVo implements Serializable {
+    // 买家id
+    @NotBlank
+    private String buyerId;
     // 充值金额
     @NotBlank
     private String amount;
-    @NotBlank
-    private String verifyCode;
     @NotBlank
     private String systemTag;
 

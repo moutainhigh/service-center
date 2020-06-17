@@ -13,6 +13,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.3.4.ALL</version>
+        </dependency>
+        <dependency>
             <groupId>com.shengsu</groupId>
             <artifactId>help-center-client</artifactId>
             <version>1.0-SNAPSHOT</version>
@@ -20,6 +25,11 @@
         <dependency>
             <artifactId>website-center-client</artifactId>
             <groupId>com.shengsu</groupId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.shengsu</groupId>
+            <artifactId>user-center-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

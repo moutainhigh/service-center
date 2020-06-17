@@ -21,6 +21,9 @@ public class LawKnowledgePagePo implements Serializable {
     private String secondCategoryName;
     private String thirdCategoryName;
     private String title;
+    private String creator;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date dateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date createTime;
 }

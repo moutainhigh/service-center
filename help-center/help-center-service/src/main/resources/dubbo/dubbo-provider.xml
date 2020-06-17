@@ -26,4 +26,5 @@
     <dubbo:service interface="com.shengsu.helper.service.PnsClientService" ref="pnsClientService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.helper.service.SystemDictService" ref="systemDictService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.helper.service.AntiDuplicateService" ref="antiDuplicateService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.helper.service.ElasticsearchService" ref="elasticsearchService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>

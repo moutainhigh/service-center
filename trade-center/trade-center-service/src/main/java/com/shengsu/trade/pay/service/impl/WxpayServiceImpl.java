@@ -6,7 +6,6 @@ import com.shengsu.helper.service.CodeGeneratorService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.trade.app.constant.ResultCode;
-import com.shengsu.trade.app.util.HttpClientUtil;
 import com.shengsu.trade.pay.entity.PayOrder;
 import com.shengsu.trade.pay.service.PayOrderService;
 import com.shengsu.trade.pay.service.WxpayService;
@@ -19,6 +18,7 @@ import com.shengsu.trade.pay.wxsdk.MyConfig;
 import com.shengsu.trade.pay.wxsdk.WXPay;
 import com.shengsu.trade.pay.wxsdk.WXPayConstants;
 import com.shengsu.trade.pay.wxsdk.WXPayUtil;
+import com.shengsu.util.HttpClientUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -127,7 +127,8 @@ public class WxpayServiceImpl implements WxpayService {
     public ResultBean order(WxAppOrderVo wxAppOrderVo) throws Exception {
         log.info("开始下单");
         int totalFee =  new BigDecimal(wxAppOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo = SYSTEM_TAG_YUANSHOU.equals(wxAppOrderVo.getSystemTag())?codeGeneratorService.generateCode("YWATN"):codeGeneratorService.generateCode("SWATN");
+        String orderPrefixCode = SYSTEM_TAG_YUANSHOU.equals(wxAppOrderVo.getSystemTag())?"YWATN":"SWATN";
+        String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         outTradeNo=new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数
         log.info("配置微信请求参数");
@@ -168,7 +169,8 @@ public class WxpayServiceImpl implements WxpayService {
     public ResultBean order(WxMwebOrderVo wxMwebOrderVo) throws Exception {
         log.info("开始下单");
         int totalFee =  new BigDecimal(wxMwebOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?codeGeneratorService.generateCode("YWMTN"):codeGeneratorService.generateCode("SWMTN");
+        String orderPrefixCode = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?"YWMTN":"SWMTN";
+        String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         //插入6位随机数
         outTradeNo=new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
         // 配置微信请求参数

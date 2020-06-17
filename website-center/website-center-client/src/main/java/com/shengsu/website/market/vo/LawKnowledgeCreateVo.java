@@ -24,4 +24,5 @@ public class LawKnowledgeCreateVo implements Serializable {
     private Date dateTime;
     @NotBlank
     private String source;
+    private String creator;
 }

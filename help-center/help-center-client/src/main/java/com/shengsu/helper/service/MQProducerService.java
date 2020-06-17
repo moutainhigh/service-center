@@ -1,13 +1,9 @@
 package com.shengsu.helper.service;
 
-import com.shengsu.result.ResultBean;
 import com.shengsu.helper.constant.MQProducerEnum;
-import org.apache.rocketmq.client.exception.MQBrokerException;
-import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.remoting.exception.RemotingException;
-
-import java.io.UnsupportedEncodingException;
+import com.shengsu.result.ResultBean;
 
 public interface MQProducerService {
     ResultBean send(MQProducerEnum producer, String body);
+    ResultBean sendDelay(MQProducerEnum producer, String body, int delayLevel);
 }

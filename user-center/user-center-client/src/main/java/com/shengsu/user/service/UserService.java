@@ -25,4 +25,5 @@ public interface UserService extends BaseService<User,String> {
 
     ResultBean getUserBytoken(String token);
     ResultBean updateRole(RoleEditVo roleEditVo);
+    ResultBean listByUserType(User user);
 }
