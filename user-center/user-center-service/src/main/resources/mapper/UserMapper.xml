@@ -189,7 +189,7 @@
         order by
         user_id desc
     </select>
-    <select id="listByUserType" parameterType="string">
+    <select id="listByUserType" parameterType="string" resultType="User">
         select
           *
         from
