@@ -15,4 +15,5 @@ import java.util.List;
 public interface LawyerMapper extends BaseMapper<Lawyer,String> {
     List<Lawyer> randomSelect();
     int isLawyerExist(String lawyerName);
+    int isLawyerExistOther(Lawyer lawyer);
 }

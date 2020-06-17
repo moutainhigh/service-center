@@ -118,7 +118,7 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
     }
     @Override
     public ResultBean edit(Lawyer lawyer) {
-        int count = lawyerMapper.isLawyerExist(lawyer.getLawyerName());
+        int count = lawyerMapper.isLawyerExistOther(lawyer);
         if(count > 0){
             return ResultUtil.formResult(false, ResultCode.LAWYER_ALREADY_EXISTS, null);
         }

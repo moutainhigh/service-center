@@ -115,4 +115,11 @@
         from lawyer
         where del_flag = 0 and lawyer_name = #{lawyerName}
     </select>
+    <select id="isLawyerExistOther" parameterType="lawyer" resultType="int">
+        select
+        count(*)
+        from lawyer
+        where del_flag = 0 and lawyer_name = #{lawyerName}
+            and lawyer_id not in ( #{lawyerId} )
+    </select>
 </mapper>
