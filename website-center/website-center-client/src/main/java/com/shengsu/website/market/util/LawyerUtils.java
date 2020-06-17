@@ -50,6 +50,8 @@ public class LawyerUtils {
             lawyerPo.setModifyTime(lawyer.getModifyTime());
             lawyerPo.setConsultTimes(lawyer.getConsultTimes());
             lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
+            lawyerPo.setPrice(lawyer.getPrice());
+            lawyerPo.setRank(lawyer.getRank());
             lawyerPo.setConsultFee(CONSULT_FEE);
             lawyerPos.add(lawyerPo);
         }
@@ -65,6 +67,8 @@ public class LawyerUtils {
         lawyerPo.setModifyTime(lawyer.getModifyTime());
         lawyerPo.setConsultTimes(lawyer.getConsultTimes());
         lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
+        lawyerPo.setRank(lawyer.getRank());
+        lawyerPo.setPrice(lawyer.getPrice());
         lawyerPo.setConsultFee(CONSULT_FEE);
         return lawyerPo;
     }

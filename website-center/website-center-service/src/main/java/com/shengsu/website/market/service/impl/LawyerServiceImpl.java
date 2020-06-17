@@ -8,10 +8,10 @@ import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.website.app.constant.ResultCode;
-import com.shengsu.website.market.mapper.LawyerMapper;
 import com.shengsu.website.market.entity.Lawyer;
 import com.shengsu.website.market.entity.Question;
 import com.shengsu.website.market.entity.QuestionReply;
+import com.shengsu.website.market.mapper.LawyerMapper;
 import com.shengsu.website.market.po.LawyerPo;
 import com.shengsu.website.market.po.QuestionReplyPo;
 import com.shengsu.website.market.service.LawyerService;
@@ -51,7 +51,6 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
         lawyerMapper.save(lawyer);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
-
     @Override
     public ResultBean getQuestionList(LawyerVo lawyerVo) {
         Lawyer lawyer = get(lawyerVo.getLawyerId());
@@ -111,5 +110,16 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
         questionReplyService.geturls(lawyers);
         List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
+    }
+    @Override
+    public ResultBean edit(Lawyer lawyer) {
+        lawyerMapper.update(lawyer);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+    }
+
+    @Override
+    public ResultBean remove(LawyerVo lawyerVo) {
+        lawyerMapper.delete(lawyerVo.getLawyerId());
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
 }

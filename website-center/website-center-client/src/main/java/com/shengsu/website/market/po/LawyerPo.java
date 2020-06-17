@@ -3,6 +3,8 @@ package com.shengsu.website.market.po;
 import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * @program: service-center
  * @author: Bell
@@ -32,4 +34,6 @@ public class LawyerPo extends BaseEntity {
     private Integer consultTimes;
     private Integer praiseTimes;
     private String consultFee;
+    private BigDecimal price;
+    private String rank;
 }
