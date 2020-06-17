@@ -53,6 +53,7 @@
         SET
         lawyer_name = #{lawyerName,jdbcType=VARCHAR},
         field = #{field,jdbcType=VARCHAR},
+        icon_oss_resource_id = #{iconOssResourceId,jdbcType=VARCHAR},
         price = #{price},
         rank = #{rank},
         praise_times = #{praiseTimes,jdbcType=VARCHAR},
