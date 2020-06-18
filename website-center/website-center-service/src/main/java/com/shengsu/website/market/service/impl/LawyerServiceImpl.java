@@ -104,8 +104,7 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
             return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyer);
         }
         String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
-        lawyer.setIconOssResourceId(url);
-        LawyerPo lawyerPo = LawyerUtils.toLawyerPo(lawyer);
+        LawyerPo lawyerPo = LawyerUtils.toLawyerPo(lawyer,url);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPo);
     }
     @Override

@@ -54,11 +54,11 @@ public class LawyerUtils {
         }
         return lawyerPos;
     }
-    public static LawyerPo toLawyerPo(Lawyer lawyer){
+    public static LawyerPo toLawyerPo(Lawyer lawyer, String url){
         LawyerPo lawyerPo = new LawyerPo();
         lawyerPo.setLawyerId(lawyer.getLawyerId());
         lawyerPo.setLawyerName(lawyer.getLawyerName());
-        lawyerPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
+        lawyerPo.setIconOssResourceUrl(url);
         lawyerPo.setField(lawyer.getField());
         lawyerPo.setCreateTime(lawyer.getCreateTime());
         lawyerPo.setModifyTime(lawyer.getModifyTime());
@@ -66,6 +66,7 @@ public class LawyerUtils {
         lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
         lawyerPo.setRank(lawyer.getRank());
         lawyerPo.setConsultFee(lawyer.getConsultFee());
+        lawyerPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
         return lawyerPo;
     }
 }
