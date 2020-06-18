@@ -10,7 +10,7 @@
         <where>
             del_flag = 0
             <if test="rank != null and  rank != ''">
-                and rank like concat('%',#{rank},'%')
+                and rank = #{rank}
             </if>
             <if test="lawyerName != null and  lawyerName != ''">
                 and lawyer_name like concat('%',#{lawyerName},'%')
