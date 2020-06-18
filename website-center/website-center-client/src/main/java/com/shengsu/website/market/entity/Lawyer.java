@@ -3,6 +3,8 @@ package com.shengsu.website.market.entity;
 import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * @program: service-center
  * @author: Bell
@@ -31,5 +33,6 @@ public class Lawyer extends BaseEntity {
     private String field;
     private Integer consultTimes;
     private Integer praiseTimes;
-
+    private BigDecimal consultFee;
+    private String rank;
 }

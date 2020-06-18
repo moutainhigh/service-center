@@ -9,8 +9,6 @@ import com.shengsu.website.market.po.QuestionReplyPo;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.shengsu.website.constant.ConsultConst.CONSULT_FEE;
-
 /**
  * @program: service-center
  * @author: Bell
@@ -50,22 +48,25 @@ public class LawyerUtils {
             lawyerPo.setModifyTime(lawyer.getModifyTime());
             lawyerPo.setConsultTimes(lawyer.getConsultTimes());
             lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
-            lawyerPo.setConsultFee(CONSULT_FEE);
+            lawyerPo.setConsultFee(lawyer.getConsultFee());
+            lawyerPo.setRank(lawyer.getRank());
             lawyerPos.add(lawyerPo);
         }
         return lawyerPos;
     }
-    public static LawyerPo toLawyerPo(Lawyer lawyer){
+    public static LawyerPo toLawyerPo(Lawyer lawyer, String url){
         LawyerPo lawyerPo = new LawyerPo();
         lawyerPo.setLawyerId(lawyer.getLawyerId());
         lawyerPo.setLawyerName(lawyer.getLawyerName());
-        lawyerPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
+        lawyerPo.setIconOssResourceUrl(url);
         lawyerPo.setField(lawyer.getField());
         lawyerPo.setCreateTime(lawyer.getCreateTime());
         lawyerPo.setModifyTime(lawyer.getModifyTime());
         lawyerPo.setConsultTimes(lawyer.getConsultTimes());
         lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
-        lawyerPo.setConsultFee(CONSULT_FEE);
+        lawyerPo.setRank(lawyer.getRank());
+        lawyerPo.setConsultFee(lawyer.getConsultFee());
+        lawyerPo.setIconOssResourceId(lawyer.getIconOssResourceId());
         return lawyerPo;
     }
 }

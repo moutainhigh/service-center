@@ -8,10 +8,10 @@ import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.website.app.constant.ResultCode;
-import com.shengsu.website.market.mapper.LawyerMapper;
 import com.shengsu.website.market.entity.Lawyer;
 import com.shengsu.website.market.entity.Question;
 import com.shengsu.website.market.entity.QuestionReply;
+import com.shengsu.website.market.mapper.LawyerMapper;
 import com.shengsu.website.market.po.LawyerPo;
 import com.shengsu.website.market.po.QuestionReplyPo;
 import com.shengsu.website.market.service.LawyerService;
@@ -47,11 +47,14 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
 
     @Override
     public ResultBean create(Lawyer lawyer) {
+        int count = lawyerMapper.isLawyerExist(lawyer.getLawyerName());
+        if(count > 0){
+            return ResultUtil.formResult(false, ResultCode.LAWYER_ALREADY_EXISTS, null);
+        }
         lawyer.setLawyerId(UUID.randomUUID().toString());
         lawyerMapper.save(lawyer);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
-
     @Override
     public ResultBean getQuestionList(LawyerVo lawyerVo) {
         Lawyer lawyer = get(lawyerVo.getLawyerId());
@@ -101,15 +104,30 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
             return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyer);
         }
         String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
-        lawyer.setIconOssResourceId(url);
-        LawyerPo lawyerPo = LawyerUtils.toLawyerPo(lawyer);
+        LawyerPo lawyerPo = LawyerUtils.toLawyerPo(lawyer,url);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPo);
     }
     @Override
     public ResultBean lawyerListByPage(Lawyer lawyer){
         List<Lawyer> lawyers = lawyerMapper.listByPage(lawyer);
         questionReplyService.geturls(lawyers);
+        int totalCount = lawyerMapper.countAll(lawyer);
         List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, lawyerPos, totalCount);
+    }
+    @Override
+    public ResultBean edit(Lawyer lawyer) {
+        int count = lawyerMapper.isLawyerExistOther(lawyer);
+        if(count > 0){
+            return ResultUtil.formResult(false, ResultCode.LAWYER_ALREADY_EXISTS, null);
+        }
+        lawyerMapper.update(lawyer);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+    }
+
+    @Override
+    public ResultBean remove(LawyerVo lawyerVo) {
+        lawyerMapper.delete(lawyerVo.getLawyerId());
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
 }

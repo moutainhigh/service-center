@@ -12,4 +12,6 @@ public interface LawyerService extends BaseService<Lawyer,String> {
     ResultBean selectAll();
     ResultBean getBylawyerId(String lawyerId);
     ResultBean lawyerListByPage(Lawyer lawyer);
+    ResultBean edit(Lawyer lawyer);
+    ResultBean remove(LawyerVo lawyerVo);
 }

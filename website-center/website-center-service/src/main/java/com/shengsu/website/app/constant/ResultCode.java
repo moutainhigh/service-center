@@ -16,6 +16,8 @@ public enum ResultCode implements IResultCode {
     //咨询
     EXCEPTION_CONSULT_APPENDIX_REFID_IS_NULL(1002, "关联id错误"),
     EXCEPTION_PROBLEM_ALREADY_EXISTS(1002,"问题已存在"),
+    //律师
+    LAWYER_ALREADY_EXISTS(1002,"律师已存在"),
     //支付宝
     GET_EXCEPTION(1002,"获取异常"),
     //登录

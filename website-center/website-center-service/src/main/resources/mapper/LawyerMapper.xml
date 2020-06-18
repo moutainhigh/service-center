@@ -4,7 +4,18 @@
     <resultMap id="BaseResultMap" type="Lawyer">
     </resultMap>
     <sql id="Base_Column_List">
-    id, lawyer_id, lawyer_name, icon_oss_resource_id, field, create_time, modify_time,praise_times,consult_times,del_flag
+    id, lawyer_id, lawyer_name, icon_oss_resource_id, field, create_time, modify_time,consult_fee,rank,praise_times,consult_times,del_flag
+    </sql>
+    <sql id="lawyer_where_clause">
+        <where>
+            del_flag = 0
+            <if test="rank != null and  rank != ''">
+                and rank = #{rank}
+            </if>
+            <if test="lawyerName != null and  lawyerName != ''">
+                and lawyer_name like concat('%',#{lawyerName},'%')
+            </if>
+        </where>
     </sql>
     <insert id="save" parameterType="Lawyer">
     insert into lawyer (
@@ -14,6 +25,8 @@
       field,
       create_time,
       modify_time,
+      consult_fee,
+      rank,
       praise_times,
       consult_times)
     values (
@@ -23,10 +36,31 @@
     #{field,jdbcType=VARCHAR},
     current_timestamp(),
     current_timestamp(),
+    #{consultFee},
+    #{rank},
     #{praiseTimes,jdbcType=VARCHAR},
     #{consultTimes,jdbcType=VARCHAR}
     )
   </insert>
+    <delete id="delete" parameterType="String">
+        UPDATE lawyer
+        SET del_flag = 1
+        WHERE
+	    lawyer_id = #{lawyerId}
+    </delete>
+    <update id="update" parameterType="lawyer">
+        UPDATE lawyer
+        SET
+        lawyer_name = #{lawyerName,jdbcType=VARCHAR},
+        field = #{field,jdbcType=VARCHAR},
+        icon_oss_resource_id = #{iconOssResourceId,jdbcType=VARCHAR},
+        consult_fee = #{consultFee},
+        rank = #{rank},
+        praise_times = #{praiseTimes,jdbcType=VARCHAR},
+        consult_times = #{consultTimes,jdbcType=VARCHAR},
+        modify_time = current_timestamp()
+        WHERE del_flag=0 and lawyer_id = #{lawyerId}
+    </update>
     <select id="get" parameterType="String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -38,13 +72,14 @@
         <include refid="Base_Column_List"/>
         from lawyer
         where del_flag = 0
+        order by rank ASC
     </select>
     <select id="listByPage" parameterType="lawyer" resultMap="BaseResultMap">
         <include refid="global.paginationStart_mysql"/>
         select
         *
         from lawyer
-        where del_flag = 0
+        <include refid="lawyer_where_clause"/>
         order by modify_time desc
         <include refid="global.paginationEnd_mysql"/>
     </select>
@@ -68,5 +103,25 @@
 	    where del_flag = 0
         order by rand()
         LIMIT 3
+    </select>
+    <select id="countAll" parameterType="lawyer" resultType="int">
+        select
+        count(1)
+        from
+        lawyer
+        <include refid="lawyer_where_clause"/>
+    </select>
+    <select id="isLawyerExist" parameterType="String" resultType="int">
+        select
+        count(*)
+        from lawyer
+        where del_flag = 0 and lawyer_name = #{lawyerName}
+    </select>
+    <select id="isLawyerExistOther" parameterType="lawyer" resultType="int">
+        select
+        count(*)
+        from lawyer
+        where del_flag = 0 and lawyer_name = #{lawyerName}
+            and lawyer_id not in ( #{lawyerId} )
     </select>
 </mapper>
