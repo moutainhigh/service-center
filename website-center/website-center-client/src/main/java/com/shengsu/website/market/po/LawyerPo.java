@@ -33,7 +33,7 @@ public class LawyerPo extends BaseEntity {
     private String field;
     private Integer consultTimes;
     private Integer praiseTimes;
-    private String consultFee;
+    private BigDecimal consultFee;
     private String rank;
     private String iconOssResourceId;
 }
