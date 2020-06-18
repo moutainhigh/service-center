@@ -66,7 +66,7 @@ public class LawyerUtils {
         lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
         lawyerPo.setRank(lawyer.getRank());
         lawyerPo.setConsultFee(lawyer.getConsultFee());
-        lawyerPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
+        lawyerPo.setIconOssResourceId(lawyer.getIconOssResourceId());
         return lawyerPo;
     }
 }
