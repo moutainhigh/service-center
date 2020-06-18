@@ -72,6 +72,7 @@
         <include refid="Base_Column_List"/>
         from lawyer
         where del_flag = 0
+        order by rank ASC
     </select>
     <select id="listByPage" parameterType="lawyer" resultMap="BaseResultMap">
         <include refid="global.paginationStart_mysql"/>
