@@ -25,7 +25,7 @@
       field,
       create_time,
       modify_time,
-      price,
+      consult_fee,
       rank,
       praise_times,
       consult_times)
@@ -36,7 +36,7 @@
     #{field,jdbcType=VARCHAR},
     current_timestamp(),
     current_timestamp(),
-    #{price},
+    #{consultFee},
     #{rank},
     #{praiseTimes,jdbcType=VARCHAR},
     #{consultTimes,jdbcType=VARCHAR}
@@ -54,7 +54,7 @@
         lawyer_name = #{lawyerName,jdbcType=VARCHAR},
         field = #{field,jdbcType=VARCHAR},
         icon_oss_resource_id = #{iconOssResourceId,jdbcType=VARCHAR},
-        price = #{price},
+        consult_fee = #{consultFee},
         rank = #{rank},
         praise_times = #{praiseTimes,jdbcType=VARCHAR},
         consult_times = #{consultTimes,jdbcType=VARCHAR},
