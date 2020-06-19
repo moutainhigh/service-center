@@ -118,7 +118,7 @@ public class WxpayServiceImpl implements WxpayService {
 
     }
     /**
-    * @Description: 微信小程序下单
+    * @Description: (在线咨询)微信小程序下单
     * @Param: * @Param wxAppOrderVo: 
     * @Return: * @return: com.shengsu.result.ResultBean
     * @date: 
@@ -159,8 +159,33 @@ public class WxpayServiceImpl implements WxpayService {
             return ResultUtil.formResult(false, ResultCode.FAIL);
         }
     }
+    // 微信小程序返回值构造
+    public ResultBean returnData(WXPay wxpay,Map<String, String> reqData,MyConfig config,String outTradeNo,String amount){
+        // 返回数据
+        Map<String, String> resp = null;
+        Map<String, String> result = null;
+        try {
+            // 请求微信返回预结果
+            resp = wxpay.unifiedOrder(reqData);
+            log.info("请求微信返回预期结果"+resp);
+            String prepayId = resp.get("prepay_id");
+            if ("SUCCESS".equals(resp.get("return_code"))&&"SUCCESS".equals(resp.get("result_code"))){
+                // 返回前端数据
+                result =  getOrderResponseData(resp,config,prepayId);
+                // order表生成订单数据
+                PayOrder payOrder = PayOrderUtils.toPayOrder("",outTradeNo,prepayId,new BigDecimal(amount),PAY_TYPE_WECHAT,ORDER_STATUS_UNPAID);
+                payOrderService.create(payOrder);
+
+            }
+            return ResultUtil.formResult(true, ResultCode.SUCCESS,result);
+
+        } catch (Exception e) {
+            log.error("微信下单请求返回异常"+e);
+            return ResultUtil.formResult(false, ResultCode.FAIL);
+        }
+    }
     /**
-    * @Description: 微信H5下单
+    * @Description: (在线咨询)微信H5下单
     * @Param: * @Param wxMwebOrderVo: 
     * @Return: * @return: com.shengsu.result.ResultBean
     * @date: 

@@ -28,4 +28,5 @@ public class ConsultDetailsListPo implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date createTime;//创建时间
     private List<ConsultAppendixDetailsPo> appendixList;
+    private String lawFieldStr;//法律领域
 }

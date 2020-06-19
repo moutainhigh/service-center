@@ -9,6 +9,8 @@ package com.shengsu.trade.app.constant;
 public interface BizConst {
     String SYSTEM_TAG_SHENGSU= "shengsu";
     String SYSTEM_TAG_YUANSHOU = "yuanshou";
+    //字典-订单状态
+    String DICT_CODE_ORDER_STATUS= "order_status";
     //账户余额来源-账户余额-充值
     String ACCOUNT_BALANCE_SOURCE_RECHANGE = "other";
     //账户余额来源-账户余额-提现
@@ -42,16 +44,24 @@ public interface BizConst {
     String ORDER_FLAG_YUANSHOU_WECHAT_MWEB= "YWM";
 
     // 胜诉平台下单标记-支付宝案源王H5
-    String ORDER_FLAG_SHENGSU_ALIPAY_ANY_MWEB= "AAT";
-    // 胜诉平台下单标记-支付宝市场推广H5
-    String ORDER_FLAG_SHENGSU_ALIPAY_MARKET_MWEB= "SAM";
-    // 援手平台支付下单标记-支付宝市场推广H5
-    String ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_MWEB= "YAM";
+    String ORDER_FLAG_SHENGSU_ALIPAY_ANY_MWEB= "AATN";
+    // 胜诉平台下单标记-支付宝市场推广H5(在线咨询)
+    String ORDER_FLAG_SHENGSU_ALIPAY_MARKET_MWEB_ON_LINE= "SAMO";
+    // 援手平台支付下单标记-支付宝市场推广H5(在线咨询)
+    String ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_MWEB_ON_LINE= "YAMO";
+    // 胜诉平台下单标记-支付宝市场推广H5(电话咨询)
+    String ORDER_FLAG_SHENGSU_ALIPAY_MARKET_MWEB_TEL_CONSULT= "SAMT";
+    // 援手平台支付下单标记-支付宝市场推广H5(电话咨询)
+    String ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_MWEB_TEL_CONSULT= "YAMT";
 
-    // 胜诉平台下单标记-支付宝市场推广小程序
-    String ORDER_FLAG_SHENGSU_ALIPAY_MARKET_APP= "SAA";
-    // 援手平台支付下单标记-支付宝市场推广小程序
-    String ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_APP="YAA";
+    // 胜诉平台下单标记-支付宝市场推广小程序(在线咨询)
+    String ORDER_FLAG_SHENGSU_ALIPAY_MARKET_APP_ON_LINE= "SAAO";
+    // 援手平台支付下单标记-支付宝市场推广小程序(在线咨询)
+    String ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_APP_ON_LINE="YAAO";
+    // 胜诉平台下单标记-支付宝市场推广小程序(电话咨询)
+    String ORDER_FLAG_SHENGSU_ALIPAY_MARKET_APP_TEL_CONSULT= "SAAT";
+    // 援手平台支付下单标记-支付宝市场推广小程序(电话咨询)
+    String ORDER_FLAG_YUANSHOU_ALIPAY_MARKET_APP_TEL_CONSULT="YAAT";
 
     //订单状态-未支付
     String ORDER_STATUS_UNPAID= "0";

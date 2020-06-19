@@ -22,7 +22,9 @@ public enum MQProducerEnum {
     //支付宝支付通知
     ANY_ALIPAY_NOTIFY("anyGroup","alipayTopic","payNotifyTag"),
     //百度小程序支付通知
-    WEBSITE_BDPAY_NOTIFY("websiteGroup","bdpayTopic","payNofityTag")
+    WEBSITE_BDPAY_NOTIFY("websiteGroup","bdpayTopic","payNofityTag"),
+    // (市场推广H5和小程序)电话咨询消息通知
+    WEBSITE_MARKET_TEL_CONSULT("websiteGroup","marketTelConsultTopic","marketTelConsultTag")
     ;
 
     private String group;

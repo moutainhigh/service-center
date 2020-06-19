@@ -80,5 +80,6 @@ rocketmq:
   consumer:
     namesrvAddr: 127.0.0.1:9876
     group: websiteGroup
-
+telConsult:
+  expireTimeSecond: 3600
 
