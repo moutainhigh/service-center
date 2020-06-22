@@ -16,13 +16,13 @@ public enum MQProducerEnum {
     //公众号推送
     ANY_WECHAT("anyGroup","wechatMessageTopic","wechatMessageTag"),
     //微信公众号支付通知-公众号
-    ANY_WXPAY_NOTIFY_GZH("anyGroup","wxpayTopic","gzhNotifyTag"),
+    ANY_WXPAY_NOTIFY_GZH("payGroup","wxpayTopic","gzhNotifyTag"),
     //微信小程序支付通知-小程序
-    ANY_WXPAY_NOTIFY_WEAPP("anyGroup","wxpayTopic","weappNotifyTag"),
+    ANY_WXPAY_NOTIFY_WEAPP("payGroup","wxpayTopic","weappNotifyTag"),
     //支付宝支付通知
-    ALIPAY_NOTIFY("anyGroup","alipayTopic","payNotifyTag"),
+    ALIPAY_NOTIFY("payGroup","alipayTopic","payNotifyTag"),
     //百度小程序支付通知
-    WEBSITE_BDPAY_NOTIFY("websiteGroup","bdpayTopic","payNofityTag")
+    WEBSITE_BDPAY_NOTIFY("payGroup","bdpayTopic","payNofityTag")
     ;
 
     private String group;
