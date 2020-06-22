@@ -8,5 +8,7 @@ import java.math.BigDecimal;
 @Data
 public class SystemConfig extends BaseEntity {
     private BigDecimal onlineConsultFee;
+    private BigDecimal onlineConsultFeeOld;
     private BigDecimal telConsultFee;
+    private BigDecimal telConsultFeeOld;
 }
