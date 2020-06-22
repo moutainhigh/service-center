@@ -16,4 +16,6 @@ public interface LawcaseConsultService extends BaseService {
 
     ResultBean listByModel(LawcaseConsult lawcaseConsult);
 
+    void saveTelConsultData(String tel,String lawField);
+
 }

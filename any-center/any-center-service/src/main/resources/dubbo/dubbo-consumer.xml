@@ -18,4 +18,5 @@
     <dubbo:reference id="systemDictService" interface="com.shengsu.helper.service.SystemDictService" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:reference id="mqProducerService" interface="com.shengsu.helper.service.MQProducerService" timeout="3000" version="${dubbo.version}"/>
     <dubbo:reference id="payOrderService" interface="com.shengsu.trade.pay.service.PayOrderService" timeout="3000" version="${dubbo.version}"/>
+	<dubbo:reference id="lawcaseConsultService" interface="com.shengsu.website.home.service.LawcaseConsultService" timeout="3000" version="${dubbo.version}"/>
 </beans>

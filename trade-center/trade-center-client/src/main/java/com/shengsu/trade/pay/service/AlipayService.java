@@ -10,8 +10,6 @@ public interface AlipayService {
     String order(AliAnyOrderVo aliAnyOrderVo)throws Exception ;
     String order(AliMarketOrderVo aliMarketOrderVo)throws Exception ;
     ResultBean order(AliAppOrderVo aliAppOrderVo) throws Exception;
-    String order(AliMarketTelConsultOrderVo aliMarketTelConsultOrderVo)throws Exception ;
-    ResultBean order(AliAppTelConsultOrderVo aliAppTelConsultOrderVo) throws Exception;
     ResultBean cancel(AliOrderCancelVo aliOrderCancelVo)throws AlipayApiException;
     ResultBean orderQuery(String outTradeNo);
     boolean rsaCheckV1(Map<String, String> params)throws AlipayApiException;

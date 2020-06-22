@@ -1,13 +1,10 @@
 package com.shengsu.website.home.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.entity.SystemDict;
 import com.shengsu.helper.service.RedisService;
 import com.shengsu.helper.service.SystemDictService;
-import com.shengsu.mq.MessageProcessor;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.util.StringUtil;
@@ -20,6 +17,7 @@ import com.shengsu.website.home.po.ConsultAppendixDetailsPo;
 import com.shengsu.website.home.po.ConsultDetailsListPo;
 import com.shengsu.website.home.util.LawcaseConsultAppendixUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,14 +29,12 @@ import static com.shengsu.website.constant.ConsultConst.*;
 
 @Slf4j
 @Service(value = "lawcaseConsultService")
-public class LawcaseConsultServiceImpl extends BaseServiceImpl implements LawcaseConsultService,MessageProcessor<JSONObject> {
+public class LawcaseConsultServiceImpl extends BaseServiceImpl implements LawcaseConsultService{
 
     @Autowired
     private LawcaseConsultMapper lawcaseConsultMapper;
     @Autowired
     private LawcaseConsultAppendixService lawcaseConsultAppendixService;
-    @Resource
-    private RedisService redisService;
     @Autowired
     private SystemDictService systemDictService;
 
@@ -139,16 +135,9 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
         }
         return ResultUtil.formRootResult(true, ResultCode.SUCCESS, consultDetailsListPos);
     }
+
     @Override
-    public boolean handleMessage(JSONObject jsonObject) {
-        log.info("处理消息："+ jsonObject);
-        // 修改账户余额 并添加账户余额记录
-        String outTradeNo = jsonObject.getString("outTradeNo");
-        // 获取电话咨询信息
-        String telConsultJson= (String)redisService.get(outTradeNo);
-        JSONObject object = JSON.parseObject(telConsultJson);
-        String tel =object.getString("tel");
-        String lawField =object.getString("lawField");
+    public void saveTelConsultData(String tel, String lawField) {
         // 保存咨询消息
         LawcaseConsult lawcaseConsult = new LawcaseConsult();
         lawcaseConsult.setConsultId(UUID.randomUUID().toString());
@@ -156,12 +145,5 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
         lawcaseConsult.setLawField(lawField);
         lawcaseConsult.setOrigin(ConsultConst.CONSULT_ORIGIN_PAYMENT_CALL_BACK);
         save(lawcaseConsult);
-        // 缓存清除
-        redisService.delete(outTradeNo);
-        return true;
-    }
-    @Override
-    public Class<JSONObject> getClazz() {
-        return JSONObject.class;
     }
 }

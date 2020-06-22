@@ -14,5 +14,9 @@ public class AliMarketOrderVo implements Serializable {
     private String verifyCode;
     @NotBlank
     private String systemTag;
+    @NotBlank
+    private String consultTag;
+    // 电话咨询参数
+    private AliTelConsultOrderVo telConsultOrderVo;
 
 }
