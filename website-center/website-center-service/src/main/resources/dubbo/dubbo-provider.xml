@@ -25,4 +25,5 @@
     <dubbo:service interface="com.shengsu.website.market.service.AlipayService" ref="alipayService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.market.service.WeChatService" ref="weChatService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.market.service.ConsultAnswerService" ref="consultAnswerService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.website.market.service.SystemConfigService" ref="systemConfigService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>
