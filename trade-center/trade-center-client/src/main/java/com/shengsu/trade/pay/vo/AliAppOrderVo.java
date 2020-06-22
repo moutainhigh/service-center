@@ -17,6 +17,6 @@ public class AliAppOrderVo implements Serializable {
     private String systemTag;
     @NotBlank
     private String consultTag;
-    private AliTelConsultOrderVo telConsultOrderVo;
+    private TelConsultVo telConsultVo;
 
 }

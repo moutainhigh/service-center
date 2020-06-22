@@ -10,9 +10,13 @@ public class WxMwebOrderVo implements Serializable {
     // 充值金额
     @NotBlank
     private String amount;
+    @NotBlank
     private String systemTag;
     @NotBlank
     private String lawyerId;
     private String ipAddress;
+    @NotBlank
+    private String consultTag;
+    private TelConsultVo telConsultVo;
 
 }

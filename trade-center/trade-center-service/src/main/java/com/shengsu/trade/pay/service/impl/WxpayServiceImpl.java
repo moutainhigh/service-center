@@ -3,6 +3,7 @@ package com.shengsu.trade.pay.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shengsu.helper.service.CodeGeneratorService;
+import com.shengsu.helper.service.RedisService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.trade.app.constant.ResultCode;
@@ -10,10 +11,7 @@ import com.shengsu.trade.pay.entity.PayOrder;
 import com.shengsu.trade.pay.service.PayOrderService;
 import com.shengsu.trade.pay.service.WxpayService;
 import com.shengsu.trade.pay.util.PayOrderUtils;
-import com.shengsu.trade.pay.vo.WxAppOrderVo;
-import com.shengsu.trade.pay.vo.WxMwebOrderVo;
-import com.shengsu.trade.pay.vo.WxOrderCancelVo;
-import com.shengsu.trade.pay.vo.WxOrderVo;
+import com.shengsu.trade.pay.vo.*;
 import com.shengsu.trade.pay.wxsdk.MyConfig;
 import com.shengsu.trade.pay.wxsdk.WXPay;
 import com.shengsu.trade.pay.wxsdk.WXPayConstants;
@@ -24,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -72,6 +71,8 @@ public class WxpayServiceImpl implements WxpayService {
     private CodeGeneratorService codeGeneratorService;
     @Autowired
     private PayOrderService payOrderService;
+    @Resource
+    private RedisService redisService;
 
     /**
     * @Description: 微信公众号下单
@@ -118,7 +119,7 @@ public class WxpayServiceImpl implements WxpayService {
 
     }
     /**
-    * @Description: (在线咨询)微信小程序下单
+    * @Description: (在线咨询,电话咨询)微信小程序下单
     * @Param: * @Param wxAppOrderVo: 
     * @Return: * @return: com.shengsu.result.ResultBean
     * @date: 
@@ -130,6 +131,13 @@ public class WxpayServiceImpl implements WxpayService {
         String orderPrefixCode = SYSTEM_TAG_YUANSHOU.equals(wxAppOrderVo.getSystemTag())?"YWATN":"SWATN";
         String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         outTradeNo=new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
+        // 在线咨询将参数保存在缓存中
+        if (CONSULT_TAG_TEL.equals(wxAppOrderVo.getConsultTag())){
+            // 获取电话咨询参数
+            TelConsultVo telConsultOrderVo =wxAppOrderVo.getTelConsultVo();
+            // 将客户电话等数据存储到redis,时效是1小时
+            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField());
+        }
         // 配置微信请求参数
         log.info("配置微信请求参数");
         MyConfig config = SYSTEM_TAG_YUANSHOU.equals(wxAppOrderVo.getSystemTag())?getConfig("YWA"):getConfig("SWA");
@@ -159,33 +167,8 @@ public class WxpayServiceImpl implements WxpayService {
             return ResultUtil.formResult(false, ResultCode.FAIL);
         }
     }
-    // 微信小程序返回值构造
-    public ResultBean returnData(WXPay wxpay,Map<String, String> reqData,MyConfig config,String outTradeNo,String amount){
-        // 返回数据
-        Map<String, String> resp = null;
-        Map<String, String> result = null;
-        try {
-            // 请求微信返回预结果
-            resp = wxpay.unifiedOrder(reqData);
-            log.info("请求微信返回预期结果"+resp);
-            String prepayId = resp.get("prepay_id");
-            if ("SUCCESS".equals(resp.get("return_code"))&&"SUCCESS".equals(resp.get("result_code"))){
-                // 返回前端数据
-                result =  getOrderResponseData(resp,config,prepayId);
-                // order表生成订单数据
-                PayOrder payOrder = PayOrderUtils.toPayOrder("",outTradeNo,prepayId,new BigDecimal(amount),PAY_TYPE_WECHAT,ORDER_STATUS_UNPAID);
-                payOrderService.create(payOrder);
-
-            }
-            return ResultUtil.formResult(true, ResultCode.SUCCESS,result);
-
-        } catch (Exception e) {
-            log.error("微信下单请求返回异常"+e);
-            return ResultUtil.formResult(false, ResultCode.FAIL);
-        }
-    }
     /**
-    * @Description: (在线咨询)微信H5下单
+    * @Description: (在线咨询,电话咨询)微信H5下单
     * @Param: * @Param wxMwebOrderVo: 
     * @Return: * @return: com.shengsu.result.ResultBean
     * @date: 
@@ -198,6 +181,13 @@ public class WxpayServiceImpl implements WxpayService {
         String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         //插入6位随机数
         outTradeNo=new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
+        // 在线咨询将参数保存在缓存中
+        if (CONSULT_TAG_TEL.equals(wxMwebOrderVo.getConsultTag())){
+            // 获取电话咨询参数
+            TelConsultVo telConsultOrderVo =wxMwebOrderVo.getTelConsultVo();
+            // 将客户电话等数据存储到redis,时效是1小时
+            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField());
+        }
         // 配置微信请求参数
         log.info("配置微信请求参数");
         MyConfig config = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?getConfig("YWM"):getConfig("SWM");
@@ -232,6 +222,19 @@ public class WxpayServiceImpl implements WxpayService {
             log.error("微信下单请求返回异常"+e);
             return ResultUtil.formResult(false, ResultCode.FAIL);
         }
+    }
+    /**
+     * @Description: 保存咨询数据到redis
+     * @Param: * @Param tel:
+     * @Param lawField:
+     * @Return: * @return: void
+     * @date:
+     */
+    private void setConsultDataToRedis(String outTradeNo,String tel,String lawField){
+        JSONObject param = new JSONObject();
+        param.put("tel",tel);
+        param.put("lawField",lawField);
+        redisService.set(outTradeNo, JSON.toJSONString(param),86400L);
     }
     /**
     * @Description: 填充下单场景信息请求数据

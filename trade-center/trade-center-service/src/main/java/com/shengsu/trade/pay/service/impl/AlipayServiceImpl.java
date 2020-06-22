@@ -116,7 +116,7 @@ public class AlipayServiceImpl implements AlipayService {
         // 在线咨询将参数保存在缓存中
         if (CONSULT_TAG_TEL.equals(aliMarketOrderVo.getConsultTag())){
             // 获取电话咨询参数
-            AliTelConsultOrderVo telConsultOrderVo =aliMarketOrderVo.getTelConsultOrderVo();
+            TelConsultVo telConsultOrderVo =aliMarketOrderVo.getTelConsultVo();
             // 将客户电话等数据存储到redis,时效是1小时
             setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField());
         }
@@ -139,7 +139,7 @@ public class AlipayServiceImpl implements AlipayService {
         // 在线咨询将参数保存在缓存中
         if (CONSULT_TAG_TEL.equals(aliAppOrderVo.getConsultTag())){
             // 获取电话咨询参数
-            AliTelConsultOrderVo telConsultOrderVo =aliAppOrderVo.getTelConsultOrderVo();
+            TelConsultVo telConsultOrderVo =aliAppOrderVo.getTelConsultVo();
             // 将客户电话等数据存储到redis,时效是1小时
             setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField());
         }

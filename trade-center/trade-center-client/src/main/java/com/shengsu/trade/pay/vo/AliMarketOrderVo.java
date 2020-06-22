@@ -17,6 +17,6 @@ public class AliMarketOrderVo implements Serializable {
     @NotBlank
     private String consultTag;
     // 电话咨询参数
-    private AliTelConsultOrderVo telConsultOrderVo;
+    private TelConsultVo telConsultVo;
 
 }
