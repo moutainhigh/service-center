@@ -6,23 +6,23 @@ package com.shengsu.helper.constant;
  */
 public enum MQProducerEnum {
     //成功日志常量
-    LOGBUSINESS("logGroup","logBusinessTopic","logBusinessTag"),
+    LOGBUSINESS("helpGroup","logBusinessTopic","logBusinessTag"),
     //失败日志常量
-    LOGERROR("logGroup","logErrorTopic","logErrorTag"),
+    LOGERROR("helpGroup","logErrorTopic","logErrorTag"),
     //极光推送常量
-    JPUSHNORMAL("jpushGroup","jpushMessageTopic","jpushNormalTag"),
-    JPUSHSCHEDULE("jpushGroup","jpushMessageTopic","jpushScheduleTag"),
-    JPUSHSCHEDULECANCEL("jpushGroup","jpushMessageTopic","jpushScheduleCancelTag"),
+    JPUSHNORMAL("helpGroup","jpushMessageTopic","jpushNormalTag"),
+    JPUSHSCHEDULE("helpGroup","jpushMessageTopic","jpushScheduleTag"),
+    JPUSHSCHEDULECANCEL("helpGroup","jpushMessageTopic","jpushScheduleCancelTag"),
     //公众号推送
-    ANY_WECHAT("anyGroup","wechatMessageTopic","wechatMessageTag"),
+    ANY_WECHAT("helpGroup","wechatMessageTopic","wechatMessageTag"),
     //微信公众号支付通知-公众号
-    WXPAY_NOTIFY_GZH("payGroup","wxpayTopic","gzhNotifyTag"),
+    WXPAY_NOTIFY_GZH("helpGroup","wxpayTopic","gzhNotifyTag"),
     //微信小程序支付通知-小程序
-    WXPAY_NOTIFY_WEAPP("payGroup","wxpayTopic","weappNotifyTag"),
+    WXPAY_NOTIFY_WEAPP("helpGroup","wxpayTopic","weappNotifyTag"),
     //支付宝支付通知
-    ALIPAY_NOTIFY("payGroup","alipayTopic","payNotifyTag"),
+    ALIPAY_NOTIFY("helpGroup","alipayTopic","payNotifyTag"),
     //百度小程序支付通知
-    BDPAY_NOTIFY("payGroup","bdpayTopic","payNofityTag")
+    BDPAY_NOTIFY("helpGroup","bdpayTopic","payNofityTag")
     ;
 
     private String group;

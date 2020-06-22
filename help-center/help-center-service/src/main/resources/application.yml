@@ -55,7 +55,7 @@ logging:
 rocketmq:
   producer:
     namesrvAddr: 127.0.0.1:9876
-    groups: logGroup,jpushGroup,anyGroup,websiteGroup,payGroup
+    groups: helpGroup
   consumer:
     namesrvAddr: 127.0.0.1:9876
     group: jpushGroup
