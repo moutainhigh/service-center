@@ -1,7 +1,9 @@
 package com.shengsu.trade.pay.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.shengsu.helper.service.CodeGeneratorService;
+import com.shengsu.helper.service.RedisService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.trade.app.constant.ResultCode;
@@ -14,7 +16,7 @@ import com.shengsu.trade.pay.service.BdpayService;
 import com.shengsu.trade.pay.service.PayOrderService;
 import com.shengsu.trade.pay.util.PayOrderUtils;
 import com.shengsu.trade.pay.vo.BaiduOrderVo;
-import com.shengsu.trade.pay.vo.BdPayNotifyVo;
+import com.shengsu.trade.pay.vo.TelConsultVo;
 import com.shengsu.util.HttpClientUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,12 +61,14 @@ public class BdpayServiceImpl implements BdpayService{
     CodeGeneratorService codeGeneratorService;
     @Autowired
     private PayOrderService payOrderService;
+    @Resource
+    private RedisService redisService;
 
     @Override
     public ResultBean order(BaiduOrderVo baiduOrderVo) throws NuomiApiException {
         String amount = baiduOrderVo.getAmount();
         int totalAmount =  new BigDecimal(amount).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String outTradeNo;
+        String outTradeNo = "";
         ResultBean<BdOrderInfo> orderInfoResult = null;
         if (SYSTEM_TAG_YUANSHOU.equals(baiduOrderVo.getSystemTag())){
             outTradeNo = codeGeneratorService.generateCode("YBTN");
@@ -80,12 +85,32 @@ public class BdpayServiceImpl implements BdpayService{
         if (orderInfoResult.isSuccess()) {
             orderInfo = orderInfoResult.getBody();
         }
+        // 在线咨询将参数保存在缓存中
+        if (CONSULT_TAG_TEL.equals(baiduOrderVo.getConsultTag())){
+            // 获取电话咨询参数
+            TelConsultVo telConsultOrderVo =baiduOrderVo.getTelConsultVo();
+            // 将客户电话等数据存储到redis,时效是1小时
+            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField());
+        }
         //返回orderInfo
         Map<String,Object> resultMap = new HashMap<>();
         resultMap.put("orderInfo",orderInfo);
         log.info("下单参数：",JSON.toJSONString(orderInfo));
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resultMap);
+    }
+    /**
+     * @Description: 保存咨询数据到redis
+     * @Param: * @Param tel:
+     * @Param lawField:
+     * @Return: * @return: void
+     * @date:
+     */
+    private void setConsultDataToRedis(String outTradeNo,String tel,String lawField){
+        JSONObject param = new JSONObject();
+        param.put("tel",tel);
+        param.put("lawField",lawField);
+        redisService.set(outTradeNo, JSON.toJSONString(param),86400L);
     }
     /**
     * @Description: 获取订单信息
@@ -188,40 +213,5 @@ public class BdpayServiceImpl implements BdpayService{
         data.put("sign", NuomiSignature.genSignWithRsa(data, rsaPrivateKey));
         String result = HttpClientUtil.doGet(url, data);
         return ResultUtil.formResult(true, ResultCode.SUCCESS,result);
-    }
-
-    @Override
-    public void handleMessage(BdPayNotifyVo bdPayNotifyVo) {
-        // 订单号
-        String outTradeNo = bdPayNotifyVo.getOutTradeNo();
-        // 状态
-        String status = bdPayNotifyVo.getStatus();
-        // 订单ID
-        String orderId = bdPayNotifyVo.getOrderId() ;
-        // 金额
-        String totalMoney =bdPayNotifyVo.getTotalMoney();
-        // 支付完成时间
-        String payTime = bdPayNotifyVo.getPayTime();
-        // 支付渠道
-        String paySubtype = bdPayNotifyVo.getPaySubtype() ;
-        // 支付渠道转化
-        paySubtype = formatPaySubtype(paySubtype);
-        // 用户id
-        String siteId = bdPayNotifyVo.getSiteId() ;
-        // 校验百度参数返回值
-        if (BAIDU_ORDER_STATUS_PAID.equals(bdPayNotifyVo.getStatus())){
-            log.info("支付状态=2: 支付成功");
-            // 查询订单状态是否已经支付--如果已经支付不再提醒,百度支付需校验 tpOrderId(outTradeNo)商户号以及金额是实际金额
-            PayOrder order = payOrderService.getByOrderNo(outTradeNo);
-            log.info(JSON.toJSONString(order));
-            BigDecimal amount = new BigDecimal(100).multiply(order.getAmount()).setScale(0);
-            if (null !=order && ORDER_STATUS_UNPAID.equals(order.getStatus())&& totalMoney.equals(amount.toString())){
-                log.info(JSON.toJSONString("修改订单状态"));
-                // 修改订单-包括订单状态
-                PayOrder payOrder = PayOrderUtils.toPayOrder(bdPayNotifyVo.getOutTradeNo(),ORDER_STATUS_PAID,orderId,payTime,paySubtype,siteId);
-                payOrderService.updateOrder(payOrder);
-            }
-        }
-        log.error("支付失败");
     }
 }
