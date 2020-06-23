@@ -15,7 +15,6 @@ public class WxMwebOrderVo implements Serializable {
     @NotBlank
     private String lawyerId;
     private String ipAddress;
-    @NotBlank
     private String consultTag;
     private TelConsultVo telConsultVo;
 

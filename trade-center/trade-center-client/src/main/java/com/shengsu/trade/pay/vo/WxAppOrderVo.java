@@ -15,7 +15,6 @@ public class WxAppOrderVo implements Serializable {
     private String ipAddress;
     @NotBlank
     private String systemTag;
-    @NotBlank
     private String consultTag;
     private TelConsultVo telConsultVo;
 
