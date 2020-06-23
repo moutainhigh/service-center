@@ -12,7 +12,6 @@ public class BaiduOrderVo implements Serializable {
     private String amount;
     @NotBlank
     private String systemTag;
-    @NotBlank
     private String consultTag;
     // 电话咨询参数
     private TelConsultVo telConsultVo;
