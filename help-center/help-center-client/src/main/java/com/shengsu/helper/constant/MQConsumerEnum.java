@@ -9,10 +9,10 @@ public enum MQConsumerEnum {
     LOGBUSINESS("logBusinessTopic","logBusinessTag"),
     LOGERROR("logErrorTopic","logErrorTag"),
     WECHATMESSAGE("wechatMessageTopic","wechatMessageTag"),
-    BDPAY_NOTIFY("bdpayTopic","payNofityTag"),
+    BDPAY_NOTIFY("bdpayTopic","bdpayNofityTag"),
     WXPAY_NOTIFY_GZH("wxpayTopic","gzhNotifyTag"),
     WXPAY_NOTIFY_WEAPP("wxpayTopic","weappNotifyTag"),
-    ALIPAY_NOTIFY("alipayTopic","payNotifyTag");
+    ALIPAY_NOTIFY("alipayTopic","alipayNotifyTag");
     private String topic;
     private String tag;
 
