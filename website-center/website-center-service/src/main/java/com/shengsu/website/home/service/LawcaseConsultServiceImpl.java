@@ -137,12 +137,13 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
     }
 
     @Override
-    public void saveTelConsultData(String tel, String lawField) {
+    public void saveTelConsultData(String tel, String lawField,String source) {
         // 保存咨询消息
         LawcaseConsult lawcaseConsult = new LawcaseConsult();
         lawcaseConsult.setConsultId(UUID.randomUUID().toString());
         lawcaseConsult.setContact(tel);
         lawcaseConsult.setLawField(lawField);
+        lawcaseConsult.setSource(source);
         lawcaseConsult.setOrigin(ConsultConst.CONSULT_ORIGIN_PAYMENT_CALL_BACK);
         save(lawcaseConsult);
     }

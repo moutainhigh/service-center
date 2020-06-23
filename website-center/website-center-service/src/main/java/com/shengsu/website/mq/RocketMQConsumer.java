@@ -1,6 +1,6 @@
 package com.shengsu.website.mq;
 
-import com.shengsu.helper.constant.MQConsumerEnum;
+import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.mq.AbstractMQConsumer;
 import com.shengsu.mq.MessageListen;
 import com.shengsu.website.mq.service.PayNotifyService;
@@ -50,14 +50,16 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     @Override
     protected void registerMessageListener() {
         MessageListen messageListen = new MessageListen();
-        messageListen.registerHandler(MQConsumerEnum.ALIPAY_NOTIFY.getTag(), payNotifyService);
-        messageListen.registerHandler(MQConsumerEnum.WXPAY_NOTIFY_GZH.getTag(), payNotifyService);
+        messageListen.registerHandler(MQEnum.ALIPAY_NOTIFY.getTag(), payNotifyService);
+        messageListen.registerHandler(MQEnum.WXPAY_NOTIFY_WEAPP.getTag(), payNotifyService);
+        messageListen.registerHandler(MQEnum.BDPAY_NOTIFY.getTag(), payNotifyService);
         consumer.registerMessageListener(messageListen);
     }
 
     @Override
     protected void subscribe() throws MQClientException {
-        consumer.subscribe(MQConsumerEnum.ALIPAY_NOTIFY.getTopic(), MQConsumerEnum.ALIPAY_NOTIFY.getTag());
-        consumer.subscribe(MQConsumerEnum.WXPAY_NOTIFY_GZH.getTopic(), MQConsumerEnum.WXPAY_NOTIFY_GZH.getTag());
+        consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag());
+        consumer.subscribe(MQEnum.WXPAY_NOTIFY_WEAPP.getTopic(), MQEnum.WXPAY_NOTIFY_WEAPP.getTag());
+        consumer.subscribe(MQEnum.BDPAY_NOTIFY.getTopic(), MQEnum.BDPAY_NOTIFY.getTag());
     }
 }

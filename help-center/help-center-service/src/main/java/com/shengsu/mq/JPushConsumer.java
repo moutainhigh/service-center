@@ -1,6 +1,6 @@
 package com.shengsu.mq;
 
-import com.shengsu.helper.constant.MQConsumerEnum;
+import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.helper.service.impl.JpushNormalServiceImpl;
 import com.shengsu.helper.service.impl.JpushScheduleCancelServiceImpl;
 import com.shengsu.helper.service.impl.JpushScheduleServiceImpl;
@@ -54,15 +54,16 @@ public class JPushConsumer extends AbstractMQConsumer{
     @Override
     protected void registerMessageListener() {
         MessageListen messageListen = new MessageListen();
-        String[] split = MQConsumerEnum.JPUSHMESSAGE.getTag().split("\\|\\|");
-        messageListen.registerHandler(split[0], jpushNormalService);
-        messageListen.registerHandler(split[1], jpushScheduleService);
-        messageListen.registerHandler(split[2], jpushScheduleCancelService);
+        messageListen.registerHandler(MQEnum.JPUSHNORMAL.getTag(), jpushNormalService);
+        messageListen.registerHandler(MQEnum.JPUSHSCHEDULE.getTag(), jpushScheduleService);
+        messageListen.registerHandler(MQEnum.JPUSHSCHEDULECANCEL.getTag(), jpushScheduleCancelService);
         consumer.registerMessageListener(messageListen);
     }
 
     @Override
     protected void subscribe() throws MQClientException {
-        consumer.subscribe(MQConsumerEnum.JPUSHMESSAGE.getTopic(), MQConsumerEnum.JPUSHMESSAGE.getTag());
+        consumer.subscribe(MQEnum.JPUSHNORMAL.getTopic(), MQEnum.JPUSHNORMAL.getTag());
+        consumer.subscribe(MQEnum.JPUSHSCHEDULE.getTopic(), MQEnum.JPUSHSCHEDULE.getTag());
+        consumer.subscribe(MQEnum.JPUSHSCHEDULECANCEL.getTopic(), MQEnum.JPUSHSCHEDULECANCEL.getTag());
     }
 }

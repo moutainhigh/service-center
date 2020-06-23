@@ -35,8 +35,9 @@ public class PayNotifyService implements MessageProcessor<JSONObject> {
             JSONObject object = JSON.parseObject(telConsultJson);
             String tel =object.getString("tel");
             String lawField =object.getString("lawField");
+            String source =object.getString("source");
             // 保存咨询消息
-            lawcaseConsultService.saveTelConsultData(tel,lawField);
+            lawcaseConsultService.saveTelConsultData(tel,lawField,source);
             // 缓存清除
             redisService.delete(outTradeNo);
         }

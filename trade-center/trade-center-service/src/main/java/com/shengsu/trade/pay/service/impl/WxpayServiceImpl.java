@@ -136,7 +136,7 @@ public class WxpayServiceImpl implements WxpayService {
             // 获取电话咨询参数
             TelConsultVo telConsultOrderVo =wxAppOrderVo.getTelConsultVo();
             // 将客户电话等数据存储到redis,时效是1小时
-            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField());
+            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField(),telConsultOrderVo.getSource());
         }
         // 配置微信请求参数
         log.info("配置微信请求参数");
@@ -186,7 +186,7 @@ public class WxpayServiceImpl implements WxpayService {
             // 获取电话咨询参数
             TelConsultVo telConsultOrderVo =wxMwebOrderVo.getTelConsultVo();
             // 将客户电话等数据存储到redis,时效是1小时
-            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField());
+            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField(),telConsultOrderVo.getSource());
         }
         // 配置微信请求参数
         log.info("配置微信请求参数");
@@ -230,10 +230,11 @@ public class WxpayServiceImpl implements WxpayService {
      * @Return: * @return: void
      * @date:
      */
-    private void setConsultDataToRedis(String outTradeNo,String tel,String lawField){
+    private void setConsultDataToRedis(String outTradeNo,String tel,String lawField,String source){
         JSONObject param = new JSONObject();
         param.put("tel",tel);
         param.put("lawField",lawField);
+        param.put("source",source);
         redisService.set(outTradeNo, JSON.toJSONString(param),86400L);
     }
     /**
