@@ -1,7 +1,5 @@
 server:
   port: 9099
-  session-timeout: 30
-  tomcat.max-threads: 0
   tomcat.uri-encoding: UTF-8
 spring:
   datasource:
@@ -40,8 +38,6 @@ oss:
   accessKeyId: LTAISsw5CZys2sER
   accessKeySecret: 08pkECtJSNKPMwXnsYm3WSqdbkXm8h
   bucketName: shengsu-test
-  timeout: 5000
-  expiretime: 60000
 sts:
   roleArn: acs:ram::1476735593452953:role/sts-oss
   roleSessionName: help-platform
@@ -58,7 +54,7 @@ rocketmq:
     group: helpGroup
   consumer:
     namesrvAddr: 127.0.0.1:9876
-    group: jpushGroup
+    group: helpGroup
 
 jiguang:
   apnsProduction: false
