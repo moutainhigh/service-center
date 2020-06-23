@@ -6,9 +6,9 @@ package com.shengsu.helper.constant;
  */
 public enum MQEnum {
     //成功日志常量
-    LOGBUSINESS("logTopic","logBusinessTag"),
+    LOGBUSINESS("logBusinessTopic","logBusinessTag"),
     //失败日志常量
-    LOGERROR("logTopic","logErrorTag"),
+    LOGERROR("logErrorTopic","logErrorTag"),
     //极光推送常量
     JPUSHNORMAL("jpushMessageTopic","jpushNormalTag"),
     JPUSHSCHEDULE("jpushMessageTopic","jpushScheduleTag"),
