@@ -13,5 +13,7 @@ public class TelConsultVo implements Serializable {
     // 法律领域
     @NotBlank
     private String lawField;
+    @NotBlank
+    private String source;
 
 }

@@ -118,7 +118,7 @@ public class AlipayServiceImpl implements AlipayService {
             // 获取电话咨询参数
             TelConsultVo telConsultOrderVo =aliMarketOrderVo.getTelConsultVo();
             // 将客户电话等数据存储到redis,时效是1小时
-            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField());
+            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField(),telConsultOrderVo.getSource());
         }
         String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?ysMarketMwebReturnUrl:ssMarketMwebReturnUrl;
         return getMwebForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl+"?verifyCode="+aliMarketOrderVo.getVerifyCode());
@@ -141,7 +141,7 @@ public class AlipayServiceImpl implements AlipayService {
             // 获取电话咨询参数
             TelConsultVo telConsultOrderVo =aliAppOrderVo.getTelConsultVo();
             // 将客户电话等数据存储到redis,时效是1小时
-            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField());
+            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField(),telConsultOrderVo.getSource());
         }
         return getAppData(aliAppOrderVo.getBuyerId(),outTradeNo,"支付","支付金额:",aliAppOrderVo.getAmount());
     }
@@ -152,10 +152,11 @@ public class AlipayServiceImpl implements AlipayService {
     * @Return: * @return: void
     * @date: 
     */
-    private void setConsultDataToRedis(String outTradeNo,String tel,String lawField){
+    private void setConsultDataToRedis(String outTradeNo,String tel,String lawField,String source){
         JSONObject param = new JSONObject();
         param.put("tel",tel);
         param.put("lawField",lawField);
+        param.put("source",source);
         redisService.set(outTradeNo, JSON.toJSONString(param),86400L);
     }
     /**
