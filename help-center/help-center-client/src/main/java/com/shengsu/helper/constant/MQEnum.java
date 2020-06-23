@@ -16,13 +16,13 @@ public enum MQEnum {
     //公众号推送
     ANY_WECHAT("wechatMessageTopic","wechatMessageTag"),
     //微信公众号支付通知-公众号
-    WXPAY_NOTIFY_GZH("payTopic","gzhNotifyTag"),
+    WXPAY_NOTIFY_GZH("wxpayTopic","gzhNotifyTag"),
     //微信小程序支付通知-小程序
-    WXPAY_NOTIFY_WEAPP("payTopic","weappNotifyTag"),
+    WXPAY_NOTIFY_WEAPP("wxpayTopic","weappNotifyTag"),
     //支付宝支付通知
-    ALIPAY_NOTIFY("payTopic","alipayNotifyTag"),
+    ALIPAY_NOTIFY("alipayTopic","alipayNotifyTag"),
     //百度小程序支付通知
-    BDPAY_NOTIFY("payTopic","bdpayNofityTag")
+    BDPAY_NOTIFY("bdpayTopic","bdpayNofityTag")
     ;
 
     private String topic;
