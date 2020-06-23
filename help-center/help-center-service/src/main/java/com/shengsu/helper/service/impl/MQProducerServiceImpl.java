@@ -3,7 +3,6 @@ package com.shengsu.helper.service.impl;
 
 import com.shengsu.app.constant.ResultCode;
 import com.shengsu.helper.constant.MQEnum;
-import com.shengsu.helper.constant.MQProducerEnum;
 import com.shengsu.helper.service.MQProducerService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
