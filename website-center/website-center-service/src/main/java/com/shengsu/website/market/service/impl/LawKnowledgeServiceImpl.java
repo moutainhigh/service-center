@@ -10,6 +10,7 @@ import com.shengsu.user.entity.User;
 import com.shengsu.user.service.UserService;
 import com.shengsu.user.util.UserUtils;
 import com.shengsu.website.app.constant.ResultCode;
+import com.shengsu.website.market.entity.KeyWord;
 import com.shengsu.website.market.entity.LawKnowledge;
 import com.shengsu.website.market.entity.LawKnowledgeCategory;
 import com.shengsu.website.market.mapper.LawKnowledgeMapper;
@@ -104,6 +105,24 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
         Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
         LawKnowledgeQueryPo lawKnowledgeQueryPo = LawKnowledgeUtils.toLawKnowledgeQueryPo(lawKnowledge, nodeMap);
+        //正文添加关键字
+        List<String> words = Arrays.asList(KeyWord.listKeyWord.split("，"));
+        String content = lawKnowledgeQueryPo.getContent();
+        List<Integer> list = new ArrayList<>();
+        for (int index = 0; index < content.length(); index++) {
+            index = content.indexOf("</p><p></p><p>", index);//获取src下标，从而找到插入位置
+            if (index < 0) {
+                break;
+            }
+            list.add(index);
+        }
+        StringBuilder sb = new StringBuilder(content);//将String变成StringBuilder，字符串可编辑模式
+        for (int i = list.size() - 1; i >= 0; i--) {
+            sb.insert(list.get(i), words.get((int) (Math.random() * words.size())));
+        }//随机插入
+        sb.insert(0, "（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + lawKnowledgeQueryPo.getSecondCategoryName() + "  " + lawKnowledgeQueryPo.getThirdCategoryName() + ") <p>");
+        sb.append("（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + lawKnowledgeQueryPo.getSecondCategoryName() + "  " + lawKnowledgeQueryPo.getThirdCategoryName() + ") <p>");
+        lawKnowledgeQueryPo.setContent(sb.toString());
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeQueryPo);
     }
 
