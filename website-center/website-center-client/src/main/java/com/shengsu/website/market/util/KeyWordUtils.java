@@ -33,7 +33,7 @@ public class KeyWordUtils {
             if (index < 0) {
                 break;
             }
-            paragraph.add(index - 4);
+            paragraph.add(index + 3);
         }
         list.removeAll(paragraph);
 
@@ -67,7 +67,7 @@ public class KeyWordUtils {
             if (index < 0) {
                 break;
             }
-            paragraph.add(index - 4);
+            paragraph.add(index + 3);
         }
         list.removeAll(paragraph);
 
