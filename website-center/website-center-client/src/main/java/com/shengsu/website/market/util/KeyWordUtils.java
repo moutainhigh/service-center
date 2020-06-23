@@ -17,7 +17,9 @@ import java.util.List;
 public class KeyWordUtils {
     public static void addKeyWord(LawKnowledgeQueryPo lawKnowledgeQueryPo){
         List<String> words = Arrays.asList(KeyWord.listKeyWord.split("，"));
-        String content = lawKnowledgeQueryPo.getContent();
+        String result = lawKnowledgeQueryPo.getContent();
+        String reg = "<p>[\\s]*</p>";
+        String content = result.replaceAll(reg,"");
         List<Integer> list = new ArrayList<>();
         //定位段落
         for (int index = 0; index < content.length(); index++) {
@@ -27,15 +29,6 @@ public class KeyWordUtils {
             }
             list.add(index);
         }
-        List<Integer> paragraph = new ArrayList<> ();
-        for (int index = 0; index < content.length(); index++) {
-            index = content.indexOf("<p></p>", index);//获取src下标，从而找到插入位置
-            if (index < 0) {
-                break;
-            }
-            paragraph.add(index + 3);
-        }
-        list.removeAll(paragraph);
 
         StringBuilder sb = new StringBuilder(content);//将String变成StringBuilder，字符串可编辑模式
         for (int i = list.size() - 1; i >= 0; i--) {
@@ -51,7 +44,9 @@ public class KeyWordUtils {
     }
     public static void addKeyWord(LawKnowledgeDetailsPo lawKnowledgeDetailsPo){
         List<String> words = Arrays.asList(KeyWord.listKeyWord.split("，"));
-        String content = lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getContent();
+        String result = lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getContent();
+        String reg = "<p>[\\s]*</p>";
+        String content = result.replaceAll(reg,"");
         List<Integer> list = new ArrayList<>();
         //定位段落
         for (int index = 0; index < content.length(); index++) {
@@ -61,15 +56,6 @@ public class KeyWordUtils {
             }
             list.add(index);
         }
-        List<Integer> paragraph = new ArrayList<> ();
-        for (int index = 0; index < content.length(); index++) {
-            index = content.indexOf("<p></p>", index);//获取src下标，从而找到插入位置
-            if (index < 0) {
-                break;
-            }
-            paragraph.add(index + 3);
-        }
-        list.removeAll(paragraph);
 
         StringBuilder sb = new StringBuilder(content);//将String变成StringBuilder，字符串可编辑模式
         for (int i = list.size() - 1; i >= 0; i--) {
