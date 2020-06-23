@@ -2,6 +2,7 @@ package com.shengsu.helper.service.impl;
 
 
 import com.shengsu.app.constant.ResultCode;
+import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.helper.constant.MQProducerEnum;
 import com.shengsu.helper.service.MQProducerService;
 import com.shengsu.result.ResultBean;
@@ -15,10 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by zyc on 2019/10/12.
@@ -29,41 +26,37 @@ public class MQProducerServiceImpl implements MQProducerService {
 
     @Value("${rocketmq.producer.namesrvAddr}")
     private String namesrvAddr;
-    @Value("${rocketmq.producer.groups}")
-    private String groups;
+    @Value("${rocketmq.producer.group}")
+    private String group;
     private Integer sendMsgTimeout=5000;
 
-    static Map<String,DefaultMQProducer> producers = new ConcurrentHashMap<>();
+    DefaultMQProducer producer;
 
     @PostConstruct
     public void init() {
-        List<String> groupList = Arrays.asList(groups.split(","));
-        for(String group: groupList){
-            try {
-                DefaultMQProducer mqProducer = new DefaultMQProducer(group);
-                mqProducer.setNamesrvAddr(namesrvAddr);
-                mqProducer.setSendMsgTimeout(sendMsgTimeout);
-                mqProducer.setVipChannelEnabled(false);
-                mqProducer.start();
-                producers.put(group,mqProducer);
-            } catch (MQClientException e) {
-                log.error("rocketMQ start error：", e);
-            }
+        try {
+            producer = new DefaultMQProducer(group);
+            producer.setNamesrvAddr(namesrvAddr);
+            producer.setSendMsgTimeout(sendMsgTimeout);
+            producer.setVipChannelEnabled(false);
+            producer.start();
+        } catch (MQClientException e) {
+            log.error("rocketMQ start error：", e);
         }
         log.info("rocketMQ is started !!");
     }
 
     @Override
-    public ResultBean send(MQProducerEnum producer, String body){
+    public ResultBean send(MQEnum producer, String body){
         return sendDelay(producer, body,0);
     }
 
     @Override
-    public ResultBean sendDelay(MQProducerEnum producer, String body, int delayLevel) {
+    public ResultBean sendDelay(MQEnum mqEnum, String body, int delayLevel) {
         try {
-            Message message = new Message(producer.getTopic(), producer.getTag(), body.getBytes(RemotingHelper.DEFAULT_CHARSET));
+            Message message = new Message(mqEnum.getTopic(), mqEnum.getTag(), body.getBytes(RemotingHelper.DEFAULT_CHARSET));
             message.setDelayTimeLevel(delayLevel);
-            producers.get(producer.getGroup()).send(message);
+            producer.send(message);
         } catch (Exception e) {
             log.error("消息发送异常:", e);
             return ResultUtil.formResult(false, ResultCode.FAIL);

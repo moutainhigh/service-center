@@ -3,7 +3,7 @@ package com.shengsu.any.mq;
 import com.shengsu.any.mq.service.AliPayMwebNotifyService;
 import com.shengsu.any.mq.service.TempMessageDataService;
 import com.shengsu.any.mq.service.WxPayGzhNotifyService;
-import com.shengsu.helper.constant.MQConsumerEnum;
+import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.mq.AbstractMQConsumer;
 import com.shengsu.mq.MessageListen;
 import lombok.extern.slf4j.Slf4j;
@@ -56,16 +56,16 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     @Override
     protected void registerMessageListener() {
         MessageListen messageListen = new MessageListen();
-        messageListen.registerHandler(MQConsumerEnum.WECHATMESSAGE.getTag(), tempMessageDataService);
-        messageListen.registerHandler(MQConsumerEnum.WXPAY_NOTIFY_GZH.getTag(), wxPayGzhNotifyService);
-        messageListen.registerHandler(MQConsumerEnum.ALIPAY_NOTIFY.getTag(), aliPayMwebNotifyService);
+        messageListen.registerHandler(MQEnum.ANY_WECHAT.getTag(), tempMessageDataService);
+        messageListen.registerHandler(MQEnum.WXPAY_NOTIFY_GZH.getTag(), wxPayGzhNotifyService);
+        messageListen.registerHandler(MQEnum.ALIPAY_NOTIFY.getTag(), aliPayMwebNotifyService);
         consumer.registerMessageListener(messageListen);
     }
 
     @Override
     protected void subscribe() throws MQClientException {
-        consumer.subscribe(MQConsumerEnum.WECHATMESSAGE.getTopic(), MQConsumerEnum.WECHATMESSAGE.getTag());
-        consumer.subscribe(MQConsumerEnum.WXPAY_NOTIFY_GZH.getTopic(), MQConsumerEnum.WXPAY_NOTIFY_GZH.getTag());
-        consumer.subscribe(MQConsumerEnum.ALIPAY_NOTIFY.getTopic(), MQConsumerEnum.ALIPAY_NOTIFY.getTag());
+        consumer.subscribe(MQEnum.ANY_WECHAT.getTopic(), MQEnum.ANY_WECHAT.getTag());
+        consumer.subscribe(MQEnum.WXPAY_NOTIFY_GZH.getTopic(), MQEnum.WXPAY_NOTIFY_GZH.getTag());
+        consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag());
     }
 }

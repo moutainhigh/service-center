@@ -1,6 +1,6 @@
 package com.shengsu.trade.mq;
 
-import com.shengsu.helper.constant.MQConsumerEnum;
+import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.mq.AbstractMQConsumer;
 import com.shengsu.mq.MessageListen;
 import com.shengsu.trade.mq.service.BdpayNotifyService;
@@ -50,12 +50,12 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     @Override
     protected void registerMessageListener() {
         MessageListen messageListen = new MessageListen();
-        messageListen.registerHandler(MQConsumerEnum.BDPAY_NOTIFY.getTag(), bdpayNotifyService);
+        messageListen.registerHandler(MQEnum.BDPAY_NOTIFY.getTag(), bdpayNotifyService);
         consumer.registerMessageListener(messageListen);
     }
 
     @Override
     protected void subscribe() throws MQClientException {
-        consumer.subscribe(MQConsumerEnum.BDPAY_NOTIFY.getTopic(), MQConsumerEnum.BDPAY_NOTIFY.getTag());
+        consumer.subscribe(MQEnum.BDPAY_NOTIFY.getTopic(), MQEnum.BDPAY_NOTIFY.getTag());
     }
 }

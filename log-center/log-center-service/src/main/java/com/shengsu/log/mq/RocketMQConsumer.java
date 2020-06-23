@@ -1,6 +1,6 @@
 package com.shengsu.log.mq;
 
-import com.shengsu.helper.constant.MQConsumerEnum;
+import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.log.service.impl.LogBusinessServiceImpl;
 import com.shengsu.log.service.impl.LogErrorServiceImpl;
 import com.shengsu.mq.AbstractMQConsumer;
@@ -54,14 +54,14 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     @Override
     protected void registerMessageListener() {
         MessageListen messageListen = new MessageListen();
-        messageListen.registerHandler(MQConsumerEnum.LOGBUSINESS.getTag(), logBusinessService);
-        messageListen.registerHandler(MQConsumerEnum.LOGERROR.getTag(), logErrorService);
+        messageListen.registerHandler(MQEnum.LOGBUSINESS.getTag(), logBusinessService);
+        messageListen.registerHandler(MQEnum.LOGERROR.getTag(), logErrorService);
         consumer.registerMessageListener(messageListen);
     }
 
     @Override
     protected void subscribe() throws MQClientException{
-        consumer.subscribe(MQConsumerEnum.LOGBUSINESS.getTopic(), MQConsumerEnum.LOGBUSINESS.getTag());
-        consumer.subscribe(MQConsumerEnum.LOGERROR.getTopic(), MQConsumerEnum.LOGERROR.getTag());
+        consumer.subscribe(MQEnum.LOGBUSINESS.getTopic(), MQEnum.LOGBUSINESS.getTag());
+        consumer.subscribe(MQEnum.LOGERROR.getTopic(), MQEnum.LOGERROR.getTag());
     }
 }

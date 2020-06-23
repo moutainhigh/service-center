@@ -30,7 +30,7 @@ import com.shengsu.any.wechat.entity.TempMessageParamData;
 import com.shengsu.any.wechat.service.TemplateMessageService;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
-import com.shengsu.helper.constant.MQProducerEnum;
+import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.helper.constant.SmsSignEnum;
 import com.shengsu.helper.constant.SmsTemplateEnum;
 import com.shengsu.helper.entity.AxbBindRequest;
@@ -389,7 +389,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             tempMessageData.setOpenId(user.getWechatOpenid());
             tempMessageData.setData(data);
             // 发送消息
-            mqProducerService.send(MQProducerEnum.ANY_WECHAT, JSON.toJSONString(tempMessageData));}
+            mqProducerService.send(MQEnum.ANY_WECHAT, JSON.toJSONString(tempMessageData));}
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
