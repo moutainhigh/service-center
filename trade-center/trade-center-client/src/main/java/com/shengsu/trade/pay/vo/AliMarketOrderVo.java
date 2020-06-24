@@ -7,10 +7,10 @@ import java.io.Serializable;
 
 @Data
 public class AliMarketOrderVo implements Serializable {
+    private String suffixReturnUrl;
     // 充值金额
     @NotBlank
     private String amount;
-    @NotBlank
     private String verifyCode;
     @NotBlank
     private String systemTag;

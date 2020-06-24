@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Data
 public class WxMwebOrderVo implements Serializable {
+    private String suffixReturnUrl;
     // 充值金额
     @NotBlank
     private String amount;
