@@ -284,7 +284,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         }
         LawKnowledgeNextPo lawKnowledgeNextPo = LawKnowledgeUtils.toLawKnowledgeNextPo(nextLawKnowledge);
         lawKnowledgeDetailsPo.setLawKnowledgeNextPo(lawKnowledgeNextPo);
-        KeyWordUtils.addKeyWord(lawKnowledgeDetailsPo);
+        KeyWordUtils.addKeyWord(lawKnowledgeDetailsPo,lawKnowledgeDetailsVo.getCity());
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeDetailsPo);
     }
