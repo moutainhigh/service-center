@@ -43,7 +43,7 @@ public class KeyWordUtils {
             sb.append("<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + lawKnowledgeQueryPo.getSecondCategoryName() + "  " + lawKnowledgeQueryPo.getThirdCategoryName() + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
         }
 
-        if (StringUtils.isNotBlank(lawKnowledgeQueryPo.getSecondCategoryName())) {
+        if (StringUtils.isNotBlank(lawKnowledgeQueryPo.getSecondCategoryName()) && StringUtils.isBlank(lawKnowledgeQueryPo.getThirdCategoryName())) {
             sb.insert(0, "<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + lawKnowledgeQueryPo.getSecondCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
             sb.append("<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + lawKnowledgeQueryPo.getSecondCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
         }
@@ -78,7 +78,7 @@ public class KeyWordUtils {
             sb.insert(0, "<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getFirstCategoryName() + "  " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getSecondCategoryName() + "  " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getThirdCategoryName() + words.get((int) (Math.random() * words.size())) + ") </font> <p>");
             sb.append("<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getFirstCategoryName() + "  " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getSecondCategoryName() + "  " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getThirdCategoryName() + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
         }
-        if (StringUtils.isNotBlank(lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getSecondCategoryName())) {
+        if (StringUtils.isNotBlank(lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getSecondCategoryName()) && StringUtils.isBlank(lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getThirdCategoryName())) {
             sb.insert(0, "<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getFirstCategoryName() + "  " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getSecondCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
             sb.append("<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getFirstCategoryName() + "  " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getSecondCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
         }
