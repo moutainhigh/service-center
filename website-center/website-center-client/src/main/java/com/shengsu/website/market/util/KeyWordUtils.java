@@ -47,8 +47,11 @@ public class KeyWordUtils {
             sb.insert(0, "<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + lawKnowledgeQueryPo.getSecondCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
             sb.append("<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + lawKnowledgeQueryPo.getSecondCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
         }
-        sb.insert(0, "<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
-        sb.append("<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
+        if (StringUtils.isBlank(lawKnowledgeQueryPo.getThirdCategoryName()) && StringUtils.isBlank(lawKnowledgeQueryPo.getSecondCategoryName())) {
+            sb.insert(0, "<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
+            sb.append("<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeQueryPo.getFirstCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
+        }
+
         lawKnowledgeQueryPo.setContent(sb.toString());
     }
     public static void addKeyWord(LawKnowledgeDetailsPo lawKnowledgeDetailsPo){
@@ -82,8 +85,9 @@ public class KeyWordUtils {
             sb.insert(0, "<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getFirstCategoryName() + "  " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getSecondCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
             sb.append("<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getFirstCategoryName() + "  " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getSecondCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
         }
+        if(StringUtils.isBlank(lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getThirdCategoryName()) && StringUtils.isBlank(lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getSecondCategoryName())){
         sb.insert(0, "<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getFirstCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
-        sb.append("<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getFirstCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");
+        sb.append("<span style=\"color: rgb(249, 150, 59);\">" + "（杭州 " + lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getFirstCategoryName() + "  " + words.get((int) (Math.random() * words.size())) + ") </span> <p>");}
         lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().setContent(sb.toString());
     }
 
