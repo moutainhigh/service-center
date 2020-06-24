@@ -53,6 +53,8 @@ public class WxpayServiceImpl implements WxpayService {
     private String ssMwebAppID;
     @Value("${wxpay.shengsu.h5.redirectUrl}")
     private String ssMwebRedirectUrl;
+    @Value("${wxpay.shengsu.h5.baseRedirectUrl}")
+    private String ssMwebBaseRedirectUrl;
 
     // 小程序 (市场推广-援手)
     @Value("${wxpay.yuanshou.weapp.appid}")
@@ -66,6 +68,8 @@ public class WxpayServiceImpl implements WxpayService {
     private String ysMwebAppID;
     @Value("${wxpay.yuanshou.h5.redirectUrl}")
     private String ysMwebRedirectUrl;
+    @Value("${wxpay.yuanshou.h5.baseRedirectUrl}")
+    private String ysMwebBaseRedirectUrl;
 
     @Autowired
     private CodeGeneratorService codeGeneratorService;
@@ -119,7 +123,7 @@ public class WxpayServiceImpl implements WxpayService {
 
     }
     /**
-    * @Description: (在线咨询,电话咨询)微信小程序下单
+    * @Description: (律师主页咨询,在线咨询,电话咨询)微信小程序下单
     * @Param: * @Param wxAppOrderVo: 
     * @Return: * @return: com.shengsu.result.ResultBean
     * @date: 
@@ -168,7 +172,7 @@ public class WxpayServiceImpl implements WxpayService {
         }
     }
     /**
-    * @Description: (在线咨询,电话咨询)微信H5下单
+    * @Description: (律师主页咨询,在线咨询,电话咨询)微信H5下单
     * @Param: * @Param wxMwebOrderVo: 
     * @Return: * @return: com.shengsu.result.ResultBean
     * @date: 
@@ -181,7 +185,7 @@ public class WxpayServiceImpl implements WxpayService {
         String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         //插入6位随机数
         outTradeNo=new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
-        // 在线咨询将参数保存在缓存中
+        // 电话咨询将参数保存在缓存中
         if (CONSULT_TAG_TEL.equals(wxMwebOrderVo.getConsultTag())){
             // 获取电话咨询参数
             TelConsultVo telConsultOrderVo =wxMwebOrderVo.getTelConsultVo();
@@ -204,7 +208,8 @@ public class WxpayServiceImpl implements WxpayService {
             log.info("请求微信返回预期结果"+resp);
             String prepayId = resp.get("prepay_id");
             // 拼接重定向地址
-            String redirectUrl = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?ysMwebRedirectUrl:ssMwebRedirectUrl;
+            String suffixReturnUrl = wxMwebOrderVo.getSuffixReturnUrl();
+            String redirectUrl = SYSTEM_TAG_YUANSHOU.equals(wxMwebOrderVo.getSystemTag())?ysMwebBaseRedirectUrl+suffixReturnUrl:ssMwebBaseRedirectUrl+suffixReturnUrl;
             String redirectUrlEncode =  URLEncoder.encode(redirectUrl,"utf-8")+"?lawyerId="+wxMwebOrderVo.getLawyerId();
             String mwebUrl =  resp.get("mweb_url")+"&redirect_url="+redirectUrlEncode;
             if ("SUCCESS".equals(resp.get("return_code"))&&"SUCCESS".equals(resp.get("result_code"))){

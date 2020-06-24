@@ -64,6 +64,12 @@ public class BdpayServiceImpl implements BdpayService{
     @Resource
     private RedisService redisService;
 
+    /**
+    * @Description: (律师主页咨询,在线咨询,电话咨询)市场推广小程序下单
+    * @Param: * @Param baiduOrderVo: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
     @Override
     public ResultBean order(BaiduOrderVo baiduOrderVo) throws NuomiApiException {
         String amount = baiduOrderVo.getAmount();

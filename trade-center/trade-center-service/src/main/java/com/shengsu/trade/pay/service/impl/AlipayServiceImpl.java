@@ -42,6 +42,8 @@ public class AlipayServiceImpl implements AlipayService {
     private String anyReturnUrl;
     @Value("${alipay.shengsu.returnUrl.market-h5}")
     private String ssMarketMwebReturnUrl;
+    @Value("${alipay.shengsu.baseReturnUrl}")
+    private String ssMarketBaseReturnUrl;
     // 胜诉-小程序
     @Value("${alipay.shengsu.aliApp.appid}")
     private String ssAliAppID;
@@ -56,6 +58,8 @@ public class AlipayServiceImpl implements AlipayService {
     private String ysMwebAppID;
     @Value("${alipay.yuanshou.returnUrl.market-h5}")
     private String ysMarketMwebReturnUrl;
+    @Value("${alipay.yuanshou.baseReturnUrl}")
+    private String ysMarketBaseReturnUrl;
     // 援手-小程序
     @Value("${alipay.yuanshou.aliApp.appid}")
     private String ysAliAppID;
@@ -101,7 +105,7 @@ public class AlipayServiceImpl implements AlipayService {
         return getMwebForm(aliAnyOrderVo.getAccountId(),outTradeNo,"充值","充值金额:",aliAnyOrderVo.getAmount(),anyReturnUrl);
     }
     /**
-     * @Description: 市场推广H5下单
+     * @Description: (律师主页咨询,在线咨询,电话咨询)市场推广H5下单
      * @Param: * @Param aliOrderVo:
      * @Return: * @return: java.lang.String
      * @date:
@@ -113,18 +117,19 @@ public class AlipayServiceImpl implements AlipayService {
         String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
-        // 在线咨询将参数保存在缓存中
+        // 电话咨询将参数保存在缓存中
         if (CONSULT_TAG_TEL.equals(aliMarketOrderVo.getConsultTag())){
             // 获取电话咨询参数
             TelConsultVo telConsultOrderVo =aliMarketOrderVo.getTelConsultVo();
             // 将客户电话等数据存储到redis,时效是1小时
             setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField(),telConsultOrderVo.getSource());
         }
-        String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?ysMarketMwebReturnUrl:ssMarketMwebReturnUrl;
+        String suffixReturnUrl = aliMarketOrderVo.getSuffixReturnUrl();
+        String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?ysMarketBaseReturnUrl+suffixReturnUrl:ssMarketBaseReturnUrl+suffixReturnUrl;
         return getMwebForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl+"?verifyCode="+aliMarketOrderVo.getVerifyCode());
     }
     /**
-     * @Description: 市场推广小程序下单
+     * @Description: (律师主页咨询,在线咨询,电话咨询)市场推广小程序下单
      * @Param: * @Param aliOrderVo:
      * @Return: * @return: java.lang.String
      * @date:
@@ -136,7 +141,7 @@ public class AlipayServiceImpl implements AlipayService {
         String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
-        // 在线咨询将参数保存在缓存中
+        // 电话咨询将参数保存在缓存中
         if (CONSULT_TAG_TEL.equals(aliAppOrderVo.getConsultTag())){
             // 获取电话咨询参数
             TelConsultVo telConsultOrderVo =aliAppOrderVo.getTelConsultVo();
