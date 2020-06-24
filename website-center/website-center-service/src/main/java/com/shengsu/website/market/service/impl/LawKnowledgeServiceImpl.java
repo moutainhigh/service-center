@@ -105,8 +105,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
         Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
         LawKnowledgeQueryPo lawKnowledgeQueryPo = LawKnowledgeUtils.toLawKnowledgeQueryPo(lawKnowledge, nodeMap);
-        //正文添加关键字
-        KeyWordUtils.addKeyWord(lawKnowledgeQueryPo);
+
+
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeQueryPo);
     }
 
