@@ -126,7 +126,7 @@ public class AlipayServiceImpl implements AlipayService {
         }
         String suffixReturnUrl = aliMarketOrderVo.getSuffixReturnUrl();
         String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?ysMarketBaseReturnUrl+suffixReturnUrl:ssMarketBaseReturnUrl+suffixReturnUrl;
-        return getMwebForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl+"?verifyCode="+aliMarketOrderVo.getVerifyCode());
+        return getMwebForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl+"?lawyerId="+aliMarketOrderVo.getLawyerId());
     }
     /**
      * @Description: (律师主页咨询,在线咨询,电话咨询)市场推广小程序下单
