@@ -16,9 +16,9 @@ import java.util.List;
  * @create: 2020-06-23 16:24
  **/
 public class KeyWordUtils {
-    static String head = "<span style=\"color:dodgerblue;\">（{0}）</span> <br>";
-    static String tail = "<br><span style=\"color:dodgerblue;\">（{0}）</span>";
-    static String body = "<span style=\"color:dodgerblue;\">（{0}）</span>";
+    static String head = "<span style=\'color:dodgerblue;\'>（{0}）</span> <br>";
+    static String tail = "<br><span style=\'color:dodgerblue;\'>（{0}）</span>";
+    static String body = "<span style=\'color:dodgerblue;\'>（{0}）</span>";
     static List<String> keywords = Arrays.asList(KeyWord.listKeyWord.split("，"));
 
     public static void addKeyWord(LawKnowledgeQueryPo lawKnowledgeQueryPo ,String city){
