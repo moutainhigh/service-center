@@ -77,9 +77,9 @@ public class KeyWordUtils {
         thirdCatetoryName = StringUtils.isBlank(thirdCatetoryName)?"":" "+thirdCatetoryName;
         String headTail = city+firstCategoryName+ sencondCategoryName+thirdCatetoryName;
         randomWord = keywords.get((int) (Math.random() * keywords.size()));
-        sb.insert(0, MessageFormat.format(headTail,headTail+randomWord));
+        sb.insert(0, MessageFormat.format(head,headTail+randomWord));
         randomWord = keywords.get((int) (Math.random() * keywords.size()));
-        sb.append(MessageFormat.format(headTail,headTail+randomWord));
+        sb.append(MessageFormat.format(tail,headTail+randomWord));
         return sb.toString();
     }
 }
