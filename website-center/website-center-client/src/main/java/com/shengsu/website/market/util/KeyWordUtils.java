@@ -16,8 +16,8 @@ import java.util.List;
  * @create: 2020-06-23 16:24
  **/
 public class KeyWordUtils {
-    static String head = "<span style=\"color: rgb(249, 150, 59);\">（{0}）</span> <p>";
-    static String tail = "<span style=\"color: rgb(249, 150, 59);\">（{0}）</span> <p>";
+    static String head = "<span style=\"color: rgb(249, 150, 59);\">（{0}）</span> <br>";
+    static String tail = "<br><span style=\"color: rgb(249, 150, 59);\">（{0}）</span>";
     static String body = "<span style=\"color: rgb(249, 150, 59);\">（{0}）</span>";
     static List<String> keywords = Arrays.asList(KeyWord.listKeyWord.split("，"));
 
@@ -76,9 +76,9 @@ public class KeyWordUtils {
         sencondCategoryName = StringUtils.isBlank(sencondCategoryName)?"":" "+sencondCategoryName;
         thirdCatetoryName = StringUtils.isBlank(thirdCatetoryName)?"":" "+thirdCatetoryName;
         String headTail = city+firstCategoryName+ sencondCategoryName+thirdCatetoryName;
-        randomWord = keywords.get((int) (Math.random() * keywords.size()));
+        randomWord =" "+ keywords.get((int) (Math.random() * keywords.size()));
         sb.insert(0, MessageFormat.format(head,headTail+randomWord));
-        randomWord = keywords.get((int) (Math.random() * keywords.size()));
+        randomWord =" "+ keywords.get((int) (Math.random() * keywords.size()));
         sb.append(MessageFormat.format(tail,headTail+randomWord));
         return sb.toString();
     }
