@@ -111,6 +111,13 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
+    public ResultBean<LawKnowledgeQueryPo> queryWithKeyWord(LawKnowledgeQueryVo lawKnowledgeQueryVo) {
+        LawKnowledgeQueryPo lawKnowledgeQueryPo = (LawKnowledgeQueryPo) query(lawKnowledgeQueryVo).getBody();
+        KeyWordUtils.addKeyWord(lawKnowledgeQueryPo,lawKnowledgeQueryVo.getCity());
+        return ResultUtil.formResult(true,ResultCode.SUCCESS,lawKnowledgeQueryPo);
+    }
+
+    @Override
     public ResultBean listKnowledgeByPage(LawKnowledgeListByPageVo lawKnowledgeListByPageVo) {
         LawKnowledge lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeListByPageVo);
         Integer count = lawKnowledgeMapper.countAll(lawKnowledge);

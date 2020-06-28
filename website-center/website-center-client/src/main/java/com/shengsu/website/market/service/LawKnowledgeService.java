@@ -10,6 +10,7 @@ public interface LawKnowledgeService extends BaseService<LawKnowledge,String> {
     ResultBean remove(LawKnowledgeDeleteVo lawKnowledgeDeleteVo);
     ResultBean edit(LawKnowledgeUpdateVo lawKnowledgeUpdateVo);
     ResultBean query(LawKnowledgeQueryVo lawKnowledgeQueryVo);
+    ResultBean queryWithKeyWord(LawKnowledgeQueryVo lawKnowledgeQueryVo);
     ResultBean listKnowledgeByPage(LawKnowledgeListByPageVo lawKnowledgeListByPageVo);
     ResultBean listPage(LawKnowledgeListPageVo lawKnowledgeListPageVo);
     int updatePv(String knowledgeId);
