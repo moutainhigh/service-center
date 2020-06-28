@@ -65,8 +65,9 @@ public class KeyWordUtils {
         }
         //将String变成StringBuilder，字符串可编辑模式
         StringBuilder sb = new StringBuilder(content);
-        String randomWord = keywords.get((int) (Math.random() * keywords.size()));
+        String randomWord;
         for (int i = list.size() - 1; i >= 0; i--) {
+            randomWord = keywords.get((int) (Math.random() * keywords.size()));
             if (Math.random() > 0.3) {
                 sb.insert(list.get(i), MessageFormat.format(body,randomWord));
             }
