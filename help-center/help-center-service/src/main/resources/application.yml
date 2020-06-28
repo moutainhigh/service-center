@@ -22,10 +22,6 @@ spring:
         max-wait: 5000
         max-idle: 10
         min-idle: 0
-  data:
-    elasticsearch:
-      cluster-name: es
-      cluster-nodes: 127.0.0.1:9300
 zookeeper:
   #address: 192.168.1.52:2181
   address: 127.0.0.1:2181
