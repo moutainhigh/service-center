@@ -6,10 +6,7 @@ import com.shengsu.website.market.po.LawKnowledgeQueryPo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @program: service-center
@@ -93,20 +90,17 @@ public class KeyWordUtils {
 
         //将String变成StringBuilder，字符串可编辑模式
         StringBuilder sb = new StringBuilder(content);
-
-        List randomWords  = getRandomList(keywords,list.size() +2);
+        Set set = new HashSet();
         for (int i = list.size() - 1; i >= 0; i--) {
-            sb.insert(list.get(i), MessageFormat.format(body, randomWords.get(i)));
+            sb.insert(list.get(i), MessageFormat.format(body, getRandomKeyword(set)));
         }
-
 
         //随机插入
         firstCategoryName = StringUtils.isBlank(firstCategoryName) ? "" : " " + firstCategoryName;
         sencondCategoryName = StringUtils.isBlank(sencondCategoryName) ? "" : " " + sencondCategoryName;
         thirdCatetoryName = StringUtils.isBlank(thirdCatetoryName) ? "" : " " + thirdCatetoryName;
         String headTail = city + firstCategoryName + sencondCategoryName + thirdCatetoryName;
-        sb.insert(0, MessageFormat.format(head, headTail + randomWords.get(list.size())));
-        sb.append(MessageFormat.format(tail, headTail + randomWords.get(list.size()+1)));
+        sb.insert(0, MessageFormat.format(head, headTail + getRandomKeyword(set)));
         return sb.toString();
     }
 
@@ -128,31 +122,13 @@ public class KeyWordUtils {
         return finalPosition;
     }
 
-    /**
-     * @return java.util.List
-     * @Author Bell
-     * @Description 从list中随机抽取若干不重复元素
-     * @Date 2020/6/29
-     * @Param [paramList, count]
-     **/
-    public static List getRandomList(List paramList, int count) {
-        if (paramList.size() < count) {
-            return paramList;
+    private static String getRandomKeyword(Set<String> existKeywords) {
+        String result = keywords.get((int) (Math.random() * keywords.size()));
+
+        while (existKeywords.contains(result) && existKeywords.size() < keywords.size()) {
+            result = keywords.get((int) (Math.random() * keywords.size()));
         }
-        Random random = new Random();
-        List<Integer> tempList = new ArrayList<Integer>();
-        List<Object> newList = new ArrayList<Object>();
-        int temp = 0;
-        for (int i = 0; i < count; i++) {
-            temp = random.nextInt(paramList.size());//将产生的随机数作为被抽list的索引
-            if(!tempList.contains(temp)){
-                tempList.add(temp);
-                newList.add(paramList.get(temp));
-            }
-            else{
-                i--;
-            }
-        }
-        return newList;
+        existKeywords.add(result);
+        return result;
     }
 }
