@@ -118,7 +118,7 @@ public class KeyWordUtils {
         String previou = content.substring(0, position + 1);
         previou = new StringBuffer(previou).reverse().toString();
         if(previou.indexOf("。")<0){
-            return backward;
+            return previou.length() - previou.indexOf(";");
         }
         int forward = previou.length() - previou.indexOf("。");
         int finalPosition = backward - forward < 0 ? backward : forward;
