@@ -116,7 +116,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         KeyWordUtils.addKeyWord(lawKnowledgeQueryPo,lawKnowledgeQueryVo.getCity());
         return ResultUtil.formResult(true,ResultCode.SUCCESS,lawKnowledgeQueryPo);
     }
-
+    /**
+    * @Description: boss运营后后台分页查询法律知识文库
+    * @Param: * @Param lawKnowledgeListByPageVo:
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date:
+    */
     @Override
     public ResultBean listKnowledgeByPage(LawKnowledgeListByPageVo lawKnowledgeListByPageVo) {
         LawKnowledge lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeListByPageVo);
@@ -152,7 +157,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
     }
-
+    /**
+    * @Description: 客户端分页展示法律知识文库
+    * @Param: * @Param lawKnowledgeListPageVo: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
     @Override
     public ResultBean listPage(LawKnowledgeListPageVo lawKnowledgeListPageVo) {
         String firstCategoryId = lawKnowledgeListPageVo.getFirstCategoryId();
