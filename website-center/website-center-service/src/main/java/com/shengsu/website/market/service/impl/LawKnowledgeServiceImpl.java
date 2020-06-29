@@ -103,7 +103,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
 
         List<String> nodeIds = LawKnowledgeUtils.toNodeIds(lawKnowledge);
         List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
-        Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+        Map<String, LawKnowledgeCategory> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
         LawKnowledgeQueryPo lawKnowledgeQueryPo = LawKnowledgeUtils.toLawKnowledgeQueryPo(lawKnowledge, nodeMap);
 
 
@@ -143,7 +143,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
                 Collections.addAll(nodeIds, firstCategoryId, secondCategoryId, thirdCategoryId);
             }
             List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
-            Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+            Map<String, LawKnowledgeCategory> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
 
             List<LawKnowledgePagePo> lawKnowledgePagePos = LawKnowledgeUtils.toLawKnowledgePagePos(lawKnowledges, nodeMap);
             resultMap.put(CommonConst.ROOT, lawKnowledgePagePos);
@@ -219,7 +219,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         }
         List<String> nodeIds = LawKnowledgeUtils.toNodeIds(lawKnowledge);
         List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
-        Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+        Map<String, LawKnowledgeCategory> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
 
         //获取当前
         LawKnowledgeCurrentPo lawKnowledgeCurrentPo = LawKnowledgeUtils.toLawKnowledgeCurrentPo(lawKnowledge, nodeMap);
