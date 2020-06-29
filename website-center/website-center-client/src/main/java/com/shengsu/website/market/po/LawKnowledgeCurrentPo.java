@@ -28,4 +28,5 @@ public class LawKnowledgeCurrentPo implements Serializable {
     private String pv;
     private String pictureOssId;
     private String pictureOssUrl;// 图片资源url
+    private String firstCategoryUrl;//一级类目下的链接url
 }

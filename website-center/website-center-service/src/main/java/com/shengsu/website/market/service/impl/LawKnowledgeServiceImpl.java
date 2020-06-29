@@ -103,7 +103,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
 
         List<String> nodeIds = LawKnowledgeUtils.toNodeIds(lawKnowledge);
         List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
-        Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+        Map<String, LawKnowledgeCategory> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
         LawKnowledgeQueryPo lawKnowledgeQueryPo = LawKnowledgeUtils.toLawKnowledgeQueryPo(lawKnowledge, nodeMap);
 
 
@@ -116,7 +116,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         KeyWordUtils.addKeyWord(lawKnowledgeQueryPo,lawKnowledgeQueryVo.getCity());
         return ResultUtil.formResult(true,ResultCode.SUCCESS,lawKnowledgeQueryPo);
     }
-
+    /**
+    * @Description: boss运营后后台分页查询法律知识文库
+    * @Param: * @Param lawKnowledgeListByPageVo:
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date:
+    */
     @Override
     public ResultBean listKnowledgeByPage(LawKnowledgeListByPageVo lawKnowledgeListByPageVo) {
         LawKnowledge lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeListByPageVo);
@@ -143,7 +148,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
                 Collections.addAll(nodeIds, firstCategoryId, secondCategoryId, thirdCategoryId);
             }
             List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
-            Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+            Map<String, LawKnowledgeCategory> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
 
             List<LawKnowledgePagePo> lawKnowledgePagePos = LawKnowledgeUtils.toLawKnowledgePagePos(lawKnowledges, nodeMap);
             resultMap.put(CommonConst.ROOT, lawKnowledgePagePos);
@@ -152,7 +157,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
     }
-
+    /**
+    * @Description: 客户端分页展示法律知识文库
+    * @Param: * @Param lawKnowledgeListPageVo: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
     @Override
     public ResultBean listPage(LawKnowledgeListPageVo lawKnowledgeListPageVo) {
         String firstCategoryId = lawKnowledgeListPageVo.getFirstCategoryId();
@@ -219,7 +229,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         }
         List<String> nodeIds = LawKnowledgeUtils.toNodeIds(lawKnowledge);
         List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryService.getMany(nodeIds);
-        Map<String, String> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
+        Map<String, LawKnowledgeCategory> nodeMap = LawKnowledgeUtils.toNodeMap(lawKnowledgeCategories);
 
         //获取当前
         LawKnowledgeCurrentPo lawKnowledgeCurrentPo = LawKnowledgeUtils.toLawKnowledgeCurrentPo(lawKnowledge, nodeMap);
