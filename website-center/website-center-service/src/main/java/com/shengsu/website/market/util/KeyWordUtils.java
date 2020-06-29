@@ -50,45 +50,44 @@ public class KeyWordUtils {
      * @return
      */
     private static String formatContent(String content, String city, String firstCategoryName, String sencondCategoryName, String thirdCatetoryName) {
-        String pureContent = content.replaceAll("\\&[a-zA-Z]{1,10};", "").replaceAll("<[^>]*>", "").replaceAll("[(/>)<]", "");
         List<Integer> list = new ArrayList<>();
-        if (pureContent.length() <= 500) {
-            int finalPosition = getMinPosition(pureContent, 0.5);
+        if (content.length() <= 500) {
+            int finalPosition = getMinPosition(content, 0.5);
             list.add(finalPosition);
         }
-        if (pureContent.length() <= 1500 && pureContent.length() > 500) {
-            int finalPosition = getMinPosition(pureContent, 0.4);
+        if (content.length() <= 1500 && content.length() > 500) {
+            int finalPosition = getMinPosition(content, 0.4);
             list.add(finalPosition);
-            finalPosition = getMinPosition(pureContent, 0.8);
-            list.add(finalPosition);
-        }
-        if (pureContent.length() <= 3000 && pureContent.length() > 1500) {
-            int finalPosition = getMinPosition(pureContent, 0.3);
-            list.add(finalPosition);
-            finalPosition = getMinPosition(pureContent, 0.6);
-            list.add(finalPosition);
-            finalPosition = getMinPosition(pureContent, 0.9);
+            finalPosition = getMinPosition(content, 0.8);
             list.add(finalPosition);
         }
-        if (pureContent.length() <= 6000 && pureContent.length() > 3000) {
-            int finalPosition = getMinPosition(pureContent, 0.25);
+        if (content.length() <= 3000 && content.length() > 1500) {
+            int finalPosition = getMinPosition(content, 0.3);
             list.add(finalPosition);
-            finalPosition = getMinPosition(pureContent, 0.5);
+            finalPosition = getMinPosition(content, 0.6);
             list.add(finalPosition);
-            finalPosition = getMinPosition(pureContent, 0.75);
+            finalPosition = getMinPosition(content, 0.9);
             list.add(finalPosition);
-            list.add(pureContent.length());
         }
-        if (pureContent.length() > 6000) {
-            int finalPosition = getMinPosition(pureContent, 0.2);
+        if (content.length() <= 6000 && content.length() > 3000) {
+            int finalPosition = getMinPosition(content, 0.25);
             list.add(finalPosition);
-            finalPosition = getMinPosition(pureContent, 0.4);
+            finalPosition = getMinPosition(content, 0.5);
             list.add(finalPosition);
-            finalPosition = getMinPosition(pureContent, 0.6);
+            finalPosition = getMinPosition(content, 0.75);
             list.add(finalPosition);
-            finalPosition = getMinPosition(pureContent, 0.8);
+            list.add(content.length());
+        }
+        if (content.length() > 6000) {
+            int finalPosition = getMinPosition(content, 0.2);
             list.add(finalPosition);
-            list.add(pureContent.length());
+            finalPosition = getMinPosition(content, 0.4);
+            list.add(finalPosition);
+            finalPosition = getMinPosition(content, 0.6);
+            list.add(finalPosition);
+            finalPosition = getMinPosition(content, 0.8);
+            list.add(finalPosition);
+            list.add(content.length());
         }
 
         //将String变成StringBuilder，字符串可编辑模式
