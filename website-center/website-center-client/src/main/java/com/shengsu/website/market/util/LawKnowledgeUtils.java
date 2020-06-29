@@ -230,6 +230,7 @@ public class LawKnowledgeUtils {
             lawKnowledgeQueryPo.setDateTime(lawKnowledge.getDateTime());
             lawKnowledgeQueryPo.setPv(lawKnowledge.getPv());
             lawKnowledgeQueryPo.setSource(lawKnowledge.getSource());
+            lawKnowledgeQueryPo.setFirstCategoryUrl(nodeMap.get(lawKnowledge.getFirstCategoryId())==null?"":nodeMap.get(lawKnowledge.getFirstCategoryId()).getCategoryUrl());
             return lawKnowledgeQueryPo;
         }
         return null;

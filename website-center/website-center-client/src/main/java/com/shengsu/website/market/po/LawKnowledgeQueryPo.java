@@ -25,4 +25,5 @@ public class LawKnowledgeQueryPo implements Serializable {
     private Date dateTime;
     private String pv;
     private String source;
+    private String firstCategoryUrl;//一级类目下的链接url
 }
