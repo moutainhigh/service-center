@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @program: service-center
@@ -58,6 +59,7 @@ public class KeyWordUtils {
             list.add(finalPosition);
             finalPosition = getMinPosition(content, 0.8);
             list.add(finalPosition);
+            list=(List) list.stream().distinct().collect(Collectors.toList());
         }
         if (content.length() <= 3000 && content.length() > 1500) {
             int finalPosition = getMinPosition(content, 0.3);
@@ -66,6 +68,7 @@ public class KeyWordUtils {
             list.add(finalPosition);
             finalPosition = getMinPosition(content, 0.9);
             list.add(finalPosition);
+            list=(List) list.stream().distinct().collect(Collectors.toList());
         }
         if (content.length() <= 6000 && content.length() > 3000) {
             int finalPosition = getMinPosition(content, 0.25);
@@ -75,6 +78,7 @@ public class KeyWordUtils {
             finalPosition = getMinPosition(content, 0.75);
             list.add(finalPosition);
             list.add(content.length());
+            list=(List) list.stream().distinct().collect(Collectors.toList());
         }
         if (content.length() > 6000) {
             int finalPosition = getMinPosition(content, 0.2);
@@ -86,11 +90,13 @@ public class KeyWordUtils {
             finalPosition = getMinPosition(content, 0.8);
             list.add(finalPosition);
             list.add(content.length());
+            list=(List) list.stream().distinct().collect(Collectors.toList());
         }
 
         //将String变成StringBuilder，字符串可编辑模式
         StringBuilder sb = new StringBuilder(content);
         Set set = new HashSet();
+        Collections.sort(list);
         for (int i = list.size() - 1; i >= 0; i--) {
             sb.insert(list.get(i), MessageFormat.format(body, getRandomKeyword(set)));
         }
