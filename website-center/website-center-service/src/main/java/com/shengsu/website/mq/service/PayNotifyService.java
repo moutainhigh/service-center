@@ -31,6 +31,7 @@ public class PayNotifyService implements MessageProcessor<JSONObject> {
         String outTradeNo = jsonObject.getString("outTradeNo");
         // 获取电话咨询信息
         String telConsultJson= (String)redisService.get(outTradeNo);
+        log.info("缓存信息："+ telConsultJson);
         if (StringUtils.isNotBlank(telConsultJson)){
             JSONObject object = JSON.parseObject(telConsultJson);
             String tel =object.getString("tel");
