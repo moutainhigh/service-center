@@ -100,7 +100,7 @@ public class KeyWordUtils {
         sencondCategoryName = StringUtils.isBlank(sencondCategoryName) ? "" : " " + sencondCategoryName;
         thirdCatetoryName = StringUtils.isBlank(thirdCatetoryName) ? "" : " " + thirdCatetoryName;
         String headTail = city + firstCategoryName + sencondCategoryName + thirdCatetoryName;
-        sb.insert(0, MessageFormat.format(head, headTail + getRandomKeyword(set)));
+        sb.insert(0, MessageFormat.format(head, headTail + " " + getRandomKeyword(set)));
         return sb.toString();
     }
 
@@ -117,6 +117,9 @@ public class KeyWordUtils {
         int backward = content.indexOf("。", position);
         String previou = content.substring(0, position + 1);
         previou = new StringBuffer(previou).reverse().toString();
+        if(previou.indexOf("。")<0){
+            return backward + 1;
+        }
         int forward = previou.length() - previou.indexOf("。");
         int finalPosition = backward - forward < 0 ? backward : forward;
         return finalPosition;
