@@ -113,7 +113,7 @@ public class KeyWordUtils {
     /**
      * @return int
      * @Author Bell
-     * @Description 据最佳位置最近点
+     * @Description 距最佳位置最近点
      * @Date 2020/6/28
      * @Param [content, proportion]
      **/
@@ -122,44 +122,29 @@ public class KeyWordUtils {
         int position = (int) Math.round(total * proportion);
         int backward = content.indexOf("。", position);
         String previou = content.substring(0, position + 1);
-        previou = reverseByRecursion(previou);
+        previou = new StringBuffer(previou).reverse().toString();
         int forward = previou.length() - previou.indexOf("。");
         int finalPosition = backward - forward < 0 ? backward : forward;
         return finalPosition;
     }
 
     /**
-     * @return java.lang.String
+     * @return java.util.List
      * @Author Bell
-     * @Description 反转字符串
-     * @Date 2020/6/28
-     * @Param [str]
+     * @Description 从list中随机抽取若干不重复元素
+     * @Date 2020/6/29
+     * @Param [paramList, count]
      **/
-    public static String reverseByRecursion(String str) {
-        int length = str.length();
-        if (length <= 1) {
-            return str;
-        }
-
-        return reverseByRecursion(str.substring(1)) + str.charAt(0);
-    }
-    /**
-     * @function:从list中随机抽取若干不重复元素
-     *
-     * @param paramList:被抽取list
-     * @param count:抽取元素的个数
-     * @return:由抽取元素组成的新list
-     */
-    public static List getRandomList(List paramList,int count){
-        if(paramList.size()<count){
+    public static List getRandomList(List paramList, int count) {
+        if (paramList.size() < count) {
             return paramList;
         }
-        Random random=new Random();
-        List<Integer> tempList=new ArrayList<Integer>();
-        List<Object> newList=new ArrayList<Object>();
-        int temp=0;
-        for(int i=0;i<count;i++){
-            temp=random.nextInt(paramList.size());//将产生的随机数作为被抽list的索引
+        Random random = new Random();
+        List<Integer> tempList = new ArrayList<Integer>();
+        List<Object> newList = new ArrayList<Object>();
+        int temp = 0;
+        for (int i = 0; i < count; i++) {
+            temp = random.nextInt(paramList.size());//将产生的随机数作为被抽list的索引
             if(!tempList.contains(temp)){
                 tempList.add(temp);
                 newList.add(paramList.get(temp));
