@@ -9,6 +9,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @program: service-center
@@ -92,10 +93,10 @@ public class KeyWordUtils {
 
         //将String变成StringBuilder，字符串可编辑模式
         StringBuilder sb = new StringBuilder(content);
-        String randomWord;
+
+        List randomWords  = getRandomList(keywords,list.size() +2);
         for (int i = list.size() - 1; i >= 0; i--) {
-            randomWord = keywords.get((int) (Math.random() * keywords.size()));
-            sb.insert(list.get(i), MessageFormat.format(body, randomWord));
+            sb.insert(list.get(i), MessageFormat.format(body, randomWords.get(i)));
         }
 
 
@@ -104,10 +105,8 @@ public class KeyWordUtils {
         sencondCategoryName = StringUtils.isBlank(sencondCategoryName) ? "" : " " + sencondCategoryName;
         thirdCatetoryName = StringUtils.isBlank(thirdCatetoryName) ? "" : " " + thirdCatetoryName;
         String headTail = city + firstCategoryName + sencondCategoryName + thirdCatetoryName;
-        randomWord = " " + keywords.get((int) (Math.random() * keywords.size()));
-        sb.insert(0, MessageFormat.format(head, headTail + randomWord));
-        randomWord = " " + keywords.get((int) (Math.random() * keywords.size()));
-        sb.append(MessageFormat.format(tail, headTail + randomWord));
+        sb.insert(0, MessageFormat.format(head, headTail + randomWords.get(list.size())));
+        sb.append(MessageFormat.format(tail, headTail + randomWords.get(list.size()+1)));
         return sb.toString();
     }
 
@@ -143,5 +142,32 @@ public class KeyWordUtils {
         }
 
         return reverseByRecursion(str.substring(1)) + str.charAt(0);
+    }
+    /**
+     * @function:从list中随机抽取若干不重复元素
+     *
+     * @param paramList:被抽取list
+     * @param count:抽取元素的个数
+     * @return:由抽取元素组成的新list
+     */
+    public static List getRandomList(List paramList,int count){
+        if(paramList.size()<count){
+            return paramList;
+        }
+        Random random=new Random();
+        List<Integer> tempList=new ArrayList<Integer>();
+        List<Object> newList=new ArrayList<Object>();
+        int temp=0;
+        for(int i=0;i<count;i++){
+            temp=random.nextInt(paramList.size());//将产生的随机数作为被抽list的索引
+            if(!tempList.contains(temp)){
+                tempList.add(temp);
+                newList.add(paramList.get(temp));
+            }
+            else{
+                i--;
+            }
+        }
+        return newList;
     }
 }
