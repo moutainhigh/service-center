@@ -24,10 +24,12 @@ public class AliPayMwebNotifyService implements MessageProcessor<JSONObject> {
     @Override
     public boolean handleMessage(JSONObject jsonObject) {
         log.info("处理消息："+ jsonObject);
-        // 修改账户余额 并添加账户余额记录
         String outTradeNo = jsonObject.getString("outTradeNo");
-        BigDecimal amount = jsonObject.getBigDecimal("amount");
-        accountServcie.updateBalanceByOrderNo(PAY_TYPE_ALIPAY,outTradeNo,amount);
+        if (outTradeNo.contains("AATN")){
+            // 修改账户余额 并添加账户余额记录
+            BigDecimal amount = jsonObject.getBigDecimal("amount");
+            accountServcie.updateBalanceByOrderNo(PAY_TYPE_ALIPAY,outTradeNo,amount);
+        }
         return true;
     }
     @Override

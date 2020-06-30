@@ -1,22 +1,20 @@
 package com.shengsu.website.home.util;
 
 
+import com.shengsu.helper.entity.SystemDict;
 import com.shengsu.website.home.entity.LawcaseConsult;
 import com.shengsu.website.home.entity.LawcaseConsultAppendix;
 import com.shengsu.website.home.po.ConsultDetailsListPo;
 import com.shengsu.website.home.po.ConsultAppendixDetailsPo;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by zyc on 2019/12/5.
  */
 public class LawcaseConsultAppendixUtils {
-    public static List<ConsultDetailsListPo> toConsultAppendixDetailsListPo(List<LawcaseConsult> root){
+    public static List<ConsultDetailsListPo> toConsultAppendixDetailsListPo(List<LawcaseConsult> root,Map<String, SystemDict> systemDictMap){
         List<ConsultDetailsListPo> consultDetailsListPos = new ArrayList<>();
         for(LawcaseConsult lawcaseConsult : root){
             ConsultDetailsListPo consultDetailsListPo = new ConsultDetailsListPo();
@@ -31,6 +29,7 @@ public class LawcaseConsultAppendixUtils {
             consultDetailsListPo.setSource(lawcaseConsult.getSource());
             consultDetailsListPo.setRedirectUrl(lawcaseConsult.getRedirectUrl());
             consultDetailsListPo.setCreateTime(lawcaseConsult.getCreateTime());
+            consultDetailsListPo.setLawFieldStr(systemDictMap.get(lawcaseConsult.getLawField())==null?"":systemDictMap.get(lawcaseConsult.getLawField()).getDisplayName());
             consultDetailsListPos.add(consultDetailsListPo);
         }
         return consultDetailsListPos;

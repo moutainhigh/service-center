@@ -7,7 +7,7 @@
 	<resultMap id="lawknowledge_category_result_map" type="lawKnowledgeCategory">
 	</resultMap>
 	<sql id="base_column_list">
-    	id, category_id, category_name, parent_id, sort_num
+    	id, category_id, category_name, parent_id,category_url,sort_num
   	</sql>
 	<!-- 查询条件 -->
 	<sql id="lawknowledge_category_where_clause">

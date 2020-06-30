@@ -11,4 +11,5 @@
 	<!--接口服务-->
     <dubbo:reference id="codeGeneratorService" interface="com.shengsu.helper.service.CodeGeneratorService" timeout="3000" version="${dubbo.version}"/>
     <dubbo:reference id="systemDictService" interface="com.shengsu.helper.service.SystemDictService" timeout="3000" version="${dubbo.version}"/>
+	<dubbo:reference id="redisService" interface="com.shengsu.helper.service.RedisService" timeout="3000" version="${dubbo.version}"/>
 </beans>

@@ -1,10 +1,9 @@
-package com.shengsu.log.mq;
+package com.shengsu.website.mq;
 
 import com.shengsu.helper.constant.MQEnum;
-import com.shengsu.log.service.impl.LogBusinessServiceImpl;
-import com.shengsu.log.service.impl.LogErrorServiceImpl;
 import com.shengsu.mq.AbstractMQConsumer;
 import com.shengsu.mq.MessageListen;
+import com.shengsu.website.mq.service.PayNotifyService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -21,22 +20,19 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Component
 public class RocketMQConsumer extends AbstractMQConsumer {
-
     @Autowired
-    private LogBusinessServiceImpl logBusinessService;
-    @Autowired
-    private LogErrorServiceImpl logErrorService;
+    private PayNotifyService payNotifyService;
 
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
     @Value("${rocketmq.consumer.group}")
-    private String logGroup;
+    private String group;
 
     @Override
     @PostConstruct
     public void init() {
         try {
-            consumer = new DefaultMQPushConsumer(logGroup);
+            consumer = new DefaultMQPushConsumer(group);
             consumer.setNamesrvAddr(namesrvAddr);
             consumer.setConsumeThreadMin(consumeThreadMin);
             consumer.setConsumeThreadMax(consumeThreadMax);
@@ -45,7 +41,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
             registerMessageListener();
             subscribe();
             consumer.start();
-            log.info("consumer is start");
+            log.info("consume is start", group);
         } catch (MQClientException e) {
             log.error("consume start error:",e);
         }
@@ -54,14 +50,16 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     @Override
     protected void registerMessageListener() {
         MessageListen messageListen = new MessageListen();
-        messageListen.registerHandler(MQEnum.LOGBUSINESS.getTag(), logBusinessService);
-        messageListen.registerHandler(MQEnum.LOGERROR.getTag(), logErrorService);
+        messageListen.registerHandler(MQEnum.ALIPAY_NOTIFY.getTag(), payNotifyService);
+        messageListen.registerHandler(MQEnum.WXPAY_NOTIFY_WEAPP.getTag(), payNotifyService);
+        messageListen.registerHandler(MQEnum.BDPAY_NOTIFY.getTag(), payNotifyService);
         consumer.registerMessageListener(messageListen);
     }
 
     @Override
-    protected void subscribe() throws MQClientException{
-        consumer.subscribe(MQEnum.LOGBUSINESS.getTopic(), MQEnum.LOGBUSINESS.getTag());
-        consumer.subscribe(MQEnum.LOGERROR.getTopic(), MQEnum.LOGERROR.getTag());
+    protected void subscribe() throws MQClientException {
+        consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag());
+        consumer.subscribe(MQEnum.WXPAY_NOTIFY_WEAPP.getTopic(), MQEnum.WXPAY_NOTIFY_WEAPP.getTag());
+        consumer.subscribe(MQEnum.BDPAY_NOTIFY.getTopic(), MQEnum.BDPAY_NOTIFY.getTag());
     }
 }

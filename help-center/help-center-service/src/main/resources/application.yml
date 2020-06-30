@@ -1,7 +1,5 @@
 server:
   port: 9099
-  session-timeout: 30
-  tomcat.max-threads: 0
   tomcat.uri-encoding: UTF-8
 spring:
   datasource:
@@ -24,10 +22,6 @@ spring:
         max-wait: 5000
         max-idle: 10
         min-idle: 0
-  data:
-    elasticsearch:
-      cluster-name: es
-      cluster-nodes: 127.0.0.1:9300
 zookeeper:
   #address: 192.168.1.52:2181
   address: 127.0.0.1:2181
@@ -40,8 +34,6 @@ oss:
   accessKeyId: LTAISsw5CZys2sER
   accessKeySecret: 08pkECtJSNKPMwXnsYm3WSqdbkXm8h
   bucketName: shengsu-test
-  timeout: 5000
-  expiretime: 60000
 sts:
   roleArn: acs:ram::1476735593452953:role/sts-oss
   roleSessionName: help-platform
@@ -55,10 +47,10 @@ logging:
 rocketmq:
   producer:
     namesrvAddr: 127.0.0.1:9876
-    groups: logGroup,jpushGroup,anyGroup,websiteGroup
+    group: helpGroup
   consumer:
     namesrvAddr: 127.0.0.1:9876
-    group: jpushGroup
+    group: helpGroup
 
 jiguang:
   apnsProduction: false

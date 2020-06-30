@@ -14,4 +14,5 @@ import java.io.Serializable;
 public class LawKnowledgeQueryVo implements Serializable {
     @NotBlank
     private String knowledgeId;
+    private String city;
 }

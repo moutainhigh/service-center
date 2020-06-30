@@ -43,6 +43,7 @@
 			source,
 			origin,
 			redirect_url,
+			law_field,
 			del_flag
 		)
 		values
@@ -59,6 +60,7 @@
             #{source,jdbcType=VARCHAR},
             #{origin,jdbcType=VARCHAR},
             #{redirectUrl,jdbcType=VARCHAR},
+            #{lawField,jdbcType=VARCHAR},
 			0
 		)
 	</insert>

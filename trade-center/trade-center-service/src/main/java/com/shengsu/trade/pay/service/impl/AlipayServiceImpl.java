@@ -1,5 +1,7 @@
 package com.shengsu.trade.pay.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -9,6 +11,7 @@ import com.alipay.api.request.*;
 import com.alipay.api.response.AlipayTradeCloseResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.shengsu.helper.service.CodeGeneratorService;
+import com.shengsu.helper.service.RedisService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.trade.app.constant.ResultCode;
@@ -16,15 +19,13 @@ import com.shengsu.trade.pay.entity.PayOrder;
 import com.shengsu.trade.pay.service.AlipayService;
 import com.shengsu.trade.pay.service.PayOrderService;
 import com.shengsu.trade.pay.util.PayOrderUtils;
-import com.shengsu.trade.pay.vo.AliAnyOrderVo;
-import com.shengsu.trade.pay.vo.AliAppOrderVo;
-import com.shengsu.trade.pay.vo.AliMarketOrderVo;
-import com.shengsu.trade.pay.vo.AliOrderCancelVo;
+import com.shengsu.trade.pay.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +42,8 @@ public class AlipayServiceImpl implements AlipayService {
     private String anyReturnUrl;
     @Value("${alipay.shengsu.returnUrl.market-h5}")
     private String ssMarketMwebReturnUrl;
+    @Value("${alipay.shengsu.baseReturnUrl}")
+    private String ssMarketBaseReturnUrl;
     // 胜诉-小程序
     @Value("${alipay.shengsu.aliApp.appid}")
     private String ssAliAppID;
@@ -55,6 +58,8 @@ public class AlipayServiceImpl implements AlipayService {
     private String ysMwebAppID;
     @Value("${alipay.yuanshou.returnUrl.market-h5}")
     private String ysMarketMwebReturnUrl;
+    @Value("${alipay.yuanshou.baseReturnUrl}")
+    private String ysMarketBaseReturnUrl;
     // 援手-小程序
     @Value("${alipay.yuanshou.aliApp.appid}")
     private String ysAliAppID;
@@ -82,6 +87,8 @@ public class AlipayServiceImpl implements AlipayService {
     CodeGeneratorService codeGeneratorService;
     @Autowired
     private PayOrderService payOrderService;
+    @Resource
+    private RedisService redisService;
 
     /**
     * @Description: 案源王H5下单
@@ -98,7 +105,7 @@ public class AlipayServiceImpl implements AlipayService {
         return getMwebForm(aliAnyOrderVo.getAccountId(),outTradeNo,"充值","充值金额:",aliAnyOrderVo.getAmount(),anyReturnUrl);
     }
     /**
-     * @Description: 市场推广H5下单
+     * @Description: (律师主页咨询,在线咨询,电话咨询)市场推广H5下单
      * @Param: * @Param aliOrderVo:
      * @Return: * @return: java.lang.String
      * @date:
@@ -110,11 +117,19 @@ public class AlipayServiceImpl implements AlipayService {
         String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
-        String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?ysMarketMwebReturnUrl:ssMarketMwebReturnUrl;
-        return getMwebForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl+"?verifyCode="+aliMarketOrderVo.getVerifyCode());
+        // 电话咨询将参数保存在缓存中
+        if (CONSULT_TAG_TEL.equals(aliMarketOrderVo.getConsultTag())){
+            // 获取电话咨询参数
+            TelConsultVo telConsultOrderVo =aliMarketOrderVo.getTelConsultVo();
+            // 将客户电话等数据存储到redis,时效是1小时
+            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField(),telConsultOrderVo.getSource());
+        }
+        String suffixReturnUrl = aliMarketOrderVo.getSuffixReturnUrl();
+        String returnUrl = SYSTEM_TAG_YUANSHOU.equals(aliMarketOrderVo.getSystemTag())?ysMarketBaseReturnUrl+suffixReturnUrl:ssMarketBaseReturnUrl+suffixReturnUrl;
+        return getMwebForm("",outTradeNo,"支付","支付金额:",aliMarketOrderVo.getAmount(),returnUrl+"?lawyerId="+aliMarketOrderVo.getLawyerId());
     }
     /**
-     * @Description: 市场推广小程序下单
+     * @Description: (律师主页咨询,在线咨询,电话咨询)市场推广小程序下单
      * @Param: * @Param aliOrderVo:
      * @Return: * @return: java.lang.String
      * @date:
@@ -126,7 +141,28 @@ public class AlipayServiceImpl implements AlipayService {
         String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         //插入6位随机数
         outTradeNo = new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
+        // 电话咨询将参数保存在缓存中
+        if (CONSULT_TAG_TEL.equals(aliAppOrderVo.getConsultTag())){
+            // 获取电话咨询参数
+            TelConsultVo telConsultOrderVo =aliAppOrderVo.getTelConsultVo();
+            // 将客户电话等数据存储到redis,时效是1小时
+            setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField(),telConsultOrderVo.getSource());
+        }
         return getAppData(aliAppOrderVo.getBuyerId(),outTradeNo,"支付","支付金额:",aliAppOrderVo.getAmount());
+    }
+    /**
+    * @Description: 保存咨询数据到redis
+    * @Param: * @Param tel: 
+ * @Param lawField: 
+    * @Return: * @return: void
+    * @date: 
+    */
+    private void setConsultDataToRedis(String outTradeNo,String tel,String lawField,String source){
+        JSONObject param = new JSONObject();
+        param.put("tel",tel);
+        param.put("lawField",lawField);
+        param.put("source",source);
+        redisService.set(outTradeNo, JSON.toJSONString(param),86400L);
     }
     /**
     * @Description: 获取H5支付下单返回的form表单数据

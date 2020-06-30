@@ -7,12 +7,15 @@ import java.io.Serializable;
 
 @Data
 public class WxMwebOrderVo implements Serializable {
+    private String suffixReturnUrl;
     // 充值金额
     @NotBlank
     private String amount;
-    private String systemTag;
     @NotBlank
+    private String systemTag;
     private String lawyerId;
     private String ipAddress;
+    private String consultTag;
+    private TelConsultVo telConsultVo;
 
 }

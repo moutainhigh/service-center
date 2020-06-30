@@ -9,6 +9,12 @@ package com.shengsu.trade.app.constant;
 public interface BizConst {
     String SYSTEM_TAG_SHENGSU= "shengsu";
     String SYSTEM_TAG_YUANSHOU = "yuanshou";
+    //在线咨询标记
+    String CONSULT_TAG_ONLINE= "online";
+    //电话咨询标记
+    String CONSULT_TAG_TEL = "tel";
+    //字典-订单状态
+    String DICT_CODE_ORDER_STATUS= "order_status";
     //账户余额来源-账户余额-充值
     String ACCOUNT_BALANCE_SOURCE_RECHANGE = "other";
     //账户余额来源-账户余额-提现

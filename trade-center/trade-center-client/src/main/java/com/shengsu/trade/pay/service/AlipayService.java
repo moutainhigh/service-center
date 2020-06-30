@@ -2,10 +2,7 @@ package com.shengsu.trade.pay.service;
 
 import com.alipay.api.AlipayApiException;
 import com.shengsu.result.ResultBean;
-import com.shengsu.trade.pay.vo.AliAnyOrderVo;
-import com.shengsu.trade.pay.vo.AliAppOrderVo;
-import com.shengsu.trade.pay.vo.AliMarketOrderVo;
-import com.shengsu.trade.pay.vo.AliOrderCancelVo;
+import com.shengsu.trade.pay.vo.*;
 
 import java.util.Map;
 

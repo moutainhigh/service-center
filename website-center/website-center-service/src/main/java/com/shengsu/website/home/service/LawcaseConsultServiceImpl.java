@@ -2,34 +2,41 @@ package com.shengsu.website.home.service;
 
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.helper.entity.SystemDict;
+import com.shengsu.helper.service.RedisService;
+import com.shengsu.helper.service.SystemDictService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.util.StringUtil;
 import com.shengsu.website.app.constant.ResultCode;
+import com.shengsu.website.constant.ConsultConst;
 import com.shengsu.website.home.entity.LawcaseConsult;
 import com.shengsu.website.home.entity.LawcaseConsultAppendix;
 import com.shengsu.website.home.mapper.LawcaseConsultMapper;
 import com.shengsu.website.home.po.ConsultAppendixDetailsPo;
 import com.shengsu.website.home.po.ConsultDetailsListPo;
 import com.shengsu.website.home.util.LawcaseConsultAppendixUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import javax.annotation.Resource;
+import java.util.*;
 
-import static com.shengsu.website.constant.ConsultConst.LAWCASE_CONSULT_CLUE;
+import static com.shengsu.website.constant.ConsultConst.*;
 
-
+@Slf4j
 @Service(value = "lawcaseConsultService")
-public class LawcaseConsultServiceImpl extends BaseServiceImpl implements LawcaseConsultService {
+public class LawcaseConsultServiceImpl extends BaseServiceImpl implements LawcaseConsultService{
 
     @Autowired
     private LawcaseConsultMapper lawcaseConsultMapper;
     @Autowired
     private LawcaseConsultAppendixService lawcaseConsultAppendixService;
+    @Autowired
+    private SystemDictService systemDictService;
 
     @Override
     public BaseMapper<LawcaseConsult, String> getBaseMapper() {
@@ -71,7 +78,8 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
             String refId = consult.getConsultId();
             refIds.add(refId);
         }
-        List<ConsultDetailsListPo> consultDetailsListPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsListPo(root);
+        Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode(DICT_CODE_LAW_FIELD);
+        List<ConsultDetailsListPo> consultDetailsListPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsListPo(root,systemDictMap);
         int totalCount = lawcaseConsultMapper.countAll(lawcaseConsult);
         if(!refIds.isEmpty()) {
             ResultBean<List<ConsultAppendixDetailsPo>> appendixResult = lawcaseConsultAppendixService.getDetailsListByPage(refIds);
@@ -107,7 +115,8 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
             String refId = consult.getConsultId();
             refIds.add(refId);
         }
-        List<ConsultDetailsListPo> consultDetailsListPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsListPo(root);
+        Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode(DICT_CODE_LAW_FIELD);
+        List<ConsultDetailsListPo> consultDetailsListPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsListPo(root,systemDictMap);
         if(!refIds.isEmpty()) {
             ResultBean<List<ConsultAppendixDetailsPo>> appendixResult = lawcaseConsultAppendixService.getDetailsListByPage(refIds);
             if (appendixResult.isSuccess()) {
@@ -125,5 +134,17 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
             }
         }
         return ResultUtil.formRootResult(true, ResultCode.SUCCESS, consultDetailsListPos);
+    }
+
+    @Override
+    public void saveTelConsultData(String tel, String lawField,String source) {
+        // 保存咨询消息
+        LawcaseConsult lawcaseConsult = new LawcaseConsult();
+        lawcaseConsult.setConsultId(UUID.randomUUID().toString());
+        lawcaseConsult.setContact(tel);
+        lawcaseConsult.setLawField(lawField);
+        lawcaseConsult.setSource(source);
+        lawcaseConsult.setOrigin(ConsultConst.CONSULT_ORIGIN_PAYMENT_CALL_BACK);
+        save(lawcaseConsult);
     }
 }
