@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  **/
 public class KeyWordUtils {
     static String head = "<span style=\'color:dodgerblue;\'>（{0}）</span> <br>";
-    static String tail = "<br><span style=\'color:dodgerblue;\'>（{0}）</span>";
     static String body = "<span style=\'color:dodgerblue;\'>（{0}）</span>";
     static List<String> keywords = Arrays.asList(KeyWord.listKeyWord.split("，"));
 
@@ -59,7 +58,7 @@ public class KeyWordUtils {
             list.add(finalPosition);
             finalPosition = getMinPosition(content, 0.8);
             list.add(finalPosition);
-            list=(List) list.stream().distinct().collect(Collectors.toList());
+            list=list.stream().distinct().collect(Collectors.toList());
         }
         if (content.length() <= 3000 && content.length() > 1500) {
             int finalPosition = getMinPosition(content, 0.3);
@@ -68,7 +67,7 @@ public class KeyWordUtils {
             list.add(finalPosition);
             finalPosition = getMinPosition(content, 0.9);
             list.add(finalPosition);
-            list=(List) list.stream().distinct().collect(Collectors.toList());
+            list=list.stream().distinct().collect(Collectors.toList());
         }
         if (content.length() <= 6000 && content.length() > 3000) {
             int finalPosition = getMinPosition(content, 0.25);
@@ -78,7 +77,7 @@ public class KeyWordUtils {
             finalPosition = getMinPosition(content, 0.75);
             list.add(finalPosition);
             list.add(content.length());
-            list=(List) list.stream().distinct().collect(Collectors.toList());
+            list=list.stream().distinct().collect(Collectors.toList());
         }
         if (content.length() > 6000) {
             int finalPosition = getMinPosition(content, 0.2);
@@ -90,7 +89,7 @@ public class KeyWordUtils {
             finalPosition = getMinPosition(content, 0.8);
             list.add(finalPosition);
             list.add(content.length());
-            list=(List) list.stream().distinct().collect(Collectors.toList());
+            list=list.stream().distinct().collect(Collectors.toList());
         }
 
         //将String变成StringBuilder，字符串可编辑模式
