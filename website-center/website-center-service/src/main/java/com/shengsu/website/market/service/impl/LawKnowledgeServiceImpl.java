@@ -281,10 +281,10 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         if (StringUtils.isBlank(lawKnowledge.getThirdCategoryId()) && StringUtils.isNotBlank(lawKnowledge.getSecondCategoryId())) {
             // 先获取当前分类下的上一篇,如果未空 获取一级分类下的知识文库
             previousLawKnowledge = lawKnowledgeMapper.selectSecondPreviousLawKnowledge(paramLawKnowledge);
-            if (null == previousLawKnowledge) {
-                // 二级分类为空,获取一级分类下的文章
-                previousLawKnowledge = lawKnowledgeMapper.selectFirstPreviousLawKnowledge(paramLawKnowledge);
-            }
+//            if (null == previousLawKnowledge) {
+//                // 二级分类为空,获取一级分类下的文章
+//                previousLawKnowledge = lawKnowledgeMapper.selectFirstPreviousLawKnowledge(paramLawKnowledge);
+//            }
 
         }
         // 当前分类属于一级分类
@@ -312,10 +312,10 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         if (StringUtils.isBlank(lawKnowledge.getThirdCategoryId()) && StringUtils.isNotBlank(lawKnowledge.getSecondCategoryId())) {
             // 先获取当前分类下的上一篇,如果未空 获取一级分类下的知识文库
             nextLawKnowledge = lawKnowledgeMapper.selectSecondNextLawKnowledge(paramLawKnowledge);
-            if (null == nextLawKnowledge) {
-                // 二级分类为空,获取一级分类下的文章
-                nextLawKnowledge = lawKnowledgeMapper.selectFirstNextLawKnowledge(paramLawKnowledge);
-            }
+//            if (null == nextLawKnowledge) {
+//                // 二级分类为空,获取一级分类下的文章
+//                nextLawKnowledge = lawKnowledgeMapper.selectFirstNextLawKnowledge(paramLawKnowledge);
+//            }
 
         }
         // 当前分类属于一级分类

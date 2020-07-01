@@ -199,8 +199,7 @@
 			where
 				del_flag = 0
 				and first_category_id = #{firstCategoryId}
-				and (second_category_id = #{secondCategoryId}
-				or	second_category_id='')
+				and second_category_id = #{secondCategoryId}
 				order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
@@ -212,8 +211,7 @@
 		where
 			del_flag = 0
 		  	and first_category_id = #{firstCategoryId}
-		  	and (second_category_id = #{secondCategoryId}
-		  	 or second_category_id='')
+		  	and second_category_id = #{secondCategoryId}
 	</select>
 	<select id="listPageFirstNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
@@ -255,8 +253,8 @@
 		where
 			del_flag = 0
 			and  date_time > #{dateTime}
-			and  second_category_id = #{secondCategoryId}
-			and third_category_id = ''
+			and first_category_id = #{firstCategoryId}
+			and second_category_id = #{secondCategoryId}
 			order by date_time limit 1
 	</select>
 	<select id="selectFirstPreviousLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
@@ -268,8 +266,6 @@
 			del_flag = 0
 			and  date_time > #{dateTime}
 			and  first_category_id = #{firstCategoryId}
-			and second_category_id = ''
-			and third_category_id = ''
 			order by date_time limit 1
 	</select>
 	<select id="selectThirdNextLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
@@ -291,8 +287,8 @@
 		where
 			del_flag = 0
 			and  date_time &lt; #{dateTime}
-			and  second_category_id = #{secondCategoryId}
-			and third_category_id = ''
+			and first_category_id = #{firstCategoryId}
+			and second_category_id = #{secondCategoryId}
 			order by date_time desc limit 1
 	</select>
 	<select id="selectFirstNextLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
@@ -304,8 +300,6 @@
 			del_flag = 0
 			and  date_time &lt; #{dateTime}
 			and  first_category_id = #{firstCategoryId}
-			and second_category_id = ''
-			and third_category_id = ''
 			order by date_time desc limit 1
 	</select>
 	<select id="selectByTitle" parameterType="string" resultType="lawKnowledge">
