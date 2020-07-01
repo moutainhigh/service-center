@@ -214,6 +214,29 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         }
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
     }
+    /**
+    * @Description: 全文搜索分页查询
+    * @Param: * @Param lawKnowledgeListPageVo:
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date:
+    */
+    // 增加全文搜索分页查询
+    @Override
+    public ResultBean fullTextSearchListPage(FullTextSearchListPageVo fullTextSearchListPageVo) {
+        LawKnowledge lawKnowledge = LawKnowledgeUtils.toLawKnowledge(fullTextSearchListPageVo);
+        Integer count = lawKnowledgeMapper.countFullTextSearch(lawKnowledge);
+        Map<String, Object> resultMap = new HashMap<>();
+        if (count > 0) {
+            List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.fullTextSearchListPage(lawKnowledge);
+            if (null == lawKnowledges || lawKnowledges.size() == 0) {
+                return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
+            }
+            List<LawKnowledgeListPagePo> lawKnowledgeListPagePos = LawKnowledgeUtils.toLawKnowledgeListPagePos(lawKnowledges);
+            resultMap.put(CommonConst.ROOT, lawKnowledgeListPagePos);
+            resultMap.put(CommonConst.TOTAL_COUNT, count);
+        }
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
+    }
 
     @Override
     public int updatePv(String knowledgeId) {
