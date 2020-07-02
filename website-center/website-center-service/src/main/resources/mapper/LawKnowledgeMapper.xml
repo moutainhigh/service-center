@@ -45,10 +45,6 @@
                 and DATE_ADD(date_format(#{createEndTime,jdbcType=VARCHAR},"%Y-%m-%d %H:%i:%s"),interval 1 day) >=
                 create_time
             </if>
-			<if test="search != null and  search != ''">
-				<bind name="pattern" value="search" />
-				and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
-			</if>
 		</where>
 	</sql>
 	<insert id="save" parameterType="lawKnowledge">
@@ -152,17 +148,11 @@
 				del_flag = 0
 				and first_category_id = #{firstCategoryId}
 				and second_category_id = #{secondCategoryId}
-				and (third_category_id = #{thirdCategoryId}
-				or third_category_id = '')
-		  	union all
-			  select
-					knowledge_id,title,date_time
-				from
-					law_knowledge
-				where
-					del_flag = 0
-					and first_category_id = #{firstCategoryId}
-					and second_category_id = ''
+				and third_category_id = #{thirdCategoryId}
+                <if test="search != null and  search != ''">
+                    <bind name="pattern" value="search" />
+                    and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+                </if>
 			order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
@@ -178,17 +168,12 @@
 			  	del_flag = 0
 			  	and first_category_id = #{firstCategoryId}
 			  	and second_category_id = #{secondCategoryId}
-			  	and (third_category_id = #{thirdCategoryId}
-			  	 or third_category_id='')
-			  union all
-			  	select
-			  	 	knowledge_id,title
-			  	from
-			  		law_knowledge
-			  	where
-			  		del_flag = 0
-			  		and first_category_id = #{firstCategoryId}
-			  		and second_category_id = '')knowledge
+			  	and third_category_id = #{thirdCategoryId}
+                <if test="search != null and  search != ''">
+                    <bind name="pattern" value="search" />
+                    and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+                </if>
+			  )knowledge
 	</select>
 	<select id="listPageSecondNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
@@ -200,6 +185,10 @@
 				del_flag = 0
 				and first_category_id = #{firstCategoryId}
 				and second_category_id = #{secondCategoryId}
+                <if test="search != null and  search != ''">
+                    <bind name="pattern" value="search" />
+                    and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+                </if>
 				order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
@@ -212,6 +201,10 @@
 			del_flag = 0
 		  	and first_category_id = #{firstCategoryId}
 		  	and second_category_id = #{secondCategoryId}
+            <if test="search != null and  search != ''">
+                <bind name="pattern" value="search" />
+                and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+            </if>
 	</select>
 	<select id="listPageFirstNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
@@ -222,6 +215,10 @@
 		where
 			del_flag = 0
 			and first_category_id = #{firstCategoryId}
+            <if test="search != null and  search != ''">
+                <bind name="pattern" value="search" />
+                and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+            </if>
 			order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
@@ -233,6 +230,10 @@
 		where
 			del_flag = 0
 			and first_category_id = #{firstCategoryId}
+            <if test="search != null and  search != ''">
+                <bind name="pattern" value="search" />
+                and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+            </if>
 	</select>
 	<select id="selectThirdPreviousLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
 		select
