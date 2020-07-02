@@ -1,5 +1,6 @@
 package com.shengsu.website.market.util;
 
+import com.shengsu.util.StringUtil;
 import com.shengsu.website.market.entity.LawKnowledge;
 import com.shengsu.website.market.entity.LawKnowledgeCategory;
 import com.shengsu.website.market.po.*;
@@ -57,6 +58,7 @@ public class LawKnowledgeUtils {
             lawKnowledge.setFirstCategoryId(lawKnowledgeListPageVo.getFirstCategoryId());
             lawKnowledge.setSecondCategoryId(lawKnowledgeListPageVo.getSecondCategoryId());
             lawKnowledge.setThirdCategoryId(lawKnowledgeListPageVo.getThirdCategoryId());
+            lawKnowledge.setSearch(StringUtil.ToLikeStr(lawKnowledgeListPageVo.getSearch()));
             lawKnowledge.setPage(lawKnowledgeListPageVo.getPage());
             lawKnowledge.setPageSize(lawKnowledgeListPageVo.getPageSize());
             return lawKnowledge;
