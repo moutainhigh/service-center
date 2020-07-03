@@ -148,17 +148,11 @@
 				del_flag = 0
 				and first_category_id = #{firstCategoryId}
 				and second_category_id = #{secondCategoryId}
-				and (third_category_id = #{thirdCategoryId}
-				or third_category_id = '')
-		  	union all
-			  select
-					knowledge_id,title,date_time
-				from
-					law_knowledge
-				where
-					del_flag = 0
-					and first_category_id = #{firstCategoryId}
-					and second_category_id = ''
+				and third_category_id = #{thirdCategoryId}
+                <if test="search != null and  search != ''">
+                    <bind name="pattern" value="search" />
+                    and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+                </if>
 			order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
@@ -174,17 +168,12 @@
 			  	del_flag = 0
 			  	and first_category_id = #{firstCategoryId}
 			  	and second_category_id = #{secondCategoryId}
-			  	and (third_category_id = #{thirdCategoryId}
-			  	 or third_category_id='')
-			  union all
-			  	select
-			  	 	knowledge_id,title
-			  	from
-			  		law_knowledge
-			  	where
-			  		del_flag = 0
-			  		and first_category_id = #{firstCategoryId}
-			  		and second_category_id = '')knowledge
+			  	and third_category_id = #{thirdCategoryId}
+                <if test="search != null and  search != ''">
+                    <bind name="pattern" value="search" />
+                    and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+                </if>
+			  )knowledge
 	</select>
 	<select id="listPageSecondNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
@@ -195,8 +184,11 @@
 			where
 				del_flag = 0
 				and first_category_id = #{firstCategoryId}
-				and (second_category_id = #{secondCategoryId}
-				or	second_category_id='')
+				and second_category_id = #{secondCategoryId}
+                <if test="search != null and  search != ''">
+                    <bind name="pattern" value="search" />
+                    and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+                </if>
 				order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
@@ -208,8 +200,11 @@
 		where
 			del_flag = 0
 		  	and first_category_id = #{firstCategoryId}
-		  	and (second_category_id = #{secondCategoryId}
-		  	 or second_category_id='')
+		  	and second_category_id = #{secondCategoryId}
+            <if test="search != null and  search != ''">
+                <bind name="pattern" value="search" />
+                and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+            </if>
 	</select>
 	<select id="listPageFirstNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
@@ -220,6 +215,10 @@
 		where
 			del_flag = 0
 			and first_category_id = #{firstCategoryId}
+            <if test="search != null and  search != ''">
+                <bind name="pattern" value="search" />
+                and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+            </if>
 			order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
@@ -231,6 +230,10 @@
 		where
 			del_flag = 0
 			and first_category_id = #{firstCategoryId}
+            <if test="search != null and  search != ''">
+                <bind name="pattern" value="search" />
+                and concat(ifnull(title,''),ifnull(content,'')) like concat('%',#{pattern},'%') escape'/'
+            </if>
 	</select>
 	<select id="selectThirdPreviousLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
 		select
@@ -251,8 +254,8 @@
 		where
 			del_flag = 0
 			and  date_time > #{dateTime}
-			and  second_category_id = #{secondCategoryId}
-			and third_category_id = ''
+			and first_category_id = #{firstCategoryId}
+			and second_category_id = #{secondCategoryId}
 			order by date_time limit 1
 	</select>
 	<select id="selectFirstPreviousLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
@@ -264,8 +267,6 @@
 			del_flag = 0
 			and  date_time > #{dateTime}
 			and  first_category_id = #{firstCategoryId}
-			and second_category_id = ''
-			and third_category_id = ''
 			order by date_time limit 1
 	</select>
 	<select id="selectThirdNextLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
@@ -287,8 +288,8 @@
 		where
 			del_flag = 0
 			and  date_time &lt; #{dateTime}
-			and  second_category_id = #{secondCategoryId}
-			and third_category_id = ''
+			and first_category_id = #{firstCategoryId}
+			and second_category_id = #{secondCategoryId}
 			order by date_time desc limit 1
 	</select>
 	<select id="selectFirstNextLawKnowledge" parameterType="lawKnowledge" resultType="lawKnowledge">
@@ -300,11 +301,26 @@
 			del_flag = 0
 			and  date_time &lt; #{dateTime}
 			and  first_category_id = #{firstCategoryId}
-			and second_category_id = ''
-			and third_category_id = ''
 			order by date_time desc limit 1
 	</select>
 	<select id="selectByTitle" parameterType="string" resultType="lawKnowledge">
 		select <include refid="base_column_list"/> from  law_knowledge where title = #{title} and del_flag = 0 limit 1
+	</select>
+	<select id="countFullTextSearch"  parameterType="lawKnowledge" resultType="int">
+		select count(1) from law_knowledge where  del_flag = 0
+		<if test="search != null and  search != ''">
+			<bind name="pattern" value="search" />
+			and match(title, content) against (#{pattern} in boolean mode)
+		</if>
+	</select>
+	<select id="fullTextSearchListPage" parameterType="lawKnowledge" resultType="lawKnowledge">
+		<include refid="global.paginationStart_mysql" />
+		select knowledge_id,title from law_knowledge where  del_flag = 0
+		<if test="search != null and  search != ''">
+			<bind name="pattern" value="search" />
+			and match(title, content) against (#{pattern} in boolean mode)
+		</if>
+		order by date_time desc
+		<include refid="global.paginationEnd_mysql" />
 	</select>
 </mapper>

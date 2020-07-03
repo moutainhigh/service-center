@@ -1,12 +1,10 @@
 package com.shengsu.website.market.util;
 
+import com.shengsu.util.StringUtil;
 import com.shengsu.website.market.entity.LawKnowledge;
 import com.shengsu.website.market.entity.LawKnowledgeCategory;
 import com.shengsu.website.market.po.*;
-import com.shengsu.website.market.vo.LawKnowledgeCreateVo;
-import com.shengsu.website.market.vo.LawKnowledgeListByPageVo;
-import com.shengsu.website.market.vo.LawKnowledgeListPageVo;
-import com.shengsu.website.market.vo.LawKnowledgeUpdateVo;
+import com.shengsu.website.market.vo.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -60,6 +58,7 @@ public class LawKnowledgeUtils {
             lawKnowledge.setFirstCategoryId(lawKnowledgeListPageVo.getFirstCategoryId());
             lawKnowledge.setSecondCategoryId(lawKnowledgeListPageVo.getSecondCategoryId());
             lawKnowledge.setThirdCategoryId(lawKnowledgeListPageVo.getThirdCategoryId());
+            lawKnowledge.setSearch(StringUtil.ToLikeStr(lawKnowledgeListPageVo.getSearch()));
             lawKnowledge.setPage(lawKnowledgeListPageVo.getPage());
             lawKnowledge.setPageSize(lawKnowledgeListPageVo.getPageSize());
             return lawKnowledge;
@@ -277,6 +276,16 @@ public class LawKnowledgeUtils {
             lawKnowledgePagePo.setSecondCategoryName(nodeMap.get(lawKnowledge.getSecondCategoryId())==null?"":nodeMap.get(lawKnowledge.getSecondCategoryId()).getCategoryName());
             lawKnowledgePagePo.setThirdCategoryName(nodeMap.get(lawKnowledge.getThirdCategoryId())==null?"":nodeMap.get(lawKnowledge.getThirdCategoryId()).getCategoryName());
             return lawKnowledgePagePo;
+        }
+        return null;
+    }
+    public static LawKnowledge toLawKnowledge(FullTextSearchListPageVo fullTextSearchListPageVo) {
+        if (fullTextSearchListPageVo != null) {
+            LawKnowledge lawKnowledge = new LawKnowledge();
+            lawKnowledge.setSearch(fullTextSearchListPageVo.getSearch());
+            lawKnowledge.setPage(fullTextSearchListPageVo.getPage());
+            lawKnowledge.setPageSize(fullTextSearchListPageVo.getPageSize());
+            return lawKnowledge;
         }
         return null;
     }

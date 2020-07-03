@@ -46,4 +46,7 @@ public interface LawKnowledgeMapper extends BaseMapper<LawKnowledge, String> {
 
     LawKnowledge selectByTitle(String title);
 
+    Integer countFullTextSearch(LawKnowledge lawKnowledge);
+
+    List<LawKnowledge> fullTextSearchListPage(LawKnowledge lawKnowledge);
 }
