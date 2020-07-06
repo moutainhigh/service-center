@@ -113,6 +113,9 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     @Override
     public ResultBean<LawKnowledgeQueryPo> queryWithKeyWord(LawKnowledgeQueryVo lawKnowledgeQueryVo) {
         LawKnowledgeQueryPo lawKnowledgeQueryPo = (LawKnowledgeQueryPo) query(lawKnowledgeQueryVo).getBody();
+        if (lawKnowledgeQueryPo == null) {
+            return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
+        }
         KeyWordUtils.addKeyWord(lawKnowledgeQueryPo,lawKnowledgeQueryVo.getCity());
         return ResultUtil.formResult(true,ResultCode.SUCCESS,lawKnowledgeQueryPo);
     }
