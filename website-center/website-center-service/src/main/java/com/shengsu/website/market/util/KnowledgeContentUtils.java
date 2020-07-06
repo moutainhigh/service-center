@@ -9,9 +9,9 @@ public class KnowledgeContentUtils {
     public static String replace(String content){
         content = content.replaceAll( "(?i)(\\<img)([^\\>]+\\>)","$1 style=\"max-width:100%;height:auto\"$2")
                 .replace("<section","<div")
-                .replace("/section>","\\div>")
+                .replace("/section>","/div>")
                 .replace("<fieldset","<div")
-                .replace("/fieldset>","\\div>")
+                .replace("/fieldset>","/div>")
                 .replace("&amp;","&")
                 .replace("<br>", "<br></br>")
                 .replace("\">", "\"/>")
