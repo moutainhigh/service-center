@@ -47,6 +47,7 @@ public class KeyWordUtils {
      * @return
      */
     private static String formatContent(String content, String city, String firstCategoryName, String sencondCategoryName, String thirdCatetoryName) {
+        content = KnowledgeContentUtils.replace(content);
         List<Integer> list = new ArrayList<>();
         if (content.length() <= 500) {
             int finalPosition = getMinPosition(content, 0.5);
