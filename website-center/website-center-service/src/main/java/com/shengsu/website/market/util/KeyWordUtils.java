@@ -4,7 +4,6 @@ import com.shengsu.website.market.entity.KeyWord;
 import com.shengsu.website.market.po.LawKnowledgeDetailsPo;
 import com.shengsu.website.market.po.LawKnowledgeQueryPo;
 import org.apache.commons.lang3.StringUtils;
-
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
