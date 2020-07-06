@@ -48,6 +48,14 @@ public class KeyWordUtils {
      * @return
      */
     private static String formatContent(String content, String city, String firstCategoryName, String sencondCategoryName, String thirdCatetoryName) {
+        content =content.replaceAll( "/\\<img/gi","<img style=\'max-width:100%;height:auto\'")
+                .replaceAll("/<section/g","<div")
+                .replaceAll("/\\/section>/g","\\div>")
+                .replaceAll("/<fieldset/g","<div")
+                .replaceAll("/\\/fieldset>/g","\\div>")
+                .replaceAll("/&amp;/g","&")
+                .replaceAll("/<(?!\\w)(?![/\\/])/g","&lt;")
+                .replaceAll("/&#x27;/g","\"");
         List<Integer> list = new ArrayList<>();
         if (content.length() <= 500) {
             int finalPosition = getMinPosition(content, 0.5);
