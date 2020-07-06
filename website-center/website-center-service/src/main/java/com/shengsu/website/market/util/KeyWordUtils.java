@@ -47,7 +47,7 @@ public class KeyWordUtils {
      * @return
      */
     private static String formatContent(String content, String city, String firstCategoryName, String sencondCategoryName, String thirdCatetoryName) {
-        content =content.replaceAll( "/\\<img/gi","<img style=\'max-width:100%;height:auto\'")
+        content = content.replaceAll( "(?i)(\\<img)([^\\>]+\\>)","$1 style=\"max-width:100%;height:auto\"$2")
                 .replaceAll("/<section/g","<div")
                 .replaceAll("/\\/section>/g","\\div>")
                 .replaceAll("/<fieldset/g","<div")
