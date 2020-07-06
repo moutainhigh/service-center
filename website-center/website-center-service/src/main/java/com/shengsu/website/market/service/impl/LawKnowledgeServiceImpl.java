@@ -116,7 +116,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         if (lawKnowledgeQueryPo == null) {
             return ResultUtil.formResult(false, ResultCode.LAW_KNOWLEDGE_ID_ERROR, null);
         }
-        KeyWordUtils.addKeyWord(lawKnowledgeQueryPo,lawKnowledgeQueryVo.getCity());
+        KeyWordUtils.addKeyWord(lawKnowledgeQueryPo, lawKnowledgeQueryVo.getCity(), lawKnowledgeQueryPo.getSource());
         return ResultUtil.formResult(true,ResultCode.SUCCESS,lawKnowledgeQueryPo);
     }
     /**
@@ -327,7 +327,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         }
         LawKnowledgeNextPo lawKnowledgeNextPo = LawKnowledgeUtils.toLawKnowledgeNextPo(nextLawKnowledge);
         lawKnowledgeDetailsPo.setLawKnowledgeNextPo(lawKnowledgeNextPo);
-        KeyWordUtils.addKeyWord(lawKnowledgeDetailsPo,lawKnowledgeDetailsVo.getCity());
+        KeyWordUtils.addKeyWord(lawKnowledgeDetailsPo, lawKnowledgeDetailsVo.getCity(), lawKnowledgeDetailsVo.getSource());
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgeDetailsPo);
     }
