@@ -17,22 +17,25 @@ import java.util.stream.Collectors;
 public class KeyWordUtils {
     static String head = "<span style=''color:dodgerblue;''>（{0}）</span> <br>";
     static String body = "<span style=''color:dodgerblue;''>（{0}）</span>";
+    static String keywordUrl = "<a href=\"{0}\" style=''color:dodgerblue;text-decoration:none''>{1}</a>";
     static List<String> keywords = Arrays.asList(KeyWord.listKeyWord.split("，"));
+    static List<String> urls = Arrays.asList(KeyWord.listUrl.split("，"));
 
-    public static void addKeyWord(LawKnowledgeQueryPo lawKnowledgeQueryPo ,String city){
+    public static void addKeyWord(LawKnowledgeQueryPo lawKnowledgeQueryPo, String city, String source) {
         String content = lawKnowledgeQueryPo.getContent();
         String firstCategoryName = lawKnowledgeQueryPo.getFirstCategoryName();
         String secondCategoryName = lawKnowledgeQueryPo.getSecondCategoryName();
         String thirdCategoryName = lawKnowledgeQueryPo.getThirdCategoryName();
-        content = formatContent(content,city,firstCategoryName,secondCategoryName,thirdCategoryName);
+        content = formatContent(content, city, firstCategoryName, secondCategoryName, thirdCategoryName, source);
         lawKnowledgeQueryPo.setContent(content);
     }
-    public static void addKeyWord(LawKnowledgeDetailsPo lawKnowledgeDetailsPo,String city){
+
+    public static void addKeyWord(LawKnowledgeDetailsPo lawKnowledgeDetailsPo, String city, String source) {
         String content = lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getContent();
         String firstCategoryName = lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getFirstCategoryName();
         String secondCategoryName = lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getSecondCategoryName();
         String thirdCategoryName = lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().getThirdCategoryName();
-        content = formatContent(content,city,firstCategoryName,secondCategoryName,thirdCategoryName);
+        content = formatContent(content, city, firstCategoryName, secondCategoryName, thirdCategoryName, source);
         lawKnowledgeDetailsPo.getLawKnowledgeCurrentPo().setContent(content);
     }
 
@@ -47,7 +50,8 @@ public class KeyWordUtils {
      * @param thirdCatetoryName
      * @return
      */
-    private static String formatContent(String content, String city, String firstCategoryName, String sencondCategoryName, String thirdCatetoryName) {
+    private static String formatContent(String content, String city, String firstCategoryName, String sencondCategoryName, String thirdCatetoryName, String source) {
+        content = KnowledgeContentUtils.replace(content);
         List<Integer> list = new ArrayList<>();
         if (content.length() <= 500) {
             int finalPosition = getMinPosition(content, 0.5);
@@ -96,8 +100,14 @@ public class KeyWordUtils {
         StringBuilder sb = new StringBuilder(content);
         Set set = new HashSet();
         Collections.sort(list);
+        String keyWordUrl = null;
         for (int i = list.size() - 1; i >= 0; i--) {
-            sb.insert(list.get(i), MessageFormat.format(body, getRandomKeyword(set)));
+            if ("H5".equals(source)) {
+                keyWordUrl = MessageFormat.format(keywordUrl, getRandomUrl(), getRandomKeyword(set));
+            } else {
+                keyWordUrl = getRandomKeyword(set);
+            }
+            sb.insert(list.get(i), MessageFormat.format(body, keyWordUrl));
         }
 
         //随机插入
@@ -105,7 +115,12 @@ public class KeyWordUtils {
         sencondCategoryName = StringUtils.isBlank(sencondCategoryName) ? "" : " " + sencondCategoryName;
         thirdCatetoryName = StringUtils.isBlank(thirdCatetoryName) ? "" : " " + thirdCatetoryName;
         String headTail = city + firstCategoryName + sencondCategoryName + thirdCatetoryName;
-        sb.insert(0, MessageFormat.format(head, headTail + " " + getRandomKeyword(set)));
+        if ("H5".equals(source)) {
+            keyWordUrl = MessageFormat.format(keywordUrl, getRandomUrl(), headTail + " "+getRandomKeyword(set));
+        } else {
+            keyWordUrl = headTail + " " +getRandomKeyword(set);
+        }
+        sb.insert(0, MessageFormat.format(head,  keyWordUrl));
         return sb.toString();
     }
 
@@ -140,6 +155,11 @@ public class KeyWordUtils {
             result = keywords.get((int) (Math.random() * keywords.size()));
         }
         existKeywords.add(result);
+        return result;
+    }
+
+    private static String getRandomUrl() {
+        String result = urls.get((int) (Math.random() * urls.size()));
         return result;
     }
 }

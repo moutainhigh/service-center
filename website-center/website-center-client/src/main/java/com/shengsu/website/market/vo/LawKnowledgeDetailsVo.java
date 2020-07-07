@@ -15,4 +15,5 @@ public class LawKnowledgeDetailsVo implements Serializable {
     @NotBlank
     private String knowledgeId;
     private String city;
+    private String source;
 }
