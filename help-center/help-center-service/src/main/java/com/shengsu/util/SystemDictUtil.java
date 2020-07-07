@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @program: service-center
@@ -61,11 +63,7 @@ public class SystemDictUtil {
 
     public static Map<String, SystemDict> toSystemDictMap(List<SystemDict> systemDicts){
         if (systemDicts != null) {
-            Map<String, SystemDict> systemDictMap = new HashMap<>();
-            for (SystemDict systemDict : systemDicts) {
-                systemDictMap.put(systemDict.getDisplayValue(), systemDict);
-            }
-            return systemDictMap;
+            return systemDicts.stream().collect(Collectors.toMap(SystemDict::getDisplayValue,Function.identity()));
         }
         return null;
 

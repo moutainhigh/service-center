@@ -7,6 +7,8 @@ import com.shengsu.util.EncryptUtil;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Created by zyc on 2019/8/26.
@@ -98,11 +100,7 @@ public class UserUtils {
 
     public static Map<String, User> toUserMap(List<User> users) {
         if (users != null) {
-            Map<String, User> userMap = new HashMap<>();
-            for (User user : users) {
-                userMap.put(user.getUserId(), user);
-            }
-            return userMap;
+            return users.stream().collect(Collectors.toMap(User::getUserId,Function.identity()));
         }
         return null;
     }
