@@ -116,11 +116,11 @@ public class KeyWordUtils {
         thirdCatetoryName = StringUtils.isBlank(thirdCatetoryName) ? "" : " " + thirdCatetoryName;
         String headTail = city + firstCategoryName + sencondCategoryName + thirdCatetoryName;
         if ("H5".equals(source)) {
-            keyWordUrl = MessageFormat.format(keywordUrl, getRandomUrl(), getRandomKeyword(set));
+            keyWordUrl = MessageFormat.format(keywordUrl, getRandomUrl(), headTail + " "+getRandomKeyword(set));
         } else {
-            keyWordUrl = getRandomKeyword(set);
+            keyWordUrl = headTail + " " +getRandomKeyword(set);
         }
-        sb.insert(0, MessageFormat.format(head, headTail + " " + keyWordUrl));
+        sb.insert(0, MessageFormat.format(head,  keyWordUrl));
         return sb.toString();
     }
 
