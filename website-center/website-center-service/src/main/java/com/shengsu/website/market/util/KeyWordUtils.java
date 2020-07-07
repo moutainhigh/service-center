@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class KeyWordUtils {
     static String head = "<span style=''color:dodgerblue;''>（{0}）</span> <br>";
     static String body = "<span style=''color:dodgerblue;''>（{0}）</span>";
-    static String keywordUrl = "<a href=\"{0}\">{1}</a>";
+    static String keywordUrl = "<a href=\"{0}\" style=''color:dodgerblue;text-decoration:none''>{1}</a>";
     static List<String> keywords = Arrays.asList(KeyWord.listKeyWord.split("，"));
     static List<String> urls = Arrays.asList(KeyWord.listUrl.split("，"));
 
@@ -51,6 +51,7 @@ public class KeyWordUtils {
      * @return
      */
     private static String formatContent(String content, String city, String firstCategoryName, String sencondCategoryName, String thirdCatetoryName, String source) {
+        content = KnowledgeContentUtils.replace(content);
         List<Integer> list = new ArrayList<>();
         if (content.length() <= 500) {
             int finalPosition = getMinPosition(content, 0.5);
