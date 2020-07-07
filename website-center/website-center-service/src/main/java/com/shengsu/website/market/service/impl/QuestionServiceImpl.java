@@ -17,6 +17,7 @@ import com.shengsu.website.market.service.QuestionReplyService;
 import com.shengsu.website.market.service.QuestionService;
 import com.shengsu.website.market.util.QuestionUtils;
 import com.shengsu.website.market.vo.QuestionVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +66,9 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, String> imple
         }
         Lawyer lawyer = lawyerService.get(reply.getReplyLawyerId());
         String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
+        if(StringUtils.isBlank(url)){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, url);
+        }
         lawyer.setIconOssResourceId(url);
         QuestionReplyPo questionReplyPo = QuestionUtils.toQuestionReplyPo(question, lawyer, reply);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplyPo);
