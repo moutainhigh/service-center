@@ -53,3 +53,10 @@ CREATE TABLE `lawcase_consult` (
   `del_flag` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`consult_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+--律师表结构变更
+alter table lawyer
+add column introduction varchar(10) default '' comment '简介',
+add column overall_evaluation varchar(10) default '' comment '综合评估',
+add column professional_degree varchar(10) default '' comment '专业程度',
+add column service_efficiency varchar(10) default '' comment '服务效率',
+add column service_attitude varchar(10) default '' comment '服务态度'
