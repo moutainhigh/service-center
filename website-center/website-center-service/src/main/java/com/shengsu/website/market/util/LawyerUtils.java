@@ -72,6 +72,11 @@ public class LawyerUtils {
         lawyerPo.setRank(lawyer.getRank());
         lawyerPo.setConsultFee(lawyer.getConsultFee());
         lawyerPo.setIconOssResourceId(lawyer.getIconOssResourceId());
+        lawyerPo.setIntroduction(lawyer.getIntroduction());
+        lawyerPo.setOverallEvaluation(lawyer.getOverallEvaluation());
+        lawyerPo.setProfessionalDegree(lawyer.getProfessionalDegree());
+        lawyerPo.setServiceAttitude(lawyer.getServiceAttitude());
+        lawyerPo.setServiceEfficiency(lawyer.getServiceEfficiency());
         return lawyerPo;
     }
 }
