@@ -50,6 +50,11 @@ public class LawyerUtils {
             lawyerPo.setPraiseTimes(lawyer.getPraiseTimes());
             lawyerPo.setConsultFee(lawyer.getConsultFee());
             lawyerPo.setRank(lawyer.getRank());
+            lawyerPo.setIntroduction(lawyer.getIntroduction());
+            lawyerPo.setOverallEvaluation(lawyer.getOverallEvaluation());
+            lawyerPo.setProfessionalDegree(lawyer.getProfessionalDegree());
+            lawyerPo.setServiceAttitude(lawyer.getServiceAttitude());
+            lawyerPo.setServiceEfficiency(lawyer.getServiceEfficiency());
             lawyerPos.add(lawyerPo);
         }
         return lawyerPos;
