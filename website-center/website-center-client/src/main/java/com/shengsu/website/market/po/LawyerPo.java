@@ -37,8 +37,8 @@ public class LawyerPo extends BaseEntity {
     private String rank;
     private String iconOssResourceId;
     private String introduction;
-    private double overallEvaluation;
-    private double professionalDegree;
-    private double serviceEfficiency;
-    private double serviceAttitude;
+    private String overallEvaluation;
+    private String professionalDegree;
+    private String serviceEfficiency;
+    private String serviceAttitude;
 }
