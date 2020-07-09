@@ -51,7 +51,9 @@ public class KeyWordUtils {
      * @return
      */
     private static String formatContent(String content, String city, String firstCategoryName, String sencondCategoryName, String thirdCatetoryName, String source) {
-        content = KnowledgeContentUtils.replace(content);
+        if ("H5".equals(source)){
+            content = KnowledgeContentUtils.replace(content);
+        }
         List<Integer> list = new ArrayList<>();
         if (content.length() <= 500) {
             int finalPosition = getMinPosition(content, 0.5);
