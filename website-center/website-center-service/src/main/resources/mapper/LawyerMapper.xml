@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="Lawyer">
     </resultMap>
     <sql id="Base_Column_List">
-    id, lawyer_id, lawyer_name, icon_oss_resource_id, field, create_time, modify_time,consult_fee,rank,praise_times,consult_times,del_flag
+    id, lawyer_id, lawyer_name, icon_oss_resource_id, field, create_time, modify_time,consult_fee,rank,praise_times,consult_times,overall_evaluation,professional_degree,service_efficiency,service_attitude,introduction,del_flag
     </sql>
     <sql id="lawyer_where_clause">
         <where>
@@ -28,7 +28,12 @@
       consult_fee,
       rank,
       praise_times,
-      consult_times)
+      consult_times,
+      overall_evaluation,
+      professional_degree,
+      service_efficiency,
+      service_attitude,
+      introduction)
     values (
     #{lawyerId,jdbcType=VARCHAR},
     #{lawyerName,jdbcType=VARCHAR},
@@ -39,7 +44,12 @@
     #{consultFee},
     #{rank},
     #{praiseTimes,jdbcType=VARCHAR},
-    #{consultTimes,jdbcType=VARCHAR}
+    #{consultTimes,jdbcType=VARCHAR},
+    #{overallEvaluation},
+    #{professionalDegree},
+    #{serviceEfficiency},
+    #{serviceAttitude},
+    #{introduction}
     )
   </insert>
     <delete id="delete" parameterType="String">
@@ -58,7 +68,12 @@
         rank = #{rank},
         praise_times = #{praiseTimes,jdbcType=VARCHAR},
         consult_times = #{consultTimes,jdbcType=VARCHAR},
-        modify_time = current_timestamp()
+        modify_time = current_timestamp(),
+        overall_evaluation = #{overallEvaluation},
+        professional_degree = #{professionalDegree},
+        service_efficiency = #{serviceEfficiency},
+        service_attitude = #{serviceAttitude},
+        introduction = #{introduction}
         WHERE del_flag=0 and lawyer_id = #{lawyerId}
     </update>
     <select id="get" parameterType="String" resultMap="BaseResultMap">

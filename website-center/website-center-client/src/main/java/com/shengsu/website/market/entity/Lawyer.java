@@ -35,4 +35,9 @@ public class Lawyer extends BaseEntity {
     private Integer praiseTimes;
     private BigDecimal consultFee;
     private String rank;
+    private String introduction;
+    private String overallEvaluation;
+    private String professionalDegree;
+    private String serviceEfficiency;
+    private String serviceAttitude;
 }
