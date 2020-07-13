@@ -9,6 +9,10 @@ spring:
     password: 'ss123456!@'
   aop:
     proxy-target-class: true
+  data:
+    elasticsearch:
+      cluster-name: es
+      cluster-nodes: 127.0.0.1:9300
 zookeeper:
   address: 127.0.0.1:2181
 dubbo:

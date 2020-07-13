@@ -1,8 +1,12 @@
 package com.shengsu.website.market.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.constant.CommonConst;
+import com.shengsu.helper.constant.MQEnum;
+import com.shengsu.helper.service.MQProducerService;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
@@ -21,13 +25,23 @@ import com.shengsu.website.market.util.LawKnowledgeCategoryUtils;
 import com.shengsu.website.market.util.LawKnowledgeUtils;
 import com.shengsu.website.market.vo.*;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import static com.shengsu.website.app.constant.BizConst.LAW_HEADLINES_RANDOM_COUNT;
+import static com.shengsu.website.app.constant.BizConst.*;
 
 /**
  * @description:
@@ -39,6 +53,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     @Value("${lawknowledge.picture-range}")
     private int pictureRange;
     @Autowired
+    private MQProducerService mqProducerService;
+    @Autowired
     private LawKnowledgeCategoryService lawKnowledgeCategoryService;
     @Autowired
     private OssService ossService;
@@ -46,12 +62,20 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     private LawKnowledgeMapper lawKnowledgeMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ElasticsearchTemplate elasticsearchTemplate;
 
     @Override
     public BaseMapper<LawKnowledge, String> getBaseMapper() {
         return lawKnowledgeMapper;
     }
 
+    /**
+    * @Description: boss运营后台创建法律文库
+    * @Param: * @Param lawKnowledgeCreateVo: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
     @Override
     public ResultBean create(LawKnowledgeCreateVo lawKnowledgeCreateVo) {
         LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByTitle(lawKnowledgeCreateVo.getTitle());
@@ -60,11 +84,22 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         }
 
         lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeCreateVo);
-        lawKnowledge.setKnowledgeId(UUID.randomUUID().toString());
+        String knowledgeId = UUID.randomUUID().toString();
+        lawKnowledge.setKnowledgeId(knowledgeId);
         lawKnowledgeMapper.save(lawKnowledge);
+        // 发送ES mq消息
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("knowledgeId",knowledgeId);
+        jsonObject.put("operateType",OPERATE_TYPE_CREATE);
+        mqProducerService.send(MQEnum.ELASTICSEARCH, JSON.toJSONString(jsonObject));
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
-
+    /**
+     * @Description: boss运营后台删除法律文库
+     * @Param: * @Param lawKnowledgeCreateVo:
+     * @Return: * @return: com.shengsu.result.ResultBean
+     * @date:
+     */
     @Override
     public ResultBean remove(LawKnowledgeDeleteVo lawKnowledgeDeleteVo) {
         String knowledgeId = lawKnowledgeDeleteVo.getKnowledgeId();
@@ -76,7 +111,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         lawKnowledgeMapper.delete(knowledgeId);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
-
+    /**
+     * @Description: boss运营后台编辑法律文库
+     * @Param: * @Param lawKnowledgeCreateVo:
+     * @Return: * @return: com.shengsu.result.ResultBean
+     * @date:
+     */
     @Override
     public ResultBean edit(LawKnowledgeUpdateVo lawKnowledgeUpdateVo) {
         String knowledgeId = lawKnowledgeUpdateVo.getKnowledgeId();
@@ -90,6 +130,13 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         }
         lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeUpdateVo);
         lawKnowledgeMapper.update(lawKnowledge);
+        // 发送ES mq消息(es中保存一份)
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("knowledgeId",knowledgeId);
+        jsonObject.put("title",lawKnowledge.getTitle());
+        jsonObject.put("content",lawKnowledge.getContent());
+        jsonObject.put("operateType",OPERATE_TYPE_UPDATE);
+        mqProducerService.send(MQEnum.ELASTICSEARCH, JSON.toJSONString(jsonObject));
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
 
@@ -388,5 +435,63 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         }
         List<LawKnowledgePo> lawKnowledgePos = LawKnowledgeUtils.toLawknowledgePO(result);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgePos);
+    }
+    /**
+     * es 搜索引擎
+     * 根据文档内容字段分页查询
+     */
+    @Override
+    public ResultBean esContentFieldListByPage(EsListByPageVo esListByPageVo){
+        // 获取参数
+        Integer page = esListByPageVo.getPage();
+        Integer pageSize = esListByPageVo.getPageSize();
+        String content = esListByPageVo.getContent();
+        // 开始分页组装
+        Pageable pageable = PageRequest.of(page,pageSize);
+        SearchQuery query = new NativeSearchQueryBuilder()
+                .withQuery(QueryBuilders.matchQuery("content",content))
+                .withPageable(pageable).build();
+        AggregatedPage<LawKnowledge> pageLawKnowledge= elasticsearchTemplate.queryForPage(query,LawKnowledge.class);
+        List<LawKnowledge> lawKnowledges = pageLawKnowledge.getContent();
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, lawKnowledges,(int)pageLawKnowledge.getTotalElements());
+    }
+    /**
+     * 多字段匹配
+     * 多字段中完全匹配
+     */
+    public ResultBean esManyFieldsListByPage(EsListByPageVo esListByPageVo) {
+        // 获取参数
+        Integer page = esListByPageVo.getPage();
+        Integer pageSize = esListByPageVo.getPageSize();
+        String serarch = esListByPageVo.getSearch();
+        // 开始分页组装
+        Pageable pageable = PageRequest.of(page,pageSize);
+        SearchQuery query = new NativeSearchQueryBuilder()
+                .withQuery(QueryBuilders.multiMatchQuery(serarch,"title","content"))
+                .withPageable(pageable).build();
+        AggregatedPage<LawKnowledge> pageLawKnowledge= elasticsearchTemplate.queryForPage(query,LawKnowledge.class);
+        List<LawKnowledge> lawKnowledges = pageLawKnowledge.getContent();
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, lawKnowledges,(int)pageLawKnowledge.getTotalElements());
+    }
+    /**
+     * 根据文档内容字段分页查询并排序
+     */
+    public ResultBean esContentFieldListByPageSort(EsListByPageVo esListByPageVo){
+        // 获取参数
+        Integer page = esListByPageVo.getPage();
+        Integer pageSize = esListByPageVo.getPageSize();
+        String content = esListByPageVo.getContent();
+        // 开始分页组装
+        Pageable pageable = PageRequest.of(page,pageSize);
+        //查询结果进行排序
+        SortBuilder sortBuilder = new FieldSortBuilder("dateTime")
+                .order(SortOrder.DESC);
+        SearchQuery query = new NativeSearchQueryBuilder()
+                .withQuery(QueryBuilders.matchQuery("content",content))
+                .withSort(sortBuilder)
+                .withPageable(pageable).build();
+        AggregatedPage<LawKnowledge> pageLawKnowledge = elasticsearchTemplate.queryForPage(query,LawKnowledge.class);
+        List<LawKnowledge> lawKnowledges = pageLawKnowledge.getContent();
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, lawKnowledges,(int)pageLawKnowledge.getTotalElements());
     }
 }

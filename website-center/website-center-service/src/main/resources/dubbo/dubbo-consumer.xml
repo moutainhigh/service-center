@@ -13,4 +13,5 @@
     <dubbo:reference id="userService" interface="com.shengsu.user.service.UserService" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:reference id="systemDictService" interface="com.shengsu.helper.service.SystemDictService" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:reference id="redisService" interface="com.shengsu.helper.service.RedisService" timeout="3000" version="${dubbo.version}"/>
+	<dubbo:reference id="mqProducerService" interface="com.shengsu.helper.service.MQProducerService" timeout="3000" retries="0" version="${dubbo.version}"/>
 </beans>

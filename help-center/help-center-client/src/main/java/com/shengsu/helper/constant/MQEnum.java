@@ -22,7 +22,9 @@ public enum MQEnum {
     //支付宝支付通知
     ALIPAY_NOTIFY("alipayTopic","alipayNotifyTag"),
     //百度小程序支付通知
-    BDPAY_NOTIFY("bdpayTopic","bdpayNofityTag")
+    BDPAY_NOTIFY("bdpayTopic","bdpayNofityTag"),
+    //全文搜索Es数据消息通知
+    ELASTICSEARCH("elasticsearchTopic","elasticsearchTag")
     ;
 
     private String topic;

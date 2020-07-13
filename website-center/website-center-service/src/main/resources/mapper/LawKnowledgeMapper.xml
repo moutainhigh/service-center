@@ -323,4 +323,7 @@
 		order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
+    <select id="get" parameterType="String" resultType="lawKnowledge">
+        select * from law_knowledge where del_flag = 0 and knowledge_id = #{knowledgeId}
+    </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.shengsu.website.mq;
 import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.mq.AbstractMQConsumer;
 import com.shengsu.mq.MessageListen;
+import com.shengsu.website.mq.service.ElasticsearchService;
 import com.shengsu.website.mq.service.PayNotifyService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -22,6 +23,8 @@ import javax.annotation.PostConstruct;
 public class RocketMQConsumer extends AbstractMQConsumer {
     @Autowired
     private PayNotifyService payNotifyService;
+    @Autowired
+    private ElasticsearchService elasticsearchService;
 
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
@@ -53,6 +56,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
         messageListen.registerHandler(MQEnum.ALIPAY_NOTIFY.getTag(), payNotifyService);
         messageListen.registerHandler(MQEnum.WXPAY_NOTIFY_WEAPP.getTag(), payNotifyService);
         messageListen.registerHandler(MQEnum.BDPAY_NOTIFY.getTag(), payNotifyService);
+        messageListen.registerHandler(MQEnum.ELASTICSEARCH.getTag(), elasticsearchService);
         consumer.registerMessageListener(messageListen);
     }
 
@@ -61,5 +65,6 @@ public class RocketMQConsumer extends AbstractMQConsumer {
         consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag());
         consumer.subscribe(MQEnum.WXPAY_NOTIFY_WEAPP.getTopic(), MQEnum.WXPAY_NOTIFY_WEAPP.getTag());
         consumer.subscribe(MQEnum.BDPAY_NOTIFY.getTopic(), MQEnum.BDPAY_NOTIFY.getTag());
+        consumer.subscribe(MQEnum.ELASTICSEARCH.getTopic(), MQEnum.ELASTICSEARCH.getTag());
     }
 }
