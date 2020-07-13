@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsu.website.market.mapper.LawDocMapper">
+	<!-- Result Map-->
+	<resultMap id="law_doc_result_map" type="lawDoc">
+	</resultMap>
+	<sql id="base_column_list">
+    	doc_id,
+    	doc_type,
+    	doc_name,
+    	full_name,
+    	oss_resource_id,
+    	downloads,
+    	upload_time
+  	</sql>
+	<!-- 查询条件 -->
+	<sql id="law_doc_where_clause">
+		<where>
+			del_flag = 0
+			<if test="docName != null and  docName != ''"> and doc_name = #{docName}</if>
+			<if test="search != null and  search != ''">
+				<bind name="pattern" value="search" />
+				and concat(ifnull(doc_name,''),ifnull(full_name,'')) like concat('%',#{pattern},'%') escape'/'
+			</if>
+		</where>
+	</sql>
+	<insert id="save" parameterType="lawDoc">
+		insert into law_doc
+		(
+		doc_id,
+    	doc_type,
+    	doc_name,
+    	full_name,
+    	oss_resource_id,
+    	downloads,
+    	upload_time,
+		create_time,
+		modify_time,
+		del_flag
+		)
+		values(
+		#{docId},
+		#{docType},
+		#{docName},
+		#{fullName},
+		#{ossResourceId},
+		#{downloads},
+		#{uploadTime},
+		current_timestamp(),
+		current_timestamp(),
+		0
+		)
+	</insert>
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into
+		law_doc
+		(
+			doc_id,
+			doc_type,
+			doc_name,
+			full_name,
+			oss_resource_id,
+			downloads,
+			upload_time,
+			create_time,
+			modify_time
+		)
+		<foreach collection="list" item="item" index="index" separator="union all">
+			(
+			select
+			#{item.docId},
+			#{item.docType},
+			#{item.docName},
+			#{item.fullName},
+			#{item.ossResourceId},
+			#{item.downloads},
+			#{item.uploadTime},
+			current_timestamp(),
+			current_timestamp()
+			from
+			dual
+			)
+		</foreach>
+	</insert>
+</mapper>
