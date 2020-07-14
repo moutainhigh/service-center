@@ -4,6 +4,7 @@ import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.constant.CommonConst;
+import com.shengsu.exception.BizException;
 import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.entity.SystemDict;
 import com.shengsu.helper.service.OssService;
@@ -49,7 +50,7 @@ public class LawDocServiceImpl extends BaseServiceImpl<LawDoc, String> implement
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultBean create(LawDocCreateVo lawDocCreateVo) {
-        LawDoc lawDoc = lawDocMapper.selectByDocName(lawDocCreateVo.getDocName());
+        LawDoc lawDoc = lawDocMapper.selectByFullName(lawDocCreateVo.getFullName());
         if (lawDoc != null) {
             return ResultUtil.formResult(false, ResultCode.LAW_DOC_DATA_REPEAT, null);
         }
@@ -78,11 +79,11 @@ public class LawDocServiceImpl extends BaseServiceImpl<LawDoc, String> implement
         if (lawDoc == null) {
             return ResultUtil.formResult(false, ResultCode.LAW_DOC_ID_ERROR, null);
         }
-        lawDoc = lawDocMapper.selectByDocName(lawDocUpdateVo.getDocName());
-        if (lawDoc != null) {
+        lawDoc =  LawDocUtils.toLawDoc(lawDocUpdateVo);
+        int count = lawDocMapper.existCheckExceptSelf(lawDoc);
+        if (count > 0) {
             return ResultUtil.formResult(false, ResultCode.LAW_DOC_DATA_REPEAT, null);
         }
-        lawDoc =  LawDocUtils.toLawDoc(lawDocUpdateVo);
         lawDocMapper.update(lawDoc);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }

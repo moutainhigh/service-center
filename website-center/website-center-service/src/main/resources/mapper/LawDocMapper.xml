@@ -82,8 +82,8 @@
 			)
 		</foreach>
 	</insert>
-	<select id="selectByDocName" parameterType="string" resultType="lawDoc">
-		select <include refid="base_column_list"/> from  law_doc where doc_name = #{docName} and del_flag = 0 limit 1
+	<select id="selectByFullName" parameterType="string" resultType="lawDoc">
+		select <include refid="base_column_list"/> from  law_doc where full_name = #{fullName} and del_flag = 0 limit 1
 	</select>
 	<select id="selectByDocId" parameterType="string" resultType="lawDoc">
 		select <include refid="base_column_list"/> from  law_doc where doc_id = #{docId} and del_flag = 0 limit 1
@@ -128,4 +128,14 @@
 	<update id="updateDownloads" parameterType="string">
 		update law_doc set downloads = downloads+1 where doc_id = #{docId}
 	</update>
+	<select id="existCheckExceptSelf" parameterType="lawDoc" resultType="int">
+		select
+			count(1)
+		from
+			law_doc
+		where
+			del_flag = 0 and
+			full_name=#{fullName} and
+			doc_id != #{docId}
+	</select>
 </mapper>

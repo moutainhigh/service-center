@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface LawDocMapper extends BaseMapper<LawDoc, String> {
-    LawDoc selectByDocName(String docName);
+    LawDoc selectByFullName(String docName);
 
     LawDoc selectByDocId(String docId);
 
@@ -21,4 +21,6 @@ public interface LawDocMapper extends BaseMapper<LawDoc, String> {
     LawDoc selectNextLawDoc(LawDoc lawDoc);
 
     int updateDownloads(String docId);
+
+    int existCheckExceptSelf(LawDoc lawDoc);
 }

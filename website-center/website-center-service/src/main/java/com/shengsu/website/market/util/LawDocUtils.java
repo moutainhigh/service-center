@@ -48,7 +48,7 @@ public class LawDocUtils {
     public static LawDocQueryPo toLawDocQueryPo(LawDoc lawDoc) {
         if (lawDoc != null) {
             LawDocQueryPo lawDocQueryPo = new LawDocQueryPo();
-            lawDocQueryPo.setDocType(lawDocQueryPo.getDocType());
+            lawDocQueryPo.setDocType(lawDoc.getDocType());
             lawDocQueryPo.setDocName(lawDoc.getDocName());
             lawDocQueryPo.setFullName(lawDoc.getFullName());
             lawDocQueryPo.setOssResourceId(lawDoc.getOssResourceId());
