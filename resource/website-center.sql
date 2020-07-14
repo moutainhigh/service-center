@@ -60,3 +60,19 @@ add column overall_evaluation varchar(10) default '' comment '综合评估',
 add column professional_degree varchar(10) default '' comment '专业程度',
 add column service_efficiency varchar(10) default '' comment '服务效率',
 add column service_attitude varchar(10) default '' comment '服务态度'
+
+-- 创建法律文库
+CREATE TABLE `law_doc` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `doc_id` varchar(50) DEFAULT '' COMMENT '类目id',
+  `doc_type` varchar(10) DEFAULT '' COMMENT '文档类型',
+  `doc_name` varchar(200) DEFAULT '' COMMENT '文档名称',
+  `full_name` varchar(200) DEFAULT '' COMMENT '全称',
+  `oss_resource_id` varchar(50) DEFAULT '' COMMENT '资源url',
+  `downloads` bigint(20) DEFAULT '' COMMENT '下载次数',
+  `upload_time` datetime DEFAULT NULL COMMENT '上传时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `modify_time` datetime DEFAULT NULL,
+  `del_flag` tinyint(4) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
