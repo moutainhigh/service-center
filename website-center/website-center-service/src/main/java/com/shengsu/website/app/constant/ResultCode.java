@@ -34,12 +34,16 @@ public enum ResultCode implements IResultCode {
     CASE_DATA_REPEAT(1002,"成功案例:数据重复"),
     CASE_ID_ERROR(1002,"成功案例:id错误"),
 
-//    轮番播放
+    //轮番播放
     WHEEL_ID_ERROR(1002,"轮番播放:无此用户"),
 
     //法律知识文库
     LAW_KNOWLEDGE_ID_ERROR(1002,"法律知识文库:id错误"),
-    LAW_KNOWLEDGE_DATA_REPEAT(1002,"法律知识文库:数据重复");
+    LAW_KNOWLEDGE_DATA_REPEAT(1002,"法律知识文库:数据重复"),
+
+    //法律文库
+    LAW_DOC_ID_ERROR(1002,"法律文库:id错误"),
+    LAW_DOC_DATA_REPEAT(1002,"法律文库:数据重复");
 
     private Integer code;
     private String  resultMessage;

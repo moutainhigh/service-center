@@ -21,4 +21,6 @@ public interface BizConst {
     String LAWKNOWLEDGE_INDEX_NAME = "lawKnowledgeindex";
     // 知识文库索引类型
     String LAWKNOWLEDGE_INDEX_TYPE = "lawKnowledgeType";
+    //文档类型
+    String DICT_CODE_DOC_TYPE = "doc_type";
 }
