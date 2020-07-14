@@ -17,7 +17,6 @@ public class LawDocCreateVo implements Serializable {
     private String docName;// 文档名称
     private String fullName;// 文档全称
     private String ossResourceId;// 资源id
-    private String downloads;// 下载次数
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date uploadTime;// 上传时间
 

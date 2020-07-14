@@ -69,7 +69,7 @@ CREATE TABLE `law_doc` (
   `doc_name` varchar(200) DEFAULT '' COMMENT '文档名称',
   `full_name` varchar(200) DEFAULT '' COMMENT '全称',
   `oss_resource_id` varchar(50) DEFAULT '' COMMENT '资源url',
-  `downloads` bigint(20) DEFAULT '' COMMENT '下载次数',
+  `downloads` bigint(20) DEFAULT '0' COMMENT '下载次数',
   `upload_time` datetime DEFAULT NULL COMMENT '上传时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `modify_time` datetime DEFAULT NULL,

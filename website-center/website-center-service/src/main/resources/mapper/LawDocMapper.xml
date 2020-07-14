@@ -36,7 +36,6 @@
     	doc_name,
     	full_name,
     	oss_resource_id,
-    	downloads,
     	upload_time,
 		create_time,
 		modify_time,
@@ -48,7 +47,6 @@
 		#{docName},
 		#{fullName},
 		#{ossResourceId},
-		#{downloads},
 		#{uploadTime},
 		current_timestamp(),
 		current_timestamp(),
@@ -64,7 +62,6 @@
 			doc_name,
 			full_name,
 			oss_resource_id,
-			downloads,
 			upload_time,
 			create_time,
 			modify_time
@@ -77,7 +74,6 @@
 			#{item.docName},
 			#{item.fullName},
 			#{item.ossResourceId},
-			#{item.downloads},
 			#{item.uploadTime},
 			current_timestamp(),
 			current_timestamp()
