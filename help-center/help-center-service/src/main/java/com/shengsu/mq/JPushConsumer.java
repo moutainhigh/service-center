@@ -43,6 +43,7 @@ public class JPushConsumer extends AbstractMQConsumer{
             consumer.setVipChannelEnabled(false);
             consumer.setConsumeTimeout(consumeTimeout);
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+            consumer.setMaxReconsumeTimes(MAX_RECONSUME_TIMES);
             registerMessageListener();
             subscribe();
             consumer.start();
