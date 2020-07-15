@@ -24,7 +24,6 @@ public class LawDocUtils {
             lawDoc.setDocName(lawDocCreateVo.getDocName());
             lawDoc.setFullName(lawDocCreateVo.getFullName());
             lawDoc.setOssResourceId(lawDocCreateVo.getOssResourceId());
-            lawDoc.setDownloads(lawDocCreateVo.getDownloads());
             Date uploadTime = lawDocCreateVo.getUploadTime();
             lawDoc.setUploadTime(uploadTime==null?new Date():uploadTime);
             return lawDoc;
@@ -39,7 +38,6 @@ public class LawDocUtils {
             lawDoc.setDocName(lawDocUpdateVo.getDocName());
             lawDoc.setFullName(lawDocUpdateVo.getFullName());
             lawDoc.setOssResourceId(lawDocUpdateVo.getOssResourceId());
-            lawDoc.setDownloads(lawDocUpdateVo.getDownloads());
             Date uploadTime = lawDocUpdateVo.getUploadTime();
             lawDoc.setUploadTime(uploadTime==null?new Date():uploadTime);
             return lawDoc;
@@ -50,7 +48,7 @@ public class LawDocUtils {
     public static LawDocQueryPo toLawDocQueryPo(LawDoc lawDoc) {
         if (lawDoc != null) {
             LawDocQueryPo lawDocQueryPo = new LawDocQueryPo();
-            lawDocQueryPo.setDocType(lawDocQueryPo.getDocType());
+            lawDocQueryPo.setDocType(lawDoc.getDocType());
             lawDocQueryPo.setDocName(lawDoc.getDocName());
             lawDocQueryPo.setFullName(lawDoc.getFullName());
             lawDocQueryPo.setOssResourceId(lawDoc.getOssResourceId());
