@@ -108,7 +108,7 @@
 		<include refid="global.paginationStart_mysql" />
 		select <include refid="base_column_list"/> from law_doc
 		<include refid="law_doc_where_clause" />
-		order by modify_time desc
+		order by upload_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
 	<select id="selectPreviousLawDoc" parameterType="lawDoc" resultType="lawDoc">
