@@ -19,7 +19,7 @@ import javax.annotation.PostConstruct;
  */
 @Slf4j
 @Component
-public class JPushConsumer extends AbstractMQConsumer{
+public class RocketMQConsumer extends AbstractMQConsumer{
     @Autowired
     private JpushNormalServiceImpl jpushNormalService;
     @Autowired
@@ -63,8 +63,6 @@ public class JPushConsumer extends AbstractMQConsumer{
 
     @Override
     protected void subscribe() throws MQClientException {
-        consumer.subscribe(MQEnum.JPUSHNORMAL.getTopic(), MQEnum.JPUSHNORMAL.getTag());
-        consumer.subscribe(MQEnum.JPUSHSCHEDULE.getTopic(), MQEnum.JPUSHSCHEDULE.getTag());
-        consumer.subscribe(MQEnum.JPUSHSCHEDULECANCEL.getTopic(), MQEnum.JPUSHSCHEDULECANCEL.getTag());
+        consumer.subscribe(MQEnum.JPUSHNORMAL.getTopic(), MQEnum.JPUSHNORMAL.getTag()+"||"+MQEnum.JPUSHSCHEDULE.getTag()+"||"+MQEnum.JPUSHSCHEDULECANCEL.getTag());
     }
 }
