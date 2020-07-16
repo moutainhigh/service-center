@@ -3,6 +3,7 @@ package com.shengsu.website.home.service;
 
 import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
+import com.shengsu.website.home.entity.NewsCenter;
 import com.shengsu.website.home.vo.*;
 
 /**
@@ -22,4 +23,8 @@ public interface NewsCenterService extends BaseService{
     ResultBean getDetails(NewsCenterDetailsVo newsCenterUpdateVo);
 
     ResultBean getHomeShow(String ascription);
+
+    NewsCenter selectById(Long id);
+
+    NewsCenter selectByTitle(String title);
 }

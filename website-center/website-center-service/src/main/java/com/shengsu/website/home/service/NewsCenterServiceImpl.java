@@ -1,10 +1,14 @@
 package com.shengsu.website.home.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.constant.CommonConst;
+import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.helper.constant.OssConstant;
+import com.shengsu.helper.service.MQProducerService;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
@@ -21,6 +25,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.shengsu.website.app.constant.BizConst.OPERATE_TYPE_CREATE;
+import static com.shengsu.website.app.constant.BizConst.OPERATE_TYPE_UPDATE;
+
 /**
  * Created by zyc on 2019/9/17.
  */
@@ -30,6 +37,8 @@ public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenter
     private OssService ossService;
     @Autowired
     private NewsCenterMapper newsCenterMapper;
+    @Autowired
+    private MQProducerService mqProducerService;
 
     @Override
     public BaseMapper getBaseMapper() {
@@ -46,6 +55,11 @@ public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenter
 
         newsCenter = NewsCenterUtils.toNewsCenter(newsCenterCreateVo);
         newsCenterMapper.save(newsCenter);
+        // 发送ES mq消息
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("title",newsCenter.getTitle());
+        jsonObject.put("operateType",OPERATE_TYPE_CREATE);
+        mqProducerService.send(MQEnum.ELASTICSEARCH_NEWS_CENTER, JSON.toJSONString(jsonObject));
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
 
@@ -77,6 +91,13 @@ public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenter
 
         newsCenter = NewsCenterUtils.toNewsCenter(newsCenterUpdateVo);
         newsCenterMapper.update(newsCenter);
+        // 发送ES mq消息(es中保存一份)
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id",id);
+        jsonObject.put("title",newsCenter.getTitle());
+        jsonObject.put("content",newsCenter.getContent());
+        jsonObject.put("operateType",OPERATE_TYPE_UPDATE);
+        mqProducerService.send(MQEnum.ELASTICSEARCH_NEWS_CENTER, JSON.toJSONString(jsonObject));
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
 
@@ -154,6 +175,16 @@ public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenter
         List<NewsCenterPagePo> newsCenterPagePos = NewsCenterUtils.toNewsCenterPagePo(newsCenters);
         getDetailUrls(newsCenterPagePos);
         return  ResultUtil.formResult(true, ResultCode.SUCCESS, newsCenterPagePos);
+    }
+
+    @Override
+    public NewsCenter selectById(Long id) {
+        return newsCenterMapper.selectById(id);
+    }
+
+    @Override
+    public NewsCenter selectByTitle(String title) {
+        return newsCenterMapper.selectByTitle(title);
     }
 
     public void getDetailUrls(List<NewsCenterPagePo> newsCenterPagePos){

@@ -3,7 +3,8 @@ package com.shengsu.website.mq;
 import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.mq.AbstractMQConsumer;
 import com.shengsu.mq.MessageListen;
-import com.shengsu.website.mq.service.ElasticsearchService;
+import com.shengsu.website.mq.service.EsLawKnowledgeService;
+import com.shengsu.website.mq.service.EsNewsCenterService;
 import com.shengsu.website.mq.service.PayNotifyService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -24,7 +25,9 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     @Autowired
     private PayNotifyService payNotifyService;
     @Autowired
-    private ElasticsearchService elasticsearchService;
+    private EsLawKnowledgeService esLawKnowledgeService;
+    @Autowired
+    private EsNewsCenterService esNewsCenterService;
 
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
@@ -57,13 +60,17 @@ public class RocketMQConsumer extends AbstractMQConsumer {
         messageListen.registerHandler(MQEnum.ALIPAY_NOTIFY.getTag(), payNotifyService);
         messageListen.registerHandler(MQEnum.WXPAY_NOTIFY_WEAPP.getTag(), payNotifyService);
         messageListen.registerHandler(MQEnum.BDPAY_NOTIFY.getTag(), payNotifyService);
-        messageListen.registerHandler(MQEnum.ELASTICSEARCH.getTag(), elasticsearchService);
+        messageListen.registerHandler(MQEnum.ELASTICSEARCH_LAWKNOWLEDGE.getTag(), esLawKnowledgeService);
+        messageListen.registerHandler(MQEnum.ELASTICSEARCH_NEWS_CENTER.getTag(), esNewsCenterService);
         consumer.registerMessageListener(messageListen);
     }
 
     @Override
     protected void subscribe() throws MQClientException {
-        consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag()+"||"+MQEnum.WXPAY_NOTIFY_WEAPP.getTag()+"||"+MQEnum.BDPAY_NOTIFY.getTag());
-        consumer.subscribe(MQEnum.ELASTICSEARCH.getTopic(), MQEnum.ELASTICSEARCH.getTag());
+        consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag());
+        consumer.subscribe(MQEnum.WXPAY_NOTIFY_WEAPP.getTopic(), MQEnum.WXPAY_NOTIFY_WEAPP.getTag());
+        consumer.subscribe(MQEnum.BDPAY_NOTIFY.getTopic(), MQEnum.BDPAY_NOTIFY.getTag());
+        consumer.subscribe(MQEnum.ELASTICSEARCH_LAWKNOWLEDGE.getTopic(), MQEnum.ELASTICSEARCH_LAWKNOWLEDGE.getTag());
+        consumer.subscribe(MQEnum.ELASTICSEARCH_NEWS_CENTER.getTopic(), MQEnum.ELASTICSEARCH_NEWS_CENTER.getTag());
     }
 }

@@ -38,6 +38,7 @@ import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -77,6 +78,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     * @date: 
     */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultBean create(LawKnowledgeCreateVo lawKnowledgeCreateVo) {
         LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByTitle(lawKnowledgeCreateVo.getTitle());
         if (lawKnowledge != null) {
@@ -91,7 +93,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("knowledgeId",knowledgeId);
         jsonObject.put("operateType",OPERATE_TYPE_CREATE);
-        mqProducerService.send(MQEnum.ELASTICSEARCH, JSON.toJSONString(jsonObject));
+        mqProducerService.send(MQEnum.ELASTICSEARCH_LAWKNOWLEDGE, JSON.toJSONString(jsonObject));
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
     /**
@@ -118,6 +120,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
      * @date:
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultBean edit(LawKnowledgeUpdateVo lawKnowledgeUpdateVo) {
         String knowledgeId = lawKnowledgeUpdateVo.getKnowledgeId();
         LawKnowledge lawKnowledge = lawKnowledgeMapper.selectByKnowledgeId(knowledgeId);
@@ -136,7 +139,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         jsonObject.put("title",lawKnowledge.getTitle());
         jsonObject.put("content",lawKnowledge.getContent());
         jsonObject.put("operateType",OPERATE_TYPE_UPDATE);
-        mqProducerService.send(MQEnum.ELASTICSEARCH, JSON.toJSONString(jsonObject));
+        mqProducerService.send(MQEnum.ELASTICSEARCH_LAWKNOWLEDGE, JSON.toJSONString(jsonObject));
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
 

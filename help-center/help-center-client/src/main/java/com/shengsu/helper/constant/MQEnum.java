@@ -23,8 +23,9 @@ public enum MQEnum {
     ALIPAY_NOTIFY("payTopic","alipayNotifyTag"),
     //百度小程序支付通知
     BDPAY_NOTIFY("payTopic","bdpayNofityTag"),
-    //全文搜索Es数据消息通知
-    ELASTICSEARCH("elasticsearchTopic","elasticsearchTag")
+    //全文搜索Es法律文库数据消息通知
+    ELASTICSEARCH_LAWKNOWLEDGE("esLawKnowledgeTopic","esLawKnowledgeTag"),
+    ELASTICSEARCH_NEWS_CENTER("esNewsCenterTopic","esNewsCenterTag")
     ;
 
     private String topic;
