@@ -32,7 +32,7 @@ import static com.shengsu.website.app.constant.BizConst.OPERATE_TYPE_UPDATE;
  * Created by zyc on 2019/9/17.
  */
 @Service(value = "newsCenterService")
-public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenterService {
+public class NewsCenterServiceImpl extends BaseServiceImpl<NewsCenter, String> implements NewsCenterService{
     @Autowired
     private OssService ossService;
     @Autowired
@@ -52,12 +52,13 @@ public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenter
         if (newsCenter != null) {
             return ResultUtil.formResult(false, ResultCode.NEWS_DATA_REPEAT, null);
         }
-
+        String newsId = UUID.randomUUID().toString();
         newsCenter = NewsCenterUtils.toNewsCenter(newsCenterCreateVo);
+        newsCenter.setNewsId(newsId);
         newsCenterMapper.save(newsCenter);
         // 发送ES mq消息
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("title",newsCenter.getTitle());
+        jsonObject.put("newsId",newsId);
         jsonObject.put("operateType",OPERATE_TYPE_CREATE);
         mqProducerService.send(MQEnum.ELASTICSEARCH_NEWS_CENTER, JSON.toJSONString(jsonObject));
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
@@ -83,7 +84,7 @@ public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenter
         if (newsCenter == null) {
             return ResultUtil.formResult(false, ResultCode.NEWS_ID_ERROR, null);
         }
-
+        String newsId = newsCenter.getNewsId();
         newsCenter = newsCenterMapper.selectByTitle(newsCenterUpdateVo.getTitle());
         if (newsCenter != null && !newsCenter.getId().equals(id)) {
             return ResultUtil.formResult(false, ResultCode.NEWS_DATA_REPEAT, null);
@@ -93,7 +94,7 @@ public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenter
         newsCenterMapper.update(newsCenter);
         // 发送ES mq消息(es中保存一份)
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id",id);
+        jsonObject.put("newsId",newsId);
         jsonObject.put("title",newsCenter.getTitle());
         jsonObject.put("content",newsCenter.getContent());
         jsonObject.put("operateType",OPERATE_TYPE_UPDATE);
@@ -175,16 +176,6 @@ public class NewsCenterServiceImpl extends BaseServiceImpl implements NewsCenter
         List<NewsCenterPagePo> newsCenterPagePos = NewsCenterUtils.toNewsCenterPagePo(newsCenters);
         getDetailUrls(newsCenterPagePos);
         return  ResultUtil.formResult(true, ResultCode.SUCCESS, newsCenterPagePos);
-    }
-
-    @Override
-    public NewsCenter selectById(Long id) {
-        return newsCenterMapper.selectById(id);
-    }
-
-    @Override
-    public NewsCenter selectByTitle(String title) {
-        return newsCenterMapper.selectByTitle(title);
     }
 
     public void getDetailUrls(List<NewsCenterPagePo> newsCenterPagePos){

@@ -14,10 +14,11 @@ import java.util.Date;
  * Created by zyc on 2019/9/17.
  */
 @Data
-@Document(indexName = "news", type = "news_center")
+@Document(indexName = "website-center", type = "news_center")
 public class NewsCenter extends BaseEntity{
-    @Id
     private Long id;
+    @Id
+    private String newsId;
     private Integer type;
     @Field
     private String title;

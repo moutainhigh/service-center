@@ -28,6 +28,7 @@
 	</sql>
 	<insert id="save" parameterType="newsCenter">
 		INSERT INTO news_center(
+		news_id,
 		type,
 		title,
 		news_date,
@@ -44,6 +45,7 @@
 		modify_time
 		)
 		values(
+		#{newsId},
 		#{type},
 		#{title},
 		#{newsDate},
@@ -131,4 +133,7 @@
 			#{id}
 		</foreach>
 	</select>
+	<select id="get" parameterType="String" resultType="newsCenter">
+        select * from news_center where del_flag = 0 and news_id = #{newsId}
+    </select>
 </mapper>

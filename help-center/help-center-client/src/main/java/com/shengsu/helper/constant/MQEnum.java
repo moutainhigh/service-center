@@ -24,8 +24,8 @@ public enum MQEnum {
     //百度小程序支付通知
     BDPAY_NOTIFY("payTopic","bdpayNofityTag"),
     //全文搜索Es法律文库数据消息通知
-    ELASTICSEARCH_LAWKNOWLEDGE("esLawKnowledgeTopic","esLawKnowledgeTag"),
-    ELASTICSEARCH_NEWS_CENTER("esNewsCenterTopic","esNewsCenterTag")
+    ELASTICSEARCH_LAWKNOWLEDGE("elasticsearchTopic","esLawKnowledgeTag"),
+    ELASTICSEARCH_NEWS_CENTER("elasticsearchTopic","esNewsCenterTag")
     ;
 
     private String topic;

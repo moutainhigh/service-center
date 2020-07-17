@@ -15,7 +15,7 @@ import java.util.Date;
  * @create: 2020-04-10 17:45
  **/
 @Data
-@Document(indexName = "law", type = "law_doc")
+@Document(indexName = "website-center", type = "law_knowledge")
 public class LawKnowledge extends BaseEntity {
     private static final long serialVersionUID = 1L;
     @Id

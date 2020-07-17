@@ -67,10 +67,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
 
     @Override
     protected void subscribe() throws MQClientException {
-        consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag());
-        consumer.subscribe(MQEnum.WXPAY_NOTIFY_WEAPP.getTopic(), MQEnum.WXPAY_NOTIFY_WEAPP.getTag());
-        consumer.subscribe(MQEnum.BDPAY_NOTIFY.getTopic(), MQEnum.BDPAY_NOTIFY.getTag());
-        consumer.subscribe(MQEnum.ELASTICSEARCH_LAWKNOWLEDGE.getTopic(), MQEnum.ELASTICSEARCH_LAWKNOWLEDGE.getTag());
-        consumer.subscribe(MQEnum.ELASTICSEARCH_NEWS_CENTER.getTopic(), MQEnum.ELASTICSEARCH_NEWS_CENTER.getTag());
+        consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag()+"||"+MQEnum.WXPAY_NOTIFY_WEAPP.getTag()+"||"+MQEnum.BDPAY_NOTIFY.getTag());
+        consumer.subscribe(MQEnum.ELASTICSEARCH_LAWKNOWLEDGE.getTopic(),  MQEnum.ELASTICSEARCH_LAWKNOWLEDGE.getTag()+"||"+MQEnum.ELASTICSEARCH_NEWS_CENTER.getTag());
     }
 }
