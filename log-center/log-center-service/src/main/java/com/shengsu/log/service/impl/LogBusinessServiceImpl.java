@@ -28,7 +28,6 @@ public class LogBusinessServiceImpl extends BaseServiceImpl<LogBusiness,String> 
 
     @Override
     public boolean handleMessage(LogBusiness logBusiness) {
-        log.info("处理消息："+ logBusiness);
         logBusinessMapper.save(logBusiness);
         return true;
     }

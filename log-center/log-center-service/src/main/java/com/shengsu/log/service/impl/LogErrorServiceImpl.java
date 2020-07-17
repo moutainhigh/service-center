@@ -51,7 +51,6 @@ public class LogErrorServiceImpl extends BaseServiceImpl<LogError, String> imple
 
     @Override
     public boolean handleMessage(LogError logError) {
-        log.info("处理消息：" + logError.toString());
         DingTalkLink dingTalkLink = new DingTalkLink();
         logErrorMapper.save(logError);
         //发送钉钉消息
