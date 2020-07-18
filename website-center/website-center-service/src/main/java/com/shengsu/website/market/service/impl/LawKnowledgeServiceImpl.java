@@ -25,7 +25,7 @@ import com.shengsu.website.market.util.LawKnowledgeCategoryUtils;
 import com.shengsu.website.market.util.LawKnowledgeUtils;
 import com.shengsu.website.market.vo.*;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -43,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 import static com.shengsu.website.app.constant.BizConst.*;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * @description:
@@ -452,29 +453,59 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         // 开始分页组装
         Pageable pageable = PageRequest.of(page,pageSize);
         SearchQuery query = new NativeSearchQueryBuilder()
-                .withQuery(QueryBuilders.matchQuery("content",content))
+                .withQuery(matchQuery("content", content))
                 .withPageable(pageable).build();
-        AggregatedPage<LawKnowledge> pageLawKnowledge= elasticsearchTemplate.queryForPage(query,LawKnowledge.class);
+        AggregatedPage<LawKnowledge> pageLawKnowledge = elasticsearchTemplate.queryForPage(query, LawKnowledge.class);
         List<LawKnowledge> lawKnowledges = pageLawKnowledge.getContent();
-        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, lawKnowledges,(int)pageLawKnowledge.getTotalElements());
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, lawKnowledges, (int) pageLawKnowledge.getTotalElements());
     }
+
     /**
      * 多字段匹配
      * 多字段中完全匹配
      */
-    public ResultBean esManyFieldsListByPage(EsListByPageVo esListByPageVo) {
+    public ResultBean esManyFieldsListByPage(LawKnowledgeListByPageVo lawKnowledgeListByPageVo) {
         // 获取参数
-        Integer page = esListByPageVo.getPage();
-        Integer pageSize = esListByPageVo.getPageSize();
-        String serarch = esListByPageVo.getSearch();
+        Integer page = lawKnowledgeListByPageVo.getPage();
+        Integer pageSize = lawKnowledgeListByPageVo.getPageSize();
         // 开始分页组装
-        Pageable pageable = PageRequest.of(page,pageSize);
-        SearchQuery query = new NativeSearchQueryBuilder()
-                .withQuery(QueryBuilders.multiMatchQuery(serarch,"title","content"))
+        Pageable pageable = PageRequest.of(page, pageSize);
+        //查询结果进行排序
+        SortBuilder sortBuilder = new FieldSortBuilder("date_time")
+                .order(SortOrder.DESC);
+        NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        if (StringUtils.isNotBlank(lawKnowledgeListByPageVo.getTitle())) {
+            MatchQueryBuilder matchQueryBuilder = matchQuery("title", lawKnowledgeListByPageVo.getTitle());
+            boolQueryBuilder.must(matchQueryBuilder);
+        }
+        if (StringUtils.isNotBlank(lawKnowledgeListByPageVo.getCreator())) {
+            TermQueryBuilder termQueryBuilder = termQuery("creator", lawKnowledgeListByPageVo.getCreator());
+            boolQueryBuilder.must(termQueryBuilder);
+        }
+        if (StringUtils.isNotBlank(lawKnowledgeListByPageVo.getFirstCategoryId())) {
+            TermQueryBuilder termQueryBuilder = termQuery("first_category_id", lawKnowledgeListByPageVo.getFirstCategoryId());
+            boolQueryBuilder.must(termQueryBuilder);
+        }
+        if (StringUtils.isNotBlank(lawKnowledgeListByPageVo.getSecondCategoryId())) {
+            TermQueryBuilder termQueryBuilder = termQuery("second_category_id", lawKnowledgeListByPageVo.getSecondCategoryId());
+            boolQueryBuilder.must(termQueryBuilder);
+        }
+        if (StringUtils.isNotBlank(lawKnowledgeListByPageVo.getThirdCategoryId())) {
+            TermQueryBuilder termQueryBuilder = termQuery("third_category_id", lawKnowledgeListByPageVo.getThirdCategoryId());
+            boolQueryBuilder.must(termQueryBuilder);
+        }
+        if (StringUtils.isNotBlank(lawKnowledgeListByPageVo.getCreateStartTime()) && StringUtils.isNotBlank(lawKnowledgeListByPageVo.getCreateEndTime())) {
+            RangeQueryBuilder rangeQueryBuilder = rangeQuery("create_time").from(lawKnowledgeListByPageVo.getCreateStartTime()).to(lawKnowledgeListByPageVo.getCreateEndTime());
+            boolQueryBuilder.must(rangeQueryBuilder);
+        }
+        SearchQuery query = queryBuilder
+                .withQuery(boolQueryBuilder)
+                .withSort(sortBuilder)
                 .withPageable(pageable).build();
-        AggregatedPage<LawKnowledge> pageLawKnowledge= elasticsearchTemplate.queryForPage(query,LawKnowledge.class);
+        AggregatedPage<LawKnowledge> pageLawKnowledge = elasticsearchTemplate.queryForPage(query, LawKnowledge.class);
         List<LawKnowledge> lawKnowledges = pageLawKnowledge.getContent();
-        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, lawKnowledges,(int)pageLawKnowledge.getTotalElements());
+        return ResultUtil.formPageResult(true, ResultCode.SUCCESS, lawKnowledges, (int) pageLawKnowledge.getTotalElements());
     }
     /**
      * 根据文档内容字段分页查询并排序
@@ -490,7 +521,7 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         SortBuilder sortBuilder = new FieldSortBuilder("dateTime")
                 .order(SortOrder.DESC);
         SearchQuery query = new NativeSearchQueryBuilder()
-                .withQuery(QueryBuilders.matchQuery("content",content))
+                .withQuery(matchQuery("content", content))
                 .withSort(sortBuilder)
                 .withPageable(pageable).build();
         AggregatedPage<LawKnowledge> pageLawKnowledge = elasticsearchTemplate.queryForPage(query,LawKnowledge.class);
