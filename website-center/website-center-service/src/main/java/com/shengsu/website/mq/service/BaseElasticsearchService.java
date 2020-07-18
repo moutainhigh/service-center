@@ -71,7 +71,7 @@ public abstract class BaseElasticsearchService {
         if(list != null && list.size()>0){
             for (Object object : list) {
                 IndexQuery indexQuery = new IndexQuery();
-                indexQuery.setId(getId(object,id));
+               // indexQuery.setId(getId(object,id));
                 indexQuery.setSource(JSON.toJSONString(object));
                 indexQuery.setIndexName(indexName);
                 indexQuery.setType(indexType);

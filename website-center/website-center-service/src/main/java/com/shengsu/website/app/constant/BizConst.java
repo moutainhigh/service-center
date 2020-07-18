@@ -18,11 +18,11 @@ public interface BizConst {
     // 操作类型-批量创建
     String OPERATE_TYPE_BATCHCREATE = "batchCreate";
     // 知识文库索引名称
-    String LAWKNOWLEDGE_INDEX_NAME = "law";
+    String LAWKNOWLEDGE_INDEX_NAME = "website-center";
     // 知识文库索引类型
-    String LAWKNOWLEDGE_INDEX_TYPE = "law_doc";
+    String LAWKNOWLEDGE_INDEX_TYPE = "law_knowledge";
     // 新闻中心索引名称
-    String NEWSCENTERE_INDEX_NAME = "newscenter";
+    String NEWSCENTERE_INDEX_NAME = "website-center";
     // 新闻中心索引类型
     String NEWSCENTER_INDEX_TYPE = "news_center";
     //文档类型
