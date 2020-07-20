@@ -61,7 +61,6 @@ public class RocketMQConsumer extends AbstractMQConsumer {
 
     @Override
     protected void subscribe() throws MQClientException{
-        consumer.subscribe(MQEnum.LOGBUSINESS.getTopic(), MQEnum.LOGBUSINESS.getTag());
-        consumer.subscribe(MQEnum.LOGERROR.getTopic(), MQEnum.LOGERROR.getTag());
+        consumer.subscribe(MQEnum.LOGBUSINESS.getTopic(),MQEnum.LOGBUSINESS.getTag()+"||"+MQEnum.LOGERROR.getTag());
     }
 }
