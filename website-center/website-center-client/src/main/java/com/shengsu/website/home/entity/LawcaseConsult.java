@@ -26,4 +26,7 @@ public class LawcaseConsult extends BaseEntity {
     private Date createTime;//创建时间
     private List<LawcaseConsultAppendix> appendixList;
     private String lawField;//法律领域
+    private String enterpriseName;
+    private String answer;
+    private String score;
 }

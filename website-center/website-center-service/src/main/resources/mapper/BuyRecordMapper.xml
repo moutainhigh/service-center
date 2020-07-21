@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shengsu.website.market.mapper.BuyRecordMapper">
+    <resultMap id="BaseResultMap" type="BuyRecord">
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, record_id, wechat_openid, order_no, buy_type, buy_time, expire_time, create_time,
+    modify_time, del_flag
+  </sql>
+    <insert id="save" parameterType="BuyRecord">
+    insert into buy_record (
+      record_id,
+      wechat_openid,
+      order_no,
+      buy_type,
+      buy_time,
+      expire_time,
+      create_time,
+      modify_time,
+      del_flag)
+    values (
+      #{recordId,jdbcType=VARCHAR},
+      #{wechatOpenid,jdbcType=VARCHAR},
+      #{orderNo,jdbcType=VARCHAR},
+      #{buyType,jdbcType=VARCHAR},
+      #{buyTime,jdbcType=TIMESTAMP},
+      DATE_ADD(#{buyTime}, INTERVAL 1 YEAR),
+      current_timestamp(),
+      current_timestamp(),
+      0)
+  </insert>
+    <select id="listByPage" parameterType="BuyRecord" resultMap="BaseResultMap">
+        <include refid="global.paginationStart_mysql"/>
+        select
+        <include refid="Base_Column_List"/>
+        from buy_record
+        order by modify_time desc
+        <include refid="global.paginationEnd_mysql"/>
+    </select>
+    <select id="countAll" parameterType="BuyRecord" resultType="int">
+        select
+        count(1)
+        from
+        buy_record
+    </select>
+    <select id="get" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from buy_record
+        where del_flag = 0 and wechat_openid = #{wechatOpenid,jdbcType=INTEGER}
+    </select>
+</mapper>

@@ -44,6 +44,9 @@
 			origin,
 			redirect_url,
 			law_field,
+			enterprise_name,
+			answer,
+			score,
 			del_flag
 		)
 		values
@@ -61,6 +64,9 @@
             #{origin,jdbcType=VARCHAR},
             #{redirectUrl,jdbcType=VARCHAR},
             #{lawField,jdbcType=VARCHAR},
+            #{enterpriseName},
+            #{answer},
+            #{score},
 			0
 		)
 	</insert>
