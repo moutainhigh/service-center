@@ -14,7 +14,8 @@ import java.util.Date;
 public class LawDocListPagePo implements Serializable {
     private String docId;
     private String docType;
-    private String docTypeStr;
+    private String docSubtype;
+    private String docSubtypeStr;
     private String docName;
     private String fullName;
     private String ossResourceId;

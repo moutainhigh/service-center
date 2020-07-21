@@ -17,6 +17,8 @@ public class LawDocCreateVo implements Serializable {
     @NotBlank
     private String docType;
     @NotBlank
+    private String docSubtype;
+    @NotBlank
     private String docName;// 文档名称
     @NotBlank
     private String fullName;// 文档全称

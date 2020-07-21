@@ -16,6 +16,7 @@ public interface LawDocService extends BaseService<LawDoc,String> {
     ResultBean edit(LawDocUpdateVo lawDocUpdateVo);
     ResultBean query(LawDocQueryVo lawDocQueryVo);
     ResultBean ListLawDocByPage(ListLawDocByPageVo listLawDocByPageVo);
+    ResultBean ListLawDoc(ListLawDocVo listLawDocVo);
     ResultBean getDetails(LawDocDetailsVo lawDocDetailsVo);
     ResultBean updateDownloads(String docId);
 }

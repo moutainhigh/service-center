@@ -15,6 +15,7 @@ import java.util.Date;
 public class LawDoc extends BaseEntity {
     private String docId;// 文档id
     private String docType;// 文档类型
+    private String docSubtype; // 文档子类型
     private String docName;// 文档名称
     private String fullName;// 文档全称
     private String ossResourceId;// 资源id

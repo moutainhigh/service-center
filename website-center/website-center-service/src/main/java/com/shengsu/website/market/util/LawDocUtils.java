@@ -21,6 +21,7 @@ public class LawDocUtils {
         if (lawDocCreateVo != null) {
             LawDoc lawDoc = new LawDoc();
             lawDoc.setDocType(lawDocCreateVo.getDocType());
+            lawDoc.setDocSubtype(lawDocCreateVo.getDocSubtype());
             lawDoc.setDocName(lawDocCreateVo.getDocName());
             lawDoc.setFullName(lawDocCreateVo.getFullName());
             lawDoc.setOssResourceId(lawDocCreateVo.getOssResourceId());
@@ -35,6 +36,7 @@ public class LawDocUtils {
             LawDoc lawDoc = new LawDoc();
             lawDoc.setDocId(lawDocUpdateVo.getDocId());
             lawDoc.setDocType(lawDocUpdateVo.getDocType());
+            lawDoc.setDocSubtype(lawDocUpdateVo.getDocSubtype());
             lawDoc.setDocName(lawDocUpdateVo.getDocName());
             lawDoc.setFullName(lawDocUpdateVo.getFullName());
             lawDoc.setOssResourceId(lawDocUpdateVo.getOssResourceId());
@@ -49,6 +51,7 @@ public class LawDocUtils {
         if (lawDoc != null) {
             LawDocQueryPo lawDocQueryPo = new LawDocQueryPo();
             lawDocQueryPo.setDocType(lawDoc.getDocType());
+            lawDocQueryPo.setDocSubtype(lawDoc.getDocSubtype());
             lawDocQueryPo.setDocName(lawDoc.getDocName());
             lawDocQueryPo.setFullName(lawDoc.getFullName());
             lawDocQueryPo.setOssResourceId(lawDoc.getOssResourceId());
@@ -80,6 +83,7 @@ public class LawDocUtils {
                 lawDocListPagePo = new LawDocListPagePo();
                 lawDocListPagePo.setDocId(lawDoc.getDocId());
                 lawDocListPagePo.setDocType(lawDoc.getDocType());
+                lawDocListPagePo.setDocSubtype(lawDoc.getDocSubtype());
                 lawDocListPagePo.setDocName(lawDoc.getDocName());
                 lawDocListPagePo.setFullName(lawDoc.getFullName());
                 lawDocListPagePo.setOssResourceId(lawDoc.getOssResourceId());

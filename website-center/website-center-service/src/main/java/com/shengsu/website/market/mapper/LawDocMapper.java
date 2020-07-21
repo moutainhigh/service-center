@@ -23,4 +23,6 @@ public interface LawDocMapper extends BaseMapper<LawDoc, String> {
     int updateDownloads(String docId);
 
     int existCheckExceptSelf(LawDoc lawDoc);
+
+    List<LawDoc> getManyByDocType(String docType);
 }
