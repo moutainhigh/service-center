@@ -97,8 +97,8 @@ public class LawDocServiceImpl extends BaseServiceImpl<LawDoc, String> implement
         }
         LawDocQueryPo lawDocQueryPo = LawDocUtils.toLawDocQueryPo(lawDoc);
         lawDocQueryPo.setOssResourceUrl(ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,lawDoc.getOssResourceId()));
-        SystemDict systemDict = systemDictService.getOneByDisplayValue(DICT_CODE_DOC_TYPE, lawDoc.getDocType());
-        lawDocQueryPo.setDocTypeStr(systemDict==null?"":systemDict.getDisplayName());
+        SystemDict systemDict = systemDictService.getOneByDisplayValue(lawDoc.getDocType(), lawDoc.getDocSubtype());
+        lawDocQueryPo.setDocSubtypeStr(systemDict==null?"":systemDict.getDisplayName());
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawDocQueryPo);
     }
 
@@ -117,7 +117,13 @@ public class LawDocServiceImpl extends BaseServiceImpl<LawDoc, String> implement
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
     }
-
+    @Override
+    public ResultBean ListLawDoc(ListLawDocVo listLawDocVo) {
+        List<LawDoc> lawDocs = lawDocMapper.getManyByDocType(listLawDocVo.getDocType());
+        List<LawDocListPagePo> lawDocListPagePos = LawDocUtils.toLawDocListPagePos(lawDocs);
+        fillLawDocListPagePoData(lawDocListPagePos);
+        return ResultUtil.formRootResult(true, ResultCode.SUCCESS, lawDocListPagePos);
+    }
     @Override
     public ResultBean getDetails(LawDocDetailsVo lawDocDetailsVo) {
         String docId = lawDocDetailsVo.getDocId();
@@ -158,10 +164,15 @@ public class LawDocServiceImpl extends BaseServiceImpl<LawDoc, String> implement
                 ossResourceIds.add(ossResourceId);
             }
             Map<String, String>  map = ossService.getUrls(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,ossResourceIds);
-            Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode(DICT_CODE_DOC_TYPE);
+            Map<String,SystemDict> humanDictMap =  systemDictService.mapByDictCode(DICT_CODE_DOC_TYPE_HUMAN);
+            Map<String,SystemDict> contractDictMap =  systemDictService.mapByDictCode(DICT_CODE_DOC_TYPE_CONTRACT);
             for (LawDocListPagePo lawDocListPagePo : lawDocListPagePos) {
                 lawDocListPagePo.setOssResourceUrl(map.get(lawDocListPagePo.getOssResourceId()));
-                lawDocListPagePo.setDocTypeStr(systemDictMap.get(lawDocListPagePo.getDocType())==null?"":systemDictMap.get(lawDocListPagePo.getDocType()).getDisplayName());
+                if (DICT_CODE_DOC_TYPE_HUMAN.equals(lawDocListPagePo.getDocType())){
+                    lawDocListPagePo.setDocSubtypeStr(humanDictMap.get(lawDocListPagePo.getDocSubtype())==null?"":humanDictMap.get(lawDocListPagePo.getDocSubtype()).getDisplayName());
+                }else if (DICT_CODE_DOC_TYPE_CONTRACT.equals(lawDocListPagePo.getDocType())){
+                    lawDocListPagePo.setDocSubtypeStr(contractDictMap.get(lawDocListPagePo.getDocSubtype())==null?"":contractDictMap.get(lawDocListPagePo.getDocSubtype()).getDisplayName());
+                }
             }
         }
     }

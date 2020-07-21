@@ -25,6 +25,8 @@ public interface BizConst {
     String NEWSCENTERE_INDEX_NAME = "website-center";
     // 新闻中心索引类型
     String NEWSCENTER_INDEX_TYPE = "news_center";
-    //文档类型
-    String DICT_CODE_DOC_TYPE = "doc_type";
+    //文档类型-人力资源库
+    String DICT_CODE_DOC_TYPE_HUMAN = "human_doc_type";
+    //文档子类型-合同库
+    String DICT_CODE_DOC_TYPE_CONTRACT = "contract_doc_type";
 }
