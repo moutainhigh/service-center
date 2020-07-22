@@ -1,15 +1,15 @@
 package com.shengsu.website.market.vo;
 
-import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
 
+import java.io.Serializable;
 
 /**
  * @description:
  * @author: lipiao
- * @create: 2020-04-13 10:52
+ * @create: 2020-07-21 18:49
  **/
 @Data
-public class FullTextSearchListPageVo extends BaseEntity {
+public class ListCategoryVo implements Serializable {
     private String systemTag;
 }

@@ -132,11 +132,22 @@
 		</if>
 		order by date_time desc limit 1
 	</select>
-    <select id="getLatestThree" resultType="lawKnowledge">
-        select knowledge_id,title,first_category_id,second_category_id,third_category_id,picture_oss_id,date_time from law_knowledge where del_flag = 0 order by date_time desc limit 3
+    <select id="getLatestThree" parameterType="string" resultType="lawKnowledge">
+        select knowledge_id,title,first_category_id,second_category_id,third_category_id,picture_oss_id,date_time
+        from law_knowledge
+        where del_flag = 0
+		<if test="_parameter != null and  _parameter != ''">
+			and first_category_id in('200','600','700','900','1000','1100','1200','1300','1600','1800','2300','2500')
+		</if>
+        order by date_time desc limit 3
     </select>
-	<select id="getAllTitle" resultType="lawKnowledge">
-        select knowledge_id ,title from law_knowledge where del_flag = 0
+	<select id="getAllTitle" parameterType="string" resultType="lawKnowledge">
+        select knowledge_id ,title
+        from law_knowledge
+        where del_flag = 0
+		<if test="_parameter != null and  _parameter != ''">
+			and first_category_id in('200','600','700','900','1000','1100','1200','1300','1600','1800','2300','2500')
+		</if>
     </select>
 	<select id="listPageThirdNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
@@ -312,6 +323,9 @@
 			<bind name="pattern" value="search" />
 			and match(title, content) against (#{pattern} in boolean mode)
 		</if>
+		<if test="systemTag != null and  systemTag != ''">
+			and first_category_id in('200','600','700','900','1000','1100','1200','1300','1600','1800','2300','2500')
+		</if>
 	</select>
 	<select id="fullTextSearchListPage" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
@@ -319,6 +333,9 @@
 		<if test="search != null and  search != ''">
 			<bind name="pattern" value="search" />
 			and match(title, content) against (#{pattern} in boolean mode)
+		</if>
+		<if test="systemTag != null and  systemTag != ''">
+			and first_category_id in('200','600','700','900','1000','1100','1200','1300','1600','1800','2300','2500')
 		</if>
 		order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
