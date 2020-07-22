@@ -92,7 +92,7 @@
         <include refid="Base_Column_List"/>
         FROM
         question_reply
-        <include refid="questionReply_where_clause"/>
+        WHERE del_flag=0
         <if test="_parameter != null and  _parameter != ''">
             and system_tag = #{systemTag}
         </if>
