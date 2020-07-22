@@ -1,12 +1,18 @@
-package com.shengsu.website.market.entity;
+package com.shengsu.website.market.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shengsu.base.entity.BaseEntity;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
+
+/**
+ * @program: service-center
+ * @author: Bell
+ * @create: 2020-07-22 09:27
+ **/
 @Data
-public class BuyRecord extends BaseEntity {
+public class BuyRecordPagePo implements Serializable {
     private String recordId;
 
     private String wechatOpenid;
@@ -18,10 +24,8 @@ public class BuyRecord extends BaseEntity {
     private Date buyTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date expireTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date modifyTime;
-    private String buyStartTime;// 购买开始时间
-    private String buyEndTime;// 购买结束时间
 }

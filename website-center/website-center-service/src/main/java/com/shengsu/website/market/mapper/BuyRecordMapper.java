@@ -4,6 +4,8 @@ import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.website.market.entity.BuyRecord;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @program: service-center
  * @author: Bell
@@ -11,5 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface BuyRecordMapper extends BaseMapper<BuyRecord, String> {
-
+    List<BuyRecord> listByWechatOpenid(String wechatOpenid);
 }
