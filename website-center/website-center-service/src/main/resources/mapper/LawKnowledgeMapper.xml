@@ -100,6 +100,22 @@
 		order by date_time desc
 		<include refid="global.paginationEnd_mysql" />
 	</select>
+	<select id="countLvshifuKnowledge"  parameterType="lawKnowledge" resultType="int">
+		select count(1) from law_knowledge <include refid="lawknowledge_where_clause" />
+		<if test="systemTag != null and  systemTag != ''">
+			and first_category_id in('200','600','700','900','1000','1100','1200','1300','1600','1800','2300','2500')
+		</if>
+	</select>
+	<select id="listLvshifuKnowledgeByPage" parameterType="lawKnowledge" resultType="lawKnowledge">
+		<include refid="global.paginationStart_mysql" />
+		select knowledge_id,first_category_id,second_category_id,third_category_id,title,date_time,creator,create_time from law_knowledge
+		<include refid="lawknowledge_where_clause" />
+		<if test="systemTag != null and  systemTag != ''">
+			and first_category_id in('200','600','700','900','1000','1100','1200','1300','1600','1800','2300','2500')
+		</if>
+		order by date_time desc
+		<include refid="global.paginationEnd_mysql" />
+	</select>
 	<update id="updatePv" parameterType="string">
 		update law_knowledge set pv = pv+1 where knowledge_id = #{knowledgeId}
 	</update>

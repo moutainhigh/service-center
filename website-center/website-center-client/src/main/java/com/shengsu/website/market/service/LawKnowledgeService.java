@@ -15,8 +15,8 @@ public interface LawKnowledgeService extends BaseService<LawKnowledge,String> {
     ResultBean listPage(LawKnowledgeListPageVo lawKnowledgeListPageVo);
     int updatePv(String knowledgeId);
     ResultBean getDetails(LawKnowledgeDetailsVo lawKnowledgeDetailsVo);
-    ResultBean getLatestThree(String systemTag);
-    ResultBean getRandomTitles(String systemTag);
+    ResultBean getLatestThree(SystemTagVo systemTagVo);
+    ResultBean getRandomTitles(SystemTagVo systemTagVo);
     ResultBean fullTextSearchListPage(FullTextSearchListPageVo fullTextSearchListPageVo);
     ResultBean esContentFieldListByPage(EsListByPageVo esListByPageVo);
     ResultBean esManyFieldsListByPage(LawKnowledgeListByPageVo lawKnowledgeListByPageVo);

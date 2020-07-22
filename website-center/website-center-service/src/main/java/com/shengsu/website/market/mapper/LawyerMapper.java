@@ -13,7 +13,8 @@ import java.util.List;
  **/
 @Mapper
 public interface LawyerMapper extends BaseMapper<Lawyer,String> {
-    List<Lawyer> randomSelect();
+    List<Lawyer> randomSelect(String systemTag);
     int isLawyerExist(String lawyerName);
     int isLawyerExistOther(Lawyer lawyer);
+    List<Lawyer> listLawyers(String systemTag);
 }

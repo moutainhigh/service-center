@@ -1,5 +1,6 @@
 package com.shengsu.website.market.service.impl;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.constant.OssConstant;
@@ -16,6 +17,7 @@ import com.shengsu.website.market.service.LawyerService;
 import com.shengsu.website.market.service.QuestionReplyService;
 import com.shengsu.website.market.service.QuestionService;
 import com.shengsu.website.market.util.QuestionReplyUtils;
+import com.shengsu.website.market.vo.SystemTagVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,8 +55,12 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
     }
 
     @Override
-    public ResultBean selectAll() {
-        List<QuestionReply> questionReplies = questionReplyMapper.listAll();
+    public ResultBean selectAll(SystemTagVo systemTagVo) {
+        String systemTag = systemTagVo==null?"":systemTagVo.getSystemTag();
+        List<QuestionReply> questionReplies = questionReplyMapper.listQuestionReply(systemTag);
+        if (CollectionUtils.isEmpty(questionReplies)){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS,null);
+        }
         List<String> lawyerIds = new ArrayList<>();
         for (QuestionReply questionReply : questionReplies) {
             String lawyerId = questionReply.getReplyLawyerId();
@@ -77,8 +83,9 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
         return questionReplyMapper.getReplyByLawyer(lawyerId);
     }
     @Override
-    public ResultBean randomThree(){
-        List<QuestionReply> questionReplies = questionReplyMapper.randomSelect();
+    public ResultBean randomThree(SystemTagVo systemTagVo){
+        String systemTag = systemTagVo==null?"":systemTagVo.getSystemTag();
+        List<QuestionReply> questionReplies = questionReplyMapper.randomSelect(systemTag);
         if(questionReplies == null || questionReplies.size() ==0){
             return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
         }

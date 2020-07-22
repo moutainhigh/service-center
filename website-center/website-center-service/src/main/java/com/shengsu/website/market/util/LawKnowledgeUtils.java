@@ -246,6 +246,7 @@ public class LawKnowledgeUtils {
             lawKnowledge.setCreateStartTime(lawKnowledgeListByPageVo.getCreateStartTime());
             lawKnowledge.setCreateEndTime(lawKnowledgeListByPageVo.getCreateEndTime());
             lawKnowledge.setCreator(lawKnowledgeListByPageVo.getCreator());
+            lawKnowledge.setSystemTag(lawKnowledgeListByPageVo.getSystemTag());
             return lawKnowledge;
         }
         return null;

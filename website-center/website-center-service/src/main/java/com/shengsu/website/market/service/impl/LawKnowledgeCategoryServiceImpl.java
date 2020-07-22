@@ -36,7 +36,7 @@ public class LawKnowledgeCategoryServiceImpl extends BaseServiceImpl<LawKnowledg
     @Override
     public ResultBean listCategory(ListCategoryVo listCategoryVo) {
         //查询到所有的菜单
-        List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryMapper.listCategory(listCategoryVo.getSystemTag());
+        List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryMapper.listCategory(listCategoryVo==null?"":listCategoryVo.getSystemTag());
         // 构造返回值
         List<LawKnowledgeCategoryListPo>lawKnowledgeCategoryListPos = LawKnowledgeCategoryUtils.toLawKnowledgeCategoryListPos(lawKnowledgeCategories);
         //根节点

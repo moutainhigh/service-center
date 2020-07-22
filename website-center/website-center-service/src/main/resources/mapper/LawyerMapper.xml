@@ -33,7 +33,9 @@
       professional_degree,
       service_efficiency,
       service_attitude,
-      introduction)
+      introduction,
+      system_tag
+      )
     values (
     #{lawyerId,jdbcType=VARCHAR},
     #{lawyerName,jdbcType=VARCHAR},
@@ -49,7 +51,8 @@
     #{professionalDegree},
     #{serviceEfficiency},
     #{serviceAttitude},
-    #{introduction}
+    #{introduction},
+    #{systemTag}
     )
   </insert>
     <delete id="delete" parameterType="String">
@@ -73,7 +76,8 @@
         professional_degree = #{professionalDegree},
         service_efficiency = #{serviceEfficiency},
         service_attitude = #{serviceAttitude},
-        introduction = #{introduction}
+        introduction = #{introduction},
+        system_tag = #{systemTag}
         WHERE del_flag=0 and lawyer_id = #{lawyerId}
     </update>
     <select id="get" parameterType="String" resultMap="BaseResultMap">
@@ -95,6 +99,9 @@
         *
         from lawyer
         <include refid="lawyer_where_clause"/>
+        <if test="systemTag != null and  systemTag != ''">
+            and system_tag = #{systemTag}
+        </if>
         order by modify_time desc
         <include refid="global.paginationEnd_mysql"/>
     </select>
@@ -110,12 +117,15 @@
         order by
         create_time DESC
     </select>
-    <select id="randomSelect" resultType="Lawyer">
+    <select id="randomSelect" parameterType="string" resultType="Lawyer">
         SELECT
         <include refid="Base_Column_List"/>
         FROM
 	    lawyer
 	    where del_flag = 0
+        <if test="_parameter != null and  _parameter != ''">
+            and system_tag = #{systemTag}
+        </if>
         order by rand()
         LIMIT 3
     </select>
@@ -125,6 +135,9 @@
         from
         lawyer
         <include refid="lawyer_where_clause"/>
+        <if test="systemTag != null and  systemTag != ''">
+            and system_tag = #{systemTag}
+        </if>
     </select>
     <select id="isLawyerExist" parameterType="String" resultType="int">
         select
@@ -138,5 +151,15 @@
         from lawyer
         where del_flag = 0 and lawyer_name = #{lawyerName}
             and lawyer_id not in ( #{lawyerId} )
+    </select>
+    <select id="listLawyers" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lawyer
+        where del_flag = 0
+        <if test="_parameter != null and  _parameter != ''">
+            and system_tag = #{systemTag}
+        </if>
+        order by rank ASC
     </select>
 </mapper>

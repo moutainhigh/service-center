@@ -39,9 +39,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.*;
-
 import static com.shengsu.website.app.constant.BizConst.*;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -179,10 +177,10 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     @Override
     public ResultBean listKnowledgeByPage(LawKnowledgeListByPageVo lawKnowledgeListByPageVo) {
         LawKnowledge lawKnowledge = LawKnowledgeUtils.toLawKnowledge(lawKnowledgeListByPageVo);
-        Integer count = lawKnowledgeMapper.countAll(lawKnowledge);
+        Integer count = StringUtils.isBlank(lawKnowledgeListByPageVo.getSystemTag())?lawKnowledgeMapper.countAll(lawKnowledge):lawKnowledgeMapper.countLvshifuKnowledge(lawKnowledge);
         Map<String, Object> resultMap = new HashMap<>();
         if (count > 0) {
-            List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.listByPage(lawKnowledge);
+            List<LawKnowledge> lawKnowledges = StringUtils.isBlank(lawKnowledgeListByPageVo.getSystemTag())?lawKnowledgeMapper.listByPage(lawKnowledge):lawKnowledgeMapper.listLvshifuKnowledgeByPage(lawKnowledge);
             List<String> creators = LawKnowledgeUtils.toListCreator(lawKnowledges);
             List<User> users = userService.getMany(creators);
             Map<String, User> map = UserUtils.toUserMap(users);
@@ -384,7 +382,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
-    public ResultBean getLatestThree(String systemTag) {
+    public ResultBean getLatestThree(SystemTagVo systemTagVo) {
+        String systemTag = systemTagVo==null?"":systemTagVo.getSystemTag();
         List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getLatestThree(systemTag);
         List<LawKnowledgeCategory> lawKnowledgeCategories = new ArrayList<>();
         for (LawKnowledge lawKnowledge : lawKnowledges) {
@@ -428,7 +427,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
-    public ResultBean getRandomTitles(String systemTag) {
+    public ResultBean getRandomTitles(SystemTagVo systemTagVo) {
+        String systemTag = systemTagVo==null?"":systemTagVo.getSystemTag();
         List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getAllTitle(systemTag);
         Collections.shuffle(lawKnowledges);
         List<LawKnowledge> result = new ArrayList<>();

@@ -19,6 +19,7 @@ import com.shengsu.website.market.service.QuestionReplyService;
 import com.shengsu.website.market.service.QuestionService;
 import com.shengsu.website.market.util.LawyerUtils;
 import com.shengsu.website.market.vo.LawyerVo;
+import com.shengsu.website.market.vo.SystemTagVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,8 +82,9 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
     }
     @Override
-    public ResultBean randomThree(){
-        List<Lawyer> lawyers = lawyerMapper.randomSelect();
+    public ResultBean randomThree(SystemTagVo systemTagVo){
+        String systemTag = systemTagVo==null?"":systemTagVo.getSystemTag();
+        List<Lawyer> lawyers = lawyerMapper.randomSelect(systemTag);
         if(lawyers == null || lawyers.size() == 0){
             return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
         }
@@ -90,9 +92,16 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
         List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
     }
+    /**
+    * @Description: 客户端查询所有律师
+    * @Param: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
     @Override
-    public ResultBean selectAll(){
-        List<Lawyer> lawyers = lawyerMapper.listAll();
+    public ResultBean selectAll(SystemTagVo systemTagVo){
+        String systemTag = systemTagVo==null?"":systemTagVo.getSystemTag();
+        List<Lawyer> lawyers = lawyerMapper.listLawyers(systemTag);
         questionReplyService.geturls(lawyers);
         List<LawyerPo> lawyerPos = LawyerUtils.toLawyerPos(lawyers);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPos);
@@ -107,6 +116,12 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
         LawyerPo lawyerPo = LawyerUtils.toLawyerPo(lawyer,url);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawyerPo);
     }
+    /**
+    * @Description: 运营后台查询所有律师
+    * @Param: * @Param lawyer: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
     @Override
     public ResultBean lawyerListByPage(Lawyer lawyer){
         List<Lawyer> lawyers = lawyerMapper.listByPage(lawyer);

@@ -17,4 +17,5 @@ public class LawKnowledgeListByPageVo extends BaseEntity {
     private String creator;
     private String createStartTime;// 创建开始时间
     private String createEndTime;// 创建结束时间
+    private String systemTag;
 }
