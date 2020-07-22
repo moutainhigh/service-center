@@ -106,5 +106,13 @@
         where del_flag = 0 and question_content = #{questionContent}
             and question_id not in ( #{questionId} )
     </select>
-
+    <select id="randomSelect" resultType="Question">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        question
+        WHERE del_flag=0
+        order by rand()
+        LIMIT 3
+    </select>
 </mapper>

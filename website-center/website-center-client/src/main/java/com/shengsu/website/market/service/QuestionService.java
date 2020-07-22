@@ -18,4 +18,5 @@ public interface QuestionService extends BaseService<Question,String> {
     int countAllByQuestionIds(List<String> questionIds);
     int isQuestionExist(String content);
     int isQuestionExist(Question question);
+    List<Question> randomSelect();
 }
