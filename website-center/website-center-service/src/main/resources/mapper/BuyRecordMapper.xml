@@ -10,13 +10,13 @@
     <sql id="buyRecord_where_clause">
         <where>
             del_flag = 0
-            <if test="orderNo != null">
+            <if test="orderNo != null and orderNo != ''">
                 and order_no = #{orderNo,jdbcType=VARCHAR}
             </if>
-            <if test="buyType != null">
+            <if test="buyType != null and buyType != ''">
                 and buy_type = #{buyType,jdbcType=VARCHAR}
             </if>
-            <if test="wechatOpenid != null">
+            <if test="wechatOpenid != null and wechatOpenid != ''">
                 and wechat_openid = #{wechatOpenid,jdbcType=VARCHAR}
             </if>
             <if test="buyStartTime != null and  buyStartTime != ''">
@@ -64,6 +64,7 @@
         count(1)
         from
         buy_record
+        <include refid="buyRecord_where_clause"/>
     </select>
     <select id="listByWechatOpenid" parameterType="String" resultMap="BaseResultMap">
         select
