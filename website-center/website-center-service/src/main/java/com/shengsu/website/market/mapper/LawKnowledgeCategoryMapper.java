@@ -13,4 +13,6 @@ public interface LawKnowledgeCategoryMapper extends BaseMapper<LawKnowledgeCateg
     List<LawKnowledgeCategory> getManyByThirdCategoryIds(List<String> thirdCategoryIds);
 
     LawKnowledgeCategory getByCategoryId(String categoryId);
+
+    List<LawKnowledgeCategory> listCategory(String systemTag);
 }

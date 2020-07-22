@@ -285,6 +285,7 @@ public class LawKnowledgeUtils {
             lawKnowledge.setSearch(fullTextSearchListPageVo.getSearch());
             lawKnowledge.setPage(fullTextSearchListPageVo.getPage());
             lawKnowledge.setPageSize(fullTextSearchListPageVo.getPageSize());
+            lawKnowledge.setSystemTag(fullTextSearchListPageVo.getSystemTag());
             return lawKnowledge;
         }
         return null;

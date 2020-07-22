@@ -384,8 +384,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
-    public ResultBean getLatestThree() {
-        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getLatestThree();
+    public ResultBean getLatestThree(String systemTag) {
+        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getLatestThree(systemTag);
         List<LawKnowledgeCategory> lawKnowledgeCategories = new ArrayList<>();
         for (LawKnowledge lawKnowledge : lawKnowledges) {
             if (StringUtils.isNotBlank(lawKnowledge.getThirdCategoryId())) {
@@ -428,8 +428,8 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     }
 
     @Override
-    public ResultBean getRandomTitles() {
-        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getAllTitle();
+    public ResultBean getRandomTitles(String systemTag) {
+        List<LawKnowledge> lawKnowledges = lawKnowledgeMapper.getAllTitle(systemTag);
         Collections.shuffle(lawKnowledges);
         List<LawKnowledge> result = new ArrayList<>();
         for (int i = 0; i < lawKnowledges.size(); i++) {

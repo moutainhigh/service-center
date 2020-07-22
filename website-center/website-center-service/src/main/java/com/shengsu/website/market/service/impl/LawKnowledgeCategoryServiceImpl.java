@@ -10,6 +10,7 @@ import com.shengsu.website.market.entity.LawKnowledgeCategory;
 import com.shengsu.website.market.po.LawKnowledgeCategoryListPo;
 import com.shengsu.website.market.service.LawKnowledgeCategoryService;
 import com.shengsu.website.market.util.LawKnowledgeCategoryUtils;
+import com.shengsu.website.market.vo.ListCategoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +34,9 @@ public class LawKnowledgeCategoryServiceImpl extends BaseServiceImpl<LawKnowledg
     }
 
     @Override
-    public ResultBean listAllCategory() {
+    public ResultBean listCategory(ListCategoryVo listCategoryVo) {
         //查询到所有的菜单
-        List<LawKnowledgeCategory> lawKnowledgeCategories = listAll();
+        List<LawKnowledgeCategory> lawKnowledgeCategories = lawKnowledgeCategoryMapper.listCategory(listCategoryVo.getSystemTag());
         // 构造返回值
         List<LawKnowledgeCategoryListPo>lawKnowledgeCategoryListPos = LawKnowledgeCategoryUtils.toLawKnowledgeCategoryListPos(lawKnowledgeCategories);
         //根节点
