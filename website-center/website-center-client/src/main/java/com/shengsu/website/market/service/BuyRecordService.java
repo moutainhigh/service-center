@@ -7,5 +7,5 @@ import com.shengsu.website.market.entity.BuyRecord;
 public interface BuyRecordService extends BaseService<BuyRecord,String> {
     ResultBean create(BuyRecord buyRecord);
     ResultBean buyListByPage(BuyRecord buyRecord);
-    ResultBean getByWechatOpenid(String recordId);
+    ResultBean getByWechatOpenid(String wechatOpenid);
 }

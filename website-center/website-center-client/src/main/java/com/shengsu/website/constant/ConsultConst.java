@@ -11,4 +11,10 @@ public interface ConsultConst {
     String CONSULT_ORIGIN_PAYMENT_CALL_BACK= "付款回电";
     //字典-法律领域
     String DICT_CODE_LAW_FIELD= "law_field";
+    String CONTRACT_LIBRARY = "contract";
+    String HUMAN_RESOURCE = "human_resource";
+    String CLOUD_LEGAL = "cloud_legal";
+    String VALID = "Valid";
+    String EXPIRED = "Expired";
+    String NOTPURCHASED = "NotPurchased";
 }

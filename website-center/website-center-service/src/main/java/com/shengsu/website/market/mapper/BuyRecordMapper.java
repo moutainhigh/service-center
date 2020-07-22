@@ -13,5 +13,5 @@ import java.util.List;
  **/
 @Mapper
 public interface BuyRecordMapper extends BaseMapper<BuyRecord, String> {
-    List<BuyRecord> listByWechatOpenid(String wechatOpenid);
+    List<BuyRecord> getByIdAndBuyType(String wechatOpenid);
 }

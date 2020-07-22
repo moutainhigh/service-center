@@ -66,10 +66,17 @@
         buy_record
         <include refid="buyRecord_where_clause"/>
     </select>
-    <select id="listByWechatOpenid" parameterType="String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from buy_record
-        where del_flag = 0 and wechat_openid = #{wechatOpenid,jdbcType=INTEGER}
+
+    <select id="getByIdAndBuyType" parameterType="BuyRecord" resultType="BuyRecord">
+        SELECT
+	    buy_type,max(expire_time) as expire_time
+        FROM
+	    buy_record
+        WHERE
+	    del_flag = 0
+        AND wechat_openid = #{wechatOpenid,jdbcType=VARCHAR}
+        GROUP BY
+	    buy_type
     </select>
+
 </mapper>

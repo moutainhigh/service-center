@@ -1,10 +1,8 @@
 package com.shengsu.website.market.po;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @program: service-center
@@ -13,14 +11,10 @@ import java.util.Date;
  **/
 @Data
 public class BuyRecordPo implements Serializable {
-    private String recordId;
+    private String cloudLegalServiceStatus;
 
-    private String wechatOpenid;
+    private String humanResourceServiceStatus;
 
-    private String orderNo;
+    private String contractServiceStatus;
 
-    private String buyType;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Date buyTime;
-    private String isExpired;
 }

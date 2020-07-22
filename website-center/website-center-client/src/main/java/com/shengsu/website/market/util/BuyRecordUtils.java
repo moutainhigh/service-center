@@ -8,27 +8,39 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.shengsu.website.constant.ConsultConst.*;
+
 /**
  * @program: service-center
  * @author: Bell
  * @create: 2020-07-21 17:29
  **/
 public class BuyRecordUtils {
-    public static List<BuyRecordPo> toBuyRecordPos(List<BuyRecord> buyRecords){
-        List<BuyRecordPo> buyRecordPos = new ArrayList<>();
-        for(BuyRecord buyRecord : buyRecords){
+    public static BuyRecordPo toBuyRecordPo(List<BuyRecord> buyRecords){
         BuyRecordPo buyRecordPo = new BuyRecordPo();
         Date now = new Date();
-        Date date = buyRecord.getExpireTime();
-        buyRecordPo.setRecordId(buyRecord.getRecordId());
-        buyRecordPo.setWechatOpenid(buyRecord.getWechatOpenid());
-        buyRecordPo.setOrderNo(buyRecord.getOrderNo());
-        buyRecordPo.setBuyType(buyRecord.getBuyType());
-        buyRecordPo.setBuyTime(buyRecord.getBuyTime());
-        buyRecordPo.setIsExpired(date.getTime() - now.getTime() > 0 ? "Valid":"Expired");
-        buyRecordPos.add(buyRecordPo);
+        for(BuyRecord buyRecord : buyRecords){
+            Date date = buyRecord.getExpireTime();
+            if(CONTRACT_LIBRARY.equals(buyRecord.getBuyType())){
+                buyRecordPo.setContractServiceStatus(date.getTime()- now.getTime() > 0 ? VALID:EXPIRED);
+            }
+            if(HUMAN_RESOURCE.equals(buyRecord.getBuyType())){
+                buyRecordPo.setHumanResourceServiceStatus(date.getTime()- now.getTime() > 0 ? VALID:EXPIRED);
+            }
+            if(CLOUD_LEGAL.equals(buyRecord.getBuyType())){
+                buyRecordPo.setCloudLegalServiceStatus(date.getTime()- now.getTime() > 0 ? VALID:EXPIRED);
+            }
         }
-        return buyRecordPos;
+        if(null == buyRecordPo.getContractServiceStatus()){
+            buyRecordPo.setContractServiceStatus(NOTPURCHASED);
+        }
+        if(null == buyRecordPo.getHumanResourceServiceStatus()){
+            buyRecordPo.setHumanResourceServiceStatus(NOTPURCHASED);
+        }
+        if(null == buyRecordPo.getCloudLegalServiceStatus()){
+            buyRecordPo.setCloudLegalServiceStatus(NOTPURCHASED);
+        }
+        return buyRecordPo;
     }
     public static List<BuyRecordPagePo> toBuyRecordPagePo(List<BuyRecord> buyRecords){
         List<BuyRecordPagePo> buyRecordPagePos = new ArrayList<>();
