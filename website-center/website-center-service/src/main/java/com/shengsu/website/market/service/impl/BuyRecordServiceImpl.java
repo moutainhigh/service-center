@@ -50,9 +50,6 @@ public class BuyRecordServiceImpl extends BaseServiceImpl<BuyRecord, String> imp
     @Override
     public ResultBean getByWechatOpenid(String wechatOpenid){
         List<BuyRecord> buyRecords = buyRecordMapper.getByIdAndBuyType(wechatOpenid);
-        if(buyRecords.size()==0){
-            return ResultUtil.formResult(true, ResultCode.SUCCESS, buyRecords);
-        }
         BuyRecordPo buyRecordPo = BuyRecordUtils.toBuyRecordPo(buyRecords);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, buyRecordPo);
     }
