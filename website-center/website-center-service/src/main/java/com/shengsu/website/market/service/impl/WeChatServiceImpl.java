@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_LVSHIFU;
 import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_SHENGSU;
 /**
  * @program: service-center
@@ -22,26 +23,38 @@ import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_SHENGSU;
  **/
 @Service("weChatService")
 public class WeChatServiceImpl implements WeChatService {
+    @Value("${wechat.accessLoginUrl}")
+    private String accessLoginUrl;
     // 胜诉
-    @Value("${wechat.shengsu.accessLoginUrl}")
-    private String ssAccessLoginUrl;
     @Value("${wechat.shengsu.appID}")
     private String ssAppID;
     @Value("${wechat.shengsu.appSecret}")
     private String ssAppsecret;
     // 援手
-    @Value("${wechat.yuanshou.accessLoginUrl}")
-    private String ysAccessLoginUrl;
     @Value("${wechat.yuanshou.appID}")
     private String ysAppID;
     @Value("${wechat.yuanshou.appSecret}")
     private String ysAppsecret;
+    //律师傅
+    @Value("${wechat.lvshifu.appID}")
+    private String lsfAppID;
+    @Value("${wechat.lvshifu.appSecret}")
+    private String lsfAppsecret;
 
     @Override
-    public ResultBean authorize(WeChatVo weChatVo){
-        String appId =SYSTEM_TAG_SHENGSU.equals(weChatVo.getSystemTag())?ssAppID:ysAppID;
-        String secret = SYSTEM_TAG_SHENGSU.equals(weChatVo.getSystemTag())?ssAppsecret:ysAppsecret;
-        String accessLoginUrl = SYSTEM_TAG_SHENGSU.equals(weChatVo.getSystemTag())?ssAccessLoginUrl:ysAccessLoginUrl;
+    public ResultBean authorize(WeChatVo weChatVo) {
+        String appId = ysAppID;
+        String secret = ysAppsecret;
+        switch (weChatVo.getSystemTag()) {
+            case SYSTEM_TAG_SHENGSU:
+                appId = ssAppID;
+                secret = ssAppsecret;
+                break;
+            case SYSTEM_TAG_LVSHIFU:
+                appId = lsfAppID;
+                secret = lsfAppsecret;
+                break;
+        }
         HashMap<String, String> resultMap = new HashMap<>();
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", appId);

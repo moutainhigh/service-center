@@ -11,6 +11,8 @@ public interface BizConst {
     Integer LAW_HEADLINES_RANDOM_COUNT = 10;
     // 系统标记-胜诉
     String SYSTEM_TAG_SHENGSU = "shengsu";
+    //系统标记-律师傅
+    String SYSTEM_TAG_LVSHIFU = "lvshifu";
     // 操作类型-创建
     String OPERATE_TYPE_CREATE = "create";
     // 操作类型-修改
