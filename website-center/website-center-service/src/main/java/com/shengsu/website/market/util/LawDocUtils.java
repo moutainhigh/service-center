@@ -65,6 +65,7 @@ public class LawDocUtils {
         if (lawDocByPageVo != null) {
             LawDoc lawDoc = new LawDoc();
             lawDoc.setDocType(lawDocByPageVo.getDocType());
+            lawDoc.setDocSubtype(lawDocByPageVo.getDocSubtype());
             lawDoc.setDocName(lawDocByPageVo.getDocName());
             lawDoc.setFullName(lawDocByPageVo.getFullName());
             lawDoc.setSearch(lawDocByPageVo.getSearch());
@@ -74,7 +75,15 @@ public class LawDocUtils {
         }
         return null;
     }
-
+    public static LawDoc toLawDoc(ListLawDocVo listLawDocVo) {
+        if (listLawDocVo != null) {
+            LawDoc lawDoc = new LawDoc();
+            lawDoc.setDocType(listLawDocVo.getDocType());
+            lawDoc.setDocSubtype(listLawDocVo.getDocSubtype());
+            return lawDoc;
+        }
+        return null;
+    }
     public static List<LawDocListPagePo> toLawDocListPagePos(List<LawDoc> lawDocs) {
         if (!CollectionUtils.isEmpty(lawDocs)) {
             List<LawDocListPagePo> lawDocListPagePos = new ArrayList<>();

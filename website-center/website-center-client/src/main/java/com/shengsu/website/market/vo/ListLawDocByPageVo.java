@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class ListLawDocByPageVo extends BaseEntity {
     private String docType;// 文档类型
+    private String docSubtype; // 文档子类型
     private String docName;// 文档名称
     private String fullName;// 文档全称
 }

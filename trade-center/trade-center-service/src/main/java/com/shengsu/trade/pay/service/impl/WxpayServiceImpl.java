@@ -71,6 +71,14 @@ public class WxpayServiceImpl implements WxpayService {
     @Value("${wxpay.yuanshou.h5.baseRedirectUrl}")
     private String ysMwebBaseRedirectUrl;
 
+    // 小程序(律师傅-胜诉)
+    @Value("${wxpay.lvshifu.weapp.appid}")
+    private String lvshifuWeAppID;
+    @Value("${wxpay.lvshifu.mchid}")
+    private String lvshifuMchID;
+    @Value("${wxpay.lvshifu.apikey}")
+    private String lvshifuApiKey;
+
     @Autowired
     private CodeGeneratorService codeGeneratorService;
     @Autowired
@@ -132,7 +140,7 @@ public class WxpayServiceImpl implements WxpayService {
     public ResultBean order(WxAppOrderVo wxAppOrderVo) throws Exception {
         log.info("开始下单");
         int totalFee =  new BigDecimal(wxAppOrderVo.getAmount()).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP).intValue();
-        String orderPrefixCode = SYSTEM_TAG_YUANSHOU.equals(wxAppOrderVo.getSystemTag())?"YWATN":"SWATN";
+        String orderPrefixCode = assembleOrderPrefixCode(wxAppOrderVo.getSystemTag());
         String outTradeNo = codeGeneratorService.generateCode(orderPrefixCode);
         outTradeNo=new StringBuilder(outTradeNo).insert(5,PayOrderUtils.randnum(6)).toString();
         // 在线咨询将参数保存在缓存中
@@ -171,6 +179,7 @@ public class WxpayServiceImpl implements WxpayService {
             return ResultUtil.formResult(false, ResultCode.FAIL);
         }
     }
+
     /**
     * @Description: (律师主页咨询,在线咨询,电话咨询)微信H5下单
     * @Param: * @Param wxMwebOrderVo: 
@@ -292,7 +301,27 @@ public class WxpayServiceImpl implements WxpayService {
         result.put("paySign", paySign);
         return result;
     }
-
+    /**
+     * @Description: 组装下单订单号前缀
+     * @Param: * @Param systemTag:
+     * @Return: * @return: java.lang.String
+     * @date:
+     */
+    private String assembleOrderPrefixCode(String systemTag) {
+        String result = "";
+        switch (systemTag){
+            case SYSTEM_TAG_YUANSHOU:
+                result = "YWATN";
+                break;
+            case SYSTEM_TAG_SHENGSU:
+                result = "SWATN";
+                break;
+            case SYSTEM_TAG_LVSHIFU:
+                result = "LWATN";
+                break;
+        }
+        return result;
+    }
     @Override
     public ResultBean cancel(WxOrderCancelVo wxOrderCancelVo)throws Exception{
         String orderFlag = wxOrderCancelVo.getOrderNo().substring(0,3);

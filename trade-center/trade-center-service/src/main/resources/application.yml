@@ -43,6 +43,11 @@ wxpay:
     mchid: 1596653831
     apikey: 7d37cc340c374ee8afecd3a9a776b273
   notifyUrl: https://platform-test.yuanshoulawyer.com/api/wxpay/notify
+  lvshifu:
+    weapp:
+      appid: wxd33c0515159cec66
+    mchid: 1573621631
+    apikey: 1f5dc3037d7a4752b69e95fcad34ad34
 alipay:
   shengsu:
     h5:

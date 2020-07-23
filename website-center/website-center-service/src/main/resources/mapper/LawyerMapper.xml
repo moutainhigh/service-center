@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="Lawyer">
     </resultMap>
     <sql id="Base_Column_List">
-    id, lawyer_id, lawyer_name, icon_oss_resource_id, field, create_time, modify_time,consult_fee,rank,praise_times,consult_times,overall_evaluation,professional_degree,service_efficiency,service_attitude,introduction,del_flag
+    id, lawyer_id, lawyer_name, icon_oss_resource_id, field, create_time, modify_time,consult_fee,rank,praise_times,consult_times,overall_evaluation,professional_degree,service_efficiency,service_attitude,introduction,system_tag,del_flag
     </sql>
     <sql id="lawyer_where_clause">
         <where>

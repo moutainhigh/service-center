@@ -41,4 +41,5 @@ public class LawyerPo extends BaseEntity {
     private String professionalDegree;
     private String serviceEfficiency;
     private String serviceAttitude;
+    private String systemTag;
 }

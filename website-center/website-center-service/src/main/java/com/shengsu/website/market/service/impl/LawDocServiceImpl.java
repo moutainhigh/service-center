@@ -119,7 +119,8 @@ public class LawDocServiceImpl extends BaseServiceImpl<LawDoc, String> implement
     }
     @Override
     public ResultBean ListLawDoc(ListLawDocVo listLawDocVo) {
-        List<LawDoc> lawDocs = lawDocMapper.getManyByDocType(listLawDocVo.getDocType());
+        LawDoc lawDoc = LawDocUtils.toLawDoc(listLawDocVo);
+        List<LawDoc> lawDocs = lawDocMapper.listLawDoc(lawDoc);
         List<LawDocListPagePo> lawDocListPagePos = LawDocUtils.toLawDocListPagePos(lawDocs);
         fillLawDocListPagePoData(lawDocListPagePos);
         return ResultUtil.formRootResult(true, ResultCode.SUCCESS, lawDocListPagePos);
