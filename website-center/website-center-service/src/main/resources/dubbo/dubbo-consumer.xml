@@ -9,6 +9,7 @@
        	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 	<!--接口服务-->
+    <dubbo:reference id="smsService" interface="com.shengsu.helper.service.SmsService" timeout="5000" retries="0"  version="${dubbo.version}"/>
     <dubbo:reference id="ossService" interface="com.shengsu.helper.service.OssService" timeout="3000" version="${dubbo.version}"/>
     <dubbo:reference id="userService" interface="com.shengsu.user.service.UserService" timeout="3000" version="${dubbo.version}"/>
 	<dubbo:reference id="systemDictService" interface="com.shengsu.helper.service.SystemDictService" timeout="3000" version="${dubbo.version}"/>

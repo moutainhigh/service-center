@@ -16,6 +16,9 @@ public enum ResultCode implements IResultCode {
     //咨询
     EXCEPTION_CONSULT_APPENDIX_REFID_IS_NULL(1002, "关联id错误"),
     EXCEPTION_PROBLEM_ALREADY_EXISTS(1002,"问题已存在"),
+    // 短信验证
+    SMS_AUTHENTICATION_CODE_OVERTIME(1002,"短信验证码不存在或已过期"),
+    SMS_AUTHENTICATION_CODE_ERROR(1002,"短信验证码错误"),
     //律师
     LAWYER_ALREADY_EXISTS(1002,"律师已存在"),
     //支付宝

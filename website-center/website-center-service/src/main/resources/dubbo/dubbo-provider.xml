@@ -28,4 +28,5 @@
     <dubbo:service interface="com.shengsu.website.market.service.SystemConfigService" ref="systemConfigService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.market.service.LawDocService" ref="lawDocService" protocol="dubbo" timeout="120000" version="${dubbo.version}"/>
     <dubbo:service interface="com.shengsu.website.market.service.BuyRecordService" ref="buyRecordSercice" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
+    <dubbo:service interface="com.shengsu.website.market.service.SmsSendService" ref="smsSendService" protocol="dubbo" timeout="3000" version="${dubbo.version}"/>
 </beans>
