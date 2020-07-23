@@ -21,6 +21,7 @@
             question_id,
             question_content,
             question_time,
+            system_tag,
             create_time,
             modify_time
         )
@@ -28,6 +29,7 @@
             #{questionId},
             #{questionContent},
             current_timestamp(),
+            #{systemTag},
             current_timestamp(),
             current_timestamp()
         )
@@ -40,7 +42,8 @@
     <update id="update" parameterType="Question">
     update question
     set
-      question_content = #{questionContent,jdbcType=VARCHAR}
+      question_content = #{questionContent,jdbcType=VARCHAR},
+      system_tag = #{systemTag}
     where del_flag = 0 and question_id = #{questionId}
   </update>
     <select id="get" parameterType="String" resultType="Question">
@@ -67,6 +70,9 @@
         *
         from question
         <include refid="question_where_clause"/>
+        <if test="systemTag != null and  systemTag != ''">
+            and system_tag = #{systemTag}
+        </if>
         order by modify_time desc
         <include refid="global.paginationEnd_mysql"/>
     </select>
@@ -98,6 +104,9 @@
         from
         question
         <include refid="question_where_clause"/>
+        <if test="systemTag != null and  systemTag != ''">
+            and system_tag = #{systemTag}
+        </if>
     </select>
     <select id="isQuestionExistOther" parameterType="Question" resultType="int">
         select
@@ -106,12 +115,15 @@
         where del_flag = 0 and question_content = #{questionContent}
             and question_id not in ( #{questionId} )
     </select>
-    <select id="randomSelect" resultType="Question">
+    <select id="randomSelect" parameterType="string" resultType="Question">
         SELECT
         <include refid="Base_Column_List"/>
         FROM
         question
         WHERE del_flag=0
+        <if test="_parameter != null and  _parameter != ''">
+            and system_tag = #{systemTag}
+        </if>
         order by rand()
         LIMIT 3
     </select>

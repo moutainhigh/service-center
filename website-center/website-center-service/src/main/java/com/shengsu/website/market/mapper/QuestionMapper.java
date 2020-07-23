@@ -11,5 +11,5 @@ public interface QuestionMapper extends BaseMapper<Question,String> {
     int countAllByQuestionIds(List<String> questionIds);
     int isQuestionExist(String content);
     int isQuestionExistOther(Question question);
-    List<Question> randomSelect();
+    List<Question> randomSelect(String systemTag);
 }

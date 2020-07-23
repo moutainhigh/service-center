@@ -26,4 +26,6 @@ public class ConsultAnswer extends BaseEntity {
     @NotBlank
     private String replyContent;
 
+    private String systemTag;
+
 }

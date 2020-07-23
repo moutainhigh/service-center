@@ -31,12 +31,14 @@ public class QuestionUtils {
         Question question = new Question();
         question.setQuestionId(UUID.randomUUID().toString());
         question.setQuestionContent(consultAnswer.getQuestionContent());
+        question.setSystemTag(consultAnswer.getSystemTag());
         return question;
     }
     public static Question toQuestion(ConsultAnswerVo consultAnswerVo) {
         Question question = new Question();
         question.setQuestionId(consultAnswerVo.getQuestionId());
         question.setQuestionContent(consultAnswerVo.getQuestionContent());
+        question.setSystemTag(consultAnswerVo.getSystemTag());
         return question;
     }
 }

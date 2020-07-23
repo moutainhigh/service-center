@@ -30,6 +30,4 @@ public class QuestionReply extends BaseEntity {
      */
     private String replyContent;
 
-    private String systemTag;
-
 }

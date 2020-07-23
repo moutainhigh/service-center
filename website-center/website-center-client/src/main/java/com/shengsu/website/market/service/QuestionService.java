@@ -4,6 +4,7 @@ import com.shengsu.base.service.BaseService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.website.market.entity.Question;
 import com.shengsu.website.market.vo.QuestionVo;
+import com.shengsu.website.market.vo.SystemTagVo;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface QuestionService extends BaseService<Question,String> {
     int countAllByQuestionIds(List<String> questionIds);
     int isQuestionExist(String content);
     int isQuestionExist(Question question);
-    List<Question> randomSelect();
+    List<Question> randomSelect(String systemTag);
 }

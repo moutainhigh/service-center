@@ -26,4 +26,5 @@ public class ConsultAnswerVo implements Serializable {
     private String replyContent;
     @NotBlank
     private String replyLawyerId;
+    private String systemTag;
 }
