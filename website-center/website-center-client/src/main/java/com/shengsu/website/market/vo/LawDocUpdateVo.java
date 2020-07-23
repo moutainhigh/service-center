@@ -28,7 +28,6 @@ public class LawDocUpdateVo implements Serializable{
     private String fullName;// 文档全称
     @NotBlank
     private String ossResourceId;// 资源id
-    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date uploadTime;// 上传时间
 }

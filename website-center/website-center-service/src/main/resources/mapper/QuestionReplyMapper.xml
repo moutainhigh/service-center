@@ -30,7 +30,6 @@
         question_id,
         reply_lawyer_id,
         reply_content,
-        system_tag,
         create_time,
         modify_time
         )
@@ -39,7 +38,6 @@
      #{questionId},
      #{replyLawyerId},
      #{replyContent},
-     #{systemTag},
      current_timestamp(),
      current_timestamp()
      )
@@ -48,8 +46,7 @@
         UPDATE question_reply
         SET
         reply_content = #{replyContent},
-        reply_lawyer_id = #{replyLawyerId},
-         system_tag = #{systemTag}
+        reply_lawyer_id = #{replyLawyerId}
         WHERE del_flag=0 and question_id = #{questionId}
     </update>
     <select id="getOne" parameterType="questionReply" resultMap="BaseResultMap">
@@ -71,9 +68,6 @@
         *
         from question_reply
         <include refid="questionReply_where_clause"/>
-        <if test="systemTag != null and  systemTag != ''">
-            and system_tag = #{systemTag}
-        </if>
         order by modify_time desc
         <include refid="global.paginationEnd_mysql"/>
     </select>

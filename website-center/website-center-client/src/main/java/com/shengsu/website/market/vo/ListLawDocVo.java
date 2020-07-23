@@ -14,4 +14,6 @@ import java.io.Serializable;
 public class ListLawDocVo implements Serializable {
     @NotBlank
     private String docType;// 文档类型
+    @NotBlank
+    private String docSubtype; // 文档子类型
 }

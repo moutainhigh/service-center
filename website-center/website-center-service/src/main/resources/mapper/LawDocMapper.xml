@@ -145,7 +145,7 @@
 			full_name=#{fullName} and
 			doc_id != #{docId}
 	</select>
-	<select id="getManyByDocType" parameterType="string" resultType="lawDoc">
-		select <include refid="base_column_list"/> from  law_doc where doc_type = #{docType} and del_flag = 0
+	<select id="listLawDoc" parameterType="lawDoc" resultType="lawDoc">
+		select <include refid="base_column_list"/> from  law_doc where del_flag = 0 and doc_type = #{docType} and doc_subtype = #{docSubtype}
 	</select>
 </mapper>

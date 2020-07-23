@@ -84,7 +84,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, String> imple
         return questionMapper.isQuestionExistOther(question);
     }
     @Override
-    public List<Question> randomSelect(){
-        return questionMapper.randomSelect();
+    public List<Question> randomSelect(String systemTag){
+        return questionMapper.randomSelect(systemTag);
     }
 }

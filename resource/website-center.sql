@@ -101,7 +101,7 @@ ADD COLUMN answer varchar(50) DEFAULT '' COMMENT '答案',
 ADD COLUMN score varchar(50) DEFAULT '' COMMENT '分数';
 
 -- 修改表字段
-ALTER TABLE question_reply
+ALTER TABLE question
 ADD COLUMN system_tag varchar(50) DEFAULT '' COMMENT '系统标记';
 -- 修改表字段
 ALTER TABLE law_knowledge_category

@@ -12,4 +12,5 @@ import lombok.Data;
 public class Question extends BaseEntity {
     private String questionId;
     private String questionContent;
+    private String systemTag;
 }

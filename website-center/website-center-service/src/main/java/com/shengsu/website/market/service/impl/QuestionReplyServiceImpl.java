@@ -17,6 +17,7 @@ import com.shengsu.website.market.service.LawyerService;
 import com.shengsu.website.market.service.QuestionReplyService;
 import com.shengsu.website.market.service.QuestionService;
 import com.shengsu.website.market.util.QuestionReplyUtils;
+import com.shengsu.website.market.vo.SystemTagVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,8 +82,9 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
         return questionReplyMapper.getReplyByLawyer(lawyerId);
     }
     @Override
-    public ResultBean randomThree(){
-        List<Question> questions = questionService.randomSelect();
+    public ResultBean randomThree(SystemTagVo systemTagVo){
+        String systemTag = systemTagVo==null?"":systemTagVo.getSystemTag();
+        List<Question> questions = questionService.randomSelect(systemTag);
         if(questions.isEmpty()){
             return ResultUtil.formResult(true, ResultCode.SUCCESS,questions);
         }
