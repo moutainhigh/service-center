@@ -29,4 +29,5 @@ public class ConsultDetailsListPo implements Serializable {
     private Date createTime;//创建时间
     private List<ConsultAppendixDetailsPo> appendixList;
     private String lawFieldStr;//法律领域
+    private String enterpriseName;
 }
