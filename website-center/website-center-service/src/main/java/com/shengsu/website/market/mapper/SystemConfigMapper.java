@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface SystemConfigMapper extends BaseMapper<SystemConfig,String> {
-        SystemConfig getConsultFeed();
+        SystemConfig getFee();
 }

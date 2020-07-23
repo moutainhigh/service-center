@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.shengsu.website.market.mapper.SystemConfigMapper">
     <sql id="Base_Column_List" >
-    online_consult_fee, online_consult_fee_old, tel_consult_fee, tel_consult_fee_old
+    online_consult_fee, online_consult_fee_old, tel_consult_fee, tel_consult_fee_old ,human_resource_fee,human_resource_fee_old,cloud_legal_fee,cloud_legal_fee_old,contract_fee,contract_fee_old
   </sql>
-    <select id="getConsultFeed" resultType="SystemConfig">
+    <select id="getFee" resultType="SystemConfig">
         select <include refid="Base_Column_List"/>
         from system_config
     </select>
+
 
 </mapper>

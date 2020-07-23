@@ -11,4 +11,10 @@ public class SystemConfig extends BaseEntity {
     private BigDecimal onlineConsultFeeOld;
     private BigDecimal telConsultFee;
     private BigDecimal telConsultFeeOld;
+    private BigDecimal humanResourceFee;
+    private BigDecimal humanResourceFeeOld;
+    private BigDecimal contractFee;
+    private BigDecimal contractFeeOld;
+    private BigDecimal cloudLegalFee;
+    private BigDecimal cloudLegalFeeOld;
 }
