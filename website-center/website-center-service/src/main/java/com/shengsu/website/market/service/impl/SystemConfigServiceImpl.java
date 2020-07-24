@@ -7,7 +7,10 @@ import com.shengsu.result.ResultUtil;
 import com.shengsu.website.app.constant.ResultCode;
 import com.shengsu.website.market.entity.SystemConfig;
 import com.shengsu.website.market.mapper.SystemConfigMapper;
+import com.shengsu.website.market.po.SystemConfigCloudLegalPo;
+import com.shengsu.website.market.po.SystemConfigConsultPo;
 import com.shengsu.website.market.service.SystemConfigService;
+import com.shengsu.website.market.util.SystemConfigUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +30,21 @@ public class SystemConfigServiceImpl extends BaseServiceImpl<SystemConfig, Strin
     }
 
     @Override
-    public ResultBean selectConsultFeed() {
-        SystemConfig systemConfig = systemConfigMapper.getConsultFeed();
+    public ResultBean selectConsultFee() {
+        SystemConfig systemConfig = systemConfigMapper.getFee();
         if(systemConfig ==null){
             return ResultUtil.formResult(true, ResultCode.SUCCESS, systemConfig);
         }
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, systemConfig);
+        SystemConfigConsultPo systemConfigConsultPo = SystemConfigUtils.toSystemConfigConsultPo(systemConfig);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, systemConfigConsultPo);
+    }
+    @Override
+    public ResultBean selectCloudLegalFee() {
+        SystemConfig systemConfig = systemConfigMapper.getFee();
+        if(systemConfig ==null){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, systemConfig);
+        }
+        SystemConfigCloudLegalPo systemConfigCloudLegalPo = SystemConfigUtils.toSystemConfigCloudLegalPo(systemConfig);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, systemConfigCloudLegalPo);
     }
 }

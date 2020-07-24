@@ -5,5 +5,6 @@ import com.shengsu.result.ResultBean;
 import com.shengsu.website.market.entity.SystemConfig;
 
 public interface SystemConfigService extends BaseService<SystemConfig,String> {
-    ResultBean selectConsultFeed();
+    ResultBean selectConsultFee();
+    ResultBean selectCloudLegalFee();
 }
