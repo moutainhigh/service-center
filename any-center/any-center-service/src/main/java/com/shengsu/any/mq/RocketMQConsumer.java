@@ -64,7 +64,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
 
     @Override
     protected void subscribe() throws MQClientException {
-        consumer.subscribe(MQEnum.ANY_WECHAT_MESSAGE.getTopic(), MQEnum.ANY_WECHAT_MESSAGE.getTag());
+        consumer.subscribe(MQEnum.ANY_WECHAT_MESSAGE.getTopic(), MQEnum.ANY_WECHAT_MESSAGE.getTag()+"||"+ MQEnum.LVSHIFU_WECHAT_MESSAGE.getTag());
         consumer.subscribe(MQEnum.WXPAY_NOTIFY_GZH.getTopic(), MQEnum.WXPAY_NOTIFY_GZH.getTag());
         consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag());
     }

@@ -65,6 +65,6 @@ public class RocketMQConsumer extends AbstractMQConsumer {
         consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag());
         consumer.subscribe(MQEnum.WXPAY_NOTIFY_WEAPP.getTopic(), MQEnum.WXPAY_NOTIFY_WEAPP.getTag());
         consumer.subscribe(MQEnum.BDPAY_NOTIFY.getTopic(), MQEnum.BDPAY_NOTIFY.getTag());
-        consumer.subscribe(MQEnum.LVSHIFU_WECHAT_MESSAGE.getTopic(), MQEnum.LVSHIFU_WECHAT_MESSAGE.getTag());
+        consumer.subscribe(MQEnum.LVSHIFU_WECHAT_MESSAGE.getTopic(), MQEnum.ANY_WECHAT_MESSAGE.getTag()+"||"+ MQEnum.LVSHIFU_WECHAT_MESSAGE.getTag());
     }
 }
