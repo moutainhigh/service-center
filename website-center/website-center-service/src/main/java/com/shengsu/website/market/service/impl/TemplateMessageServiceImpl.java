@@ -35,7 +35,7 @@ public class TemplateMessageServiceImpl implements TemplateMessageService {
     private WeChatService weChatService;
     @Value("${wechat.yuanshou.appID}")
     private String ysAppID;
-    @Value("${wechat.yuanshou.pagePath}")
+    @Value("${wechat.yuanshou.gzh.pagePath}")
     private String ysPagePath;
 
     @Override
