@@ -58,8 +58,6 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     @Value("${lawknowledge.picture-range}")
     private int pictureRange;
     @Autowired
-    private MQProducerService mqProducerService;
-    @Autowired
     private LawKnowledgeCategoryService lawKnowledgeCategoryService;
     @Autowired
     private OssService ossService;
