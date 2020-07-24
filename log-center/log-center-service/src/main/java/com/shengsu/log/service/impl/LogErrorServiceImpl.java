@@ -57,7 +57,7 @@ public class LogErrorServiceImpl extends BaseServiceImpl<LogError, String> imple
         //发送钉钉消息
         String environment1 = logError.getEnvironment();
         DingTalkLink dingTalkLink1 = LogErrorUtils.toDingTalkLink(logError, groupUrl, msgUrl, picUrl, environment1);
-        dingTalkService.sendLink(dingTalkLink1);
+        //dingTalkService.sendLink(dingTalkLink1);
         return true;
     }
 

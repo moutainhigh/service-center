@@ -4,6 +4,7 @@ import com.shengsu.helper.constant.MQEnum;
 import com.shengsu.mq.AbstractMQConsumer;
 import com.shengsu.mq.MessageListen;
 import com.shengsu.website.mq.service.PayNotifyService;
+import com.shengsu.website.mq.service.TempMessageDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -20,6 +21,8 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Component
 public class RocketMQConsumer extends AbstractMQConsumer {
+    @Autowired
+    private TempMessageDataService tempMessageDataService;
     @Autowired
     private PayNotifyService payNotifyService;
 
@@ -53,6 +56,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
         messageListen.registerHandler(MQEnum.ALIPAY_NOTIFY.getTag(), payNotifyService);
         messageListen.registerHandler(MQEnum.WXPAY_NOTIFY_WEAPP.getTag(), payNotifyService);
         messageListen.registerHandler(MQEnum.BDPAY_NOTIFY.getTag(), payNotifyService);
+        messageListen.registerHandler(MQEnum.LVSHIFU_WECHAT_MESSAGE.getTag(), tempMessageDataService);
         consumer.registerMessageListener(messageListen);
     }
 
@@ -61,5 +65,6 @@ public class RocketMQConsumer extends AbstractMQConsumer {
         consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag());
         consumer.subscribe(MQEnum.WXPAY_NOTIFY_WEAPP.getTopic(), MQEnum.WXPAY_NOTIFY_WEAPP.getTag());
         consumer.subscribe(MQEnum.BDPAY_NOTIFY.getTopic(), MQEnum.BDPAY_NOTIFY.getTag());
+        consumer.subscribe(MQEnum.LVSHIFU_WECHAT_MESSAGE.getTopic(), MQEnum.LVSHIFU_WECHAT_MESSAGE.getTag());
     }
 }

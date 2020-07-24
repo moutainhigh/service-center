@@ -30,7 +30,11 @@ wechat:
   yuanshou:
     accessLoginUrl: https://api.weixin.qq.com/sns/jscode2session
     appID: wx22c0714da6b3d10b
+    pagePath: pages/knowledge/knowledge?id=knowledgeId
     appSecret: 93df5324e1387778ad2fea1ebd2c4680
+    gzh:
+      appID: wxc830be55ad156d5b
+      appSecret: a7fa5387ee524f3d9e8de02c44bc4c15
 alipay:
   shengsu:
     appID: 2021001166640488

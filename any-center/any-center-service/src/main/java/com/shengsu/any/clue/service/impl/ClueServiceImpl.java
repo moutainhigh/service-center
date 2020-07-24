@@ -389,7 +389,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
             tempMessageData.setOpenId(user.getWechatOpenid());
             tempMessageData.setData(data);
             // 发送消息
-            mqProducerService.send(MQEnum.ANY_WECHAT, JSON.toJSONString(tempMessageData));}
+            mqProducerService.send(MQEnum.ANY_WECHAT_MESSAGE, JSON.toJSONString(tempMessageData));}
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }

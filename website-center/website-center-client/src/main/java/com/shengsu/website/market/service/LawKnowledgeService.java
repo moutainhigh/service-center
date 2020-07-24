@@ -18,4 +18,5 @@ public interface LawKnowledgeService extends BaseService<LawKnowledge,String> {
     ResultBean getLatestThree();
     ResultBean getRandomTitles();
     ResultBean fullTextSearchListPage(FullTextSearchListPageVo fullTextSearchListPageVo);
+    ResultBean pushAllTemplateMsg(TemplateMsgVo templateMsgVo);
 }
