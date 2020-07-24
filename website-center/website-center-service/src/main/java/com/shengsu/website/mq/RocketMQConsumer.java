@@ -6,6 +6,7 @@ import com.shengsu.mq.MessageListen;
 import com.shengsu.website.mq.service.EsLawKnowledgeService;
 import com.shengsu.website.mq.service.EsNewsCenterService;
 import com.shengsu.website.mq.service.PayNotifyService;
+import com.shengsu.website.mq.service.TempMessageDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -22,6 +23,8 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Component
 public class RocketMQConsumer extends AbstractMQConsumer {
+    @Autowired
+    private TempMessageDataService tempMessageDataService;
     @Autowired
     private PayNotifyService payNotifyService;
     @Autowired
@@ -60,6 +63,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
         messageListen.registerHandler(MQEnum.ALIPAY_NOTIFY.getTag(), payNotifyService);
         messageListen.registerHandler(MQEnum.WXPAY_NOTIFY_WEAPP.getTag(), payNotifyService);
         messageListen.registerHandler(MQEnum.BDPAY_NOTIFY.getTag(), payNotifyService);
+        messageListen.registerHandler(MQEnum.LVSHIFU_WECHAT_MESSAGE.getTag(), tempMessageDataService);
         messageListen.registerHandler(MQEnum.ELASTICSEARCH_LAWKNOWLEDGE.getTag(), esLawKnowledgeService);
         messageListen.registerHandler(MQEnum.ELASTICSEARCH_NEWS_CENTER.getTag(), esNewsCenterService);
         consumer.registerMessageListener(messageListen);
@@ -69,5 +73,6 @@ public class RocketMQConsumer extends AbstractMQConsumer {
     protected void subscribe() throws MQClientException {
         consumer.subscribe(MQEnum.ALIPAY_NOTIFY.getTopic(), MQEnum.ALIPAY_NOTIFY.getTag()+"||"+MQEnum.WXPAY_NOTIFY_WEAPP.getTag()+"||"+MQEnum.BDPAY_NOTIFY.getTag());
         consumer.subscribe(MQEnum.ELASTICSEARCH_LAWKNOWLEDGE.getTopic(),  MQEnum.ELASTICSEARCH_LAWKNOWLEDGE.getTag()+"||"+MQEnum.ELASTICSEARCH_NEWS_CENTER.getTag());
+        consumer.subscribe(MQEnum.LVSHIFU_WECHAT_MESSAGE.getTopic(), MQEnum.LVSHIFU_WECHAT_MESSAGE.getTag());
     }
 }

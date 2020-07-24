@@ -13,8 +13,10 @@ public enum MQEnum {
     JPUSHNORMAL("jpushMessageTopic","jpushNormalTag"),
     JPUSHSCHEDULE("jpushMessageTopic","jpushScheduleTag"),
     JPUSHSCHEDULECANCEL("jpushMessageTopic","jpushScheduleCancelTag"),
-    //公众号推送
-    ANY_WECHAT("wechatMessageTopic","wechatMessageTag"),
+    //案源王公众号推送
+    ANY_WECHAT_MESSAGE("wechatMessageTopic","anyMessageTag"),
+    //律师傅公众号推送
+    LVSHIFU_WECHAT_MESSAGE("wechatMessageTopic","lvshifuMessageTag"),
     //微信公众号支付通知-公众号
     WXPAY_NOTIFY_GZH("payTopic","gzhNotifyTag"),
     //微信小程序支付通知-小程序

@@ -13,13 +13,18 @@ import com.shengsu.result.ResultUtil;
 import com.shengsu.user.entity.User;
 import com.shengsu.user.service.UserService;
 import com.shengsu.user.util.UserUtils;
+import com.shengsu.util.HttpClientUtil;
 import com.shengsu.website.app.constant.ResultCode;
 import com.shengsu.website.market.entity.LawKnowledge;
 import com.shengsu.website.market.entity.LawKnowledgeCategory;
+import com.shengsu.website.market.entity.TempMessageData;
+import com.shengsu.website.market.entity.TempMessageParamData;
 import com.shengsu.website.market.mapper.LawKnowledgeMapper;
 import com.shengsu.website.market.po.*;
 import com.shengsu.website.market.service.LawKnowledgeCategoryService;
 import com.shengsu.website.market.service.LawKnowledgeService;
+import com.shengsu.website.market.service.TemplateMessageService;
+import com.shengsu.website.market.service.WeChatService;
 import com.shengsu.website.market.util.KeyWordUtils;
 import com.shengsu.website.market.util.LawKnowledgeCategoryUtils;
 import com.shengsu.website.market.util.LawKnowledgeUtils;
@@ -64,6 +69,12 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
     private UserService userService;
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;
+    @Autowired
+    private WeChatService weChatService;
+    @Autowired
+    private TemplateMessageService templateMessageService;
+    @Autowired
+    private MQProducerService mqProducerService;
 
     @Override
     public BaseMapper<LawKnowledge, String> getBaseMapper() {
@@ -72,9 +83,9 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
 
     /**
     * @Description: boss运营后台创建法律文库
-    * @Param: * @Param lawKnowledgeCreateVo: 
+    * @Param: * @Param lawKnowledgeCreateVo:
     * @Return: * @return: com.shengsu.result.ResultBean
-    * @date: 
+    * @date:
     */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -439,6 +450,33 @@ public class LawKnowledgeServiceImpl extends BaseServiceImpl<LawKnowledge, Strin
         }
         List<LawKnowledgePo> lawKnowledgePos = LawKnowledgeUtils.toLawknowledgePO(result);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, lawKnowledgePos);
+    }
+    /**
+    * @Description: 发送模板消息
+    * @Param:
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date:
+    */
+    @Override
+    public ResultBean pushAllTemplateMsg(TemplateMsgVo templateMsgVo) {
+        String knowledgeId = templateMsgVo.getKnowledgeId();
+        String title = templateMsgVo.getTitle();
+        String content = templateMsgVo.getContent();
+        String remark = templateMsgVo.getRemark();
+        // 获取token
+        String accessToken = weChatService.getAccessToken();
+        // 获取关注公众号的openId
+        List<String> openIds = weChatService.getAllOpenId(accessToken,"");
+        for(String openId : openIds){
+            TempMessageParamData data = templateMessageService.assembleTemplateDate(title,content,remark);
+            TempMessageData tempMessageData = new TempMessageData();
+            tempMessageData.setOpenId(openId);
+            tempMessageData.setKnowledgeId(knowledgeId);
+            tempMessageData.setData(data);
+            // 发送消息
+            mqProducerService.send(MQEnum.LVSHIFU_WECHAT_MESSAGE, JSON.toJSONString(tempMessageData));
+        }
+        return ResultUtil.formResult(true, ResultCode.SUCCESS);
     }
     /**
      * es 搜索引擎
