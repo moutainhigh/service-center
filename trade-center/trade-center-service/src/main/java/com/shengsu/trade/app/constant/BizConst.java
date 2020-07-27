@@ -43,6 +43,8 @@ public interface BizConst {
     String ORDER_FLAG_SHENGSU_WECHAT_WEAPP= "SWA";
     // 援手平台支付下单标记-微信小程序
     String ORDER_FLAG_YUANSHOU_WECHAT_WEAPP= "YWA";
+    // 律师傅支付下单标记-微信小程序
+    String ORDER_FLAG_LVSHIFU_WECHAT_WEAPP= "LWA";
     // 胜诉平台下单标记-微信H5
     String ORDER_FLAG_SHENGSU_WECHAT_MWEB= "SWM";
     // 援手平台下单标记-微信H5

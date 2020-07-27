@@ -8,4 +8,6 @@ public interface BuyRecordService extends BaseService<BuyRecord,String> {
     ResultBean create(BuyRecord buyRecord);
     ResultBean buyListByPage(BuyRecord buyRecord);
     ResultBean getByWechatOpenid(String wechatOpenid);
+
+    ResultBean saveBuyRecord(String openId, String outTradeNo, String buyType);
 }

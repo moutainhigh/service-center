@@ -13,6 +13,7 @@ import com.shengsu.website.market.service.BuyRecordService;
 import com.shengsu.website.market.util.BuyRecordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +53,17 @@ public class BuyRecordServiceImpl extends BaseServiceImpl<BuyRecord, String> imp
         List<BuyRecord> buyRecords = buyRecordMapper.getByIdAndBuyType(wechatOpenid);
         BuyRecordPo buyRecordPo = BuyRecordUtils.toBuyRecordPo(buyRecords);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, buyRecordPo);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultBean saveBuyRecord(String openId, String outTradeNo, String buyType) {
+        BuyRecord buyRecord = new BuyRecord();
+        buyRecord.setRecordId(UUID.randomUUID().toString());
+        buyRecord.setWechatOpenid(openId);
+        buyRecord.setOrderNo(outTradeNo);
+        buyRecord.setBuyType(buyType);
+        save(buyRecord);
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
 }

@@ -150,9 +150,15 @@ public class WxpayServiceImpl implements WxpayService {
             // 将客户电话等数据存储到redis,时效是1小时
             setConsultDataToRedis(outTradeNo,telConsultOrderVo.getTel(),telConsultOrderVo.getLawField(),telConsultOrderVo.getSource());
         }
+        if (SYSTEM_TAG_LVSHIFU.equals(wxAppOrderVo.getSystemTag())){
+            JSONObject param = new JSONObject();
+            param.put("openId",wxAppOrderVo.getOpenId());
+            param.put("buyType",wxAppOrderVo.getLvshifuOrderVo()==null?"":wxAppOrderVo.getLvshifuOrderVo().getBuyType());
+            redisService.set(outTradeNo, JSON.toJSONString(param),86400L);
+        }
         // 配置微信请求参数
         log.info("配置微信请求参数");
-        MyConfig config = SYSTEM_TAG_YUANSHOU.equals(wxAppOrderVo.getSystemTag())?getConfig("YWA"):getConfig("SWA");
+        MyConfig config = assembleMyConfig(wxAppOrderVo.getSystemTag());
         WXPay wxpay = new WXPay(config, null, true, isSandbox);
         // 添加微信请求公共参数--返回预支付信息
         Map<String, String> reqData = getOrderRequsetData("小程序支付中心-支付",outTradeNo,String.valueOf(totalFee),wxAppOrderVo.getIpAddress(),notifyUrl,"JSAPI",wxAppOrderVo.getOpenId());
@@ -322,6 +328,21 @@ public class WxpayServiceImpl implements WxpayService {
         }
         return result;
     }
+    private MyConfig assembleMyConfig(String systemTag)throws Exception {
+        MyConfig config = null;
+        switch (systemTag){
+            case SYSTEM_TAG_YUANSHOU:
+                config =getConfig("YWA");
+                break;
+            case SYSTEM_TAG_SHENGSU:
+                config =getConfig("SWA");
+                break;
+            case SYSTEM_TAG_LVSHIFU:
+                config =getConfig("LWA");
+                break;
+        }
+        return config;
+    }
     @Override
     public ResultBean cancel(WxOrderCancelVo wxOrderCancelVo)throws Exception{
         String orderFlag = wxOrderCancelVo.getOrderNo().substring(0,3);
@@ -361,7 +382,6 @@ public class WxpayServiceImpl implements WxpayService {
 
         return ResultUtil.formResult(true, ResultCode.SUCCESS,resp);
     }
-
     @Override
     public MyConfig getConfig(String orderFlag) throws Exception{
         MyConfig config = null;
@@ -374,6 +394,9 @@ public class WxpayServiceImpl implements WxpayService {
                 break;
             case ORDER_FLAG_YUANSHOU_WECHAT_WEAPP:
                 config =getConfig(ysWeAppID,ysMchID,ysApiKey);
+                break;
+            case ORDER_FLAG_LVSHIFU_WECHAT_WEAPP:
+                config =getConfig(lvshifuWeAppID,lvshifuMchID,lvshifuApiKey);
                 break;
             case ORDER_FLAG_SHENGSU_WECHAT_MWEB:
                 config =getConfig(ssMwebAppID,ssMchID,ssApiKey);

@@ -34,5 +34,6 @@ public class QuestionReplyPo implements Serializable {
      * 回复id
      */
     private String replyId;
+    private String systemTag;
 
 }

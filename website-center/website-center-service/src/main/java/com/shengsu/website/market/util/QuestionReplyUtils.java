@@ -23,6 +23,7 @@ public class QuestionReplyUtils {
             QuestionReplyPo questionReplyPo = new QuestionReplyPo();
             questionReplyPo.setQuestionContent(question.getQuestionContent());
             questionReplyPo.setQuestionId(question.getQuestionId());
+            questionReplyPo.setSystemTag(question.getSystemTag());
             questionReplyPos.add(questionReplyPo);
         }
         for (QuestionReplyPo questionReplyPo : questionReplyPos) {
