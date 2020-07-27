@@ -42,6 +42,7 @@ public class RocketMQConsumer extends AbstractMQConsumer {
             consumer.setConsumeThreadMax(consumeThreadMax);
             consumer.setVipChannelEnabled(false);
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+            consumer.setMaxReconsumeTimes(MAX_RECONSUME_TIMES);
             registerMessageListener();
             subscribe();
             consumer.start();
