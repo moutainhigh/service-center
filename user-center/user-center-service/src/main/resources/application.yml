@@ -7,8 +7,6 @@ spring:
     url: jdbc:mysql://rm-bp1o00hl21xvv5eq7no.mysql.rds.aliyuncs.com:3306/user-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: dev
     password: 'ss123456!@'
-  aop:
-    proxy-target-class: true
 zookeeper:
   address: 127.0.0.1:2181
 dubbo:

@@ -7,8 +7,6 @@ spring:
     url: jdbc:mysql://rm-bp1o00hl21xvv5eq7no.mysql.rds.aliyuncs.com:3306/website-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: dev
     password: 'ss123456!@'
-  aop:
-    proxy-target-class: true
   data:
     elasticsearch:
       cluster-name: elasticsearch
