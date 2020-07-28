@@ -9,6 +9,7 @@ import com.shengsu.util.WechatUtils;
 import com.shengsu.website.app.constant.ResultCode;
 import com.shengsu.website.market.service.WeChatService;
 import com.shengsu.website.market.vo.WeChatVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_LVSHIFU;
-import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_SHENGSU;
+import static com.shengsu.website.app.constant.BizConst.*;
+
 /**
  * @program: service-center
  * @author: Bell
@@ -50,8 +51,8 @@ public class WeChatServiceImpl implements WeChatService {
 
     @Override
     public ResultBean authorize(WeChatVo weChatVo) {
-        String appId = ysAppID;
-        String secret = ysAppsecret;
+        String appId = null;
+        String secret = null;
         switch (weChatVo.getSystemTag()) {
             case SYSTEM_TAG_SHENGSU:
                 appId = ssAppID;
@@ -61,6 +62,13 @@ public class WeChatServiceImpl implements WeChatService {
                 appId = lsfAppID;
                 secret = lsfAppsecret;
                 break;
+            case SYSTEM_TAG_YUANSHOU:
+                appId = ysAppID;
+                secret = ysAppsecret;
+                break;
+        }
+        if(StringUtils.isBlank(appId) || StringUtils.isBlank(secret)){
+            return ResultUtil.formResult(true, ResultCode.EXCEPTION);
         }
         HashMap<String, String> resultMap = new HashMap<>();
         Map<String, String> params = new HashMap<String, String>();
