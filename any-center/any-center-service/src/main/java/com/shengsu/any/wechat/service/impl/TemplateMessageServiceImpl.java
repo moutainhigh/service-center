@@ -11,6 +11,7 @@ import com.shengsu.any.wechat.service.TemplateMessageService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.util.HttpClientUtil;
+import com.shengsu.util.WechatUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -55,12 +56,7 @@ public class TemplateMessageServiceImpl implements TemplateMessageService {
 
     private ResultBean pushMessage(String content) {
         //获得令牌
-        ResultBean<Map<String, String>> accessTokenResult = getAccessToken();
-        Map<String, String> accessTokenMap = null;
-        if (accessTokenResult.isSuccess()) {
-            accessTokenMap = accessTokenResult.getBody();
-        }
-        String accessToken = accessTokenMap.get("access_token");
+        String accessToken = WechatUtils.getAccessToken(appID,appSecret);
         String url = templateMessageUrl.replace("ACCESS_TOKEN", accessToken);
         //调用接口进行发送
         String result = HttpClientUtil.sendJsonStr(url, content);
@@ -69,28 +65,6 @@ public class TemplateMessageServiceImpl implements TemplateMessageService {
         Map<String,String> resultMap = new HashMap<>();
         resultMap.put("msgid",msgid);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
-    }
-    /**
-    * @Description: 获取token
-    * @Param: 
-    * @Return: * @return: com.shengsu.result.ResultBean
-    * @date: 
-    */
-    public ResultBean getAccessToken() {
-        HashMap<String, String> resultMap = new HashMap<>();
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("appid",appID);
-        params.put("secret",appSecret);
-        params.put("grant_type","client_credential");
-        String httpResultStr = HttpClientUtil.doGet(msgAccessTokenUrl, params);
-        JSONObject jSONObject = JSON.parseObject(httpResultStr);
-        if (jSONObject != null && jSONObject.get("errcode") != null) { // 有错误码
-            return ResultUtil.formResult(true, ResultCode.EXCEPTION_WECHAT_RESPONSE_ERROR);
-        } else {
-            String accessToken = String.valueOf(jSONObject.get("access_token"));
-            resultMap.put("access_token", accessToken);
-        }
-        return ResultUtil.formResult(true, ResultCode.SUCCESS,resultMap);
     }
     /**
      * @Description: 组装要发送的模板数据

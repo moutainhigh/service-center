@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
 import com.shengsu.util.HttpClientUtil;
+import com.shengsu.util.WechatUtils;
 import com.shengsu.website.app.constant.ResultCode;
 import com.shengsu.website.market.service.WeChatService;
 import com.shengsu.website.market.vo.WeChatVo;
@@ -78,10 +79,7 @@ public class WeChatServiceImpl implements WeChatService {
 
     @Override
     public String getAccessToken() {
-        String httpResultStr = HttpClientUtil.sendGet("https://api.weixin.qq.com/cgi-bin/token", "grant_type=client_credential" + "&appid=" + ysGzhAppID + "&secret=" + ysGzhAppsecret + "");
-        JSONObject jSONObject = JSON.parseObject(httpResultStr);
-        String accessToken = String.valueOf(jSONObject.get("access_token"));
-        return accessToken;
+        return WechatUtils.getAccessToken(ysGzhAppID,ysGzhAppsecret);
     }
 
     @Override
