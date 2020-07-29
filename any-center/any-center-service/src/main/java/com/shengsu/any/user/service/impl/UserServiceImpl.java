@@ -83,12 +83,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Override
     public ResultBean sendSms(SmsSendVo smsSendVo) {
         String tel = smsSendVo.getTel();
-        smsSendVo.setSmsCode(getSixRandomCode());
+        String smsCode = getSixRandomCode();
         // 将短信验证码存储到redis,时效是1分钟
-        redisService.set(tel, smsSendVo.getSmsCode(), smsExpireTime);
+        redisService.set(tel, smsCode, smsExpireTime);
         // 发送手机验证码
         JSONObject smsParam180053728Json = new JSONObject();
-        smsParam180053728Json.put("code",smsSendVo.getSmsCode());
+        smsParam180053728Json.put("code",smsCode);
         return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(smsParam180053728Json),SmsSignEnum.SMS_SIGN_CODE_SSKJ);
     }
     /**
