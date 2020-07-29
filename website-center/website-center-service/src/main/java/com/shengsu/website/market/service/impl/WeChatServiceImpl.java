@@ -68,7 +68,7 @@ public class WeChatServiceImpl implements WeChatService {
                 break;
         }
         if(StringUtils.isBlank(appId) || StringUtils.isBlank(secret)){
-            return ResultUtil.formResult(true, ResultCode.EXCEPTION);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION);
         }
         HashMap<String, String> resultMap = new HashMap<>();
         Map<String, String> params = new HashMap<String, String>();

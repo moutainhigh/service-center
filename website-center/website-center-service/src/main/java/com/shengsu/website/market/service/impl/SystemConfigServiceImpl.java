@@ -33,7 +33,7 @@ public class SystemConfigServiceImpl extends BaseServiceImpl<SystemConfig, Strin
     public ResultBean selectConsultFee() {
         SystemConfig systemConfig = systemConfigMapper.getFee();
         if(systemConfig ==null){
-            return ResultUtil.formResult(true, ResultCode.SUCCESS, systemConfig);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION);
         }
         SystemConfigConsultPo systemConfigConsultPo = SystemConfigUtils.toSystemConfigConsultPo(systemConfig);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, systemConfigConsultPo);
@@ -42,7 +42,7 @@ public class SystemConfigServiceImpl extends BaseServiceImpl<SystemConfig, Strin
     public ResultBean selectCloudLegalFee() {
         SystemConfig systemConfig = systemConfigMapper.getFee();
         if(systemConfig ==null){
-            return ResultUtil.formResult(true, ResultCode.SUCCESS, systemConfig);
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION);
         }
         SystemConfigCloudLegalPo systemConfigCloudLegalPo = SystemConfigUtils.toSystemConfigCloudLegalPo(systemConfig);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, systemConfigCloudLegalPo);
