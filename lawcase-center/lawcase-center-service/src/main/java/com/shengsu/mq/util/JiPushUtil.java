@@ -1,4 +1,4 @@
-package com.shengsu.util;
+package com.shengsu.mq.util;
 
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;

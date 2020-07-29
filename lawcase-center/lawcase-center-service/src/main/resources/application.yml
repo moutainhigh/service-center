@@ -19,5 +19,11 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
 logging:
   file: logs/lawcase-center-service.log
-  level:
-       com.shengsu.bench.mapper : debug
+jiguang:
+  apnsProduction: false
+  appKey: c5320bf3f48ab3e2e4f6d809
+  masterSecret: 340e3eac3a3ae754219cded9
+rocketmq:
+  consumer:
+    namesrvAddr: 172.16.20.122:9876
+    group: lawcaseGroup

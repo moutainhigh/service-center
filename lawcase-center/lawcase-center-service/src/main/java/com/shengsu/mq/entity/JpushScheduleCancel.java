@@ -1,4 +1,4 @@
-package com.shengsu.helper.entity;
+package com.shengsu.mq.entity;
 
 import lombok.Data;
 

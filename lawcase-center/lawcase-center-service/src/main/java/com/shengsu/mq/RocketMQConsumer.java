@@ -1,9 +1,9 @@
 package com.shengsu.mq;
 
 import com.shengsu.helper.constant.MQEnum;
-import com.shengsu.helper.service.impl.JpushNormalServiceImpl;
-import com.shengsu.helper.service.impl.JpushScheduleCancelServiceImpl;
-import com.shengsu.helper.service.impl.JpushScheduleServiceImpl;
+import com.shengsu.mq.service.JpushNormalService;
+import com.shengsu.mq.service.JpushScheduleCancelService;
+import com.shengsu.mq.service.JpushScheduleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -21,22 +21,22 @@ import javax.annotation.PostConstruct;
 @Component
 public class RocketMQConsumer extends AbstractMQConsumer{
     @Autowired
-    private JpushNormalServiceImpl jpushNormalService;
+    private JpushNormalService jpushNormalService;
     @Autowired
-    private JpushScheduleServiceImpl jpushScheduleService;
+    private JpushScheduleService jpushScheduleService;
     @Autowired
-    private JpushScheduleCancelServiceImpl jpushScheduleCancelService;
+    private JpushScheduleCancelService jpushScheduleCancelService;
 
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
     @Value("${rocketmq.consumer.group}")
-    private String jpushGroup;
+    private String group;
 
     @Override
     @PostConstruct
     public void init() {
         try{
-            consumer = new DefaultMQPushConsumer(jpushGroup);
+            consumer = new DefaultMQPushConsumer(group);
             consumer.setNamesrvAddr(namesrvAddr);
             consumer.setConsumeThreadMin(consumeThreadMin);
             consumer.setConsumeThreadMax(consumeThreadMax);

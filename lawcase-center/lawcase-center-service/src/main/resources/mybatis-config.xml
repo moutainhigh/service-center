@@ -21,5 +21,6 @@
         <package name="com.shengsu.system.entity"/>
         <package name="com.shengsu.consult.entity"/>
         <package name="com.shengsu.bench.entity"/>
+        <package name="com.shengsu.mq.entity"/>
     </typeAliases>
 </configuration>

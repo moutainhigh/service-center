@@ -1,10 +1,10 @@
-package com.shengsu.helper.service.impl;
+package com.shengsu.mq.service;
 
 
-import com.shengsu.helper.entity.JpushExtrasparam;
-import com.shengsu.helper.entity.JpushNormal;
 import com.shengsu.mq.MessageProcessor;
-import com.shengsu.util.JiPushUtil;
+import com.shengsu.mq.entity.JpushExtrasparam;
+import com.shengsu.mq.entity.JpushNormal;
+import com.shengsu.mq.util.JiPushUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,9 @@ import java.util.List;
  */
 @Slf4j
 @Service(value = "jpushNormalService")
-public class JpushNormalServiceImpl implements MessageProcessor<JpushNormal> {
+public class JpushNormalService implements MessageProcessor<JpushNormal> {
     @Autowired
-    JiPushUtil JiPushUtil;
+    JiPushUtil jiPushUtil;
 
     @Override
     public boolean handleMessage(JpushNormal jpushNormal) {
@@ -28,7 +28,7 @@ public class JpushNormalServiceImpl implements MessageProcessor<JpushNormal> {
         String msgContent = jpushNormal.getMsgContent();
         JpushExtrasparam extrasParam = jpushNormal.getExtrasparam();
         try {
-            JiPushUtil.sendToAliasList(aliasList, notificationTitle, msgTitle, msgContent, extrasParam);
+            jiPushUtil.sendToAliasList(aliasList, notificationTitle, msgTitle, msgContent, extrasParam);
         } catch (Exception e) {
             log.error("极光推送失败了:",e);
         }

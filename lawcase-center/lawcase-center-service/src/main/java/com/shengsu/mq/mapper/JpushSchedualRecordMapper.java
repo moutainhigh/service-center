@@ -1,7 +1,7 @@
-package com.shengsu.helper.mapper;
+package com.shengsu.mq.mapper;
 
 import com.shengsu.base.mapper.BaseMapper;
-import com.shengsu.helper.entity.JpushSchedualRecord;
+import com.shengsu.mq.entity.JpushSchedualRecord;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

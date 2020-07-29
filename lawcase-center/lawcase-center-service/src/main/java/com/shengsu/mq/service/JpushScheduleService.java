@@ -1,13 +1,13 @@
-package com.shengsu.helper.service.impl;
+package com.shengsu.mq.service;
 
 import cn.jpush.api.schedule.ScheduleResult;
-import com.shengsu.helper.entity.JpushExtrasparam;
-import com.shengsu.helper.entity.JpushSchedualRecord;
-import com.shengsu.helper.entity.JpushSchedule;
-import com.shengsu.helper.entity.JpushMessage;
-import com.shengsu.helper.mapper.JpushSchedualRecordMapper;
 import com.shengsu.mq.MessageProcessor;
-import com.shengsu.util.JiPushUtil;
+import com.shengsu.mq.entity.JpushExtrasparam;
+import com.shengsu.mq.entity.JpushMessage;
+import com.shengsu.mq.entity.JpushSchedualRecord;
+import com.shengsu.mq.entity.JpushSchedule;
+import com.shengsu.mq.mapper.JpushSchedualRecordMapper;
+import com.shengsu.mq.util.JiPushUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +20,9 @@ import java.util.List;
  */
 @Slf4j
 @Service(value = "jpushScheduleService")
-public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule> {
+public class JpushScheduleService implements MessageProcessor<JpushSchedule> {
     @Autowired
-    JiPushUtil JiPushUtil;
+    JiPushUtil jiPushUtil;
     @Autowired
     private JpushSchedualRecordMapper jpushSchedualRecordMapper;
 
@@ -38,7 +38,7 @@ public class JpushScheduleServiceImpl implements MessageProcessor<JpushSchedule>
         String name = jpushSchedule.getName();
         ScheduleResult scheduleResult = null;
         try {
-            scheduleResult = JiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notificationTitle, extrasParam, content, name);
+            scheduleResult = jiPushUtil.sendSchedulePushList(message, aliasList, date, MsgType, notificationTitle, extrasParam, content, name);
         } catch (Exception e) {
             log.error("极光推送失败了:",e);
         }

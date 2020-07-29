@@ -1,10 +1,10 @@
-package com.shengsu.helper.service.impl;
+package com.shengsu.mq.service;
 
-import com.shengsu.helper.entity.JpushSchedualRecord;
-import com.shengsu.helper.entity.JpushScheduleCancel;
-import com.shengsu.helper.mapper.JpushSchedualRecordMapper;
 import com.shengsu.mq.MessageProcessor;
-import com.shengsu.util.JiPushUtil;
+import com.shengsu.mq.entity.JpushSchedualRecord;
+import com.shengsu.mq.entity.JpushScheduleCancel;
+import com.shengsu.mq.mapper.JpushSchedualRecordMapper;
+import com.shengsu.mq.util.JiPushUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service(value = "jpushScheduleCancelService")
-public class JpushScheduleCancelServiceImpl implements MessageProcessor<JpushScheduleCancel> {
+public class JpushScheduleCancelService implements MessageProcessor<JpushScheduleCancel> {
     @Autowired
-    JiPushUtil JiPushUtil;
+    JiPushUtil jiPushUtil;
     @Autowired
     JpushSchedualRecordMapper jpushSchedualRecordMapper;
 
@@ -26,7 +26,7 @@ public class JpushScheduleCancelServiceImpl implements MessageProcessor<JpushSch
         JpushSchedualRecord jpushSchedualRecord = jpushSchedualRecordMapper.selectByMsgId(messageId);
         if (jpushSchedualRecord != null) {
             try {
-                JiPushUtil.deleteSchedule(jpushSchedualRecord.getScheduleId());
+                jiPushUtil.deleteSchedule(jpushSchedualRecord.getScheduleId());
             } catch (Exception e) {
                 log.error("极光推送失败了:",e);
             }

@@ -11,6 +11,17 @@
 
     <artifactId>lawcase-center-service</artifactId>
     <dependencies>
+        <!-- 极光推送 -->
+        <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jpush-client</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jiguang-common</artifactId>
+            <version>1.0.8</version>
+        </dependency>
         <dependency>
             <groupId>com.shengsu</groupId>
             <artifactId>lawcase-center-client</artifactId>

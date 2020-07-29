@@ -7,8 +7,6 @@ spring:
     url: jdbc:mysql://rm-bp1o00hl21xvv5eq7no.mysql.rds.aliyuncs.com:3306/help-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: dev
     password: ss123456!@
-  aop:
-    proxy-target-class: true
   redis:
     host: 127.0.0.1
     #host: 192.168.1.52
@@ -51,11 +49,6 @@ rocketmq:
   consumer:
     namesrvAddr: 127.0.0.1:9876
     group: helpGroup
-
-jiguang:
-  apnsProduction: false
-  appKey: c5320bf3f48ab3e2e4f6d809
-  masterSecret: 340e3eac3a3ae754219cded9
 sms:
   product: Dysmsapi
   domain: dysmsapi.aliyuncs.com

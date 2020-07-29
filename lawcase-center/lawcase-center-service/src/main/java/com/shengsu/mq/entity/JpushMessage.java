@@ -1,4 +1,4 @@
-package com.shengsu.helper.entity;
+package com.shengsu.mq.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shengsu.base.entity.BaseEntity;
