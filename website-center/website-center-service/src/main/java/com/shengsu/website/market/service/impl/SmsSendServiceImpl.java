@@ -35,6 +35,9 @@ public class SmsSendServiceImpl implements SmsSendService {
         String tel = smsSendVo.getTel();
         smsSendVo.setSmsCode(getSixRandomCode());
         // 将短信验证码存储到redis,时效是1分钟
+        if(StringUtils.isBlank(smsSendVo.getSmsCode())){
+            return ResultUtil.formResult(false, ResultCode.EXCEPTION);
+        }
         redisService.set(tel, smsSendVo.getSmsCode(), smsExpireTime);
         // 发送手机验证码
         JSONObject smsParam180053728Json = new JSONObject();
