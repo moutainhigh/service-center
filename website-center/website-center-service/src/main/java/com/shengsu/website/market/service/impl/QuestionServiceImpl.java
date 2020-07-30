@@ -20,7 +20,9 @@ import com.shengsu.website.market.vo.QuestionVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -87,4 +89,13 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, String> imple
     public List<Question> randomSelect(String systemTag){
         return questionMapper.randomSelect(systemTag);
     }
+
+    @Override
+    public List<Question> getQuestions(String systemTag, List<String> questionIds) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("systemTag", systemTag);
+        map.put("questionIds", questionIds);
+        return questionMapper.getQuestions(map);
+    }
+
 }

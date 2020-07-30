@@ -56,30 +56,22 @@ public class LawyerServiceImpl extends BaseServiceImpl<Lawyer, String> implement
         lawyerMapper.save(lawyer);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
     }
+    /**
+    * @Description: 获取律师问答
+    * @Param: * @Param lawyerVo: 
+    * @Return: * @return: com.shengsu.result.ResultBean
+    * @date: 
+    */
     @Override
-    public ResultBean getQuestionList(LawyerVo lawyerVo) {
+    public ResultBean getLawyerQuestion(LawyerVo lawyerVo) {
         Lawyer lawyer = get(lawyerVo.getLawyerId());
         if(lawyer == null){
             return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
         }
         String url = ossService.getUrl(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR, lawyer.getIconOssResourceId());
         lawyer.setIconOssResourceId(url);
-        List<QuestionReply> questionReplies = questionReplyService.getReplyByLawyer(lawyer.getLawyerId());
-        if(questionReplies.isEmpty()){
-            return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplies);
-        }
-        List<String> questionIds = new ArrayList<>();
-        for (QuestionReply questionReply : questionReplies) {
-            String questionId = questionReply.getQuestionId();
-            questionIds.add(questionId);
-        }
-        int totalCount = questionService.countAllByQuestionIds(questionIds);
-        Map<String, Object> resultMap = new HashMap<>();
-        List<Question> questions = questionService.getMany(questionIds);
-        List<QuestionReplyPo> questionReplyPos = LawyerUtils.toQuestionReplyPo(lawyer, questionReplies, questions);
-        resultMap.put(CommonConst.ROOT, questionReplyPos);
-        resultMap.put(CommonConst.TOTAL_COUNT, totalCount);
-        return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
+        // 获取问题和答案
+        return questionReplyService.getQuestionReplyList(lawyerVo.getSystemTag(),lawyer);
     }
     @Override
     public ResultBean randomThree(SystemTagVo systemTagVo){

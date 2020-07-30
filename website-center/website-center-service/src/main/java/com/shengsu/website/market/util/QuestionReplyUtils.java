@@ -9,6 +9,7 @@ import com.shengsu.website.market.vo.ConsultAnswerVo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -56,5 +57,25 @@ public class QuestionReplyUtils {
         questionReply.setReplyContent(consultAnswerVo.getReplyContent());
         questionReply.setReplyLawyerId(consultAnswerVo.getReplyLawyerId());
         return questionReply;
+    }
+    // 问题回复详情
+    public static List<QuestionReplyPo> toQuestionReplyPos(List<Question> questions, Lawyer lawyer,Map<String, QuestionReply> questionReplyMap) {
+        if (questions != null && !questions.isEmpty()) {
+            List<QuestionReplyPo> questionReplyPos = new ArrayList<>();
+            for (Question question : questions){
+                QuestionReplyPo questionReplyPo = new QuestionReplyPo();
+                questionReplyPo.setQuestionContent(question.getQuestionContent());
+                questionReplyPo.setQuestionId(question.getQuestionId());
+                questionReplyPo.setLawyerId(lawyer.getLawyerId());
+                questionReplyPo.setLawyerName(lawyer.getLawyerName());
+                questionReplyPo.setIconOssResourceUrl(lawyer.getIconOssResourceId());
+                questionReplyPo.setReplyId(questionReplyMap.get(question.getQuestionId())==null?"":questionReplyMap.get(question.getQuestionId()).getReplyId());
+                questionReplyPo.setReplyContent(questionReplyMap.get(question.getQuestionId())==null?"":questionReplyMap.get(question.getQuestionId()).getReplyContent());
+                questionReplyPo.setSystemTag(question.getSystemTag());
+                questionReplyPos.add(questionReplyPo);
+            }
+            return questionReplyPos;
+        }
+        return null;
     }
 }

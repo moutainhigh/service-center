@@ -3,6 +3,7 @@ package com.shengsu.website.market.service.impl;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
+import com.shengsu.constant.CommonConst;
 import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.service.OssService;
 import com.shengsu.result.ResultBean;
@@ -16,15 +17,15 @@ import com.shengsu.website.market.po.QuestionReplyPo;
 import com.shengsu.website.market.service.LawyerService;
 import com.shengsu.website.market.service.QuestionReplyService;
 import com.shengsu.website.market.service.QuestionService;
+import com.shengsu.website.market.util.LawyerUtils;
 import com.shengsu.website.market.util.QuestionReplyUtils;
 import com.shengsu.website.market.vo.SystemTagVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @program: service-center
@@ -146,5 +147,28 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
             for(Lawyer lawyer : lawyers){
                     lawyer.setIconOssResourceId(map.get(lawyer.getIconOssResourceId()));
             }
+    }
+
+    @Override
+    public ResultBean getQuestionReplyList(String systemTag,Lawyer lawyer) {
+        List<QuestionReply> questionReplies = questionReplyMapper.getReplyByLawyer(lawyer.getLawyerId());
+        if(CollectionUtils.isEmpty(questionReplies)){
+            return null;
+        }
+        List<String> questionIds = new ArrayList<>();
+        for (QuestionReply questionReply : questionReplies) {
+            String questionId = questionReply.getQuestionId();
+            questionIds.add(questionId);
+        }
+        // 获取律师的问题解答
+        List<Question> questions = questionService.getQuestions(systemTag,questionIds);
+        // 设置map对应关系
+        Map<String, QuestionReply> questionReplyMap = questionReplies.stream().collect(Collectors.toMap(QuestionReply::getQuestionId,Function.identity()));
+        // 组装返回数据
+        List<QuestionReplyPo> questionReplyPos =  QuestionReplyUtils.toQuestionReplyPos(questions,lawyer,questionReplyMap);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put(CommonConst.ROOT, questionReplyPos);
+        resultMap.put(CommonConst.TOTAL_COUNT, questionReplyPos.size());
+        return ResultUtil.formResult(true, ResultCode.SUCCESS, resultMap);
     }
 }

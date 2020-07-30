@@ -17,4 +17,5 @@ public class LawyerVo implements Serializable {
      */
     @NotBlank
     private String lawyerId;
+    private String systemTag;
 }
