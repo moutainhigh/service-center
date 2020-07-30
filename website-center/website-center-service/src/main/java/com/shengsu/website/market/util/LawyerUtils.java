@@ -77,7 +77,6 @@ public class LawyerUtils {
         lawyerPo.setProfessionalDegree(lawyer.getProfessionalDegree());
         lawyerPo.setServiceAttitude(lawyer.getServiceAttitude());
         lawyerPo.setServiceEfficiency(lawyer.getServiceEfficiency());
-        lawyerPo.setSystemTag(lawyer.getSystemTag());
         return lawyerPo;
     }
 }
