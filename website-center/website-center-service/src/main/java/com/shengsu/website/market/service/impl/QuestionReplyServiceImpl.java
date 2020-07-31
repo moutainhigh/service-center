@@ -153,7 +153,7 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
     public ResultBean getQuestionReplyList(String systemTag,Lawyer lawyer) {
         List<QuestionReply> questionReplies = questionReplyMapper.getReplyByLawyer(lawyer.getLawyerId());
         if(CollectionUtils.isEmpty(questionReplies)){
-            return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, new ArrayList());
         }
         List<String> questionIds = new ArrayList<>();
         for (QuestionReply questionReply : questionReplies) {
