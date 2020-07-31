@@ -24,8 +24,8 @@ import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_SHENGSU;
 @Slf4j
 @Service("alipayService")
 public class AlipayServiceImpl implements AlipayService {
-    @Value("${alipay.shengsu.accessLoginUrl}")
-    private String ssAccessLoginUrl;
+    @Value("${alipay.accessLoginUrl}")
+    private String accessLoginUrl;
     @Value("${alipay.shengsu.appID}")
     private String ssAppID;
     @Value("${alipay.shengsu.privateKey}")
@@ -38,15 +38,13 @@ public class AlipayServiceImpl implements AlipayService {
     private String ysPrivateKey;
     @Value("${alipay.yuanshou.publicKey}")
     private String ysPublicKey;
-    @Value("${alipay.yuanshou.accessLoginUrl}")
-    private String ysAccessLoginUrl;
     @Override
     public ResultBean authorize(AlipayVo alipayVo) {
         AlipayClient alipayClient;
         if (SYSTEM_TAG_SHENGSU.equals(alipayVo.getSystemTag())) {
-            alipayClient = new DefaultAlipayClient(ssAccessLoginUrl, ssAppID, ssPrivateKey, "json", "GBK", ssPublicKey, "RSA2");
+            alipayClient = new DefaultAlipayClient(accessLoginUrl, ssAppID, ssPrivateKey, "json", "GBK", ssPublicKey, "RSA2");
         } else {
-            alipayClient = new DefaultAlipayClient(ysAccessLoginUrl, ysAppID, ysPrivateKey, "json", "GBK", ysPublicKey, "RSA2");
+            alipayClient = new DefaultAlipayClient(accessLoginUrl, ysAppID, ysPrivateKey, "json", "GBK", ysPublicKey, "RSA2");
         }
         AlipaySystemOauthTokenRequest request = new AlipaySystemOauthTokenRequest();
         request.setGrantType("authorization_code");
