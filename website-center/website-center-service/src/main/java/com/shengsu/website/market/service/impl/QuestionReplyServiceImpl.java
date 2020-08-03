@@ -162,6 +162,9 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
         }
         // 获取律师的问题解答
         List<Question> questions = questionService.getQuestions(systemTag,questionIds);
+        if (CollectionUtils.isEmpty(questions)){
+            return ResultUtil.formResult(true, ResultCode.SUCCESS, questions);
+        }
         // 设置map对应关系
         Map<String, QuestionReply> questionReplyMap = questionReplies.stream().collect(Collectors.toMap(QuestionReply::getQuestionId,Function.identity()));
         // 组装返回数据
