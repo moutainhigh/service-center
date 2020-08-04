@@ -22,5 +22,7 @@ public class OssConstant {
     public static String OSS_ANY_PLATFORM_FFILEDIR = "any-platform/";
     //诉赢的fill名称
     public static String OSS_INVEST_PLATFORM_FFILEDIR = "invest-platform/";
+    // 法律文库word文件路径
+    public static String OSS_LAW_DOC_WORD_FFILEDIR = "law-doc/WORD/";
 
 }

@@ -4,7 +4,6 @@ import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.constant.CommonConst;
-import com.shengsu.exception.BizException;
 import com.shengsu.helper.constant.OssConstant;
 import com.shengsu.helper.entity.SystemDict;
 import com.shengsu.helper.service.OssService;
@@ -164,7 +163,7 @@ public class LawDocServiceImpl extends BaseServiceImpl<LawDoc, String> implement
                 String ossResourceId = lawDocListPagePo.getOssResourceId();
                 ossResourceIds.add(ossResourceId);
             }
-            Map<String, String>  map = ossService.getUrls(OssConstant.OSS_WEBSITE_CENTER_FFILEDIR,ossResourceIds);
+            Map<String, String>  map = ossService.getUrls(OssConstant.OSS_LAW_DOC_WORD_FFILEDIR,ossResourceIds);
             Map<String,SystemDict> humanDictMap =  systemDictService.mapByDictCode(DICT_CODE_DOC_TYPE_HUMAN);
             Map<String,SystemDict> contractDictMap =  systemDictService.mapByDictCode(DICT_CODE_DOC_TYPE_CONTRACT);
             for (LawDocListPagePo lawDocListPagePo : lawDocListPagePos) {
