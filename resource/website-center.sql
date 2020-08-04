@@ -109,3 +109,11 @@ ADD COLUMN system_tag varchar(50) DEFAULT '' COMMENT '系统标记';
 -- 修改表字段
 ALTER TABLE lawyer
 ADD COLUMN system_tag varchar(50) DEFAULT '' COMMENT '系统标记';
+
+ALTER TABLE `system_config`
+ADD COLUMN `cloud_legal_fee`  decimal(10,2) NULL AFTER `tel_consult_fee_old`,
+ADD COLUMN `cloud_legal_fee_old`  decimal(10,2) NULL AFTER `cloud_legal_fee`,
+ADD COLUMN `contract_fee`  decimal(10,2) NULL AFTER `cloud_legal_fee_old`,
+ADD COLUMN `contract_fee_old`  decimal(10,2) NULL AFTER `contract_fee`,
+ADD COLUMN `human_resource_fee`  decimal(10,2) NULL AFTER `contract_fee_old`,
+ADD COLUMN `human_resource_fee_od`  varchar(10) NULL AFTER `human_resource_fee`;
