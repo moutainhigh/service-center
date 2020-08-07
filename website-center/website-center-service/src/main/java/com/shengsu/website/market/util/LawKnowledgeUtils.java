@@ -106,6 +106,8 @@ public class LawKnowledgeUtils {
             LawKnowledgeListPagePo lawKnowledgeListPagePo = new LawKnowledgeListPagePo();
             lawKnowledgeListPagePo.setKnowledgeId(lawKnowledge.getKnowledgeId());
             lawKnowledgeListPagePo.setTitle(lawKnowledge.getTitle());
+            lawKnowledgeListPagePo.setContent(lawKnowledge.getContent());
+            lawKnowledgeListPagePo.setDateTime(lawKnowledge.getDateTime());
             return lawKnowledgeListPagePo;
         }
         return null;

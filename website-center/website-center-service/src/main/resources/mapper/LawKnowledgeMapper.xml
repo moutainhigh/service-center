@@ -168,7 +168,7 @@
 	<select id="listPageThirdNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
 			select
-				knowledge_id,title,date_time
+				knowledge_id,title,content,date_time
 			from
 				law_knowledge
 			where
@@ -205,7 +205,7 @@
 	<select id="listPageSecondNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
 			select
-				knowledge_id,title
+				knowledge_id,title,content,date_time
 			from
 				law_knowledge
 			where
@@ -236,7 +236,7 @@
 	<select id="listPageFirstNotNull" parameterType="lawKnowledge" resultType="lawKnowledge">
 		<include refid="global.paginationStart_mysql" />
 		select
-			knowledge_id,title
+			knowledge_id,title,content,date_time
 		from
 			law_knowledge
 		where
