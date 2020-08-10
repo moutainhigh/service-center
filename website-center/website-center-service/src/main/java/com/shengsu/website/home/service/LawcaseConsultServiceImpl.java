@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.shengsu.website.constant.ConsultConst.DICT_CODE_LAW_FIELD;
 import static com.shengsu.website.constant.ConsultConst.LAWCASE_CONSULT_CLUE;
@@ -73,27 +74,18 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
         String search = lawcaseConsult.getSearch();
         search = StringUtil.ToLikeStr(search);
         lawcaseConsult.setSearch(search);
-        List<LawcaseConsult> root = lawcaseConsultMapper.listByPage(lawcaseConsult);
-        List<String> refIds = new ArrayList<>();
-        for(LawcaseConsult consult : root){
-            String refId = consult.getConsultId();
-            refIds.add(refId);
-        }
+        List<LawcaseConsult> lawcaseConsults = lawcaseConsultMapper.listByPage(lawcaseConsult);
+        List<String> refIds = lawcaseConsults.stream().map(LawcaseConsult::getConsultId).collect(Collectors.toList());
         Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode(DICT_CODE_LAW_FIELD);
-        List<ConsultDetailsListPo> consultDetailsListPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsListPo(root,systemDictMap);
+        List<ConsultDetailsListPo> consultDetailsListPos = LawcaseConsultAppendixUtils.toConsultAppendixDetailsListPo(lawcaseConsults,systemDictMap);
         int totalCount = lawcaseConsultMapper.countAll(lawcaseConsult);
         if(!refIds.isEmpty()) {
             ResultBean<List<ConsultAppendixDetailsPo>> appendixResult = lawcaseConsultAppendixService.getDetailsListByPage(refIds);
             if (appendixResult.isSuccess()) {
                 List<ConsultAppendixDetailsPo> appendixList = appendixResult.getBody();
+                Map<String,List<ConsultAppendixDetailsPo>> appendixGroupList = appendixList.stream().collect(Collectors.groupingBy(ConsultAppendixDetailsPo::getRefId));
                 for (ConsultDetailsListPo consultDetailsListPo : consultDetailsListPos) {
-                    List<ConsultAppendixDetailsPo> appendixDetailsList = new ArrayList<>();
-                    for (ConsultAppendixDetailsPo consultAppendixDetailsPo : appendixList) {
-                        if (consultDetailsListPo.getConsultId().equals(consultAppendixDetailsPo.getRefId())) {
-                            appendixDetailsList.add(consultAppendixDetailsPo);
-                            consultDetailsListPo.setAppendixList(appendixDetailsList);
-                        }
-                    }
+                    consultDetailsListPo.setAppendixList(appendixGroupList.get(consultDetailsListPo.getConsultId()));
                 }
             }
         }
@@ -146,5 +138,16 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
         lawcaseConsult.setSource(source);
         lawcaseConsult.setOrigin(ConsultConst.CONSULT_ORIGIN_PAYMENT_CALL_BACK);
         save(lawcaseConsult);
+    }
+
+    public static void main(String[] args) {
+        List<LawcaseConsult> list = new ArrayList();
+        LawcaseConsult lawcaseConsult = new LawcaseConsult();
+        lawcaseConsult.setConsultId("1");
+        list.add(lawcaseConsult);
+        List<String> resutl = list.stream().map(LawcaseConsult::getConsultId).collect(Collectors.toList());
+        for(String s:resutl){
+            System.out.println(s);
+        }
     }
 }
