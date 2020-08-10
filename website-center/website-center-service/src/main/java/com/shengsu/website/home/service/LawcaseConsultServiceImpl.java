@@ -3,7 +3,6 @@ package com.shengsu.website.home.service;
 import com.shengsu.base.mapper.BaseMapper;
 import com.shengsu.base.service.impl.BaseServiceImpl;
 import com.shengsu.helper.entity.SystemDict;
-import com.shengsu.helper.service.RedisService;
 import com.shengsu.helper.service.SystemDictService;
 import com.shengsu.result.ResultBean;
 import com.shengsu.result.ResultUtil;
@@ -17,15 +16,17 @@ import com.shengsu.website.home.po.ConsultAppendixDetailsPo;
 import com.shengsu.website.home.po.ConsultDetailsListPo;
 import com.shengsu.website.home.util.LawcaseConsultAppendixUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-import static com.shengsu.website.constant.ConsultConst.*;
+import static com.shengsu.website.constant.ConsultConst.DICT_CODE_LAW_FIELD;
+import static com.shengsu.website.constant.ConsultConst.LAWCASE_CONSULT_CLUE;
 
 @Slf4j
 @Service(value = "lawcaseConsultService")
@@ -93,7 +94,6 @@ public class LawcaseConsultServiceImpl extends BaseServiceImpl implements Lawcas
                             consultDetailsListPo.setAppendixList(appendixDetailsList);
                         }
                     }
-                    consultDetailsListPo.setAppendixList(appendixDetailsList);
                 }
             }
         }
