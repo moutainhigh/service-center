@@ -23,9 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.shengsu.any.app.constant.BizConst.DICT_CODE_FIELD;
 
@@ -78,12 +78,7 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
         if(cluePersonals == null || cluePersonals.size() == 0){
             return ResultUtil.formResult(true, ResultCode.SUCCESS, null);
         }
-
-        List<String> clueIds = new ArrayList<>();
-        for(CluePersonal person : cluePersonals){
-            String clueId = person.getClueId();
-            clueIds.add(clueId);
-        }
+        List<String> clueIds = cluePersonals.stream().map(CluePersonal::getClueId).collect(Collectors.toList());
         cluePersonalVo.setClueIds(clueIds);
 
         List<Clue> clues = clueService.getClues(cluePersonalVo);
@@ -93,12 +88,7 @@ public class CluePersonalServiceImpl extends BaseServiceImpl<CluePersonal, Strin
         Map<String, SystemDict> systemDictMap = systemDictService.mapByDictCode("clue_type");
         ClueUtils.setClueTypes(clues,systemDictMap);
         Map<String,Clue> clueMap= ClueUtils.toClueMap(clues);
-        List<String> userIds = new ArrayList<> ();
-        for(CluePersonal person : cluePersonals){
-            String userId = person.getUserId();
-            userIds.add(userId);
-        }
-
+        List<String> userIds = cluePersonals.stream().map(CluePersonal::getUserId).collect(Collectors.toList());
         List<User> users = userService.getMany(userIds);
         if(users==null || users.size()==0){
             return ResultUtil.formResult(true,ResultCode.SUCCESS,null);

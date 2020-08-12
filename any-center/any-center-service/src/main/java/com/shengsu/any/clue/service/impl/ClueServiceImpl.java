@@ -50,6 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.shengsu.any.app.constant.BizConst.*;
 import static com.shengsu.any.message.constant.MessageConst.MESSAGE_CONTENT_CLUE_BUY_SUCCESS;
@@ -135,7 +136,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
         if (clues.isEmpty()) {
             return ResultUtil.formResult(true, ResultCode.SUCCESS, clues);
         }
-        List<String> clueIds = ClueUtils.toClueId(clues);
+        List<String> clueIds = clues.stream().map(Clue::getClueId).collect(Collectors.toList());
         Map<String,SystemDict> systemDictMap = systemDictService.mapByDictCode("clue_type");
         List<Pns> pns = pnsService.getMany(clueIds);
         List<ClueLibPo> clueLibPos = ClueUtils.toClue(clues,systemDictMap, pns,expireTimeSecond);
@@ -341,11 +342,7 @@ public class ClueServiceImpl extends BaseServiceImpl<Clue, String> implements Cl
     @Override
     public ResultBean listMyClue(String userId) {
         List<CluePersonal> cluePersonals = cluePersonalService.listByUserId(userId);
-        List<String> list = new ArrayList<>();
-        for (CluePersonal cluePersonal : cluePersonals) {
-            String clueId = cluePersonal.getClueId();
-            list.add(clueId);
-        }
+        List<String> list = cluePersonals.stream().map(CluePersonal::getClueId).collect(Collectors.toList());
         if (list.isEmpty()) {
             return ResultUtil.formResult(true, ResultCode.SUCCESS, list);
         }

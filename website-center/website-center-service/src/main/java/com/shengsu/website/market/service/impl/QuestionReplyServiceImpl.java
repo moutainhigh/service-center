@@ -61,18 +61,10 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
         if (CollectionUtils.isEmpty(questionReplies)){
             return ResultUtil.formResult(true, ResultCode.SUCCESS,null);
         }
-        List<String> lawyerIds = new ArrayList<>();
-        for (QuestionReply questionReply : questionReplies) {
-            String lawyerId = questionReply.getReplyLawyerId();
-            lawyerIds.add(lawyerId);
-        }
+        List<String> lawyerIds = questionReplies.stream().map(QuestionReply::getReplyLawyerId).collect(Collectors.toList());
         List<Lawyer> lawyers = lawyerService.getMany(lawyerIds);
         geturls(lawyers);
-        List<String> questionIds = new ArrayList<>();
-        for (QuestionReply questionReply : questionReplies) {
-            String questionId = questionReply.getQuestionId();
-            questionIds.add(questionId);
-        }
+        List<String> questionIds = questionReplies.stream().map(QuestionReply::getQuestionId).collect(Collectors.toList());
         List<Question> questions = questionService.getMany(questionIds);
         List<QuestionReplyPo> questionReplyPos = QuestionReplyUtils.toQuestionReplyPos(questionReplies, lawyers, questions);
         return ResultUtil.formResult(true, ResultCode.SUCCESS, questionReplyPos);
@@ -89,20 +81,12 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
         if(questions.isEmpty()){
             return ResultUtil.formResult(true, ResultCode.SUCCESS,questions);
         }
-        List<String> questionIds = new ArrayList<>();
-        for (Question ques : questions) {
-            String questionId = ques.getQuestionId();
-            questionIds.add(questionId);
-        }
+        List<String> questionIds = questions.stream().map(Question::getQuestionId).collect(Collectors.toList());
         List<QuestionReply> questionReplies = questionReplyMapper.getMany(questionIds);
         if(questionReplies.isEmpty()){
             return ResultUtil.formResult(true, ResultCode.SUCCESS,questionReplies);
         }
-        List<String> lawyerIds = new ArrayList<>();
-        for (QuestionReply questionReplyList : questionReplies) {
-            String lawyerId = questionReplyList.getReplyLawyerId();
-            lawyerIds.add(lawyerId);
-        }
+        List<String> lawyerIds = questionReplies.stream().map(QuestionReply::getReplyLawyerId).collect(Collectors.toList());
         List<Lawyer> lawyers = lawyerService.getMany(lawyerIds);
         geturls(lawyers);
         List<QuestionReplyPo> questionReplyPos = QuestionReplyUtils.toQuestionReplyPos(questionReplies, lawyers, questions);
@@ -115,20 +99,12 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
         if(questions.isEmpty()){
             return ResultUtil.formResult(true, ResultCode.SUCCESS,questions);
         }
-        List<String> questionIds = new ArrayList<>();
-        for (Question ques : questions) {
-            String questionId = ques.getQuestionId();
-            questionIds.add(questionId);
-        }
+        List<String> questionIds = questions.stream().map(Question::getQuestionId).collect(Collectors.toList());
         List<QuestionReply> questionReplies = questionReplyMapper.getMany(questionIds);
         if(questionReplies.isEmpty()){
             return ResultUtil.formResult(true, ResultCode.SUCCESS,questionReplies);
         }
-        List<String> lawyerIds = new ArrayList<>();
-        for (QuestionReply questionReplyList : questionReplies) {
-            String lawyerId = questionReplyList.getReplyLawyerId();
-            lawyerIds.add(lawyerId);
-        }
+        List<String> lawyerIds = questionReplies.stream().map(QuestionReply::getReplyLawyerId).collect(Collectors.toList());
         List<Lawyer> lawyers = lawyerService.getMany(lawyerIds);
         geturls(lawyers);
         int totalCount = questionService.countAll(question);
@@ -155,11 +131,7 @@ public class QuestionReplyServiceImpl extends BaseServiceImpl<QuestionReply, Str
         if(CollectionUtils.isEmpty(questionReplies)){
             return ResultUtil.formResult(true, ResultCode.SUCCESS, new ArrayList());
         }
-        List<String> questionIds = new ArrayList<>();
-        for (QuestionReply questionReply : questionReplies) {
-            String questionId = questionReply.getQuestionId();
-            questionIds.add(questionId);
-        }
+        List<String> questionIds = questionReplies.stream().map(QuestionReply::getQuestionId).collect(Collectors.toList());
         // 获取律师的问题解答
         List<Question> questions = questionService.getQuestions(systemTag,questionIds);
         if (CollectionUtils.isEmpty(questions)){
