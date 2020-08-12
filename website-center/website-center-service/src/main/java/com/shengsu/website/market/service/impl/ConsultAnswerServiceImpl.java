@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @program: service-center
@@ -80,11 +81,7 @@ public class ConsultAnswerServiceImpl implements ConsultAnswerService {
         if(questions.isEmpty()){
             return ResultUtil.formResult(true, ResultCode.SUCCESS,questions);
         }
-        List<String> questionIds = new ArrayList<>();
-        for (Question ques : questions) {
-            String questionId = ques.getQuestionId();
-            questionIds.add(questionId);
-        }
+        List<String> questionIds = questions.stream().map(Question::getQuestionId).collect(Collectors.toList());
         List<QuestionReply> questionReplies = questionReplyService.getMany(questionIds);
         if(questionReplies.isEmpty()){
             return ResultUtil.formResult(true, ResultCode.SUCCESS,questionReplies);
