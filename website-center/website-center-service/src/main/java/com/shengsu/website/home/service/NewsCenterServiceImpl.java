@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.shengsu.website.app.constant.BizConst.OPERATE_TYPE_CREATE;
 import static com.shengsu.website.app.constant.BizConst.OPERATE_TYPE_UPDATE;
@@ -180,11 +181,7 @@ public class NewsCenterServiceImpl extends BaseServiceImpl<NewsCenter, String> i
 
     public void getDetailUrls(List<NewsCenterPagePo> newsCenterPagePos){
         if (null !=newsCenterPagePos && newsCenterPagePos.size()>0) {
-            List<String> list = new ArrayList<>();
-            for (NewsCenterPagePo newsCenterPagePo : newsCenterPagePos) {
-                String pictureOssId = newsCenterPagePo.getPictureOssId();
-                list.add(pictureOssId);
-            }
+            List<String> list = newsCenterPagePos.stream().map(NewsCenterPagePo::getPictureOssId).collect(Collectors.toList());
             Map<String, String>  map = ossService.getUrls(OssConstant.OSS_NEWS_CENTERR_FFILEDIR,list);
             for (NewsCenterPagePo newsCenterPagePo : newsCenterPagePos) {
                 newsCenterPagePo.setPictureOssUrl(map.get(newsCenterPagePo.getPictureOssId()));
