@@ -19,7 +19,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by zyc on 2019/9/17.
@@ -154,12 +158,7 @@ public class SuccessCaseServiceImpl extends BaseServiceImpl implements SuccessCa
 
     public void getDetailUrls(List<SuccessCasePagePo> successCasePagePos){
         if (successCasePagePos != null) {
-            List<String> list = new ArrayList<>();
-            for (SuccessCasePagePo successCasePagePo :
-                    successCasePagePos) {
-                String legendOssId = successCasePagePo.getLegendOssId();
-                list.add(legendOssId);
-            }
+            List<String> list = successCasePagePos.stream().map(SuccessCasePagePo::getLegendOssId).collect(Collectors.toList());
             Map<String, String>  map = ossService.getUrls(OssConstant.OSS_SUCCESS_CASE_FFILEDIR,list);
             for (SuccessCasePagePo successCasePagePo :
                     successCasePagePos) {
