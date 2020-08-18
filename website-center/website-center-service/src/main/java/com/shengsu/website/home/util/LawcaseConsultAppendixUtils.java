@@ -30,6 +30,7 @@ public class LawcaseConsultAppendixUtils {
             consultDetailsListPo.setRedirectUrl(lawcaseConsult.getRedirectUrl());
             consultDetailsListPo.setCreateTime(lawcaseConsult.getCreateTime());
             consultDetailsListPo.setEnterpriseName(lawcaseConsult.getEnterpriseName());
+            consultDetailsListPo.setLawField(lawcaseConsult.getLawField());
             consultDetailsListPo.setLawFieldStr(systemDictMap.get(lawcaseConsult.getLawField())==null?"":systemDictMap.get(lawcaseConsult.getLawField()).getDisplayName());
             consultDetailsListPos.add(consultDetailsListPo);
         }

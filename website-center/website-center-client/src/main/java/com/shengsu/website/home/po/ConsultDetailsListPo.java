@@ -30,4 +30,5 @@ public class ConsultDetailsListPo implements Serializable {
     private List<ConsultAppendixDetailsPo> appendixList;
     private String lawFieldStr;//法律领域
     private String enterpriseName;
+    private String lawField;
 }
