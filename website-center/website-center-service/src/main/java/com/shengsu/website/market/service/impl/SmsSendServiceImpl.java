@@ -40,7 +40,7 @@ public class SmsSendServiceImpl implements SmsSendService {
         // 发送手机验证码
         JSONObject smsParam180053728Json = new JSONObject();
         smsParam180053728Json.put("code", smsCode);
-        if (SYSTEM_TAG_YUANSHOU.equals(smsSendVo.getSmsCode())) {
+        if (SYSTEM_TAG_YUANSHOU.equals(smsSendVo.getCompanyTag())) {
             return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(smsParam180053728Json), SmsSignEnum.SMS_SIGN_CODE_YS);
         } else {
             return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(smsParam180053728Json), SmsSignEnum.SMS_SIGN_CODE_SSKJ);
