@@ -34,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import static com.shengsu.any.app.constant.BizConst.*;
 import static com.shengsu.any.message.constant.MessageConst.*;
 
@@ -99,11 +101,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         Map<String, Object> map = new HashMap<>();
         if (totalCount > 0) {
             List<Account> accounts = accountMapper.listAccountByPage(accounListByPageVo);
-
-            List<String> userIds = new ArrayList<>();
-            for (Account account : accounts) {
-                userIds.add(account.getUserId());
-            }
+            List<String> userIds = accounts.stream().map(Account::getUserId).collect(Collectors.toList());
             List<User> users = new ArrayList<>();
             if (null != userIds && userIds.size()>0){
                 users = userService.getMany(userIds);
@@ -136,11 +134,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, String> impleme
         Map<String, Object> map = new HashMap<>();
         if (totalCount > 0) {
             List<Account> accounts = accountMapper.listRichesByPage(richesListByPageVo);
-
-            List<String> userIds = new ArrayList<>();
-            for (Account account : accounts) {
-                userIds.add(account.getUserId());
-            }
+            List<String> userIds = accounts.stream().map(Account::getUserId).collect(Collectors.toList());
             List<User> users = new ArrayList<>();
             if (null != userIds && userIds.size()>0){
                 users = userService.getMany(userIds);

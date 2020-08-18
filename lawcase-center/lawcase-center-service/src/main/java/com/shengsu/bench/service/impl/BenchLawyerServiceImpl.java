@@ -11,9 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -53,16 +53,8 @@ public class BenchLawyerServiceImpl extends BaseServiceImpl<BenchLawyer, String>
     public List<BenchLawyer> listByPage(BenchLawyer benchLawyer) {
         List<BenchLawyer> lawyers = lawyerMapper.listByPage(benchLawyer);
         //使用ossid获取ossurl
-        List<String> portraitOssIds = new ArrayList<>();
-        List<String> headOssIds = new ArrayList<> ();
-        for (BenchLawyer lawyer :
-                lawyers) {
-            String portraitOssId = lawyer.getPortraitOssId();
-            portraitOssIds.add(portraitOssId);
-
-            String headOssId = lawyer.getHeadOssId();
-            headOssIds.add(headOssId);
-        }
+        List<String> portraitOssIds = lawyers.stream().map(BenchLawyer::getPortraitOssId).collect(Collectors.toList());
+        List<String> headOssIds = lawyers.stream().map(BenchLawyer::getHeadOssId).collect(Collectors.toList());
         Map<String, String> mapPortrait = ossService.getUrls(OssConstant.OSS_LAWYER_FILEDIR,portraitOssIds);
         Map<String, String> mapHead = ossService.getUrls(OssConstant.OSS_LAWYER_FILEDIR,headOssIds);
         for (BenchLawyer lawyer :

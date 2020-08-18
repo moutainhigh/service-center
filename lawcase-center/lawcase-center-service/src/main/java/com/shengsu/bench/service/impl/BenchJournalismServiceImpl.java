@@ -10,9 +10,9 @@ import com.shengsu.helper.service.OssService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -51,12 +51,7 @@ public class BenchJournalismServiceImpl extends BaseServiceImpl<BenchJournalism,
         }
 
         //使用ossid获取ossurl
-        List<String> list = new ArrayList<>();
-        for (BenchJournalism benchJournalism :
-                journalismList) {
-            String pictureOssId = benchJournalism.getPictureOssId();
-            list.add(pictureOssId);
-        }
+        List<String> list = journalismList.stream().map(BenchJournalism::getPictureOssId).collect(Collectors.toList());
         Map<String, String> map = ossService.getUrls(OssConstant.OSS_LAW_NEWS_FILEDIR,list);
         for (BenchJournalism benchJournalism :
                 journalismList) {

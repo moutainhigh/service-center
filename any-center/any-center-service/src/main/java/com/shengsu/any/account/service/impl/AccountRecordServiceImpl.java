@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.shengsu.any.app.constant.BizConst.*;
 
@@ -86,10 +87,7 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
             return ResultUtil.formResult(false, ResultCode.FAIL, null);
         }
         List<AccountRecord> accountRecords = accountRecordMapper.listExpend(user.getUserId());
-        List<String> clueIds = new ArrayList<>();
-        for (AccountRecord accountRecord : accountRecords) {
-            clueIds.add(accountRecord.getClueId());
-        }
+        List<String> clueIds = accountRecords.stream().map(AccountRecord::getClueId).collect(Collectors.toList());
         List<Clue> clues = new ArrayList<>();
         if (null != clueIds && clueIds.size()>0){
             clues = clueService.getMany(clueIds);
@@ -114,11 +112,7 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
        int totalCount = accountRecordMapper.countAll(accountDetailVo);
         if (totalCount > 0) {
             List<AccountRecord> root = accountRecordMapper.listByPage(accountDetailVo);
-
-            List<String> userIds = new ArrayList<>();
-            for (AccountRecord accountRecord : root) {
-                userIds.add(accountRecord.getUserId());
-            }
+            List<String> userIds = root.stream().map(AccountRecord::getUserId).collect(Collectors.toList());
             List<User> users = new ArrayList<>();
             if (null != userIds && userIds.size()>0){
                 users = userService.getMany(userIds);
@@ -162,11 +156,7 @@ public class AccountRecordServiceImpl extends BaseServiceImpl<AccountRecord, Str
     public ResultBean getBalanceChangeRecord(BalanceChangeRecordVo balanceChangeRecordVo) {
         String userId = balanceChangeRecordVo.getUserId();
         List<AccountRecord> accountRecords = accountRecordMapper.getManyByUserId(userId);
-
-        List<String> userIds = new ArrayList<>();
-        for (AccountRecord accountRecord : accountRecords) {
-            userIds.add(accountRecord.getCreator());
-        }
+        List<String> userIds = accountRecords.stream().map(AccountRecord::getCreator).collect(Collectors.toList());
         List<AliasUser> aliasUsers= new ArrayList<>();
         if (null != userIds && userIds.size()>0){
             aliasUsers = aliasUserService.getAliasUsers(userIds);
