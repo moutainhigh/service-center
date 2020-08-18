@@ -15,4 +15,5 @@ public class SmsSendVo implements Serializable {
     @NotBlank
     private String tel;
     private String smsCode;
+    private String companyTag;
 }

@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import static com.shengsu.website.app.constant.BizConst.SYSTEM_TAG_YUANSHOU;
+
 /**
  * @program: service-center
  * @author: Bell
@@ -37,8 +39,12 @@ public class SmsSendServiceImpl implements SmsSendService {
         redisService.set(tel, smsCode, smsExpireTime);
         // 发送手机验证码
         JSONObject smsParam180053728Json = new JSONObject();
-        smsParam180053728Json.put("code",smsCode);
-        return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(smsParam180053728Json), SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        smsParam180053728Json.put("code", smsCode);
+        if (SYSTEM_TAG_YUANSHOU.equals(smsSendVo.getSmsCode())) {
+            return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(smsParam180053728Json), SmsSignEnum.SMS_SIGN_CODE_YS);
+        } else {
+            return smsService.sendSms(tel, SmsTemplateEnum.SMS_180053728, JSON.toJSONString(smsParam180053728Json), SmsSignEnum.SMS_SIGN_CODE_SSKJ);
+        }
     }
 
     private String getSixRandomCode() {
