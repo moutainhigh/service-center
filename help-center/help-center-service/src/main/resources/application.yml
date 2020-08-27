@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://rm-bp1o00hl21xvv5eq7no.mysql.rds.aliyuncs.com:3306/help-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: dev
-    password: ss123456!@
+    url: jdbc:mysql://rm-bp1o00hl2ql.rds.aliyuncs.com:3306/help-center?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: d
+    password: ss1234
   redis:
     host: 127.0.0.1
     #host: 192.168.1.52
@@ -28,13 +28,13 @@ dubbo:
   port: 20885
   version: 2.0
 oss:
-  endpoint: https://oss-cn-hangzhou.aliyuncs.com
-  accessKeyId: LTAISsw5CZys2sER
-  accessKeySecret: 08pkECtJSNKPMwXnsYm3WSqdbkXm8h
-  bucketName: shengsu-test
+  endpoint: https://oss-cn-haou.al
+  accessKeyId: LTAISswy
+  accessKeySecret: 08pkECt
+  bucketName: shengs
 sts:
-  roleArn: acs:ram::1476735593452953:role/sts-oss
-  roleSessionName: help-platform
+  roleArn: acs:ram::147673559
+  roleSessionName: help-pl
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
@@ -50,10 +50,10 @@ rocketmq:
     namesrvAddr: 127.0.0.1:9876
     group: helpGroup
 sms:
-  product: Dysmsapi
-  domain: dysmsapi.aliyuncs.com
-  accessKeyId: LTAI4Fdwm4oZHtE6SJdTJnDx
-  accessKeySecret: It3EmApg1qSRoKoJuMItWtzoZAPIcY
+  product: Dysm
+  domain: dysmsapi.a
+  accessKeyId: LTAI4Fdwm4oZHtE6
+  accessKeySecret: It3EmApg
 pns:
-  accessKeyId: b719d4aa71dd463db053af0e522c9e34
-  accessKeySecret: 423ee45dac0e4991b396f3b867e0abcc
+  accessKeyId: b71
+  accessKeySecret: 42
